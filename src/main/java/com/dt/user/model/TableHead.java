@@ -39,7 +39,7 @@ public class TableHead implements Serializable {
     /**
      * 菜单名称
      */
-    private String name;
+    private String mName;
     /**
      * 输入框类型
      */
@@ -97,12 +97,12 @@ public class TableHead implements Serializable {
         this.topOrder = topOrder;
     }
 
-    public String getName() {
-        return name;
+    public String getmName() {
+        return mName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setmName(String mName) {
+        this.mName = mName;
     }
 
     public String getIds() {

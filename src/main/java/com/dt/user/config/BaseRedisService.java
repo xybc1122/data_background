@@ -115,7 +115,7 @@ public class BaseRedisService {
     }
 
     //redis 删除数据
-    public int delData(String key) {
+    public int delKey(String key) {
         try {
             if (key != null) {
                 stringRedisTemplate.delete(key);

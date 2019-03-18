@@ -1,6 +1,6 @@
 package com.dt.user.config;
 
-import com.dt.user.MyAnnotation.PermissionCheck;
+import com.dt.user.customize.PermissionCheck;
 import com.dt.user.utils.PermUtils;
 import com.dt.user.model.Permission;
 import com.dt.user.exception.LsException;
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PermissionAspect {
 
     //定义切点
-    @Pointcut("@annotation(com.dt.user.MyAnnotation.PermissionCheck)")
+    @Pointcut("@annotation(com.dt.user.customize.PermissionCheck)")
     public void doAspect() {
     }
 
@@ -51,15 +51,15 @@ public class PermissionAspect {
                 int strIndex = v.indexOf(",");
                 //说明只有多个权限
                 if (strIndex != -1) {
-                    String[] c = v.split(",");
+                    String[] perm = v.split(",");
                     //如果 接口的权限长度 比 用户长
-                    if (c.length > per.getPermissions().size()) {
+                    if (perm.length > per.getPermissions().size()) {
                         throw new LsException("无权操作");
                     }
-                    for (int i = 0; i < c.length; i++) {
+                    for (String strPerm : perm) {
                         boolean isTrue = false;
                         for (String strPer : per.getPermissions()) {
-                            if (strPer.equals(c[i])) {
+                            if (strPer.equals(strPerm)) {
                                 isTrue = true;
                                 break;
                             }

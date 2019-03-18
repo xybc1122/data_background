@@ -2,6 +2,10 @@ package com.dt.user.toos;
 
 public interface Constants {
     /**
+     * token
+     */
+    String TOKEN = "token";
+    /**
      * 文件上传存放地址
      */
     String SAVE_FILE_PATH = "E:/filePath/";
@@ -105,7 +109,7 @@ public interface Constants {
      */
     int BUSINESS_ID = 108;
 
-    String IMPORT_SQL="正在导入数据库..........";
+    String IMPORT_SQL = "正在导入数据库..........";
 
 
 }

@@ -6,7 +6,7 @@ import com.dt.user.config.ResponseBase;
 import com.dt.user.model.Menu;
 import com.dt.user.model.UserInfo;
 import com.dt.user.service.MenuService;
-import com.dt.user.utils.GetCookie;
+import com.dt.user.utils.CookieUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
@@ -41,7 +41,7 @@ public class MenuController {
             return JsonData.setResultError("数据没更新");
         }
         //删除缓存数据
-        redisService.delData("tokenMenu");
+        redisService.delKey("tokenMenu");
         return JsonData.setResultSuccess("数据已更新");
     }
 
@@ -97,7 +97,7 @@ public class MenuController {
     @GetMapping("show")
     public ResponseBase showMenu(HttpServletRequest request, @RequestParam("type") String type) {
         //获得用户信息
-        UserInfo user = GetCookie.getUser(request);
+        UserInfo user = CookieUtil.getUser(request);
         if (user != null) {
             if (type.equals("undefined")) {
                 user.setType(0);
@@ -110,7 +110,8 @@ public class MenuController {
     }
 
     /**
-     *更新菜单信息
+     * 更新菜单信息
+     *
      * @param menu
      * @return
      */

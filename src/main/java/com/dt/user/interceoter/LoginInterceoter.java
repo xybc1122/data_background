@@ -1,12 +1,14 @@
 package com.dt.user.interceoter;
 
 import com.dt.user.config.ApplicationContextRegister;
+import com.dt.user.config.BaseRedisService;
 import com.dt.user.config.JsonData;
 import com.dt.user.model.UserInfo;
 import com.dt.user.service.UserService;
 import com.dt.user.utils.JwtUtils;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,18 +31,29 @@ public class LoginInterceoter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         UserService userService = ApplicationContextRegister.getBean(UserService.class);
+        BaseRedisService redisService = ApplicationContextRegister.getBean(BaseRedisService.class);
         String token = request.getHeader("token");
         if (token == null) {
             //尝试去参数里面获取看看
             token = request.getParameter("token");
         }
-        if (token != null) {
+        if (StringUtils.isNotBlank(token)) {
             Claims claims = JwtUtils.checkJWT(token);
             if (claims != null) {
                 Integer uId = (Integer) claims.get("id");
                 String uName = (String) claims.get("name");
                 request.setAttribute("uId", uId);
                 request.setAttribute("uName", uName);
+                //查询redis中的token
+                String vRedis = redisService.getStringKey(uName + "token");
+                //如果是null 说明 没人登陆
+                if (StringUtils.isNotBlank(vRedis)) {
+                    //说明前面已经有人在登陆
+                    if (!vRedis.equals(token)) {
+                        sendJsonMessaget(response, JsonData.setResultError("已有人登陆此账号"));
+                        return false;
+                    }
+                }
                 //通过ID 查询 账号状态
                 UserInfo user = userService.getUserStatus(uId.longValue());
                 // 账号不存在 异常
@@ -61,11 +74,7 @@ public class LoginInterceoter implements HandlerInterceptor {
             sendJsonMessaget(response, JsonData.setResultError("token错误 请重新登陆"));
             return false;
         }
-        //如果是登陆接口
-        if (request.getRequestURI().equals("/login/ajaxLogin")) {
-            return true;
-        }
-        sendJsonMessaget(response, JsonData.setResultError("请登录"));
+        sendJsonMessaget(response, JsonData.setResultError(-2,"请登录"));
         return false;
     }
 

@@ -1,6 +1,6 @@
 package com.dt.user.controller.UserServiceController;
 
-import com.dt.user.MyAnnotation.PermissionCheck;
+import com.dt.user.customize.PermissionCheck;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.UserDto;
@@ -9,10 +9,7 @@ import com.dt.user.model.UserRole;
 import com.dt.user.service.HrArchivesEmployeeService;
 import com.dt.user.service.UserRoleService;
 import com.dt.user.service.UserService;
-import com.dt.user.utils.DateUtils;
-import com.dt.user.utils.GetCookie;
-import com.dt.user.utils.MD5Util;
-import com.dt.user.utils.PageInfoUtils;
+import com.dt.user.utils.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -46,7 +43,7 @@ public class UserController {
      * @PermissionCheck 自定义权限 需要show 才能查看
      */
     @PostMapping("/show")
-    @PermissionCheck("show,del,save")
+    @PermissionCheck("show")
     public ResponseBase showUsers(@RequestBody UserDto pageDto) {
         if (pageDto.getCurrentPage() == null || pageDto.getPageSize() == null) {
             return JsonData.setResultError("分页参数失效");
@@ -133,17 +130,15 @@ public class UserController {
 
     /**
      * 获得一个用户的信息
-     *
-     * @param request request对象
      * @return JSON 对象
      */
     @GetMapping("/getUser")
-    public ResponseBase getUser(HttpServletRequest request) {
-        UserInfo user = GetCookie.getUser(request);
-        if (user == null) {
-            return JsonData.setResultError("用户无效~");
+    public ResponseBase getUser() {
+        Long userId = RequestUtils.getUid();
+        if (userId == null) {
+            return JsonData.setResultError("用户无效");
         }
-        UserInfo userInfo = userService.getSingleUser(user.getUid());
+        UserInfo userInfo = userService.getSingleUser(userId);
         return JsonData.setResultSuccess(userInfo);
     }
 
@@ -187,7 +182,7 @@ public class UserController {
     public ResponseBase saveUserInfo(@RequestBody Map<String, Object> userMap, HttpServletRequest request) {
         //获得登陆的时候 生成的token
         //获得用户信息
-        UserInfo user = GetCookie.getUser(request);
+        UserInfo user = CookieUtil.getUser(request);
         if (user == null) {
             return JsonData.setResultError("用户token失效");
         }
@@ -255,7 +250,7 @@ public class UserController {
      */
     @PostMapping("/upPwd")
     public ResponseBase upUserPwd(@RequestBody UserInfo uInfo, HttpServletRequest request) {
-        UserInfo user = GetCookie.getUser(request);
+        UserInfo user = CookieUtil.getUser(request);
         if (user == null) {
             return JsonData.setResultError("用户token失效");
         }

@@ -9,7 +9,7 @@ import com.dt.user.model.ParentSysTemLog;
 public class BasicLogisticsmgtTransportCompany extends ParentSysTemLog {
 
     private Long transportCompanyId;
-    private Long transportCompanyNumber;
+    private Long number;
     private String transportCompanyName;
     private String transportCompanyFullName;
     private String contactPerson;
@@ -17,7 +17,6 @@ public class BasicLogisticsmgtTransportCompany extends ParentSysTemLog {
     private String mobile;
     private String eMail;
     private String address;
-    private String principal;
 
     public Long getTransportCompanyId() {
         return transportCompanyId;
@@ -27,12 +26,12 @@ public class BasicLogisticsmgtTransportCompany extends ParentSysTemLog {
         this.transportCompanyId = transportCompanyId;
     }
 
-    public Long getTransportCompanyNumber() {
-        return transportCompanyNumber;
+    public Long getNumber() {
+        return number;
     }
 
-    public void setTransportCompanyNumber(Long transportCompanyNumber) {
-        this.transportCompanyNumber = transportCompanyNumber;
+    public void setNumber(Long number) {
+        this.number = number;
     }
 
     public String getTransportCompanyName() {
@@ -90,13 +89,4 @@ public class BasicLogisticsmgtTransportCompany extends ParentSysTemLog {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    public String getPrincipal() {
-        return principal;
-    }
-
-    public void setPrincipal(String principal) {
-        this.principal = principal;
-    }
-
 }

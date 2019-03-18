@@ -17,8 +17,6 @@ public class RequestUtils {
 
     /**
      * 获得用户ID
-     *
-     * @param request
      * @return
      */
     public static Long getUid() {

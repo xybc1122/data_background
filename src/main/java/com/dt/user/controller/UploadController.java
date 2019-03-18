@@ -63,7 +63,7 @@ public class UploadController {
                                      @RequestParam("menuId") String menuId,
                                      @RequestParam("areaId") String areaId, @RequestParam("businessTime") String businessTime) {
         //获得用户信息
-        UserInfo user = GetCookie.getUser(request);
+        UserInfo user = CookieUtil.getUser(request);
         if (user == null) {
             return JsonData.setResultError("用户无效~");
         }

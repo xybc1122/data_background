@@ -1,48 +1,75 @@
-package com.sample;
+package com.dt.user.model.BasePublicModel;
 
 import com.dt.user.model.ParentSysTemLog;
+
+import java.util.List;
 
 /**
  * 异常类型
  */
 public class BasicLogisticsmgtTransportAbnormalType extends ParentSysTemLog {
 
-  private Long transportAbnormalTypeId;
-  private Long transportAbnormalTypeNumber;
-  private String transportAbnormalTypeName;
-  private String principal;
+    private Integer transportAbnormalTypeId;
+    private Integer number;
+    private String transportAbnormalTypeName;
+    private Integer parentId;
+    private String transportAbnormalTypePath;
+    private Boolean isParent;
+    private List<BasicLogisticsmgtTransportAbnormalType> childNode;
 
+    public Integer getTransportAbnormalTypeId() {
+        return transportAbnormalTypeId;
+    }
 
-  public Long getTransportAbnormalTypeId() {
-    return transportAbnormalTypeId;
-  }
+    public void setTransportAbnormalTypeId(Integer transportAbnormalTypeId) {
+        this.transportAbnormalTypeId = transportAbnormalTypeId;
+    }
 
-  public void setTransportAbnormalTypeId(Long transportAbnormalTypeId) {
-    this.transportAbnormalTypeId = transportAbnormalTypeId;
-  }
+    public Integer getNumber() {
+        return number;
+    }
 
-  public Long getTransportAbnormalTypeNumber() {
-    return transportAbnormalTypeNumber;
-  }
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
-  public void setTransportAbnormalTypeNumber(Long transportAbnormalTypeNumber) {
-    this.transportAbnormalTypeNumber = transportAbnormalTypeNumber;
-  }
+    public String getTransportAbnormalTypeName() {
+        return transportAbnormalTypeName;
+    }
 
-  public String getTransportAbnormalTypeName() {
-    return transportAbnormalTypeName;
-  }
+    public void setTransportAbnormalTypeName(String transportAbnormalTypeName) {
+        this.transportAbnormalTypeName = transportAbnormalTypeName;
+    }
 
-  public void setTransportAbnormalTypeName(String transportAbnormalTypeName) {
-    this.transportAbnormalTypeName = transportAbnormalTypeName;
-  }
+    public Integer getParentId() {
+        return parentId;
+    }
 
-  public String getPrincipal() {
-    return principal;
-  }
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
 
-  public void setPrincipal(String principal) {
-    this.principal = principal;
-  }
+    public String getTransportAbnormalTypePath() {
+        return transportAbnormalTypePath;
+    }
 
+    public void setTransportAbnormalTypePath(String transportAbnormalTypePath) {
+        this.transportAbnormalTypePath = transportAbnormalTypePath;
+    }
+
+    public Boolean getParent() {
+        return isParent;
+    }
+
+    public void setParent(Boolean parent) {
+        isParent = parent;
+    }
+
+    public List<BasicLogisticsmgtTransportAbnormalType> getChildNode() {
+        return childNode;
+    }
+
+    public void setChildNode(List<BasicLogisticsmgtTransportAbnormalType> childNode) {
+        this.childNode = childNode;
+    }
 }

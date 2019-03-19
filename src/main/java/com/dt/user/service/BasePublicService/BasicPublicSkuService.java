@@ -1,6 +1,22 @@
 package com.dt.user.service.BasePublicService;
 
-public interface BasicSalesAmazonSkuService {
+import com.dt.user.dto.SkuDto;
+
+import java.util.List;
+
+/**
+ * @ClassName BasicPublicSkuService
+ * Description TODO
+ * @Author 陈恩惠
+ * @Date 2019/3/19 11:16
+ **/
+public interface BasicPublicSkuService {
+    /**
+     * 查询SKU信息
+     * @param skuDto
+     * @return
+     */
+    List<SkuDto> serviceFindByListSku(SkuDto skuDto);
 
 
     /**

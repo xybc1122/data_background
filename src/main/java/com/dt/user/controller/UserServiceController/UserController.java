@@ -45,15 +45,9 @@ public class UserController {
     @PostMapping("/show")
     @PermissionCheck("show")
     public ResponseBase showUsers(@RequestBody UserDto pageDto) {
-        if (pageDto.getCurrentPage() == null || pageDto.getPageSize() == null) {
-            return JsonData.setResultError("分页参数失效");
-        }
-        PageHelper.startPage(pageDto.getCurrentPage(), pageDto.getPageSize());
+        PageInfoUtils.setPage(pageDto.getPageSize(), pageDto.getCurrentPage());
         List<UserInfo> listUser = userService.findByUsers(pageDto);
-        //获得一些信息
-        PageInfo<UserInfo> pageInfo = new PageInfo<>(listUser);
-        Integer currentPage = pageDto.getCurrentPage();
-        return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
+        return PageInfoUtils.returnPage(listUser, pageDto.getCurrentPage());
     }
 
 
@@ -130,6 +124,7 @@ public class UserController {
 
     /**
      * 获得一个用户的信息
+     *
      * @return JSON 对象
      */
     @GetMapping("/getUser")

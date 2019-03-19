@@ -1,22 +1,31 @@
 package com.dt.user.service.impl;
 
-import com.dt.user.mapper.BasePublicMapper.BasicSalesAmazonSkuMapper;
-import com.dt.user.service.BasePublicService.BasicSalesAmazonSkuService;
+import com.dt.user.dto.SkuDto;
+import com.dt.user.mapper.BasePublicMapper.BasicPublicSkuMapper;
+import com.dt.user.service.BasePublicService.BasicPublicSkuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class BasicSalesAmazonSkuServiceImpl implements BasicSalesAmazonSkuService {
+public class BasicSalesSkuServiceImpl implements BasicPublicSkuService {
     @Autowired
-    private BasicSalesAmazonSkuMapper basicSalesAmazonSkuMapper;
+    private BasicPublicSkuMapper skuMapper;
+
+    @Override
+    public List<SkuDto> serviceFindByListSku(SkuDto skuDto) {
+        return skuMapper.findByListSku(skuDto);
+    }
+
 
     @Override
     public Long selSkuId(Integer sId, Integer siteId, String skuName) {
         if (StringUtils.isEmpty(skuName)) {
             return 0L;
         }
-        Long skuId = basicSalesAmazonSkuMapper.getSkuId(sId, siteId, skuName);
+        Long skuId = skuMapper.getSkuId(sId, siteId, skuName);
         if (skuId != null) {
             return skuId;
         }
@@ -28,7 +37,7 @@ public class BasicSalesAmazonSkuServiceImpl implements BasicSalesAmazonSkuServic
         if (StringUtils.isEmpty(sAsin)) {
             return 0L;
         }
-        Long skuId = basicSalesAmazonSkuMapper.getAsinSkuId(sId, siteId, sAsin);
+        Long skuId = skuMapper.getAsinSkuId(sId, siteId, sAsin);
         if (skuId != null) {
             return skuId;
         }

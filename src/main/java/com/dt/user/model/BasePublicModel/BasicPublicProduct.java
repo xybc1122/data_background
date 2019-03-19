@@ -7,7 +7,7 @@ import com.dt.user.model.ParentSysTemLog;
  */
 public class BasicPublicProduct extends ParentSysTemLog {
 
-    private Long productId;
+    private Integer productId;
     private String productCode;
     private String productName;
     private String model;
@@ -31,12 +31,11 @@ public class BasicPublicProduct extends ParentSysTemLog {
     private Long hsCodeId;
 
 
-
-    public Long getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 

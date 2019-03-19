@@ -17,6 +17,8 @@ public class SystemLogStatus implements Serializable {
   private String modifyUser;
   private Long auditDate;
   private String auditUser;
+
+
   public Long getStatusId() {
     return statusId;
   }

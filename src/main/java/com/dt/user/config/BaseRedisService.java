@@ -105,11 +105,11 @@ public class BaseRedisService {
         }
     }
 
-    //redis 统计数据
+    //redis 统计数据 在线人数数据
     public int userCount() {
         Set<String> keys = stringRedisTemplate.keys("*");
         if (keys != null && keys.size() > 0) {
-            return keys.size() / 2;
+            return keys.size();
         }
         return 0;
     }

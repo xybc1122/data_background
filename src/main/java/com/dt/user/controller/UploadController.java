@@ -3,6 +3,7 @@ package com.dt.user.controller;
 
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
+import com.dt.user.customize.PermissionCheck;
 import com.dt.user.exception.LsException;
 import com.dt.user.model.*;
 import com.dt.user.service.*;
@@ -38,6 +39,7 @@ public class UploadController {
      * @return
      */
     @PostMapping("/downloadCommonFile")
+    @PermissionCheck("download")
     public ResponseBase downloadFile(HttpServletRequest
                                              request, HttpServletResponse response, @RequestBody Map<String, Object> fileMap) {
         String filePath = (String) fileMap.get("filePath");
@@ -58,6 +60,7 @@ public class UploadController {
      * @return
      */
     @PostMapping("/file")
+    @PermissionCheck("up")
     public ResponseBase saveFileInfo(HttpServletRequest request, @RequestParam("sId") String sId,
                                      @RequestParam("seId") String seId, @RequestParam("payId") String payId,
                                      @RequestParam("menuId") String menuId,
@@ -80,13 +83,11 @@ public class UploadController {
         try {
             for (int i = 0; i < files.size(); i++) {
                 file = files.get(i);
-                //指定文件存放路径
-                String saveFilePath = Constants.SAVE_FILE_PATH;
                 // String contentType = file.getContentType();//图片||文件类型
                 String fileName = file.getOriginalFilename();//图片||文件名字
                 String uuId = UuIDUtils.fileUuId(fileName);
                 try {
-                    FileUtils.uploadFile(file.getBytes(), saveFilePath, uuId);
+                    FileUtils.uploadFile(file.getBytes(),  Constants.SAVE_FILE_PATH, uuId);
                     msg = "上传成功~";
                 } catch (Exception e) {
                     isUpload = false;
@@ -121,7 +122,7 @@ public class UploadController {
                 }
                 int status = isUpload ? 0 : 4;
                 //记录用户上传信息~
-                upload = uploadOperating(new UserUpload(), siteId, shopId, fileName, saveFilePath, user, pId, status, msg, tbId, aId, businessTime, uuId);
+                upload = uploadOperating(new UserUpload(), siteId, shopId, fileName, Constants.SAVE_FILE_PATH, user, pId, status, msg, tbId, aId, businessTime, uuId);
                 if (isUpload) {
                     uploadList.add(upload);
                 }

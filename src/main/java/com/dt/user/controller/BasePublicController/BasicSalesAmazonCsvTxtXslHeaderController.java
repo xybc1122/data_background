@@ -35,14 +35,9 @@ public class BasicSalesAmazonCsvTxtXslHeaderController {
      */
     @PostMapping("/getTemplate")
     public ResponseBase getTemplate(@RequestBody BasicSalesAmazonCsvTxtXslHeader csvTxtXslHeader) {
-        if (csvTxtXslHeader.getCurrentPage() != null && csvTxtXslHeader.getPageSize() != null) {
-            PageHelper.startPage(csvTxtXslHeader.getCurrentPage(), csvTxtXslHeader.getPageSize());
-            List<BasicSalesAmazonCsvTxtXslHeader> csvTxtXslHeaderList = headerService.getImportTemplate(csvTxtXslHeader);
-            PageInfo<BasicSalesAmazonCsvTxtXslHeader> pageInfo = new PageInfo<>(csvTxtXslHeaderList);
-            Integer currentPage = csvTxtXslHeader.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(csvTxtXslHeader.getPageSize(), csvTxtXslHeader.getCurrentPage());
+        List<BasicSalesAmazonCsvTxtXslHeader> csvTxtXslHeaderList = headerService.getImportTemplate(csvTxtXslHeader);
+        return PageInfoUtils.returnPage(csvTxtXslHeaderList, csvTxtXslHeader.getCurrentPage());
     }
 
 }

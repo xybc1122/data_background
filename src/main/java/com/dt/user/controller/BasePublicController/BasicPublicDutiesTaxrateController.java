@@ -1,12 +1,9 @@
 package com.dt.user.controller.BasePublicController;
 
-import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.TaxrateDto;
 import com.dt.user.service.BasePublicService.BasicPublicDutiesTaxrateService;
 import com.dt.user.utils.PageInfoUtils;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,13 +26,8 @@ public class BasicPublicDutiesTaxrateController {
 
     @PostMapping("/findByListTax")
     public ResponseBase findByListTax(@RequestBody TaxrateDto taxrateDto) {
-        if (taxrateDto.getCurrentPage() != null && taxrateDto.getPageSize() != null) {
-            PageHelper.startPage(taxrateDto.getCurrentPage(), taxrateDto.getPageSize());
-            List<TaxrateDto> taxrateDtoList = taxrateService.findByListTaxrate(taxrateDto);
-            PageInfo<TaxrateDto> pageInfo = new PageInfo<>(taxrateDtoList);
-            Integer currentPage = taxrateDto.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(taxrateDto.getPageSize(), taxrateDto.getCurrentPage());
+        List<TaxrateDto> taxrateDtoList = taxrateService.findByListTaxrate(taxrateDto);
+        return PageInfoUtils.returnPage(taxrateDtoList, taxrateDto.getCurrentPage());
     }
 }

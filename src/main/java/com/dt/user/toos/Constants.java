@@ -33,6 +33,11 @@ public interface Constants {
      * 系统错误
      */
     Integer HTTP_RES_CODE = -1;
+
+    /**
+     * 请求响应错误
+     */
+    Integer HTTP_RESP_CODE = -2;
     /**
      * 美国时间解析
      */

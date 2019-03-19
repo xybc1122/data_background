@@ -5,6 +5,7 @@ import com.dt.user.config.BaseRedisService;
 import com.dt.user.config.JsonData;
 import com.dt.user.model.UserInfo;
 import com.dt.user.service.UserService;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.JwtUtils;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
@@ -46,35 +47,37 @@ public class LoginInterceoter implements HandlerInterceptor {
                 request.setAttribute("uName", uName);
                 //查询redis中的token
                 String vRedis = redisService.getStringKey(uName + "token");
-                //如果是null 说明 没人登陆
-                if (StringUtils.isNotBlank(vRedis)) {
-                    //说明前面已经有人在登陆
-                    if (!vRedis.equals(token)) {
-                        sendJsonMessaget(response, JsonData.setResultError("已有人登陆此账号"));
-                        return false;
-                    }
+                //如果是null 说明 token 已经过期
+                if (StringUtils.isEmpty(vRedis)) {
+                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE,"令牌失效，请重新登陆"));
+                    return false;
+                }
+                //说明前面已经有人在登陆
+                if (!vRedis.equals(token)) {
+                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE,"已有人登陆此账号"));
+                    return false;
                 }
                 //通过ID 查询 账号状态
                 UserInfo user = userService.getUserStatus(uId.longValue());
                 // 账号不存在 异常
                 if (user == null) {
-                    sendJsonMessaget(response, JsonData.setResultError("未知账户/没找到帐号,登录失败"));
+                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE,"未知账户/没找到帐号,登录失败"));
                     return false;
                 }
                 if (user.getAccountStatus() == 1) {
-                    sendJsonMessaget(response, JsonData.setResultError("账号已被锁定,请联系管理员"));
+                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE,"账号已被锁定,请联系管理员"));
                     return false;
                 }
                 if (user.getDelUser() == 1) {
-                    sendJsonMessaget(response, JsonData.setResultError("账号凭着已过期/或删除 请联系管理员"));
+                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE,"账号凭着已过期/或删除 请联系管理员"));
                     return false;
                 }
                 return true;
             }
-            sendJsonMessaget(response, JsonData.setResultError("token错误 请重新登陆"));
+            sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE,"令牌错误 请重新登陆"));
             return false;
         }
-        sendJsonMessaget(response, JsonData.setResultError(-2,"请登录"));
+        sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "请登录"));
         return false;
     }
 

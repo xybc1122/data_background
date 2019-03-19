@@ -23,13 +23,8 @@ public class BasicPublicExchangeRateController {
 
     @PostMapping("/findByListRate")
     public ResponseBase findByListRate(@RequestBody ExchangeRateDto rateDto) {
-        if (rateDto.getCurrentPage() != null && rateDto.getPageSize() != null) {
-            PageHelper.startPage(rateDto.getCurrentPage(), rateDto.getPageSize());
-            List<ExchangeRateDto> basicPublicSiteList = rateService.getRateInfo(rateDto);
-            PageInfo<ExchangeRateDto> pageInfo = new PageInfo<>(basicPublicSiteList);
-            Integer currentPage = rateDto.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(rateDto.getPageSize(), rateDto.getCurrentPage());
+        List<ExchangeRateDto> basicPublicSiteList = rateService.getRateInfo(rateDto);
+        return PageInfoUtils.returnPage(basicPublicSiteList, rateDto.getCurrentPage());
     }
 }

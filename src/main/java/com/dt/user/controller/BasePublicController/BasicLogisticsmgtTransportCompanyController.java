@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @ClassName BasicLogisticsmgtTransportCompanyController
- * Description TODO
+ * Description TODO 货运公司接口
  * @Author 陈恩惠
  * @Date 2019/3/18 14:54
  **/
@@ -36,14 +36,9 @@ public class BasicLogisticsmgtTransportCompanyController {
      */
     @PostMapping("/findByListFreight")
     public ResponseBase findByListFreight(@RequestBody BasicLogisticsmgtTransportCompany freight) {
-        if (freight.getCurrentPage() != null && freight.getPageSize() != null) {
-            PageHelper.startPage(freight.getCurrentPage(), freight.getPageSize());
-            List<BasicLogisticsmgtTransportCompany> freightList = companyService.serviceFindByListFreight(freight);
-            PageInfo<BasicLogisticsmgtTransportCompany> pageInfo = new PageInfo<>(freightList);
-            Integer currentPage = freight.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(freight.getPageSize(), freight.getCurrentPage());
+        List<BasicLogisticsmgtTransportCompany> freightList = companyService.serviceFindByListFreight(freight);
+        return PageInfoUtils.returnPage(freightList, freight.getCurrentPage());
     }
 
 

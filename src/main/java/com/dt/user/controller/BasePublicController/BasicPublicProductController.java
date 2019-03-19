@@ -29,14 +29,9 @@ public class BasicPublicProductController {
      */
     @PostMapping("/findByListProduct")
     public ResponseBase findByListProduct(@RequestBody ProductDto productDto) {
-        if (productDto.getCurrentPage() != null && productDto.getPageSize() != null) {
-            PageHelper.startPage(productDto.getCurrentPage(), productDto.getPageSize());
-            List<ProductDto> basicPublicCurrencies = productService.findProductInfo(productDto);
-            PageInfo<ProductDto> pageInfo = new PageInfo<>(basicPublicCurrencies);
-            Integer currentPage = productDto.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(productDto.getPageSize(), productDto.getCurrentPage());
+        List<ProductDto> basicPublicCurrencies = productService.findProductInfo(productDto);
+        return PageInfoUtils.returnPage(basicPublicCurrencies, productDto.getCurrentPage());
     }
 
 

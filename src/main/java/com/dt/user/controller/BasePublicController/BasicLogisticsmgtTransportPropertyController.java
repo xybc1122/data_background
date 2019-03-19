@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * @ClassName BasicLogisticsmgtTransportPropertyController
- * Description TODO
+ * Description TODO    运输性质 接口
  * @Author 陈恩惠
  * @Date 2019/3/18 13:55
  **/
@@ -31,13 +31,9 @@ public class BasicLogisticsmgtTransportPropertyController {
     @GetMapping("/findByListProperty")
     public ResponseBase findByListProperty(@RequestParam("pageSize") Integer pageSize,
                                            @RequestParam("currentPage") Integer currentPage) {
-        if (pageSize != null && currentPage != null) {
-            PageHelper.startPage(currentPage, pageSize);
-            List<BasicLogisticsmgtTransportProperty> byListProperty = propertyService.findByListProperty();
-            PageInfo<BasicLogisticsmgtTransportProperty> pageInfo = new PageInfo<>(byListProperty);
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(pageSize, currentPage);
+        List<BasicLogisticsmgtTransportProperty> byListProperty = propertyService.findByListProperty();
+        return PageInfoUtils.returnPage(byListProperty, currentPage);
     }
 
 

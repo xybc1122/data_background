@@ -2,6 +2,7 @@ package com.dt.user.controller.UserServiceController;
 
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
+import com.dt.user.dto.RoleDto;
 import com.dt.user.dto.UserDto;
 import com.dt.user.model.Role;
 import com.dt.user.model.UserInfo;
@@ -35,19 +36,12 @@ public class RoleController {
 
     /**
      * 查询一个角色下的所有用户跟菜单
-     *
-     * @param pageDto
      * @return
      */
     @PostMapping("/getRoles")
     public ResponseBase getRoles(@RequestBody UserDto pageDto) {
-        if (pageDto.getCurrentPage() != null && pageDto.getPageSize() != null) {
-            PageHelper.startPage(pageDto.getCurrentPage(), pageDto.getPageSize());
-            List<UserInfo> listRoles = roleService.findByRoleInfo(pageDto);
-            PageInfo<UserInfo> pageInfo = new PageInfo<>(listRoles);
-            Integer currentPage = pageDto.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页参数错误");
+        PageInfoUtils.setPage(pageDto.getPageSize(), pageDto.getCurrentPage());
+        List<UserInfo> listRoles = roleService.findByRoleInfo(pageDto);
+        return PageInfoUtils.returnPage(listRoles, pageDto.getCurrentPage());
     }
 }

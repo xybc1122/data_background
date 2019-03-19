@@ -7,6 +7,7 @@ import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.config.WebSocketServer;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicAmazonTypeMapper;
+import com.dt.user.model.BasePublicModel.BasicPublicSku;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonWarehouse;
 import com.dt.user.model.FinancialSalesBalance;
@@ -14,8 +15,8 @@ import com.dt.user.model.SalesAmazonAd.*;
 import com.dt.user.model.Timing;
 import com.dt.user.model.UserUpload;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
+import com.dt.user.service.BasePublicService.BasicPublicSkuService;
 import com.dt.user.service.BasePublicService.BasicSalesAmazonCsvTxtXslHeaderService;
-import com.dt.user.service.BasePublicService.BasicSalesAmazonSkuService;
 import com.dt.user.service.BasePublicService.BasicSalesAmazonWarehouseService;
 import com.dt.user.service.ConsumerService;
 import com.dt.user.service.FinancialSalesBalanceService;
@@ -71,7 +72,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     private BasicPublicSiteService siteService;
 
     @Autowired
-    private BasicSalesAmazonSkuService skuService;
+    private BasicPublicSkuService skuService;
 
     @Autowired
     private BasicSalesAmazonCsvTxtXslHeaderService headService;
@@ -619,7 +620,6 @@ public class ConsumerServiceImpl implements ConsumerService {
             return saveUserUploadInfo(responseBase, recordingId, fileName, null, 1, filePath, uuIdName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
             String errorMsg = "数据存入失败====>请查找" + (numberCount.get() + 1) + "行错误信息" + e.getMessage();
             return errorResult(0, errorMsg, recordingId, fileName, timing, "exception", filePath, uuIdName);
         } finally {

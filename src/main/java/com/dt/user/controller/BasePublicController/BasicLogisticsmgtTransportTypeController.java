@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * @ClassName BasicLogisticsmgtTransportTypeController
- * Description TODO
+ * Description TODO 运输类型接口
  * @Author 陈恩惠
  * @Date 2019/3/18 14:14
  **/

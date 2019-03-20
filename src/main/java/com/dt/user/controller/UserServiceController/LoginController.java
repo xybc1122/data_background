@@ -63,14 +63,14 @@ public class LoginController extends JsonData {
     @Transactional
     public ResponseBase login(@RequestBody UserDto userDto) {
         String userKey = userDto.getUserName() + "error";
-        String strRedis = baseRedisService.getStringKey(userKey);
+        String strRedis = redisService.getStringKey(userKey);
         //如果不等于null
         if (StringUtils.isNotEmpty(strRedis)) {
-            Long ttlDate = baseRedisService.getTtl(userKey);
+            Long ttlDate = redisService.getTtl(userKey);
             return JsonData.setResultError("账号/或密码错误被锁定/" + ttlDate + "秒后到期!");
         }
 
-        String redisToken = baseRedisService.getStringKey(userDto.getUserName() + "token");
+        String redisToken = redisService.getStringKey(userDto.getUserName() + "token");
         if (StringUtils.isNotEmpty(redisToken)) {
             return JsonData.setResultError("此账号已在别处登陆");
         }
@@ -100,7 +100,7 @@ public class LoginController extends JsonData {
             if (user.getPwd().equals(pwd)) {
                 user.setPwd(null);
                 //设置token
-                baseRedisService.setString(user.getUserName() + "token", userToken, 30 * 60L);
+                redisService.setString(user.getUserName() + "token", userToken, 30 * 60L);
                 //登陆成功后 删除Map指定元素
                 if (hashMap.get(user.getUserName()) != null) {
                     hashMap.entrySet().removeIf(entry -> entry.getKey().equals(user.getUserName()));

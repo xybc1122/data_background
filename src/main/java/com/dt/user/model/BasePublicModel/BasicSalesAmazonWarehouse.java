@@ -1,21 +1,31 @@
 package com.dt.user.model.BasePublicModel;
 
+
 import com.dt.user.model.ParentSysTemLog;
 
 /**
- * 仓库表
+ * 亚马逊仓库
  */
 public class BasicSalesAmazonWarehouse extends ParentSysTemLog {
 
     private Integer amazonWarehouseId;
-    private Long amazonWarehouseNumber;
+    private Integer number;
     private Integer siteId;
     private String warehouseCode;
     private String country;
-    private String location;
+    private String address;
     private String city;
     private String state;
     private String zip;
+    private String siteName;
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
 
     public Integer getAmazonWarehouseId() {
         return amazonWarehouseId;
@@ -25,12 +35,12 @@ public class BasicSalesAmazonWarehouse extends ParentSysTemLog {
         this.amazonWarehouseId = amazonWarehouseId;
     }
 
-    public Long getAmazonWarehouseNumber() {
-        return amazonWarehouseNumber;
+    public Integer getNumber() {
+        return number;
     }
 
-    public void setAmazonWarehouseNumber(Long amazonWarehouseNumber) {
-        this.amazonWarehouseNumber = amazonWarehouseNumber;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
     public Integer getSiteId() {
@@ -57,12 +67,12 @@ public class BasicSalesAmazonWarehouse extends ParentSysTemLog {
         this.country = country;
     }
 
-    public String getLocation() {
-        return location;
+    public String getAddress() {
+        return address;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCity() {

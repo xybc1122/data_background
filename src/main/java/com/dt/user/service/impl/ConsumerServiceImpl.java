@@ -7,7 +7,6 @@ import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.config.WebSocketServer;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicAmazonTypeMapper;
-import com.dt.user.model.BasePublicModel.BasicPublicSku;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonWarehouse;
 import com.dt.user.model.FinancialSalesBalance;
@@ -285,11 +284,11 @@ public class ConsumerServiceImpl implements ConsumerService {
             index++;
             //计算百分比
             int currentCount = timing.setAttributesTim(index);
-            ws.schedule(intMap, currentCount, timSet, timing, 1L);
+            ws.schedule(intMap, currentCount, timSet, timing, ReqUtils.getUid());
         }
         //插入数据
         timing.setMsg(Constants.IMPORT_SQL);
-        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), 1L);
+        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), ReqUtils.getUid());
         int countTrad = 0;
         if (safTradList != null) {
             if (safTradList.size() > 0) {
@@ -726,12 +725,12 @@ public class ConsumerServiceImpl implements ConsumerService {
             index++;
             //计算百分比
             int currentCount = timing.setAttributesTim(index);
-            ws.schedule(intMap, currentCount, timSet, timing, 1L);
+            ws.schedule(intMap, currentCount, timSet, timing, ReqUtils.getUid());
         }
         int saveCount = 0;
         //插入数据
         timing.setMsg(Constants.IMPORT_SQL);
-        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), 1L);
+        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), ReqUtils.getUid());
         if (cprList != null) {
             if (cprList.size() > 0) {
                 saveCount = cprService.AddSalesAmazonAdCprList(cprList);
@@ -1179,12 +1178,12 @@ public class ConsumerServiceImpl implements ConsumerService {
             index++;
             //计算百分比
             int currentCount = timing.setAttributesTim(index);
-            ws.schedule(intMap, currentCount, timSet, timing, 1L);
+            ws.schedule(intMap, currentCount, timSet, timing, ReqUtils.getUid());
         }
         int number = 0;
         //插入数据
         timing.setMsg(Constants.IMPORT_SQL);
-        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), 1L);
+        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), ReqUtils.getUid());
         //财务
         if (fsbList != null) {
             if (fsbList.size() > 0) {
@@ -1549,7 +1548,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     public ResponseBase printCount(Long begin, Timing timing, Long successNumber, int index) {
         timing.setInfo("success", "数据导入成功..........");
-        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), 1L);
+        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), ReqUtils.getUid());
         // 结束时间
         Long end = new Date().getTime();
         return JsonData.setResultSuccess("总共" + index + "条数据/ 真实数据" + successNumber + "条数据插入成功/====>失败 " + sumErrorSku.get() + "条/花费时间 : " + (end - begin) / 1000 + " s");

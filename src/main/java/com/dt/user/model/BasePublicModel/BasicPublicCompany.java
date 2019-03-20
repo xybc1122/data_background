@@ -50,7 +50,7 @@ public class BasicPublicCompany extends ParentSysTemLog {
     /**
      * 公司地址
      */
-    private String companyAddress;
+    private String address;
     /**
      * 公司地址英文
      */
@@ -154,12 +154,12 @@ public class BasicPublicCompany extends ParentSysTemLog {
         this.accountType = accountType;
     }
 
-    public String getCompanyAddress() {
-        return companyAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCompanyAddress(String companyAddress) {
-        this.companyAddress = companyAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCompanyAddressEng() {

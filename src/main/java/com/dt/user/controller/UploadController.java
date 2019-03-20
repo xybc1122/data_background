@@ -60,7 +60,7 @@ public class UploadController {
      * @return
      */
     @PostMapping("/file")
-    @PermissionCheck("up")
+    @PermissionCheck("upload")
     public ResponseBase saveFileInfo(HttpServletRequest request, @RequestParam("sId") String sId,
                                      @RequestParam("seId") String seId, @RequestParam("payId") String payId,
                                      @RequestParam("menuId") String menuId,

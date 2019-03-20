@@ -7,16 +7,17 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @ClassName RequestUtils
+ * @ClassName ReqUtils
  * Description TODO
  * @Author 陈恩惠
  * @Date 2019/3/15 16:55
  **/
-public class RequestUtils {
+public class ReqUtils {
 
 
     /**
      * 获得用户ID
+     *
      * @return
      */
     public static Long getUid() {
@@ -49,5 +50,16 @@ public class RequestUtils {
             }
         }
         return null;
+    }
+
+    /**
+     * 设置request
+     * @param request
+     * @param uId
+     * @param uName
+     */
+    public static void set(HttpServletRequest request, Integer uId, String uName) {
+        request.setAttribute("uId", uId);
+        request.setAttribute("uName", uName);
     }
 }

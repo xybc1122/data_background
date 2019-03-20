@@ -15,7 +15,7 @@ import com.dt.user.toos.Constants;
 import com.dt.user.utils.CookieUtil;
 import com.dt.user.utils.JwtUtils;
 import com.dt.user.utils.MD5Util;
-import com.dt.user.utils.RequestUtils;
+import com.dt.user.utils.ReqUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
@@ -171,12 +170,15 @@ public class LoginController extends JsonData {
      * @return
      */
     @GetMapping("/logout")
-    public ResponseBase logout() {
-        String uName = RequestUtils.getUserName();
+    public ResponseBase logout(HttpServletRequest request, HttpServletResponse response) {
+        String uName = ReqUtils.getUserName();
         if (uName == null) {
             throw new LsException("注销失败");
         }
+        //删除redis token
         int result = redisService.delKey(uName + Constants.TOKEN);
+        //删除 cookie里的  token
+        SsoLoginStore.removeTokenByCookie(request, response);
         if (result == 1) {
             return JsonData.setResultSuccess("注销成功!");
         }

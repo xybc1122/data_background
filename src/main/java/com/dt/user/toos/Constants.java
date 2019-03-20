@@ -39,6 +39,10 @@ public interface Constants {
      */
     Integer HTTP_RESP_CODE = -2;
     /**
+     * 首次登陆返回状态码
+     */
+    Integer FIRST_CODE = -3;
+    /**
      * 美国时间解析
      */
     String USA_TIME = "MMM d, yyyy HH:mm:ss a";

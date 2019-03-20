@@ -1,12 +1,9 @@
 package com.dt.user.controller.BasePublicController;
 
-import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.ExchangeRateDto;
 import com.dt.user.service.BasePublicService.BasicPublicExchangeRateService;
 import com.dt.user.utils.PageInfoUtils;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

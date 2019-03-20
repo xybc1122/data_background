@@ -24,24 +24,24 @@ public class ProviderSqlStore {
                 sql.WHERE("ls.status=#{systemLogStatus.status}");
             }
             //创建时间
-            if (logStatus.getCreateDate() != null) {
-                sql.WHERE("ls.create_date=#{systemLogStatus.createDate}");
+            if (logStatus.getCreateDates() != null && (logStatus.getCreateDates().size() > 0)) {
+                sql.WHERE("ls.create_date BETWEEN  " + logStatus.getCreateDates().get(0) + " AND " + logStatus.getCreateDates().get(1) + "");
             }
             //创建人
             if (logStatus.getCreateUser() != null) {
                 sql.WHERE("ls.create_user=#{systemLogStatus.createUser}");
             }
             //修改日期
-            if (logStatus.getModifyDate() != null) {
-                sql.WHERE("ls.modify_date=#{systemLogStatus.modifyDate}");
+            if (logStatus.getModifyDates() != null && (logStatus.getModifyDates().size() > 0)) {
+                sql.WHERE("ls.modify_date BETWEEN  " + logStatus.getModifyDates().get(0) + " AND " + logStatus.getModifyDates().get(1) + "");
             }
             //修改人
             if (logStatus.getModifyUser() != null) {
                 sql.WHERE("ls.modify_user=#{systemLogStatus.modifyUser}");
             }
             //审核时间
-            if (logStatus.getAuditDate() != null) {
-                sql.WHERE("ls.audit_date=#{systemLogStatus.auditDate}");
+            if (logStatus.getAuditDates() != null && (logStatus.getAuditDates().size() > 0)) {
+                sql.WHERE("ls.audit_date BETWEEN  " + logStatus.getAuditDates().get(0) + " AND " + logStatus.getAuditDates().get(1) + "");
             }
             //审核人
             if (logStatus.getAuditUser() != null) {

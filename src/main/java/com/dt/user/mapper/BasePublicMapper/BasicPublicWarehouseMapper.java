@@ -14,8 +14,8 @@ public interface BasicPublicWarehouseMapper {
     /**
      * 查询仓库信息
      */
-    @Select("SELECT`warehouse_id`,`number`,`warehouse_name`,parent_warehouse_id,`warehouse_address`,\n" +
-            "`principal`,is_parent,status_id\n" +
+    @Select("SELECT`warehouse_id`,`number`,`warehouse_name`,parent_id,`warehouse_address`,\n" +
+            "is_parent,status_id\n" +
             "FROM`basic_public_warehouse`")
     @Results({
             //数据库字段映射 //数据库字段映射 column数据库字段 property Java 字段

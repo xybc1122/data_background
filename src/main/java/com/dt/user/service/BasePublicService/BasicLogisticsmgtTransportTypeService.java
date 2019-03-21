@@ -9,6 +9,6 @@ public interface BasicLogisticsmgtTransportTypeService {
     /**
      * 查询运输类型
      */
-    List<BasicLogisticsmgtTransportType> findByTypeInfo();
+    List<BasicLogisticsmgtTransportType> serviceFindByTypeInfo();
 
 }

@@ -92,7 +92,7 @@ public class LoginController extends JsonData {
             }
             //更新登陆时间
             userService.upUserLandingTime(user);
-            String pwd = MD5Util.MD5(userDto.getPwd());
+            String pwd = MD5Util.saltMd5(userDto.getUserName(), userDto.getPwd());
             // 登陆校验
             SsoWebLoginHelper.login(user, pwd);
             //设置token  Cookie

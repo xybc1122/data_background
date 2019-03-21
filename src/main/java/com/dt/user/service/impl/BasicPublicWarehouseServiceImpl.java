@@ -17,48 +17,48 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
     @Override
     public List<BasicPublicWarehouse> findByWarehouseInfo() {
         //一级目录
-        List<BasicPublicWarehouse> warehouseList = new ArrayList<>();
+        List<BasicPublicWarehouse> firstArrList = new ArrayList<>();
         //子目录
-        List<BasicPublicWarehouse> childWarehouseList = new ArrayList<>();
-        List<BasicPublicWarehouse> warehouses = warehouseMapper.findByWarehouseInfo();
-        if (warehouses != null && warehouses.size() > 0) {
-            for (int i = 0; i < warehouses.size(); i++) {
-                BasicPublicWarehouse warehouse = warehouses.get(i);
-                //如果是父目录
-                if (warehouse.getIsParent() != null) {
-                    if (warehouse.getIsParent() == 1) {
-                        warehouseList.add(warehouse);
+        List<BasicPublicWarehouse> childArrList = new ArrayList<>();
+        //数据库查询出来的数据
+        List<BasicPublicWarehouse> result = warehouseMapper.findByWarehouseInfo();
+        if (result != null && result.size() > 0) {
+            for (BasicPublicWarehouse obj : result) {
+                if (obj.getParentId() != null) {
+                    //如果是父目录
+                    if (obj.getParent()) {
+                        firstArrList.add(obj);
                     } else {
-                        childWarehouseList.add(warehouse);
+                        childArrList.add(obj);
                     }
                 }
             }
             // 为一级目录设置子目录 getChild是递归调用的
-            if (warehouseList.size() > 0) {
-                for (BasicPublicWarehouse war : warehouseList) {
-                    war.setChildWarehouse(getChild(war.getParentWarehouseId(), childWarehouseList));
+            if (firstArrList.size() > 0) {
+                for (BasicPublicWarehouse firs : firstArrList) {
+                    firs.setChildNode(getChild(firs.getWarehouseId(), childArrList));
                 }
             }
         }
-        return warehouseList;
+        return firstArrList;
     }
 
-    private List<BasicPublicWarehouse> getChild(Integer parentWarehouseId, List<BasicPublicWarehouse> childWarehouseList) {
+    private List<BasicPublicWarehouse> getChild(Integer id, List<BasicPublicWarehouse> childNodeList) {
         // 子菜单
         List<BasicPublicWarehouse> childList = new ArrayList<>();
-        // 遍历childList，找出所有的根节点和非根节点
-        if (childWarehouseList != null && childWarehouseList.size() > 0) {
-            for (BasicPublicWarehouse warehouse : childWarehouseList) {
+        // 遍历childNodeList，找出所有的根节点和非根节点
+        if (childNodeList != null && childNodeList.size() > 0) {
+            for (BasicPublicWarehouse v : childNodeList) {
                 //如果子跟父ID相同 就设置进去
-                if (parentWarehouseId.equals(warehouse.getParentWarehouseId())) {
-                    childList.add(warehouse);
+                if (id.equals(v.getParentId())) {
+                    childList.add(v);
                 }
             }
         }
         //查询子节点
         if (childList.size() > 0) {
-            for (BasicPublicWarehouse war : childList) {
-                war.setChildWarehouse(getChild(war.getWarehouseId(), childWarehouseList));
+            for (BasicPublicWarehouse childV : childList) {
+                childV.setChildNode(getChild(childV.getWarehouseId(), childList));
             }
         }
         return childList;

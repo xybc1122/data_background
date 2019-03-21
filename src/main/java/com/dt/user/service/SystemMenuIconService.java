@@ -1,5 +1,6 @@
 package com.dt.user.service;
 
+import com.dt.user.model.SystemLogStatus;
 import com.dt.user.model.SystemMenuIcon;
 
 import java.util.List;
@@ -18,4 +19,5 @@ public interface SystemMenuIconService {
      * @return
      */
     List<SystemMenuIcon> getIconList();
+
 }

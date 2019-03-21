@@ -2,6 +2,7 @@ package com.dt.user.model.BasePublicModel;
 
 import com.dt.user.model.ParentSysTemLog;
 import com.dt.user.model.SystemLogStatus;
+
 import java.util.List;
 
 /**
@@ -9,50 +10,31 @@ import java.util.List;
  */
 public class BasicPublicProducts extends ParentSysTemLog {
 
-    private Long productsId;
-    private Long number;
+    private Integer productsId;
+    private Integer number;
     private String productsName;
-    private Long parentProductsId;
+    private Integer parentId;
     private String productsPath;
-    private Long isParent;
+    private Boolean isParent;
 
     // 子目录
-    private List<BasicPublicProducts> childPros;
-    //状态对象
-    private SystemLogStatus systemLogStatus;
+    private List<BasicPublicProducts> childNode;
 
-    public SystemLogStatus getSystemLogStatus() {
-        return systemLogStatus;
-    }
-
-    public void setSystemLogStatus(SystemLogStatus systemLogStatus) {
-        this.systemLogStatus = systemLogStatus;
-    }
-
-    public Long getNumber() {
-        return number;
-    }
-
-    public void setNumber(Long number) {
-        this.number = number;
-    }
-
-    public List<BasicPublicProducts> getChildPros() {
-        return childPros;
-    }
-
-    public void setChildPros(List<BasicPublicProducts> childPros) {
-        this.childPros = childPros;
-    }
-
-    public Long getProductsId() {
+    public Integer getProductsId() {
         return productsId;
     }
 
-    public void setProductsId(Long productsId) {
+    public void setProductsId(Integer productsId) {
         this.productsId = productsId;
     }
 
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
     public String getProductsName() {
         return productsName;
@@ -62,12 +44,12 @@ public class BasicPublicProducts extends ParentSysTemLog {
         this.productsName = productsName;
     }
 
-    public Long getParentProductsId() {
-        return parentProductsId;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParentProductsId(Long parentProductsId) {
-        this.parentProductsId = parentProductsId;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 
     public String getProductsPath() {
@@ -78,13 +60,19 @@ public class BasicPublicProducts extends ParentSysTemLog {
         this.productsPath = productsPath;
     }
 
-    public Long getIsParent() {
+    public Boolean getParent() {
         return isParent;
     }
 
-    public void setIsParent(Long isParent) {
-        this.isParent = isParent;
+    public void setParent(Boolean parent) {
+        isParent = parent;
     }
 
+    public List<BasicPublicProducts> getChildNode() {
+        return childNode;
+    }
 
+    public void setChildNode(List<BasicPublicProducts> childNode) {
+        this.childNode = childNode;
+    }
 }

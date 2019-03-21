@@ -28,7 +28,7 @@ public class ProviderSqlStore {
                 sql.WHERE("ls.create_date BETWEEN  " + logStatus.getCreateDates().get(0) + " AND " + logStatus.getCreateDates().get(1) + "");
             }
             //创建人
-            if (logStatus.getCreateUser() != null) {
+            if (StringUtils.isNotBlank(logStatus.getCreateUser())) {
                 sql.WHERE("ls.create_user=#{systemLogStatus.createUser}");
             }
             //修改日期
@@ -36,7 +36,7 @@ public class ProviderSqlStore {
                 sql.WHERE("ls.modify_date BETWEEN  " + logStatus.getModifyDates().get(0) + " AND " + logStatus.getModifyDates().get(1) + "");
             }
             //修改人
-            if (logStatus.getModifyUser() != null) {
+            if (StringUtils.isNotBlank(logStatus.getModifyUser())) {
                 sql.WHERE("ls.modify_user=#{systemLogStatus.modifyUser}");
             }
             //审核时间
@@ -44,7 +44,7 @@ public class ProviderSqlStore {
                 sql.WHERE("ls.audit_date BETWEEN  " + logStatus.getAuditDates().get(0) + " AND " + logStatus.getAuditDates().get(1) + "");
             }
             //审核人
-            if (logStatus.getAuditUser() != null) {
+            if (StringUtils.isNotBlank(logStatus.getAuditUser())) {
                 sql.WHERE("ls.audit_user=#{systemLogStatus.auditUser}");
             }
         }

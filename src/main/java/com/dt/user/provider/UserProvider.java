@@ -2,6 +2,7 @@ package com.dt.user.provider;
 
 
 import com.dt.user.dto.UserDto;
+import com.dt.user.store.ProviderSqlStore;
 import com.dt.user.utils.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -14,62 +15,61 @@ public class UserProvider {
 
 
     public String findUsers(UserDto userDto) {
-        return new SQL() {{
-            SELECT("u.uid,u.name,u.computer_name,u.user_name,u.create_date,u.account_status,u.landing_time,u.version," +
-                    "GROUP_CONCAT(r.`r_name`)as rName,GROUP_CONCAT(r.`rid`)as rid,s.mobile_phone,u.user_expiration_date,u.pwd_validity_period");
-            FROM("system_user_info AS u");
-            LEFT_OUTER_JOIN("system_user_role_user AS ur ON(ur.u_id=u.uid)");
-            LEFT_OUTER_JOIN("system_user_role AS r ON(r.rid=ur.r_id)");
-            LEFT_OUTER_JOIN("`hr_archives_employee` AS s ON(u.uid=s.u_id)");
-            //用户账号
-            if (StringUtils.isNotBlank(userDto.getUserName())) {
-                WHERE("POSITION('" + userDto.getUserName() + "' IN u.`user_name`)");
-            }
-            //用户名
-            if (StringUtils.isNotBlank(userDto.getName())) {
-                WHERE("POSITION('" + userDto.getName() + "' IN u.`name`)");
-            }
-            //角色名字
-            if (StringUtils.isNotBlank(userDto.getrName())) {
-                WHERE("POSITION('" + userDto.getrName() + "' IN r.r_name)");
-            }
-            //密码有效期
-            if (userDto.getPwdValidityPeriods() != null && userDto.getPwdValidityPeriods().size() > 0) {
-                WHERE("u.pwd_validity_period BETWEEN  " + userDto.getPwdValidityPeriods().get(0) + " AND " + userDto.getPwdValidityPeriods().get(1) + "");
-                //始终有效
-            } else if (userDto.isPwdAlways()) {
-                WHERE("u.pwd_validity_period=0");
-            }
-            //登陆时间
-            if (userDto.getLandingTimes() != null && userDto.getLandingTimes().size() > 0) {
-                WHERE("u.landing_time BETWEEN  " + userDto.getLandingTimes().get(0) + " AND " + userDto.getLandingTimes().get(1) + "");
-            }
-            //用户有效期间
-            if (userDto.getUserExpirationDates() != null && userDto.getUserExpirationDates().size() > 0) {
-                WHERE("u.user_expiration_date BETWEEN  " + userDto.getUserExpirationDates().get(0) + " AND " + userDto.getUserExpirationDates().get(1) + "");
-                //始终有效
-            } else if (userDto.isuAlways()) {
-                WHERE("u.user_expiration_date=0");
-            }
-            //计算机名
-            if (StringUtils.isNotBlank(userDto.getComputerName())) {
-                WHERE("POSITION('" + userDto.getComputerName() + "' IN u.computer_name)");
-            }
-            //用户状态
-            if (userDto.getAccountStatus() != null) {
-                WHERE("u.account_status=#{accountStatus}");
-            }
-            //用户手机
-            if (StringUtils.isNotBlank(userDto.getMobilePhone())) {
-                WHERE("POSITION('" + userDto.getMobilePhone() + "' IN s.mobile_phone)");
-            }
-            //创建时间
-            if (userDto.getCreateDates() != null && userDto.getCreateDates().size() > 0) {
-                WHERE("u.create_date BETWEEN  " + userDto.getCreateDates().get(0) + " AND " + userDto.getCreateDates().get(1) + "");
-            }
-            WHERE("del_user=0");
-            GROUP_BY("u.uid");
-        }}.toString();
+        SQL sql = new SQL();
+        String Alias = "u";
+        sql.SELECT("u.status_id,u.uid,u.name,u.computer_name,u.user_name,u.account_status,u.landing_time,u.version," +
+                "GROUP_CONCAT(r.`r_name`)as rName,GROUP_CONCAT(r.`rid`)as rid,s.mobile_phone,u.user_expiration_date,u.pwd_validity_period");
+        sql.FROM("system_user_info AS " + Alias + "");
+        sql.LEFT_OUTER_JOIN("system_user_role_user AS ur ON(ur.u_id=u.uid)");
+        sql.LEFT_OUTER_JOIN("system_user_role AS r ON(r.rid=ur.r_id)");
+        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS s ON(u.uid=s.u_id)");
+        //状态数据查询
+        ProviderSqlStore.saveStatus(userDto.getSystemLogStatus(), Alias, sql);
+        //用户账号
+        if (StringUtils.isNotBlank(userDto.getUserName())) {
+            sql.WHERE("POSITION('" + userDto.getUserName() + "' IN u.`user_name`)");
+        }
+        //用户名
+        if (StringUtils.isNotBlank(userDto.getName())) {
+            sql.WHERE("POSITION('" + userDto.getName() + "' IN u.`name`)");
+        }
+        //角色名字
+        if (StringUtils.isNotBlank(userDto.getrName())) {
+            sql.WHERE("POSITION('" + userDto.getrName() + "' IN r.r_name)");
+        }
+        //密码有效期
+        if (userDto.getPwdValidityPeriods() != null && userDto.getPwdValidityPeriods().size() > 0) {
+            sql.WHERE("u.pwd_validity_period BETWEEN  " + userDto.getPwdValidityPeriods().get(0) + " AND " + userDto.getPwdValidityPeriods().get(1) + "");
+            //始终有效
+        } else if (userDto.isPwdAlways()) {
+            sql.WHERE("u.pwd_validity_period=0");
+        }
+        //登陆时间
+        if (userDto.getLandingTimes() != null && userDto.getLandingTimes().size() > 0) {
+            sql.WHERE("u.landing_time BETWEEN  " + userDto.getLandingTimes().get(0) + " AND " + userDto.getLandingTimes().get(1) + "");
+        }
+        //用户有效期间
+        if (userDto.getUserExpirationDates() != null && userDto.getUserExpirationDates().size() > 0) {
+            sql.WHERE("u.user_expiration_date BETWEEN  " + userDto.getUserExpirationDates().get(0) + " AND " + userDto.getUserExpirationDates().get(1) + "");
+            //始终有效
+        } else if (userDto.isuAlways()) {
+            sql.WHERE("u.user_expiration_date=0");
+        }
+        //计算机名
+        if (StringUtils.isNotBlank(userDto.getComputerName())) {
+            sql.WHERE("POSITION('" + userDto.getComputerName() + "' IN u.computer_name)");
+        }
+        //用户状态
+        if (userDto.getAccountStatus() != null) {
+            sql.WHERE("u.account_status=#{accountStatus}");
+        }
+        //用户手机
+        if (StringUtils.isNotBlank(userDto.getMobilePhone())) {
+            sql.WHERE("POSITION('" + userDto.getMobilePhone() + "' IN s.mobile_phone)");
+        }
+        sql.WHERE("del_user=0");
+        sql.GROUP_BY("u.uid");
+        return sql.toString();
     }
 
 
@@ -85,7 +85,7 @@ public class UserProvider {
                 String userName = (String) userMap.get("userName");
                 if (StringUtils.isNotBlank(userName)) {
                     //md5盐值密码加密
-                    String md5Pwd = MD5Util.MD5(pwd);
+                    String md5Pwd = MD5Util.saltMd5(userName, pwd);
                     SET("pwd=" + "'" + md5Pwd + "'");
                 }
             }

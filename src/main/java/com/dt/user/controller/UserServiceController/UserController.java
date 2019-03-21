@@ -1,6 +1,7 @@
 package com.dt.user.controller.UserServiceController;
 
-import com.dt.user.MyAnnotation.PermissionCheck;
+import com.dt.user.config.BaseRedisService;
+import com.dt.user.customize.PermissionCheck;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.UserDto;
@@ -9,10 +10,9 @@ import com.dt.user.model.UserRole;
 import com.dt.user.service.HrArchivesEmployeeService;
 import com.dt.user.service.UserRoleService;
 import com.dt.user.service.UserService;
-import com.dt.user.utils.DateUtils;
-import com.dt.user.utils.GetCookie;
-import com.dt.user.utils.MD5Util;
-import com.dt.user.utils.PageInfoUtils;
+import com.dt.user.store.SsoLoginStore;
+import com.dt.user.toos.Constants;
+import com.dt.user.utils.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
 @RequestMapping("/api/v1/user")
@@ -37,6 +38,9 @@ public class UserController {
     @Autowired
     private UserRoleService userRoleService;
 
+    @Autowired
+    private BaseRedisService redisService;
+
 
     /**
      * 获取用户管理信息的一些信息
@@ -46,17 +50,12 @@ public class UserController {
      * @PermissionCheck 自定义权限 需要show 才能查看
      */
     @PostMapping("/show")
-    @PermissionCheck("show,del,save")
+    @PermissionCheck("show")
     public ResponseBase showUsers(@RequestBody UserDto pageDto) {
-        if (pageDto.getCurrentPage() == null || pageDto.getPageSize() == null) {
-            return JsonData.setResultError("分页参数失效");
-        }
-        PageHelper.startPage(pageDto.getCurrentPage(), pageDto.getPageSize());
+        System.out.println("controller执行");
+        PageInfoUtils.setPage(pageDto.getPageSize(), pageDto.getCurrentPage());
         List<UserInfo> listUser = userService.findByUsers(pageDto);
-        //获得一些信息
-        PageInfo<UserInfo> pageInfo = new PageInfo<>(listUser);
-        Integer currentPage = pageDto.getCurrentPage();
-        return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
+        return PageInfoUtils.returnPage(listUser, pageDto.getCurrentPage());
     }
 
 
@@ -134,16 +133,15 @@ public class UserController {
     /**
      * 获得一个用户的信息
      *
-     * @param request request对象
      * @return JSON 对象
      */
     @GetMapping("/getUser")
-    public ResponseBase getUser(HttpServletRequest request) {
-        UserInfo user = GetCookie.getUser(request);
-        if (user == null) {
-            return JsonData.setResultError("用户无效~");
+    public ResponseBase getUser() {
+        Long userId = ReqUtils.getUid();
+        if (userId == null) {
+            return JsonData.setResultError("用户无效");
         }
-        UserInfo userInfo = userService.getSingleUser(user.getUid());
+        UserInfo userInfo = userService.getSingleUser(userId);
         return JsonData.setResultSuccess(userInfo);
     }
 
@@ -187,7 +185,7 @@ public class UserController {
     public ResponseBase saveUserInfo(@RequestBody Map<String, Object> userMap, HttpServletRequest request) {
         //获得登陆的时候 生成的token
         //获得用户信息
-        UserInfo user = GetCookie.getUser(request);
+        UserInfo user = CookieUtil.getUser(request);
         if (user == null) {
             return JsonData.setResultError("用户token失效");
         }
@@ -254,17 +252,17 @@ public class UserController {
      * @return
      */
     @PostMapping("/upPwd")
-    public ResponseBase upUserPwd(@RequestBody UserInfo uInfo, HttpServletRequest request) {
-        UserInfo user = GetCookie.getUser(request);
-        if (user == null) {
-            return JsonData.setResultError("用户token失效");
-        }
-        if (StringUtils.isNotBlank(uInfo.getPwd()) && StringUtils.isNotBlank(user.getUserName())) {
+    public ResponseBase upUserPwd(@RequestBody UserInfo uInfo, HttpServletResponse response,HttpServletRequest request) {
+        if (StringUtils.isNotBlank(uInfo.getPwd()) && StringUtils.isNotBlank(ReqUtils.getUserName())) {
             //md5盐值密码加密
             String md5Pwd = MD5Util.MD5(uInfo.getPwd());
             //更新用户
-            int uCount = userService.upUserPwd(user.getUid(), md5Pwd);
+            int uCount = userService.upUserPwd(ReqUtils.getUid(), md5Pwd);
             if (uCount > 0) {
+                //删除redis token
+                redisService.delKey(ReqUtils.getUserName() + Constants.TOKEN);
+                //删除 cookie里的  token
+                SsoLoginStore.removeTokenByCookie(request, response);
                 return JsonData.setResultSuccess("密码修改成功");
             }
         }

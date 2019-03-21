@@ -2,90 +2,131 @@ package com.dt.user.model;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 状态记录表
  */
 public class SystemLogStatus implements Serializable {
 
-  private Long statusId;
-  private String remark;
-  private Integer status;
-  private Long createDate;
-  private String createUser;
-  private Long modifyDate;
-  private String modifyUser;
-  private Long auditDate;
-  private String auditUser;
-  public Long getStatusId() {
-    return statusId;
-  }
+    private Long statusId;
+    private String remark;
+    private Integer status;
+    private Long createDate;
+    private String createUser;
+    private Long modifyDate;
+    private String modifyUser;
+    private Long auditDate;
+    private String auditUser;
 
-  public void setStatusId(Long statusId) {
-    this.statusId = statusId;
-  }
+    /**
+     * 创建时间范围查询变量
+     */
+    private List<Long> createDates;
 
-  public String getRemark() {
-    return remark;
-  }
+    /**
+     * 修改日期范围查询变量
+     */
+    private List<Long> modifyDates;
 
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
+    /**
+     * 审核时间范围查询变量
+     */
+    private List<Long> auditDates;
 
-  public Integer getStatus() {
-    return status;
-  }
+    public Long getStatusId() {
+        return statusId;
+    }
 
-  public void setStatus(Integer status) {
-    this.status = status;
-  }
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
+    }
 
-  public Long getCreateDate() {
-    return createDate;
-  }
+    public String getRemark() {
+        return remark;
+    }
 
-  public void setCreateDate(Long createDate) {
-    this.createDate = createDate;
-  }
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-  public String getCreateUser() {
-    return createUser;
-  }
+    public Integer getStatus() {
+        return status;
+    }
 
-  public void setCreateUser(String createUser) {
-    this.createUser = createUser;
-  }
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
-  public Long getModifyDate() {
-    return modifyDate;
-  }
+    public Long getCreateDate() {
+        return createDate;
+    }
 
-  public void setModifyDate(Long modifyDate) {
-    this.modifyDate = modifyDate;
-  }
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
+    }
 
-  public String getModifyUser() {
-    return modifyUser;
-  }
+    public String getCreateUser() {
+        return createUser;
+    }
 
-  public void setModifyUser(String modifyUser) {
-    this.modifyUser = modifyUser;
-  }
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
 
-  public Long getAuditDate() {
-    return auditDate;
-  }
+    public Long getModifyDate() {
+        return modifyDate;
+    }
 
-  public void setAuditDate(Long auditDate) {
-    this.auditDate = auditDate;
-  }
+    public void setModifyDate(Long modifyDate) {
+        this.modifyDate = modifyDate;
+    }
 
-  public String getAuditUser() {
-    return auditUser;
-  }
+    public String getModifyUser() {
+        return modifyUser;
+    }
 
-  public void setAuditUser(String auditUser) {
-    this.auditUser = auditUser;
-  }
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser;
+    }
+
+    public Long getAuditDate() {
+        return auditDate;
+    }
+
+    public void setAuditDate(Long auditDate) {
+        this.auditDate = auditDate;
+    }
+
+    public String getAuditUser() {
+        return auditUser;
+    }
+
+    public void setAuditUser(String auditUser) {
+        this.auditUser = auditUser;
+    }
+
+    public List<Long> getCreateDates() {
+        return createDates;
+    }
+
+    public void setCreateDates(List<Long> createDates) {
+        this.createDates = createDates;
+    }
+
+    public List<Long> getModifyDates() {
+        return modifyDates;
+    }
+
+    public void setModifyDates(List<Long> modifyDates) {
+        this.modifyDates = modifyDates;
+    }
+
+    public List<Long> getAuditDates() {
+        return auditDates;
+    }
+
+    public void setAuditDates(List<Long> auditDates) {
+        this.auditDates = auditDates;
+    }
 }

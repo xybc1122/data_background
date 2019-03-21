@@ -1,18 +1,21 @@
 package com.dt.user.config;
 
-import com.dt.user.MyAnnotation.PermissionCheck;
+import com.dt.user.customize.PermissionCheck;
 import com.dt.user.utils.PermUtils;
 import com.dt.user.model.Permission;
 import com.dt.user.exception.LsException;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.*;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * @ClassName PermissionAspect
@@ -26,21 +29,54 @@ import javax.servlet.http.HttpServletRequest;
 public class PermissionAspect {
 
     //定义切点
-    @Pointcut("@annotation(com.dt.user.MyAnnotation.PermissionCheck)")
+    @Pointcut("@annotation(com.dt.user.customize.PermissionCheck)")
     public void doAspect() {
     }
 
     //前置通知（不需要获取输入参数）
     @Before("doAspect()")
     public void doBefore(JoinPoint joinPoint) {
-        // System.out.println("doBefore");
-
+       // System.out.println("开始前置通知");
+        //获取注解
+        String v = Objects.requireNonNull(giveController(joinPoint)).value();
+        //权限校验
+        permCheck(v);
     }
 
     //最终通知
-    @After(value = "@annotation(permissionCheck)")
-    public void doAfter(JoinPoint joinPoint, PermissionCheck permissionCheck) {
-        String v = permissionCheck.value();
+//    @After("doAspect()")
+//    public void doAfter(JoinPoint joinPoint) {
+//        System.out.println("最终通知");
+//
+//    }
+
+    //后置通知(不需要获取返回值)
+//    @AfterReturning("doAspect()")
+//    public void doAfterReturning(JoinPoint joinPoint) {
+//        System.out.println("后置【try】通知");
+//    }
+
+    //例外通知(不需要异常信息)
+//    @AfterThrowing("doAspect()")
+//    public void doAfterThrowing() {
+//        System.out.println("后置【catch】通知");
+//    }
+
+    //环绕通知
+//    @Around("doAspect()")
+//    public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable {
+//        System.out.println("环绕通知进入方法");
+//        Object object = pjp.proceed();
+//        System.out.println("环绕通知退出方法");
+//        return object;
+//    }
+
+    /**
+     * 权限校验
+     *
+     * @param v
+     */
+    public void permCheck(String v) {
         if (StringUtils.isNotBlank(v)) {
             ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
                     .getRequestAttributes();
@@ -51,15 +87,15 @@ public class PermissionAspect {
                 int strIndex = v.indexOf(",");
                 //说明只有多个权限
                 if (strIndex != -1) {
-                    String[] c = v.split(",");
+                    String[] perm = v.split(",");
                     //如果 接口的权限长度 比 用户长
-                    if (c.length > per.getPermissions().size()) {
+                    if (perm.length > per.getPermissions().size()) {
                         throw new LsException("无权操作");
                     }
-                    for (int i = 0; i < c.length; i++) {
+                    for (String strPerm : perm) {
                         boolean isTrue = false;
                         for (String strPer : per.getPermissions()) {
-                            if (strPer.equals(c[i])) {
+                            if (strPer.equals(strPerm)) {
                                 isTrue = true;
                                 break;
                             }
@@ -79,6 +115,7 @@ public class PermissionAspect {
                         return;
                     }
                 }
+                throw new LsException("无权操作");
             }
             throw new LsException("request is Null");
         }
@@ -86,27 +123,22 @@ public class PermissionAspect {
 
     }
 
-    //后置通知(不需要获取返回值)
-    @AfterReturning("doAspect()")
-    public void doAfterReturning(JoinPoint joinPoint) {
+    /**
+     * 获得注解
+     *
+     * @param joinPoint
+     * @return
+     * @throws Exception
+     */
+    private static PermissionCheck giveController(JoinPoint joinPoint) {
+        Signature signature = joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature) signature;
+        Method method = methodSignature.getMethod();
 
-        // System.out.println("AfterReturning......");
-    }
-
-    //例外通知(不需要异常信息)
-    @AfterThrowing("doAspect()")
-    public void doAfterThrowing() {
-
-        // System.out.println("AfterThrowing......");
-    }
-
-    //环绕通知
-    @Around("doAspect()")
-    public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable {
-//        System.out.println("环绕通知进入方法");
-        Object object = pjp.proceed();
-//        System.out.println("环绕通知退出方法");
-        return object;
+        if (method != null) {
+            return method.getAnnotation(PermissionCheck.class);
+        }
+        return null;
     }
 
 }

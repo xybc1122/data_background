@@ -1,7 +1,9 @@
 package com.dt.user.store;
-
-import com.dt.user.config.JsonData;
 import org.springframework.stereotype.Component;
+import com.dt.user.toos.Constants;
+import com.dt.user.utils.CookieUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * local login store
@@ -9,22 +11,15 @@ import org.springframework.stereotype.Component;
  * @author xuxueli 2018-04-02 20:03:11
  */
 @Component
-public class SsoLoginStore extends JsonData {
-
-    private static int redisExpireMinite = 1440;    // 1440 minite, 24 hour
-
+public class SsoLoginStore{
     /**
-     * put
+     * client logout, cookie only
      *
-     * @param storeKey
+     * @param request
+     * @param response
      */
-    public void put(String storeKey, String val) {
-        String redisKey = redisKey(storeKey);
-        redisService.setString(redisKey, val, redisExpireMinite * 60L);  // minite to second
-    }
-
-    private String redisKey(String token) {
-        return "".concat("#").concat(token);
+    public static void removeTokenByCookie(HttpServletRequest request, HttpServletResponse response) {
+        CookieUtil.remove(request, response, Constants.TOKEN);
     }
 
 }

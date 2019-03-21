@@ -26,18 +26,14 @@ public class BasicPublicShopController {
      */
     @PostMapping("/findByListShop")
     public ResponseBase findByListShop(@RequestBody ShopDto shopDto) {
-        if (shopDto.getCurrentPage() != null && shopDto.getPageSize() != null) {
-            PageHelper.startPage(shopDto.getCurrentPage(), shopDto.getPageSize());
-            List<ShopDto> basicPublicShopList = basicPublicShopService.findByListShop();
-            PageInfo<ShopDto> pageInfo = new PageInfo<>(basicPublicShopList);
-            Integer currentPage = shopDto.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(shopDto.getPageSize(), shopDto.getCurrentPage());
+        List<ShopDto> basicPublicShopList = basicPublicShopService.findByListShop();
+        return PageInfoUtils.returnPage(basicPublicShopList, shopDto.getCurrentPage());
     }
 
     /**
      * 获得店铺名字
+     *
      * @return
      */
     @GetMapping("/getListShopName")

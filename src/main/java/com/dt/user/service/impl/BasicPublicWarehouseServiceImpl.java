@@ -49,7 +49,7 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
         // 遍历childList，找出所有的根节点和非根节点
         if (childWarehouseList != null && childWarehouseList.size() > 0) {
             for (BasicPublicWarehouse warehouse : childWarehouseList) {
-                //如果子菜单跟父菜单ID相同 就设置进去
+                //如果子跟父ID相同 就设置进去
                 if (parentWarehouseId.equals(warehouse.getParentWarehouseId())) {
                     childList.add(warehouse);
                 }

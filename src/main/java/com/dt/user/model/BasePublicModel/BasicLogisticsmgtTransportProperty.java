@@ -1,5 +1,4 @@
 package com.dt.user.model.BasePublicModel;
-
 import com.dt.user.model.ParentSysTemLog;
 
 /**
@@ -7,25 +6,24 @@ import com.dt.user.model.ParentSysTemLog;
  */
 public class BasicLogisticsmgtTransportProperty extends ParentSysTemLog {
 
-  private Long transportPropertyId;
-  private Long transportPropertyNumber;
+  private Integer transportPropertyId;
+  private Integer number;
   private String transportPropertyName;
-  private String principal;
 
-  public Long getTransportPropertyId() {
+  public Integer getTransportPropertyId() {
     return transportPropertyId;
   }
 
-  public void setTransportPropertyId(Long transportPropertyId) {
+  public void setTransportPropertyId(Integer transportPropertyId) {
     this.transportPropertyId = transportPropertyId;
   }
 
-  public Long getTransportPropertyNumber() {
-    return transportPropertyNumber;
+  public Integer getNumber() {
+    return number;
   }
 
-  public void setTransportPropertyNumber(Long transportPropertyNumber) {
-    this.transportPropertyNumber = transportPropertyNumber;
+  public void setNumber(Integer number) {
+    this.number = number;
   }
 
   public String getTransportPropertyName() {
@@ -34,14 +32,6 @@ public class BasicLogisticsmgtTransportProperty extends ParentSysTemLog {
 
   public void setTransportPropertyName(String transportPropertyName) {
     this.transportPropertyName = transportPropertyName;
-  }
-
-  public String getPrincipal() {
-    return principal;
-  }
-
-  public void setPrincipal(String principal) {
-    this.principal = principal;
   }
 
 }

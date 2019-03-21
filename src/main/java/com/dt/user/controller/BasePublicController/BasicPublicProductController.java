@@ -1,12 +1,9 @@
 package com.dt.user.controller.BasePublicController;
 
-import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.ProductDto;
 import com.dt.user.service.BasePublicService.BasicPublicProductService;
 import com.dt.user.utils.PageInfoUtils;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,15 +26,8 @@ public class BasicPublicProductController {
      */
     @PostMapping("/findByListProduct")
     public ResponseBase findByListProduct(@RequestBody ProductDto productDto) {
-        if (productDto.getCurrentPage() != null && productDto.getPageSize() != null) {
-            PageHelper.startPage(productDto.getCurrentPage(), productDto.getPageSize());
-            List<ProductDto> basicPublicCurrencies = productService.findProductInfo(productDto);
-            PageInfo<ProductDto> pageInfo = new PageInfo<>(basicPublicCurrencies);
-            Integer currentPage = productDto.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(productDto.getPageSize(), productDto.getCurrentPage());
+        List<ProductDto> basicPublicCurrencies = productService.findProductInfo(productDto);
+        return PageInfoUtils.returnPage(basicPublicCurrencies, productDto.getCurrentPage());
     }
-
-
 }

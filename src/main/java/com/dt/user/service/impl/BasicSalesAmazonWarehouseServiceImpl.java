@@ -6,7 +6,7 @@ import com.dt.user.service.BasePublicService.BasicSalesAmazonWarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-;
+import java.util.List;
 
 @Service
 public class BasicSalesAmazonWarehouseServiceImpl implements BasicSalesAmazonWarehouseService {
@@ -16,5 +16,10 @@ public class BasicSalesAmazonWarehouseServiceImpl implements BasicSalesAmazonWar
     @Override
     public BasicSalesAmazonWarehouse getWarehouse(String fc) {
         return warehouseMapper.getWarehouse(fc);
+    }
+
+    @Override
+    public List<BasicSalesAmazonWarehouse> serviceFindByListAmazonWarehouse(BasicSalesAmazonWarehouse warehouse) {
+        return warehouseMapper.findByListAmazonWarehouse(warehouse);
     }
 }

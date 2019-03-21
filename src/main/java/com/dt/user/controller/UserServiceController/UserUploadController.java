@@ -5,7 +5,7 @@ import com.dt.user.config.ResponseBase;
 import com.dt.user.model.UserInfo;
 import com.dt.user.model.UserUpload;
 import com.dt.user.service.UserUploadService;
-import com.dt.user.utils.GetCookie;
+import com.dt.user.utils.CookieUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +27,7 @@ public class UserUploadController {
      */
     @PostMapping("/getInfo")
     public ResponseBase getInfo(@RequestBody UserUpload requestUp, HttpServletRequest request) {
-        UserInfo user = GetCookie.getUser(request);
+        UserInfo user = CookieUtil.getUser(request);
         if (user == null) {
             return JsonData.setResultError("用户无效~");
         }

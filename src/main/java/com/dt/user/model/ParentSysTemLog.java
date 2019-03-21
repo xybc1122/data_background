@@ -1,5 +1,7 @@
 package com.dt.user.model;
 
+import java.util.List;
+
 public class ParentSysTemLog {
 
     /**
@@ -14,6 +16,7 @@ public class ParentSysTemLog {
 
     //状态对象
     private SystemLogStatus systemLogStatus;
+
     /**
      * 状态ID
      */
@@ -50,4 +53,6 @@ public class ParentSysTemLog {
     public void setStatusId(Long statusId) {
         this.statusId = statusId;
     }
+
+
 }

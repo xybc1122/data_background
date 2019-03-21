@@ -18,7 +18,7 @@ public interface UserMapper {
      * @param uid
      * @return
      */
-    @Select("select account_Status ,del_user  from system_user_info where uid=#{uid}")
+    @Select("select account_Status ,del_user,is_first_login  from system_user_info where uid=#{uid}")
     UserInfo getUserStatus(@Param("uid") Long uid);
 
     /**
@@ -113,7 +113,7 @@ public interface UserMapper {
     @Update("UPDATE `system_user_info`\n" +
             "SET\n" +
             "`pwd` = #{pwd},\n" +
-            "`is_first_login` = TRUE\n" +
+            "`is_first_login` = false\n" +
             "WHERE `uid` = #{uId};")
     int upUserPwd(@Param("uId") Long uId, @Param("pwd") String pwd);
 }

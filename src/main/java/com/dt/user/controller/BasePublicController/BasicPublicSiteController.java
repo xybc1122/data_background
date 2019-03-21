@@ -27,14 +27,9 @@ public class BasicPublicSiteController {
      */
     @PostMapping("/findByListSite")
     public ResponseBase findByListSite(@RequestBody SiteDto siteDto) {
-        if (siteDto.getCurrentPage() != null && siteDto.getPageSize() != null) {
-            PageHelper.startPage(siteDto.getCurrentPage(), siteDto.getPageSize());
-            List<SiteDto> basicPublicSiteList = basicPublicSiteService.findBySiteList(siteDto);
-            PageInfo<SiteDto> pageInfo = new PageInfo<>(basicPublicSiteList);
-            Integer currentPage = siteDto.getCurrentPage();
-            return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-        }
-        return JsonData.setResultError("分页无参数");
+        PageInfoUtils.setPage(siteDto.getPageSize(), siteDto.getCurrentPage());
+        List<SiteDto> basicPublicSiteList = basicPublicSiteService.findBySiteList(siteDto);
+        return PageInfoUtils.returnPage(basicPublicSiteList, siteDto.getCurrentPage());
     }
 
     /**

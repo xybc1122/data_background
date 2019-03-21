@@ -14,8 +14,8 @@ import com.dt.user.model.SalesAmazonAd.*;
 import com.dt.user.model.Timing;
 import com.dt.user.model.UserUpload;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
+import com.dt.user.service.BasePublicService.BasicPublicSkuService;
 import com.dt.user.service.BasePublicService.BasicSalesAmazonCsvTxtXslHeaderService;
-import com.dt.user.service.BasePublicService.BasicSalesAmazonSkuService;
 import com.dt.user.service.BasePublicService.BasicSalesAmazonWarehouseService;
 import com.dt.user.service.ConsumerService;
 import com.dt.user.service.FinancialSalesBalanceService;
@@ -71,7 +71,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     private BasicPublicSiteService siteService;
 
     @Autowired
-    private BasicSalesAmazonSkuService skuService;
+    private BasicPublicSkuService skuService;
 
     @Autowired
     private BasicSalesAmazonCsvTxtXslHeaderService headService;
@@ -284,11 +284,11 @@ public class ConsumerServiceImpl implements ConsumerService {
             index++;
             //计算百分比
             int currentCount = timing.setAttributesTim(index);
-            ws.schedule(intMap, currentCount, timSet, timing, 1L);
+            ws.schedule(intMap, currentCount, timSet, timing, ReqUtils.getUid());
         }
         //插入数据
         timing.setMsg(Constants.IMPORT_SQL);
-        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), 1L);
+        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), ReqUtils.getUid());
         int countTrad = 0;
         if (safTradList != null) {
             if (safTradList.size() > 0) {
@@ -619,7 +619,6 @@ public class ConsumerServiceImpl implements ConsumerService {
             return saveUserUploadInfo(responseBase, recordingId, fileName, null, 1, filePath, uuIdName);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            e.printStackTrace();
             String errorMsg = "数据存入失败====>请查找" + (numberCount.get() + 1) + "行错误信息" + e.getMessage();
             return errorResult(0, errorMsg, recordingId, fileName, timing, "exception", filePath, uuIdName);
         } finally {
@@ -726,12 +725,12 @@ public class ConsumerServiceImpl implements ConsumerService {
             index++;
             //计算百分比
             int currentCount = timing.setAttributesTim(index);
-            ws.schedule(intMap, currentCount, timSet, timing, 1L);
+            ws.schedule(intMap, currentCount, timSet, timing, ReqUtils.getUid());
         }
         int saveCount = 0;
         //插入数据
         timing.setMsg(Constants.IMPORT_SQL);
-        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), 1L);
+        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), ReqUtils.getUid());
         if (cprList != null) {
             if (cprList.size() > 0) {
                 saveCount = cprService.AddSalesAmazonAdCprList(cprList);
@@ -1179,12 +1178,12 @@ public class ConsumerServiceImpl implements ConsumerService {
             index++;
             //计算百分比
             int currentCount = timing.setAttributesTim(index);
-            ws.schedule(intMap, currentCount, timSet, timing, 1L);
+            ws.schedule(intMap, currentCount, timSet, timing, ReqUtils.getUid());
         }
         int number = 0;
         //插入数据
         timing.setMsg(Constants.IMPORT_SQL);
-        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), 1L);
+        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), ReqUtils.getUid());
         //财务
         if (fsbList != null) {
             if (fsbList.size() > 0) {
@@ -1549,7 +1548,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     public ResponseBase printCount(Long begin, Timing timing, Long successNumber, int index) {
         timing.setInfo("success", "数据导入成功..........");
-        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), 1L);
+        ws.sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), ReqUtils.getUid());
         // 结束时间
         Long end = new Date().getTime();
         return JsonData.setResultSuccess("总共" + index + "条数据/ 真实数据" + successNumber + "条数据插入成功/====>失败 " + sumErrorSku.get() + "条/花费时间 : " + (end - begin) / 1000 + " s");

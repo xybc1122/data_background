@@ -3,6 +3,7 @@ package com.dt.user.config;
 import com.alibaba.fastjson.JSON;
 import com.dt.user.model.Timing;
 import com.dt.user.utils.CrrUtils;
+import com.dt.user.utils.ReqUtils;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.OnClose;
@@ -17,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/websocket")
 @Component
 public class WebSocketServer {
-    //接收sid
+    //接收uId
     private Long uId = null;
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
@@ -33,7 +34,7 @@ public class WebSocketServer {
     public void onOpen(Session session) {
         this.session = session;
         webSocketSet.add(this);
-        this.uId = 1L;
+        this.uId = ReqUtils.getUid();
         System.out.println("连接成功");
     }
 
@@ -47,6 +48,7 @@ public class WebSocketServer {
 
     /**
      * 封装处理上传页面的百分比进度
+     *
      * @param intMap
      * @param currentCount
      * @param timSet
@@ -66,7 +68,6 @@ public class WebSocketServer {
 
     public void sendInfo(String message, Long uId) {
         for (WebSocketServer item : webSocketSet) {
-            //这里可以设定只推送给这个sid的，为null则全部推送
             try {
                 //这里可以设定只推送给这个uid的，为null则全部推送
                 if (uId == null) {

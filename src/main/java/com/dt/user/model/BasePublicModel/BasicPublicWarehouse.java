@@ -13,18 +13,17 @@ public class BasicPublicWarehouse extends ParentSysTemLog {
     private Integer number;
     private String warehouseName;
     private String warehouseAddress;
-    private String principal;
-    private Integer isParent;
-    private Integer parentWarehouseId;
+    private Boolean isParent;
+    private Integer parentId;
     // 子目录
-    private List<BasicPublicWarehouse> childWarehouse;
+    private List<BasicPublicWarehouse> childNode;
 
-    public List<BasicPublicWarehouse> getChildWarehouse() {
-        return childWarehouse;
+    public List<BasicPublicWarehouse> getChildNode() {
+        return childNode;
     }
 
-    public void setChildWarehouse(List<BasicPublicWarehouse> childWarehouse) {
-        this.childWarehouse = childWarehouse;
+    public void setChildNode(List<BasicPublicWarehouse> childNode) {
+        this.childNode = childNode;
     }
 
     public Integer getWarehouseId() {
@@ -59,27 +58,20 @@ public class BasicPublicWarehouse extends ParentSysTemLog {
         this.warehouseAddress = warehouseAddress;
     }
 
-    public String getPrincipal() {
-        return principal;
-    }
 
-    public void setPrincipal(String principal) {
-        this.principal = principal;
-    }
-
-    public Integer getIsParent() {
+    public Boolean getParent() {
         return isParent;
     }
 
-    public void setIsParent(Integer isParent) {
-        this.isParent = isParent;
+    public void setParent(Boolean parent) {
+        isParent = parent;
     }
 
-    public Integer getParentWarehouseId() {
-        return parentWarehouseId;
+    public Integer getParentId() {
+        return parentId;
     }
 
-    public void setParentWarehouseId(Integer parentWarehouseId) {
-        this.parentWarehouseId = parentWarehouseId;
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
     }
 }

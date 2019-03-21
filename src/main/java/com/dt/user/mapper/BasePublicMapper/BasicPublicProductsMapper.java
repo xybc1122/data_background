@@ -14,7 +14,7 @@ public interface BasicPublicProductsMapper{
      *
      * @return
      */
-    @Select("SELECT `products_id`,`number`,`products_name`,`parent_products_id`,\n" +
+    @Select("SELECT `products_id`,`number`,`products_name`,`parent_id`,\n" +
             "`products_path`,`is_parent`,status_id \n" +
             "FROM `basic_public_products`")
     @Results({

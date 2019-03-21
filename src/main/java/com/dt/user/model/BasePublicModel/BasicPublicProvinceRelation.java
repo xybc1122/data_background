@@ -1,127 +1,58 @@
 package com.dt.user.model.BasePublicModel;
 
+import com.dt.user.model.ParentSysTemLog;
 
-public class BasicPublicProvinceRelation {
+/**
+ * 省洲关联表
+ */
+public class BasicPublicProvinceRelation extends ParentSysTemLog {
 
-  private long provinceRelationId;
-  private long provinceRelationNumber;
-  private String provinceRelationName;
-  private long provinceId;
-  private String remark;
-  private String status;
-  private long createDate;
-  private long createIdUser;
-  private long modifyDate;
-  private long modifyIdUser;
-  private long auditDate;
-  private long auditIdUser;
+    private Integer provinceRelationId;
+    private Integer number;
+    private String provinceRelationName;
+    private Integer provinceId;
+    /**
+     * 省洲名称
+     */
+    private String provinceName;
 
+    public String getProvinceName() {
+        return provinceName;
+    }
 
-  public long getProvinceRelationId() {
-    return provinceRelationId;
-  }
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
 
-  public void setProvinceRelationId(long provinceRelationId) {
-    this.provinceRelationId = provinceRelationId;
-  }
+    public Integer getProvinceRelationId() {
+        return provinceRelationId;
+    }
 
+    public void setProvinceRelationId(Integer provinceRelationId) {
+        this.provinceRelationId = provinceRelationId;
+    }
 
-  public long getProvinceRelationNumber() {
-    return provinceRelationNumber;
-  }
+    public Integer getNumber() {
+        return number;
+    }
 
-  public void setProvinceRelationNumber(long provinceRelationNumber) {
-    this.provinceRelationNumber = provinceRelationNumber;
-  }
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
+    public String getProvinceRelationName() {
+        return provinceRelationName;
+    }
 
-  public String getProvinceRelationName() {
-    return provinceRelationName;
-  }
+    public void setProvinceRelationName(String provinceRelationName) {
+        this.provinceRelationName = provinceRelationName;
+    }
 
-  public void setProvinceRelationName(String provinceRelationName) {
-    this.provinceRelationName = provinceRelationName;
-  }
+    public Integer getProvinceId() {
+        return provinceId;
+    }
 
-
-  public long getProvinceId() {
-    return provinceId;
-  }
-
-  public void setProvinceId(long provinceId) {
-    this.provinceId = provinceId;
-  }
-
-
-  public String getRemark() {
-    return remark;
-  }
-
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
-
-
-  public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-
-  public long getCreateDate() {
-    return createDate;
-  }
-
-  public void setCreateDate(long createDate) {
-    this.createDate = createDate;
-  }
-
-
-  public long getCreateIdUser() {
-    return createIdUser;
-  }
-
-  public void setCreateIdUser(long createIdUser) {
-    this.createIdUser = createIdUser;
-  }
-
-
-  public long getModifyDate() {
-    return modifyDate;
-  }
-
-  public void setModifyDate(long modifyDate) {
-    this.modifyDate = modifyDate;
-  }
-
-
-  public long getModifyIdUser() {
-    return modifyIdUser;
-  }
-
-  public void setModifyIdUser(long modifyIdUser) {
-    this.modifyIdUser = modifyIdUser;
-  }
-
-
-  public long getAuditDate() {
-    return auditDate;
-  }
-
-  public void setAuditDate(long auditDate) {
-    this.auditDate = auditDate;
-  }
-
-
-  public long getAuditIdUser() {
-    return auditIdUser;
-  }
-
-  public void setAuditIdUser(long auditIdUser) {
-    this.auditIdUser = auditIdUser;
-  }
-
+    public void setProvinceId(Integer provinceId) {
+        this.provinceId = provinceId;
+    }
 }

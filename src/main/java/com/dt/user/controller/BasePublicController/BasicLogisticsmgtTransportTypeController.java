@@ -27,7 +27,7 @@ public class BasicLogisticsmgtTransportTypeController {
 
     @GetMapping("/findByListType")
     public ResponseBase findByListType() {
-        List<BasicLogisticsmgtTransportType> basicPublicSiteList = typeService.findByTypeInfo();
+        List<BasicLogisticsmgtTransportType> basicPublicSiteList = typeService.serviceFindByTypeInfo();
         return JsonData.setResultSuccess(basicPublicSiteList);
     }
 }

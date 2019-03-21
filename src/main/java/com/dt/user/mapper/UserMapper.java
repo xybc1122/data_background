@@ -27,7 +27,7 @@ public interface UserMapper {
      * @param userName
      * @return
      */
-    @Select("select uid, user_name,pwd,status,create_date,create_id_user,up_id_user,up_date,user_expiration_date,pwd_validity_period," +
+    @Select("select uid, user_name,pwd,status,user_expiration_date,pwd_validity_period," +
             "account_Status,name,del_user,is_first_login  from system_user_info where user_name=#{userName}")
     UserInfo findByUser(@Param("userName") String userName);
 
@@ -41,6 +41,14 @@ public interface UserMapper {
      * 查找 账号管理信息
      */
     @SelectProvider(type = UserProvider.class, method = "findUsers")
+    @Results({
+            @Result(column = "status_id", property = "systemLogStatus",
+                    one = @One(
+                            select = "com.dt.user.mapper.SystemLogStatusMapper.findSysStatusInfo",
+                            fetchType = FetchType.EAGER
+                    )
+            )
+    })
     List<UserInfo> findByUsers(UserDto pageDto);
 
     /**
@@ -100,8 +108,8 @@ public interface UserMapper {
     /**
      * 新增一个用户
      */
-    @Insert("insert into system_user_info(user_name,pwd,create_date,create_id_user,user_expiration_date,pwd_validity_period,name,is_first_login) "
-            + "values(#{userName},#{pwd},#{createDate},#{createIdUser},#{userExpirationDate},#{pwdValidityPeriod},#{name},#{isFirstLogin})")
+    @Insert("insert into system_user_info(user_name,pwd,user_expiration_date,pwd_validity_period,name,is_first_login,status_id) "
+            + "values(#{userName},#{pwd},#{userExpirationDate},#{pwdValidityPeriod},#{name},#{isFirstLogin},#{statusId})")
     @Options(useGeneratedKeys = true, keyProperty = "uid", keyColumn = "uid")
     int saveUserInfo(UserInfo userInfo);
 

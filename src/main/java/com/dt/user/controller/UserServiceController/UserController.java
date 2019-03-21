@@ -5,9 +5,11 @@ import com.dt.user.customize.PermissionCheck;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.UserDto;
+import com.dt.user.model.SystemLogStatus;
 import com.dt.user.model.UserInfo;
 import com.dt.user.model.UserRole;
 import com.dt.user.service.HrArchivesEmployeeService;
+import com.dt.user.service.SystemLogStatusService;
 import com.dt.user.service.UserRoleService;
 import com.dt.user.service.UserService;
 import com.dt.user.store.SsoLoginStore;
@@ -41,6 +43,9 @@ public class UserController {
     @Autowired
     private BaseRedisService redisService;
 
+    @Autowired
+    private SystemLogStatusService logStatusService;
+
 
     /**
      * 获取用户管理信息的一些信息
@@ -52,7 +57,6 @@ public class UserController {
     @PostMapping("/show")
     @PermissionCheck("show")
     public ResponseBase showUsers(@RequestBody UserDto pageDto) {
-        System.out.println("controller执行");
         PageInfoUtils.setPage(pageDto.getPageSize(), pageDto.getCurrentPage());
         List<UserInfo> listUser = userService.findByUsers(pageDto);
         return PageInfoUtils.returnPage(listUser, pageDto.getCurrentPage());
@@ -177,18 +181,13 @@ public class UserController {
      * 新增用户
      *
      * @param userMap 前端传的数据
-     * @param request request 对象
      * @return JSON 对象
      */
+    @SuppressWarnings("unchecked")
     @Transactional //事物
     @PostMapping("/saveUserInfo")
-    public ResponseBase saveUserInfo(@RequestBody Map<String, Object> userMap, HttpServletRequest request) {
+    public ResponseBase saveUserInfo(@RequestBody Map<String, Object> userMap) {
         //获得登陆的时候 生成的token
-        //获得用户信息
-        UserInfo user = CookieUtil.getUser(request);
-        if (user == null) {
-            return JsonData.setResultError("用户token失效");
-        }
         String userName = (String) userMap.get("userName");
         String pwd = (String) userMap.get("pwd");
         Boolean checkedUpPwd = (Boolean) userMap.get("pwdAlways");
@@ -209,10 +208,8 @@ public class UserController {
             userInfo.setFirstLogin(false);
         }
         userInfo.setUserName(userName);
-        String md5Pwd = MD5Util.MD5(pwd);
+        String md5Pwd = MD5Util.saltMd5(userName, pwd);
         userInfo.setPwd(md5Pwd);
-        userInfo.setCreateDate(new Date().getTime());
-        userInfo.setCreateIdUser(user.getUid());
         //如果点击了   用户始终有效
         if (checkedUserAlways) {
             userInfo.setUserExpirationDate(0L);
@@ -229,6 +226,12 @@ public class UserController {
             Integer pwdValidityPeriod = (Integer) userMap.get("pwdValidityPeriod");
             userInfo.setPwdValidityPeriod(DateUtils.getRearDate(pwdValidityPeriod));
         }
+        //新增 通用状态
+        SystemLogStatus logStatus = new SystemLogStatus();
+        //设置创建时间
+        logStatus.setCreateDate(new Date().getTime());
+        logStatusService.serviceSaveSysStatusInfo(logStatus);
+        userInfo.setStatusId(logStatus.getStatusId());
         //新增用户
         userService.saveUserInfo(userInfo);
         Long uid = userInfo.getUid();
@@ -252,10 +255,10 @@ public class UserController {
      * @return
      */
     @PostMapping("/upPwd")
-    public ResponseBase upUserPwd(@RequestBody UserInfo uInfo, HttpServletResponse response,HttpServletRequest request) {
+    public ResponseBase upUserPwd(@RequestBody UserInfo uInfo, HttpServletResponse response, HttpServletRequest request) {
         if (StringUtils.isNotBlank(uInfo.getPwd()) && StringUtils.isNotBlank(ReqUtils.getUserName())) {
             //md5盐值密码加密
-            String md5Pwd = MD5Util.MD5(uInfo.getPwd());
+            String md5Pwd = MD5Util.saltMd5(ReqUtils.getUserName(), uInfo.getPwd());
             //更新用户
             int uCount = userService.upUserPwd(ReqUtils.getUid(), md5Pwd);
             if (uCount > 0) {

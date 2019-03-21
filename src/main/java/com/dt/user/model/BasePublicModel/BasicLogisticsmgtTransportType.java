@@ -16,14 +16,14 @@ public class BasicLogisticsmgtTransportType extends ParentSysTemLog {
     private String transportTypePath;
     private Boolean isParent;
     // 子目录
-    private List<BasicLogisticsmgtTransportType> childTransportType;
+    private List<BasicLogisticsmgtTransportType> childNode;
 
-    public List<BasicLogisticsmgtTransportType> getChildTransportType() {
-        return childTransportType;
+    public List<BasicLogisticsmgtTransportType> getChildNode() {
+        return childNode;
     }
 
-    public void setChildTransportType(List<BasicLogisticsmgtTransportType> childTransportType) {
-        this.childTransportType = childTransportType;
+    public void setChildNode(List<BasicLogisticsmgtTransportType> childNode) {
+        this.childNode = childNode;
     }
 
     public Integer getTransportTypeId() {

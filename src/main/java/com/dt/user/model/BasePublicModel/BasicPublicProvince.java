@@ -7,26 +7,26 @@ import com.dt.user.model.ParentSysTemLog;
  */
 public class BasicPublicProvince extends ParentSysTemLog {
 
-  private Long provinceId;
-  private Long provinceNumber;
+  private Integer provinceId;
+  private Integer number;
   private String provinceName;
   private String provinceNameEng;
-  private Long siteId;
+  private String countryName;
 
-  public Long getProvinceId() {
+  public Integer getProvinceId() {
     return provinceId;
   }
 
-  public void setProvinceId(Long provinceId) {
+  public void setProvinceId(Integer provinceId) {
     this.provinceId = provinceId;
   }
 
-  public Long getProvinceNumber() {
-    return provinceNumber;
+  public Integer getNumber() {
+    return number;
   }
 
-  public void setProvinceNumber(Long provinceNumber) {
-    this.provinceNumber = provinceNumber;
+  public void setNumber(Integer number) {
+    this.number = number;
   }
 
   public String getProvinceName() {
@@ -45,12 +45,11 @@ public class BasicPublicProvince extends ParentSysTemLog {
     this.provinceNameEng = provinceNameEng;
   }
 
-  public Long getSiteId() {
-    return siteId;
+  public String getCountryName() {
+    return countryName;
   }
 
-  public void setSiteId(Long siteId) {
-    this.siteId = siteId;
+  public void setCountryName(String countryName) {
+    this.countryName = countryName;
   }
-
 }

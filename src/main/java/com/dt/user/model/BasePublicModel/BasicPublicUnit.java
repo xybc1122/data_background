@@ -2,56 +2,92 @@ package com.dt.user.model.BasePublicModel;
 
 import com.dt.user.model.ParentSysTemLog;
 
+import java.util.List;
+
 /**
  * 计量单位
  */
 public class BasicPublicUnit extends ParentSysTemLog {
 
-  private Long unitId;
-  private Long unitNumber;
-  private String unitName;
-  private String unitEng;
-  private String principal;
+    private Integer unitId;
+    private Integer number;
+    private String unitName;
+    private Integer parentId;
+    private String unitNameEng;
+    private String unitNameEngS;
+    private String unitShortNameEng;
+    private Boolean isParent;
+    private List<BasicPublicUnit> ChildNode;
 
+    public Integer getUnitId() {
+        return unitId;
+    }
 
-  public Long getUnitId() {
-    return unitId;
-  }
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
+    }
 
-  public void setUnitId(Long unitId) {
-    this.unitId = unitId;
-  }
+    public Integer getNumber() {
+        return number;
+    }
 
-  public Long getUnitNumber() {
-    return unitNumber;
-  }
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
-  public void setUnitNumber(Long unitNumber) {
-    this.unitNumber = unitNumber;
-  }
+    public String getUnitName() {
+        return unitName;
+    }
 
-  public String getUnitName() {
-    return unitName;
-  }
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
 
-  public void setUnitName(String unitName) {
-    this.unitName = unitName;
-  }
+    public Integer getParentId() {
+        return parentId;
+    }
 
-  public String getUnitEng() {
-    return unitEng;
-  }
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
 
-  public void setUnitEng(String unitEng) {
-    this.unitEng = unitEng;
-  }
+    public String getUnitNameEng() {
+        return unitNameEng;
+    }
 
-  public String getPrincipal() {
-    return principal;
-  }
+    public void setUnitNameEng(String unitNameEng) {
+        this.unitNameEng = unitNameEng;
+    }
 
-  public void setPrincipal(String principal) {
-    this.principal = principal;
-  }
+    public String getUnitNameEngS() {
+        return unitNameEngS;
+    }
 
+    public void setUnitNameEngS(String unitNameEngS) {
+        this.unitNameEngS = unitNameEngS;
+    }
+
+    public String getUnitShortNameEng() {
+        return unitShortNameEng;
+    }
+
+    public void setUnitShortNameEng(String unitShortNameEng) {
+        this.unitShortNameEng = unitShortNameEng;
+    }
+
+    public Boolean getParent() {
+        return isParent;
+    }
+
+    public void setParent(Boolean parent) {
+        isParent = parent;
+    }
+
+    public List<BasicPublicUnit> getChildNode() {
+        return ChildNode;
+    }
+
+    public void setChildNode(List<BasicPublicUnit> childNode) {
+        ChildNode = childNode;
+    }
 }

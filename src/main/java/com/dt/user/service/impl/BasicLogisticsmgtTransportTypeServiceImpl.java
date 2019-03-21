@@ -15,51 +15,50 @@ public class BasicLogisticsmgtTransportTypeServiceImpl implements BasicLogistics
     private BasicLogisticsmgtTransportTypeMapper typeMapper;
 
     @Override
-    public List<BasicLogisticsmgtTransportType> findByTypeInfo() {
+    public List<BasicLogisticsmgtTransportType> serviceFindByTypeInfo() {
         //一级目录
-        List<BasicLogisticsmgtTransportType> typeList = new ArrayList<>();
+        List<BasicLogisticsmgtTransportType> firstArrList = new ArrayList<>();
         //子目录
-        List<BasicLogisticsmgtTransportType> childList = new ArrayList<>();
+        List<BasicLogisticsmgtTransportType> childArrList = new ArrayList<>();
         //数据库查询出来的数据
-        List<BasicLogisticsmgtTransportType> transportTypes = typeMapper.findByTypeInfo();
-        if (transportTypes != null && transportTypes.size() > 0) {
-            for (BasicLogisticsmgtTransportType transportType : transportTypes) {
-                //如果是父目录
-                if (transportType.getParentId() != null) {
-                    if (transportType.getParent()) {
-                        typeList.add(transportType);
+        List<BasicLogisticsmgtTransportType> result = typeMapper.findByTypeInfo();
+        if (result != null && result.size() > 0) {
+            for (BasicLogisticsmgtTransportType obj : result) {
+                if (obj.getParentId() != null) {
+                    //如果是父目录
+                    if (obj.getParent()) {
+                        firstArrList.add(obj);
                     } else {
-                        childList.add(transportType);
+                        childArrList.add(obj);
                     }
-
                 }
             }
             // 为一级目录设置子目录 getChild是递归调用的
-            if (typeList.size() > 0) {
-                for (BasicLogisticsmgtTransportType type : typeList) {
-                    type.setChildTransportType(getChild(type.getTransportTypeId(), childList));
+            if (firstArrList.size() > 0) {
+                for (BasicLogisticsmgtTransportType firs : firstArrList) {
+                    firs.setChildNode(getChild(firs.getTransportTypeId(), childArrList));
                 }
             }
         }
-        return typeList;
+        return firstArrList;
     }
 
-    private List<BasicLogisticsmgtTransportType> getChild(Integer transportTypeId, List<BasicLogisticsmgtTransportType> childTypeList) {
+    private List<BasicLogisticsmgtTransportType> getChild(Integer id, List<BasicLogisticsmgtTransportType> childNodeList) {
         // 子菜单
         List<BasicLogisticsmgtTransportType> childList = new ArrayList<>();
-        // 遍历childTypeList，找出所有的根节点和非根节点
-        if (childTypeList != null && childTypeList.size() > 0) {
-            for (BasicLogisticsmgtTransportType transportType : childTypeList) {
+        // 遍历childNodeList，找出所有的根节点和非根节点
+        if (childNodeList != null && childNodeList.size() > 0) {
+            for (BasicLogisticsmgtTransportType v : childNodeList) {
                 //如果子跟父ID相同 就设置进去
-                if (transportTypeId.equals(transportType.getParentId())) {
-                    childList.add(transportType);
+                if (id.equals(v.getParentId())) {
+                    childList.add(v);
                 }
             }
         }
         //查询子节点
         if (childList.size() > 0) {
-            for (BasicLogisticsmgtTransportType type : childList) {
-                type.setChildTransportType(getChild(type.getTransportTypeId(), childList));
+            for (BasicLogisticsmgtTransportType childV : childList) {
+                childV.setChildNode(getChild(childV.getTransportTypeId(), childList));
             }
         }
         return childList;

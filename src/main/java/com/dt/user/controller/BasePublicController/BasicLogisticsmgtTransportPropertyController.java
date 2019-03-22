@@ -32,8 +32,7 @@ public class BasicLogisticsmgtTransportPropertyController {
     public ResponseBase findByListProperty(@RequestParam("pageSize") Integer pageSize,
                                            @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicLogisticsmgtTransportProperty> byListProperty = propertyService.findByListProperty();
-        return PageInfoUtils.returnPage(byListProperty, currentPage);
+        return PageInfoUtils.returnPage(propertyService.findByListProperty(), currentPage);
     }
 
 

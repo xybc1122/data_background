@@ -28,31 +28,31 @@ public class BasicLogisticsmgtTransportCompanyProvider {
         }
         //货运公司简称
         if (StringUtils.isNotBlank(company.getTransportCompanyName())) {
-            sql.WHERE(Alias + ".transport_company_name=#{transportCompanyName}");
+            sql.WHERE("POSITION('" + company.getTransportCompanyName() + "' IN tc.`transport_company_name`)");
         }
         //货运公司全称
         if (StringUtils.isNotBlank(company.getTransportCompanyFullName())) {
-            sql.WHERE(Alias + ".transport_company_full_name=#{transportCompanyFullName}");
+            sql.WHERE("POSITION('" + company.getTransportCompanyFullName() + "' IN tc.`transport_company_full_name`)");
         }
         //联系人
         if (StringUtils.isNotBlank(company.getContactPerson())) {
-            sql.WHERE(Alias + ".contact_person=#{contactPerson}");
+            sql.WHERE("POSITION('" + company.getContactPerson() + "' IN tc.`contact_person`)");
         }
         //tel_phone 联系电话
         if (StringUtils.isNotBlank(company.getTelPhone())) {
-            sql.WHERE(Alias + ".tel_phone=#{telPhone}");
+            sql.WHERE("POSITION('" + company.getTelPhone() + "' IN tc.`tel_phone`)");
         }
         //mobile 移动号码
         if (StringUtils.isNotBlank(company.getMobile())) {
-            sql.WHERE(Alias + ".mobile=#{mobile}");
+            sql.WHERE("POSITION('" + company.getMobile() + "' IN tc.`mobile`)");
         }
         //邮箱
         if (StringUtils.isNotBlank(company.geteMail())) {
-            sql.WHERE(Alias + ".e_mail=#{eMail}");
+            sql.WHERE("POSITION('" + company.geteMail() + "' IN tc.`e_mail`)");
         }
         //address 地址
         if (StringUtils.isNotBlank(company.getAddress())) {
-            sql.WHERE(Alias + ".address=#{address}");
+            sql.WHERE("POSITION('" + company.getAddress() + "' IN tc.`address`)");
         }
         return sql.toString();
     }

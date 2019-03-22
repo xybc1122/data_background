@@ -2,7 +2,6 @@ package com.dt.user.controller.BasePublicController;
 
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
-import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportFreightLevel;
 import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportValuationMethod;
 import com.dt.user.service.BasePublicService.BasicLogisticsmgtTransportValuationMethodService;
 import org.springframework.beans.factory.annotation.Autowired;

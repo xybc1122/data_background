@@ -4,6 +4,21 @@ import com.dt.user.model.FinancialSalesBalance;
 import org.apache.commons.lang3.StringUtils;
 
 public class StrUtils {
+
+
+    /**
+     * 转换Integer
+     *
+     * @param v
+     * @return
+     */
+    public static Integer isIntegerNull(String v) {
+        if (StringUtils.isNotBlank(v)) {
+            return Integer.parseInt(v);
+        }
+        return null;
+    }
+
     /**
      * 通用替换字符串转Double
      */

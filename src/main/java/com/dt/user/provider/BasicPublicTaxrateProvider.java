@@ -17,7 +17,7 @@ public class BasicPublicTaxrateProvider {
         SQL sql = new SQL();
         String Alias = "st";
         sql.SELECT("st.`duties_taxrate_id`,st.status_id,st.`tax_rate`," +
-                "st.`effective_date`,c.`country_name`,p.`products_name`\n" +
+                "c.`country_name`,p.`products_name`\n" +
                 "FROM `basic_public_duties_taxrate` AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_country` AS c ON c.`country_id`=st.`country_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_products` AS p ON p.`products_id`=st.`products_id`");
@@ -30,10 +30,6 @@ public class BasicPublicTaxrateProvider {
         //税率
         if (taxrateDto.getTaxRate() != null) {
             sql.WHERE(Alias+".tax_rate=#{taxRate}");
-        }
-        //生效日期
-        if (taxrateDto.getEffectiveDate() != null) {
-            sql.WHERE(Alias+".effective_date=#{effectiveDate}");
         }
         //产品类目
         if (StringUtils.isNotBlank(taxrateDto.getProductsName())) {

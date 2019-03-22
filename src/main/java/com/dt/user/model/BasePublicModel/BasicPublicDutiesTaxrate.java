@@ -11,7 +11,6 @@ public class BasicPublicDutiesTaxrate extends ParentSysTemLog {
   private Integer countryId;
   private Integer productsId;
   private Double taxRate;
-  private Long effectiveDate;
 
   public Integer getDutiesTaxrateId() {
     return dutiesTaxrateId;
@@ -43,13 +42,5 @@ public class BasicPublicDutiesTaxrate extends ParentSysTemLog {
 
   public void setTaxRate(Double taxRate) {
     this.taxRate = taxRate;
-  }
-
-  public Long getEffectiveDate() {
-    return effectiveDate;
-  }
-
-  public void setEffectiveDate(Long effectiveDate) {
-    this.effectiveDate = effectiveDate;
   }
 }

@@ -11,7 +11,6 @@ public class BasicPublicVatSurTaxrate extends ParentSysTemLog {
     private Integer taxrateId;
     private Integer countryId;
     private Double taxRate;
-    private Long effectiveDate;
     private String countryName;
     private Integer taxType;
 
@@ -45,14 +44,6 @@ public class BasicPublicVatSurTaxrate extends ParentSysTemLog {
 
     public void setTaxRate(Double taxRate) {
         this.taxRate = taxRate;
-    }
-
-    public Long getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Long effectiveDate) {
-        this.effectiveDate = effectiveDate;
     }
 
     public String getCountryName() {

@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class XlsUtils {
@@ -12,6 +13,23 @@ public class XlsUtils {
 
     private static final String EXCEL_XLS = "xls";
     private static final String EXCEL_XLSX = "xlsx";
+
+
+    public static List<String> getXlsHead(Sheet sheet, int totalNumber) {
+        Row row;
+        Cell cell;
+        List<String> xlsListHead = new ArrayList<>();
+        for (int i = 0; i < 1; i++) {
+            row = sheet.getRow(i);
+            for (int j = 0; j < totalNumber; j++) {
+                cell = row.getCell(j);
+                //拿到数据表的表头
+                xlsListHead.add(cell.toString().trim());
+                System.out.println(cell.toString().trim());
+            }
+        }
+        return xlsListHead;
+    }
 
     /**
      * 判断文件类型

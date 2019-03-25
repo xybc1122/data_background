@@ -141,15 +141,15 @@ public class ConsumerServiceImpl implements ConsumerService {
         return future;
     }
 
-    private ResponseBase threadTxt(String uuIdName, String saveFilePath, String fileName, Integer shopId, Long uid, Long recordingId, Integer tbId, Integer aId) {
+
+    private ResponseBase threadTxt(String uuIdName, String saveFilePath, String fileName, Integer shopId, Long uid, Long recordingId, Integer menuId, Integer aId) {
         Timing timing = new Timing();
-        ResponseBase responseCsv;
         String filePath = saveFilePath + uuIdName;
         try (InputStreamReader read = FileUtils.streamReader(filePath);
              BufferedReader br = new BufferedReader(read)
         ) {
             //拿到数据库的表头 进行校验
-            List<String> head = getHeadInfo(null, tbId, aId, shopId);
+            List<String> head = getHeadInfo(null, menuId, aId, shopId);
             //对比头部
             String lineHead = br.readLine();
             List<String> txtHead = Arrays.asList(lineHead.split("\t"));
@@ -165,7 +165,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             List<String> txtHeadList = new ArrayList<>();
             txtHeadList.add(lineHead);
             //多线程处理
-            responseCsv = saveTxt(br, shopId, uid, recordingId, txtHeadList, timing, tbId, aId);
+            ResponseBase responseCsv = saveTxt(br, shopId, uid, recordingId, txtHeadList, timing, menuId, aId);
             return saveUserUploadInfo(responseCsv, recordingId, fileName, null, 3, saveFilePath, uuIdName);
         } catch (Exception e) {
             // System.out.println(e.getMessage());
@@ -179,7 +179,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     private ResponseBase saveTxt(BufferedReader br, Integer shopId, Long uid, Long
-            recordingId, List<String> txtHeadList, Timing timing, Integer tbId, Integer aId) throws IOException {
+            recordingId, List<String> txtHeadList, Timing timing, Integer menuId, Integer aId) throws IOException {
         // 开始时间
         Long begin = new Date().getTime();
         List<SalesAmazonFbaReceivestock> sfReceivesList = null;
@@ -193,7 +193,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         String line;
         int index = 0;
         List<?> tList = new ArrayList<>();
-        switch (tbId) {
+        switch (menuId) {
             case 109:
                 safTradList = ArrUtils.listT(tList);
                 break;
@@ -211,7 +211,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         Map<String, Integer> intMap = new HashMap<>();
         timing.setMsg("正在校验数据..........");
         //获得数据库是否存入的信息
-        List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(null, tbId, aId, shopId);
+        List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(null, menuId, aId, shopId);
         while ((line = br.readLine()) != null) {
             //numberCount++
             CrrUtils.inCreateNumberLong(numberCount);
@@ -219,7 +219,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             CrrUtils.inCreateNumberLong(count);
             // 一次读入一行数据
             String[] newLine = line.split("\t", -1);
-            switch (tbId) {
+            switch (menuId) {
                 //订单报告
                 case 109:
                     sftPort = setTraPort(shopId, uid, recordingId);
@@ -578,10 +578,10 @@ public class ConsumerServiceImpl implements ConsumerService {
 
 
     public ResponseBase threadXls(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Long
-            recordingId, Integer tbId) {
+            recordingId, Integer menuId) {
         Timing timing = new Timing();
         String filePath = saveFilePath + uuIdName;
-        ResponseBase responseBase;
+        String errorMsg;
         //判断文件类型 fileType()
         File file = new File(filePath);
         try (FileInputStream in = new FileInputStream(filePath);
@@ -593,19 +593,9 @@ public class ConsumerServiceImpl implements ConsumerService {
             Sheet sheet = wb.getSheetAt(0);
             int totalNumber = sheet.getRow(0).getPhysicalNumberOfCells(); //获取总列数
             //拿到数据库的表头
-            List<String> sqlHead = getHeadInfo(siteId, tbId, null, shopId);
-            Row row;
-            Cell cell;
-            List<String> xlsListHead = new ArrayList<>();
-            for (int i = 0; i < 1; i++) {
-                row = sheet.getRow(i);
-                for (int j = 0; j < totalNumber; j++) {
-                    cell = row.getCell(j);
-                    //拿到数据表的表头
-                    xlsListHead.add(cell.toString().trim());
-                    System.out.println(cell.toString().trim());
-                }
-            }
+            List<String> sqlHead = getHeadInfo(siteId, menuId, null, shopId);
+            //获取xls里第一行表头
+            List<String> xlsListHead = XlsUtils.getXlsHead(sheet, totalNumber);
             //对比表头
             boolean isFlg = compareHeadXls(xlsListHead, sqlHead);
             //必须在 setTiming.add 前设置id
@@ -615,11 +605,10 @@ public class ConsumerServiceImpl implements ConsumerService {
                 //返回错误信息
                 return errorResult(0, "表头信息不一致,请找管理员", recordingId, fileName, timing, "exception", filePath, uuIdName);
             }
-            responseBase = saveXls(shopId, siteId, uid, recordingId, totalNumber, sqlHead, tbId, sheet, timing, xlsListHead);
+            ResponseBase responseBase = saveXls(shopId, siteId, uid, recordingId, totalNumber, sqlHead, menuId, sheet, timing, xlsListHead);
             return saveUserUploadInfo(responseBase, recordingId, fileName, null, 1, filePath, uuIdName);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            String errorMsg = "数据存入失败====>请查找" + (numberCount.get() + 1) + "行错误信息" + e.getMessage();
+            errorMsg = "数据存入失败====>请查找" + (numberCount.get() + 1) + "行错误信息" + e.getMessage();
             return errorResult(0, errorMsg, recordingId, fileName, timing, "exception", filePath, uuIdName);
         } finally {
             CrrUtils.clearListThread(noSkuList);
@@ -640,7 +629,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     public ResponseBase saveXls(Integer shopId, Integer siteId, Long uid, Long
-            recordingId, int totalNumber, List<String> sqlHead, Integer tbId, Sheet sheet, Timing timing, List<String> xlsListHead) {
+            recordingId, int totalNumber, List<String> sqlHead, Integer menuId, Sheet sheet, Timing timing, List<String> xlsListHead) {
         // 开始时间
         Long begin = new Date().getTime();
         Row row;
@@ -654,13 +643,13 @@ public class ConsumerServiceImpl implements ConsumerService {
         SalesAmazonAdCpr saCpr;
         SalesAmazonAdStr adStr;
         List<?> tList = new ArrayList<>();
-        if (tbId == 105) {
+        if (menuId == 105) {
             cprList = ArrUtils.listT(tList);
-        } else if (tbId == 107) {
+        } else if (menuId == 107) {
             strList = ArrUtils.listT(tList);
-        } else if (tbId == 106) {
+        } else if (menuId == 106) {
             oarList = ArrUtils.listT(tList);
-        } else if (tbId == 125) {
+        } else if (menuId == 125) {
             hlList = ArrUtils.listT(tList);
         }
         int index = 0;
@@ -669,7 +658,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         timing.setTotalNumber((double) lastRowNum);
         Map<String, Integer> intMap = new HashMap<>();
         //获得数据库是否存入的信息
-        List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(siteId, tbId, null, shopId);
+        List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(siteId, menuId, null, shopId);
         timing.setMsg("正在校验数据..........");
         for (int i = line; i <= lastRowNum; i++) {
             //numberCount++
@@ -678,7 +667,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             CrrUtils.inCreateNumberLong(count);
             row = sheet.getRow(i);
             // 105 cpr
-            if (tbId == 105) {
+            if (menuId == 105) {
                 saCpr = setCpr(shopId, siteId, uid, recordingId);
                 for (int j = 0; j < totalNumber; j++) {
                     cell = row.getCell(j);
@@ -693,7 +682,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     cprList.add(saCpr);
                 }
                 //107 str
-            } else if (tbId == 107) {
+            } else if (menuId == 107) {
                 adStr = setStr(shopId, siteId, uid, recordingId);
                 for (int j = 0; j < totalNumber; j++) {
                     cell = row.getCell(j);
@@ -701,7 +690,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 }
                 strList.add(adStr);
                 //106 oar
-            } else if (tbId == 106) {
+            } else if (menuId == 106) {
                 adOar = setOar(shopId, siteId, uid, recordingId);
                 for (int j = 0; j < totalNumber; j++) {
                     cell = row.getCell(j);
@@ -714,7 +703,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 if (adOar != null) {
                     oarList.add(adOar);
                 }
-            } else if (tbId == 125) {
+            } else if (menuId == 125) {
                 adHl = setHl(shopId, siteId, uid, recordingId);
                 for (int j = 0; j < totalNumber; j++) {
                     cell = row.getCell(j);
@@ -1124,7 +1113,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     public ResponseBase saveCsv(CsvReader csvReader, int row, Integer sId, Integer seId, Long uid, Integer pId, Long
-            recordingId, Integer tbId, String businessTime, Timing timing, List<String> csvHeadList) throws IOException {
+            recordingId, Integer menuId, String businessTime, Timing timing, List<String> csvHeadList) throws IOException {
         List<FinancialSalesBalance> fsbList = null;
         List<SalesAmazonFbaBusinessreport> sfbList = null;
         // 开始时间
@@ -1133,15 +1122,15 @@ public class ConsumerServiceImpl implements ConsumerService {
         FinancialSalesBalance fb;
         SalesAmazonFbaBusinessreport sfb;
         List<?> tList = new ArrayList<>();
-        if (tbId == Constants.FINANCE_ID || tbId == Constants.FINANCE_ID_YY) {
+        if (menuId == Constants.FINANCE_ID || menuId == Constants.FINANCE_ID_YY) {
             fsbList = ArrUtils.listT(tList);
-        } else if (tbId == Constants.BUSINESS_ID) {
+        } else if (menuId == Constants.BUSINESS_ID) {
             sfbList = ArrUtils.listT(tList);
         }
         Map<String, Integer> intMap = new HashMap<>();
         timing.setMsg("正在校验数据..........");
         //获得数据库是否存入的信息
-        List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(seId, tbId, null, sId);
+        List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(seId, menuId, null, sId);
         while (csvReader.readRecord()) {
             if (index >= row) {
                 //numberCount++
@@ -1149,7 +1138,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 //count ++ 成功数量
                 CrrUtils.inCreateNumberLong(count);
                 //85 == 财务上传ID | 104 运营上传
-                if (tbId == Constants.FINANCE_ID || tbId == Constants.FINANCE_ID_YY) {
+                if (menuId == Constants.FINANCE_ID || menuId == Constants.FINANCE_ID_YY) {
                     fb = setFsb(sId, seId, uid, pId.longValue(), recordingId);
                     for (int j = 0; j < csvReader.getColumnCount(); j++) {
                         fb = saveFinance(fb, csvReader, sId, seId, csvHeadList, isImportHead, j);
@@ -1162,7 +1151,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                 }
                 //108 == 业务上传ID
-                else if (tbId == Constants.BUSINESS_ID) {
+                else if (menuId == Constants.BUSINESS_ID) {
                     sfb = setBusPort(sId, seId, uid, recordingId);
                     for (int j = 0; j < csvReader.getColumnCount(); j++) {
                         sfb = saveBusiness(sfb, csvReader, sId, seId, Long.parseLong(businessTime), csvHeadList, isImportHead, j);
@@ -1188,7 +1177,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         if (fsbList != null) {
             if (fsbList.size() > 0) {
                 //插入数据
-                number = fsbService.addInfo(fsbList, tbId);
+                number = fsbService.addInfo(fsbList, menuId);
             }
         }
         //业务
@@ -1210,8 +1199,8 @@ public class ConsumerServiceImpl implements ConsumerService {
     public SalesAmazonFbaBusinessreport saveBusiness(SalesAmazonFbaBusinessreport sfb, CsvReader csvReader, Integer
             sId, Integer seId, Long businessTime, List<String> csvHeadList, List<BasicSalesAmazonCsvTxtXslHeader> importHead, int j) throws IOException {
         sfb.setDate(businessTime);
-        if (seId.intValue() == 1 || seId.intValue() == 4 || seId.intValue() == 5 || seId.intValue() == 6
-                || seId.intValue() == 7 || seId.intValue() == 8 || seId.intValue() == 9) {
+        if (seId == 1 || seId == 4 || seId == 5 || seId == 6
+                || seId == 7 || seId == 8 || seId == 9) {
             if (csvHeadList.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose())
                 sfb.setfAsin(StrUtils.repString(csvReader.get(j)));
             else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {

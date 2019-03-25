@@ -1,23 +1,18 @@
-package com.dt.user.model;
+package com.dt.user.model.HrArchives;
+
+import com.dt.user.model.ParentSysTemLog;
 
 import java.io.Serializable;
 
 /**
  * 员工表
  */
-public class HrArchivesEmployee implements Serializable {
+public class HrArchivesEmployee extends ParentSysTemLog implements Serializable {
+
     /**
      * 员工ID
      */
-    private Long sId;
-    /**
-     * 用户ID
-     */
-    private Long uId;
-    /**
-     * 职位ID
-     */
-    private Long ptId;
+    private Integer sId;
     /**
      * 员工编号
      */
@@ -45,40 +40,20 @@ public class HrArchivesEmployee implements Serializable {
     /**
      * 员工手机
      */
-    private long mobilePhone;
-    /**
-     * 民族ID
-     */
-    private long nationId;
+    private Long mobilePhone;
     /**
      * 员工状态(1在职；0离职)
      */
-    private Integer status;
+    private Boolean isInService;
 
-    public Long getsId() {
+
+    public Integer getsId() {
         return sId;
     }
 
-    public void setsId(Long sId) {
+    public void setsId(Integer sId) {
         this.sId = sId;
     }
-
-    public Long getuId() {
-        return uId;
-    }
-
-    public void setuId(Long uId) {
-        this.uId = uId;
-    }
-
-    public Long getPtId() {
-        return ptId;
-    }
-
-    public void setPtId(Long ptId) {
-        this.ptId = ptId;
-    }
-
 
     public String getNumber() {
         return number;
@@ -128,27 +103,19 @@ public class HrArchivesEmployee implements Serializable {
         this.idCard = idCard;
     }
 
-    public long getMobilePhone() {
+    public Long getMobilePhone() {
         return mobilePhone;
     }
 
-    public void setMobilePhone(long mobilePhone) {
+    public void setMobilePhone(Long mobilePhone) {
         this.mobilePhone = mobilePhone;
     }
 
-    public long getNationId() {
-        return nationId;
+    public Boolean getInService() {
+        return isInService;
     }
 
-    public void setNationId(long nationId) {
-        this.nationId = nationId;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setInService(Boolean inService) {
+        isInService = inService;
     }
 }

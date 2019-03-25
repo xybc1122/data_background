@@ -25,8 +25,6 @@ public class FileUtils {
             out = new BufferedOutputStream(new FileOutputStream(filePath + fileName));
             out.write(file);
             out.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
         } finally {
             if (out != null) {
                 out.close();

@@ -1,57 +1,49 @@
 package com.dt.user.model.BasePublicModel;
 
+import com.dt.user.model.ParentSysTemLog;
 
-public class BasicLogisticsmgtTransportValuationRange {
+/**
+ * 计价范围
+ */
+public class BasicLogisticsmgtTransportValuationRange extends ParentSysTemLog {
 
-  private long transportValuationRangeId;
-  private long number;
-  private String transportValuationRangeName;
-  private long transportValuationMethodId;
-  private long statusId;
+    private Integer transportValuationRangeId;
+    private Integer number;
+    private String transportValuationRangeName;
+    /**
+     * 计价方式名
+     */
+    private String transportValuationEethodName;
 
+    public String getTransportValuationEethodName() {
+        return transportValuationEethodName;
+    }
 
-  public long getTransportValuationRangeId() {
-    return transportValuationRangeId;
-  }
+    public void setTransportValuationEethodName(String transportValuationEethodName) {
+        this.transportValuationEethodName = transportValuationEethodName;
+    }
 
-  public void setTransportValuationRangeId(long transportValuationRangeId) {
-    this.transportValuationRangeId = transportValuationRangeId;
-  }
+    public Integer getTransportValuationRangeId() {
+        return transportValuationRangeId;
+    }
 
+    public void setTransportValuationRangeId(Integer transportValuationRangeId) {
+        this.transportValuationRangeId = transportValuationRangeId;
+    }
 
-  public long getNumber() {
-    return number;
-  }
+    public Integer getNumber() {
+        return number;
+    }
 
-  public void setNumber(long number) {
-    this.number = number;
-  }
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
 
+    public String getTransportValuationRangeName() {
+        return transportValuationRangeName;
+    }
 
-  public String getTransportValuationRangeName() {
-    return transportValuationRangeName;
-  }
-
-  public void setTransportValuationRangeName(String transportValuationRangeName) {
-    this.transportValuationRangeName = transportValuationRangeName;
-  }
-
-
-  public long getTransportValuationMethodId() {
-    return transportValuationMethodId;
-  }
-
-  public void setTransportValuationMethodId(long transportValuationMethodId) {
-    this.transportValuationMethodId = transportValuationMethodId;
-  }
-
-
-  public long getStatusId() {
-    return statusId;
-  }
-
-  public void setStatusId(long statusId) {
-    this.statusId = statusId;
-  }
-
+    public void setTransportValuationRangeName(String transportValuationRangeName) {
+        this.transportValuationRangeName = transportValuationRangeName;
+    }
 }

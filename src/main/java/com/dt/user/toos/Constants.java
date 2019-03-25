@@ -12,7 +12,7 @@ public interface Constants {
 //    /**
 //     * Linux文件上传存放地址
 //     */
-//    String SAVE_FILE_PATH = "/usr/local/file/filePath/";
+//    String SAVE_FILE_PATH = "/usr/local/filter/filePath/";
     /**
      * 文件写入存放地址
      */
@@ -20,7 +20,7 @@ public interface Constants {
 //    /**
 //     * Linux文件写入存放地址
 //     */
-//    String WRITE_SAVE_FILE_PATH = "/usr/local/file/filePathSkuNo/";
+//    String WRITE_SAVE_FILE_PATH = "/usr/local/filter/filePathSkuNo/";
     /**
      * 响应请求成功
      */

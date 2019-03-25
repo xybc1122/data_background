@@ -5,7 +5,6 @@ import com.dt.user.model.Timing;
 import com.dt.user.utils.CrrUtils;
 import com.dt.user.utils.ReqUtils;
 import org.springframework.stereotype.Component;
-
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -15,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@ServerEndpoint("/websocket")
+@ServerEndpoint("/socket")
 @Component
 public class WebSocketServer {
     //接收uId

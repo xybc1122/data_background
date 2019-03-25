@@ -3,15 +3,13 @@ package com.dt.user.controller.UserServiceController;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.BasePublicModel.*;
-import com.dt.user.model.HrArchivesEmployee;
+import com.dt.user.model.HrArchives.HrArchivesEmployee;
 import com.dt.user.service.BasePublicService.BasicHrEducationService;
 import com.dt.user.service.BasePublicService.BasicHrEmployeeTypeService;
 import com.dt.user.service.BasePublicService.BasicHrEmploymentTypeService;
 import com.dt.user.service.BasePublicService.BasicHrLeaveTypeService;
 import com.dt.user.service.HrArchivesEmployeeService;
 import com.dt.user.utils.PageInfoUtils;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,7 +41,7 @@ public class HrArchivesController {
      */
     @GetMapping("/getStaff")
     public ResponseBase getStaff() {
-        List<HrArchivesEmployee> staffList = hrService.getHrList();
+        List<HrArchivesEmployee> staffList = hrService.serviceGetHrEmployeeList();
         return JsonData.setResultSuccess(staffList);
     }
 

@@ -61,21 +61,15 @@ public class UploadController {
      */
     @PostMapping("/file")
     @PermissionCheck("upload")
-    public ResponseBase saveFileInfo(HttpServletRequest request, @RequestParam("sId") String sId,
-                                     @RequestParam("seId") String seId, @RequestParam("payId") String payId,
-                                     @RequestParam("menuId") String menuId,
-                                     @RequestParam("areaId") String areaId, @RequestParam("businessTime") String businessTime) {
-        //获得用户信息
-        UserInfo user = CookieUtil.getUser(request);
-        if (user == null) {
-            return JsonData.setResultError("用户无效~");
-        }
+    public ResponseBase uploadFile(HttpServletRequest request, @RequestParam("sId") String sId,
+                                   @RequestParam("seId") String seId, @RequestParam("payId") String payId,
+                                   @RequestParam("menuId") String menuId,
+                                   @RequestParam("areaId") String areaId, @RequestParam("businessTime") String businessTime) {
         MultipartFile file;
         List<MultipartFile> files = ((MultipartHttpServletRequest) request)
                 .getFiles("files");
         //记录用户上传信息~
         boolean isUpload = true;
-        UserUpload upload;
         int fileCount = 0;
         String msg;
         List<UserUpload> uploadList = new ArrayList<>();
@@ -83,11 +77,11 @@ public class UploadController {
         try {
             for (int i = 0; i < files.size(); i++) {
                 file = files.get(i);
-                // String contentType = file.getContentType();//图片||文件类型
+                // String contentType = filter.getContentType();//图片||文件类型
                 String fileName = file.getOriginalFilename();//图片||文件名字
                 String uuId = UuIDUtils.fileUuId(fileName);
                 try {
-                    FileUtils.uploadFile(file.getBytes(),  Constants.SAVE_FILE_PATH, uuId);
+                    FileUtils.uploadFile(file.getBytes(), Constants.SAVE_FILE_PATH, uuId);
                     msg = "上传成功~";
                 } catch (Exception e) {
                     isUpload = false;
@@ -96,33 +90,18 @@ public class UploadController {
                     sb.append(fileName);
                 }
                 //店铺ID
-                Integer shopId = null;
-                if (StringUtils.isNotBlank(sId)) {
-                    shopId = Integer.parseInt(sId);
-                }
+                Integer shopId = StrUtils.isIntegerNull(sId);
                 //站点ID
-                Integer siteId = null;
-                if (StringUtils.isNotBlank(seId)) {
-                    siteId = Integer.parseInt(seId);
-                }
+                Integer siteId = StrUtils.isIntegerNull(seId);
                 //菜单ID
-                Integer tbId = null;
-                if (StringUtils.isNotBlank(menuId)) {
-                    tbId = Integer.parseInt(menuId);
-                }
+                Integer tbId = StrUtils.isIntegerNull(menuId);
                 // 付款类型选择ID
-                Integer pId = null;
-                if (StringUtils.isNotBlank(payId)) {
-                    pId = Integer.parseInt(payId);
-                }
+                Integer pId = StrUtils.isIntegerNull(payId);
                 // 洲ID
-                Integer aId = null;
-                if (StringUtils.isNotBlank(areaId)) {
-                    aId = Integer.parseInt(areaId);
-                }
+                Integer aId = StrUtils.isIntegerNull(areaId);
                 int status = isUpload ? 0 : 4;
                 //记录用户上传信息~
-                upload = uploadOperating(new UserUpload(), siteId, shopId, fileName, Constants.SAVE_FILE_PATH, user, pId, status, msg, tbId, aId, businessTime, uuId);
+                UserUpload upload = uploadOperating(siteId, shopId, fileName, Constants.SAVE_FILE_PATH, ReqUtils.getUid(), pId, status, msg, tbId, aId, businessTime, uuId);
                 if (isUpload) {
                     uploadList.add(upload);
                 }
@@ -179,13 +158,14 @@ public class UploadController {
      * @param shopId
      * @param fileName
      * @param saveFilePath
-     * @param user
+     * @param uId
      * @return
      */
-    public UserUpload uploadOperating(UserUpload upload, Integer siteId, Integer shopId,
+    public UserUpload uploadOperating(Integer siteId, Integer shopId,
                                       String fileName, String saveFilePath,
-                                      UserInfo user, Integer pId, Integer status,
+                                      Long uId, Integer pId, Integer status,
                                       String msg, Integer tbId, Integer aId, String businessTime, String uuId) {
+        UserUpload upload = new UserUpload();
         //存入打碎后的文件名称
         upload.setUuidName(uuId);
         //存入真实文件名字
@@ -193,7 +173,7 @@ public class UploadController {
         //存入上传时间
         upload.setCreateDate(new Date().getTime());
         //用户ID
-        upload.setUid(user.getUid());
+        upload.setUid(uId);
         //上传服务器路径
         upload.setFilePath(saveFilePath);
         //站点ID

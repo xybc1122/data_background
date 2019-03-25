@@ -1,7 +1,7 @@
 package com.dt.user.service.impl;
 
 import com.dt.user.mapper.HrArchivesEmployeeMapper;
-import com.dt.user.model.HrArchivesEmployee;
+import com.dt.user.model.HrArchives.HrArchivesEmployee;
 import com.dt.user.service.HrArchivesEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ public class HrArchivesEmployeeImpl implements HrArchivesEmployeeService {
     private HrArchivesEmployeeMapper hrMapper;
 
     @Override
-    public List<HrArchivesEmployee> getHrList() {
-        return hrMapper.getHrList();
+    public List<HrArchivesEmployee> serviceGetHrEmployeeList() {
+        return hrMapper.getHrEmployeeList();
     }
 
     @Override

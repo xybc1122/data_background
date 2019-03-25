@@ -7,64 +7,54 @@ import com.dt.user.model.ParentSysTemLog;
  */
 public class BasicPublicExchangeRate extends ParentSysTemLog {
 
-  private Long exchangeRateId;
-  private Integer currencyId;
-  private Double toRmb;
-  private Double toUsd;
-  private Long effectiveDate;
+    private Long exchangeRateId;
+    private Integer currencyId;
+    private Double toRmb;
+    private Double toUsd;
 
 
-  //汇率名称
-  private String currencyName;
+    //汇率名称
+    private String currencyName;
 
-  public String getCurrencyName() {
-    return currencyName;
-  }
+    public String getCurrencyName() {
+        return currencyName;
+    }
 
-  public void setCurrencyName(String currencyName) {
-    this.currencyName = currencyName;
-  }
+    public void setCurrencyName(String currencyName) {
+        this.currencyName = currencyName;
+    }
 
-  public Long getExchangeRateId() {
-    return exchangeRateId;
-  }
+    public Long getExchangeRateId() {
+        return exchangeRateId;
+    }
 
-  public void setExchangeRateId(Long exchangeRateId) {
-    this.exchangeRateId = exchangeRateId;
-  }
+    public void setExchangeRateId(Long exchangeRateId) {
+        this.exchangeRateId = exchangeRateId;
+    }
 
 
-  public Integer getCurrencyId() {
-    return currencyId;
-  }
+    public Integer getCurrencyId() {
+        return currencyId;
+    }
 
-  public void setCurrencyId(Integer currencyId) {
-    this.currencyId = currencyId;
-  }
+    public void setCurrencyId(Integer currencyId) {
+        this.currencyId = currencyId;
+    }
 
-  public Double getToRmb() {
-    return toRmb;
-  }
+    public Double getToRmb() {
+        return toRmb;
+    }
 
-  public void setToRmb(Double toRmb) {
-    this.toRmb = toRmb;
-  }
+    public void setToRmb(Double toRmb) {
+        this.toRmb = toRmb;
+    }
 
-  public Double getToUsd() {
-    return toUsd;
-  }
+    public Double getToUsd() {
+        return toUsd;
+    }
 
-  public void setToUsd(Double toUsd) {
-    this.toUsd = toUsd;
-  }
-
-  public Long getEffectiveDate() {
-    return effectiveDate;
-  }
-
-  public void setEffectiveDate(Long effectiveDate) {
-    this.effectiveDate = effectiveDate;
-  }
-
+    public void setToUsd(Double toUsd) {
+        this.toUsd = toUsd;
+    }
 
 }

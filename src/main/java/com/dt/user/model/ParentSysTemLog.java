@@ -1,7 +1,4 @@
 package com.dt.user.model;
-
-import java.util.List;
-
 public class ParentSysTemLog {
 
     /**

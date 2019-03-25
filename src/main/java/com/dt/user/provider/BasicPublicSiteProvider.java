@@ -15,7 +15,7 @@ public class BasicPublicSiteProvider {
                 "GROUP_CONCAT(e.employee_name) as employee_name FROM `basic_public_site` AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_country` AS c ON c.`country_id`=s.`country_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_area` AS a ON a.`area_id`=s.`area_id`");
-        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS e ON e.`pt_id`=s.`principal`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS e ON e.`dept_id`=s.`principal`");
         sql.LEFT_OUTER_JOIN("`basic_public_currency` AS cu ON cu.`currency_id`=s.country_id");
         //状态数据查询
         ProviderSqlStore.saveStatus(siteDto.getSystemLogStatus(), Alias, sql);

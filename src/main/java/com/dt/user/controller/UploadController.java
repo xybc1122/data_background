@@ -77,7 +77,7 @@ public class UploadController {
         try {
             for (int i = 0; i < files.size(); i++) {
                 file = files.get(i);
-                // String contentType = file.getContentType();//图片||文件类型
+                // String contentType = filter.getContentType();//图片||文件类型
                 String fileName = file.getOriginalFilename();//图片||文件名字
                 String uuId = UuIDUtils.fileUuId(fileName);
                 try {

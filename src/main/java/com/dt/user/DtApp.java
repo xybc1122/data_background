@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAsync
 @EnableScheduling
 @EnableFeignClients
-@ServletComponentScan
 public class DtApp {
 
     public static void main(String[] args) {

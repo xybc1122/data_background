@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class LsExceptionHandler {
 
     /**
-     * 没有权限抛出异常
-     *
+     * 自定义异常拦截
+     * @param e
      * @return
      */
     @ExceptionHandler(value = Exception.class)

@@ -1,6 +1,6 @@
 package com.dt.user.service;
 
-import com.dt.user.model.HrArchivesEmployee;
+import com.dt.user.model.HrArchives.HrArchivesEmployee;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ public interface HrArchivesEmployeeService {
     /**
      * 获得员工信息 没有关联用户的
      */
-    List<HrArchivesEmployee> getHrList();
+    List<HrArchivesEmployee> serviceGetHrEmployeeList();
 
     /**
      * 绑定用户id跟员工id信息

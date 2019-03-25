@@ -43,13 +43,13 @@ public class EncodingDetect {
         return fileCode;
     }
 //
-//	public static void readFile(String file, String code) {
+//	public static void readFile(String filter, String code) {
 //
 //		BufferedReader fr;
 //		try {
 //			String myCode = code!=null&&!"".equals(code) ? code : "UTF8";
 //			InputStreamReader read = new InputStreamReader(new FileInputStream(
-//					file), myCode);
+//					filter), myCode);
 //
 //			fr = new BufferedReader(read);
 //			String line = null;
@@ -161,7 +161,7 @@ class BytesEncodingDetect extends Encoding {
 
     /**
      * Function : detectEncoding Aruguments: File Returns : One of the encodings from the Encoding enumeration (GB2312, HZ, BIG5,
-     * EUC_TW, ASCII, or OTHER) Description: This function looks at the file and assigns it a probability score for each encoding
+     * EUC_TW, ASCII, or OTHER) Description: This function looks at the filter and assigns it a probability score for each encoding
      * type. The encoding type with the highest probability is returned.
      */
     public int detectEncoding(File testfile) {
@@ -738,7 +738,7 @@ class BytesEncodingDetect extends Encoding {
          * goodbytes += 2; i++; } } else if ((rawtext[i] & (byte)0xEF) == rawtext[i]) { // Three bytes if (i+2 < rawtextlen &&
          * (rawtext[i+1] & (byte)0xBF) == rawtext[i+1] && (rawtext[i+2] & (byte)0xBF) == rawtext[i+2]) { goodbytes += 3; i+=2; } } }
          *
-         * score = (int)(100 * ((float)goodbytes/(float)rawtext.length)); // An all ASCII file is also a good UTF8 file, but I'd
+         * score = (int)(100 * ((float)goodbytes/(float)rawtext.length)); // An all ASCII filter is also a good UTF8 filter, but I'd
          * rather it // get identified as ASCII. Can delete following 3 lines otherwise if (goodbytes == asciibytes) { score = 0; } //
          * If not above 90, reduce to zero to prevent coincidental matches if (score > 90) { return score; } else { return 0; }
          */

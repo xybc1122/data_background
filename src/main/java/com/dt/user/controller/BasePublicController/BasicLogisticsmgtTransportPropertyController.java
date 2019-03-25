@@ -1,20 +1,13 @@
 package com.dt.user.controller.BasePublicController;
 
-import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
-import com.dt.user.dto.TaxrateDto;
-import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportProperty;
 import com.dt.user.service.BasePublicService.BasicLogisticsmgtTransportPropertyService;
 import com.dt.user.utils.PageInfoUtils;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @ClassName BasicLogisticsmgtTransportPropertyController

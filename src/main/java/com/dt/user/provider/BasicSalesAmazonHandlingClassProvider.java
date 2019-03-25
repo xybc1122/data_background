@@ -1,6 +1,5 @@
 package com.dt.user.provider;
 
-import com.dt.user.model.BasePublicModel.BasicSalesAmazonDescription;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonHandlingClass;
 import com.dt.user.store.ProviderSqlStore;
 import org.apache.commons.lang3.StringUtils;

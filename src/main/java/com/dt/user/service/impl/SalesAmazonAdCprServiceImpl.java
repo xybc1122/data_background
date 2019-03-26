@@ -17,4 +17,9 @@ public class SalesAmazonAdCprServiceImpl implements SalesAmazonAdCprService {
     public int AddSalesAmazonAdCprList(List<SalesAmazonAdCpr> cprList) {
         return salesAmazonAdCprMapper.AddSalesAmazonAdCprList(cprList);
     }
+
+    @Override
+    public List<SalesAmazonAdCpr> serviceFindByListCpr(SalesAmazonAdCpr cpr) {
+        return salesAmazonAdCprMapper.findByListCpr(cpr);
+    }
 }

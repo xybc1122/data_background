@@ -1,6 +1,6 @@
 package com.dt.user.service.BasePublicService;
 
-import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportValuationMethod;
+import com.dt.user.model.ParentTree;
 
 import java.util.List;
 
@@ -15,5 +15,5 @@ public interface BasicLogisticsmgtTransportValuationMethodService {
     /**
      * 查询计价类型
      */
-    List<BasicLogisticsmgtTransportValuationMethod> serviceFindByValuationMethodInfo();
+    List<ParentTree> serviceFindByValuationMethodInfo();
 }

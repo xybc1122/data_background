@@ -4,6 +4,7 @@ import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportFreightLevel;
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
+import com.dt.user.model.ParentTree;
 import com.dt.user.service.BasePublicService.BasicLogisticsmgtTransportFreightLevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +27,7 @@ public class BasicLogisticsmgtTransportFreightLevelController {
 
     @GetMapping("/findByListLevel")
     public ResponseBase findByListLevel() {
-        List<BasicLogisticsmgtTransportFreightLevel> freightLevels = levelService.serviceFindByFreightLevelInfo();
+        List<ParentTree> freightLevels = levelService.serviceFindByFreightLevelInfo();
         return JsonData.setResultSuccess(freightLevels);
     }
 

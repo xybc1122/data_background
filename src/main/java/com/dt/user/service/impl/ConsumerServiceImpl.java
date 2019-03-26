@@ -668,7 +668,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             row = sheet.getRow(i);
             // 105 cpr
             if (menuId == 105) {
-                saCpr = setCpr(shopId, siteId, uid, recordingId);
+                saCpr = setCpr(shopId, siteId, ReqUtils.getUserName(), recordingId);
                 for (int j = 0; j < totalNumber; j++) {
                     cell = row.getCell(j);
                     saCpr = setCprPojo(j, saCpr, cell, isImportHead, xlsListHead, totalNumber);
@@ -1667,8 +1667,8 @@ public class ConsumerServiceImpl implements ConsumerService {
     /**
      * Cpr设置通用对象
      */
-    public SalesAmazonAdCpr setCpr(Integer sId, Integer seId, Long uid, Long recordingId) {
-        return new SalesAmazonAdCpr(sId, seId, new Date().getTime(), uid, recordingId);
+    public SalesAmazonAdCpr setCpr(Integer sId, Integer seId, String userName, Long recordingId) {
+        return new SalesAmazonAdCpr(sId, seId, new Date().getTime(), userName, recordingId);
     }
 
     /**

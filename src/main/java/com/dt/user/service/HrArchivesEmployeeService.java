@@ -1,5 +1,6 @@
 package com.dt.user.service;
 
+import com.dt.user.dto.HrEmployeeDto;
 import com.dt.user.model.HrArchives.HrArchivesEmployee;
 
 import java.util.List;
@@ -7,7 +8,10 @@ import java.util.Map;
 
 public interface HrArchivesEmployeeService {
 
-
+    /**
+     * 获取动态查询员工表信息
+     */
+    List<HrArchivesEmployee> serviceGetEmployeeList(HrEmployeeDto employeeDto);
     /**
      * 获得员工信息 没有关联用户的
      */

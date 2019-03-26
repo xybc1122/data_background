@@ -1,4 +1,4 @@
-package com.dt.user.service.Logistics.model;
+package com.dt.user.Logistics.model;
 
 public class LogisticsPage {
 

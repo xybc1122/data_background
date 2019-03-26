@@ -16,7 +16,7 @@ public class HrArchivesEmployee extends ParentSysTemLog implements Serializable 
     /**
      * 员工编号
      */
-    private String number;
+    private Integer number;
     /**
      * 员工姓名
      */
@@ -55,11 +55,11 @@ public class HrArchivesEmployee extends ParentSysTemLog implements Serializable 
         this.sId = sId;
     }
 
-    public String getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

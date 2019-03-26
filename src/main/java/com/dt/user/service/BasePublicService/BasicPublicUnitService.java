@@ -1,6 +1,7 @@
 package com.dt.user.service.BasePublicService;
 
 import com.dt.user.model.BasePublicModel.BasicPublicUnit;
+import com.dt.user.model.ParentTree;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public interface BasicPublicUnitService {
      *
      * @return
      */
-    List<BasicPublicUnit> serviceFindByListUnit();
+    List<ParentTree> serviceFindByListUnit();
 }

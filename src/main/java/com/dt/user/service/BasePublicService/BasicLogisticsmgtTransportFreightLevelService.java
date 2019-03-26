@@ -1,6 +1,7 @@
 package com.dt.user.service.BasePublicService;
 
 import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportFreightLevel;
+import com.dt.user.model.ParentTree;
 
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface BasicLogisticsmgtTransportFreightLevelService {
     /**
      * 查询运价等级
      */
-    List<BasicLogisticsmgtTransportFreightLevel> serviceFindByFreightLevelInfo();
+    List<ParentTree> serviceFindByFreightLevelInfo();
 
 }

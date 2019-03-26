@@ -3,6 +3,7 @@ package com.dt.user.controller.BasePublicController;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.BasePublicModel.BasicPublicProducts;
+import com.dt.user.model.ParentTree;
 import com.dt.user.service.BasePublicService.BasicPublicProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class BasicPublicProductsController {
      */
     @GetMapping("/findByListProducts")
     public ResponseBase findByListProducts() {
-        List<BasicPublicProducts> basicPublicSiteList = publicProductsService.findByProductsInfo();
+        List<ParentTree> basicPublicSiteList = publicProductsService.serviceFindByProductsInfo();
         return JsonData.setResultSuccess(basicPublicSiteList);
     }
 }

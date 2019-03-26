@@ -1,13 +1,12 @@
 package com.dt.user.model.BasePublicModel;
 
-import com.dt.user.model.ParentSysTemLog;
 
 import java.util.List;
 
 /**
  * 异常类型
  */
-public class BasicLogisticsmgtTransportAbnormalType extends ParentSysTemLog {
+public class BasicLogisticsmgtTransportAbnormalType {
 
     private Integer transportAbnormalTypeId;
     private Integer number;

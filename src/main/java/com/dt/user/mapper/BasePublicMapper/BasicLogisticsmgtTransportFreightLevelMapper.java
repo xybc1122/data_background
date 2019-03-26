@@ -2,6 +2,7 @@ package com.dt.user.mapper.BasePublicMapper;
 
 import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportFreightLevel;
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
+import com.dt.user.model.ParentTree;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
@@ -19,18 +20,13 @@ public interface BasicLogisticsmgtTransportFreightLevelMapper {
      * 查询运价等级
      */
     @Select("SELECT\n" +
-            "`transport_freight_level_id`,`number`,\n" +
+            "`transport_freight_level_id`,\n" +
             "`transport_freight_level_name`,\n" +
-            "`parent_id`,`transport_freight_level_path`,`is_parent`,`status_id`\n" +
+            "`parent_id`,`path`,`is_parent`\n" +
             "FROM `basic_logisticsmgt_transport_freight_level`")
     @Results({
-            //数据库字段映射 //数据库字段映射 column数据库字段 property Java 字段
-            @Result(column = "status_id", property = "systemLogStatus",
-                    one = @One(
-                            select = "com.dt.user.mapper.SystemLogStatusMapper.findSysStatusInfo",
-                            fetchType = FetchType.EAGER
-                    )
-            )
+            @Result(column = "transport_freight_level_id", property = "treeId"),
+            @Result(column = "transport_freight_level_name", property = "treeName"),
     })
-    List<BasicLogisticsmgtTransportFreightLevel> findByFreightLevelInfo();
+    List<ParentTree> findByFreightLevelInfo();
 }

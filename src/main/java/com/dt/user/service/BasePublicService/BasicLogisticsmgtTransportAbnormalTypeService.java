@@ -1,6 +1,6 @@
 package com.dt.user.service.BasePublicService;
 
-import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportAbnormalType;
+import com.dt.user.model.ParentTree;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ public interface BasicLogisticsmgtTransportAbnormalTypeService {
      * @return
      */
 
-    List<BasicLogisticsmgtTransportAbnormalType> serviceFindByListAbnormalType();
+    List<ParentTree> serviceFindByListAbnormalType();
 }

@@ -2,19 +2,21 @@ package com.dt.user.controller.UserServiceController;
 
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
+import com.dt.user.dto.HrEmployeeDto;
 import com.dt.user.model.BasePublicModel.*;
+import com.dt.user.model.HrArchives.HrArchivesDepartment;
 import com.dt.user.model.HrArchives.HrArchivesEmployee;
+import com.dt.user.model.ParentSysTemLog;
+import com.dt.user.model.ParentTree;
 import com.dt.user.service.BasePublicService.BasicHrEducationService;
 import com.dt.user.service.BasePublicService.BasicHrEmployeeTypeService;
 import com.dt.user.service.BasePublicService.BasicHrEmploymentTypeService;
 import com.dt.user.service.BasePublicService.BasicHrLeaveTypeService;
+import com.dt.user.service.HrArchivesDepartmentService;
 import com.dt.user.service.HrArchivesEmployeeService;
 import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +25,8 @@ import java.util.List;
 public class HrArchivesController {
     @Autowired
     private HrArchivesEmployeeService hrService;
-
+    @Autowired
+    private HrArchivesDepartmentService departmentService;
     @Autowired
     private BasicHrEducationService educationService;
     @Autowired
@@ -33,6 +36,25 @@ public class HrArchivesController {
     @Autowired
     private BasicHrLeaveTypeService leaveTypeService;
 
+
+    /**
+     * 获得部门表树形数据
+     */
+    @GetMapping("/findByListDepartment")
+    public ResponseBase findByListDepartment() {
+        List<ParentTree> hrArchivesDepartmentList = departmentService.serviceGetDepartmentInfo();
+        return JsonData.setResultSuccess(hrArchivesDepartmentList);
+    }
+
+
+    /**
+     * 获得员工表动态查询信息
+     */
+    @PostMapping("/findByListEmployee")
+    public ResponseBase findByListEmployee(@RequestBody HrEmployeeDto hrEmployeeDto) {
+        PageInfoUtils.setPage(hrEmployeeDto.getPageSize(), hrEmployeeDto.getCurrentPage());
+        return PageInfoUtils.returnPage(hrService.serviceGetEmployeeList(hrEmployeeDto), hrEmployeeDto.getCurrentPage());
+    }
 
     /**
      * 获取员工信息 还没被注册的

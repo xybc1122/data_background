@@ -30,8 +30,8 @@ public class HrArchivesEmployeeProvider {
                 "  se.`employee_name_eng`,se.`sex`,se.`id_card`,se.`mobile_phone`,\n" +
                 "  se.`is_in_service`,se.`status_id`,u.`name`,ad.`dept_name`,hn.`nation`\n" +
                 "FROM `hr_archives_employee` AS " + Alias + "");
-        sql.LEFT_OUTER_JOIN("`system_user_info` as u on u.`uid`= se.`u_id``");
-        sql.LEFT_OUTER_JOIN("`hr_archives_department` as ad on ad.`dept_id`=se.`dept_id`");
+        sql.LEFT_OUTER_JOIN("`system_user_info` as u ON u.`uid`= se.`u_id`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_department` as ad ON ad.`dept_id`=se.`dept_id`");
         sql.LEFT_OUTER_JOIN("`basic_hr_nation` AS hn ON hn.`nation_id`=se.`nation_id`");
         //状态数据查询
         ProviderSqlStore.saveStatus(employeeDto.getSystemLogStatus(), Alias, sql);
@@ -55,17 +55,17 @@ public class HrArchivesEmployeeProvider {
         if (employeeDto.getSex() != null) {
             sql.WHERE(Alias + ".`sex`=#{sex}");
         }
-        //身份证号
-        if (StringUtils.isNotBlank(employeeDto.getIdCard())) {
-            sql.WHERE(Alias + ".`id_card`=#{idCard}");
-        }
         //员工手机
         if (employeeDto.getMobilePhone() != null) {
             sql.WHERE(Alias + ".`mobile_phone`=#{mobilePhone}");
         }
-        //员工是否在职
-        if (StringUtils.isNotBlank(employeeDto.getUserName())) {
+        //员工身份证
+        if (StringUtils.isNotBlank(employeeDto.getIdCard())) {
             sql.WHERE(Alias + ".`id_card`=#{idCard}");
+        }
+        //员工是否在职
+        if (employeeDto.getInService() != null) {
+            sql.WHERE(Alias + ".`is_in_service`=#{isInService}");
         }
         //用户名
         if (StringUtils.isNotBlank(employeeDto.getUserName())) {

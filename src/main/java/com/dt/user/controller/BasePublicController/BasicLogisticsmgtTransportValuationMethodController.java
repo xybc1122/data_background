@@ -2,7 +2,7 @@ package com.dt.user.controller.BasePublicController;
 
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
-import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportValuationMethod;
+import com.dt.user.model.ParentTree;
 import com.dt.user.service.BasePublicService.BasicLogisticsmgtTransportValuationMethodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ public class BasicLogisticsmgtTransportValuationMethodController {
 
     @GetMapping("/findByListValuationMethod")
     public ResponseBase findByListValuationMethod() {
-        List<BasicLogisticsmgtTransportValuationMethod> methodList = methodService.serviceFindByValuationMethodInfo();
+        List<ParentTree> methodList = methodService.serviceFindByValuationMethodInfo();
         return JsonData.setResultSuccess(methodList);
     }
 }

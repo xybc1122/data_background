@@ -1,5 +1,6 @@
 package com.dt.user.service.impl;
 
+import com.dt.user.dto.HrEmployeeDto;
 import com.dt.user.mapper.HrArchivesEmployeeMapper;
 import com.dt.user.model.HrArchives.HrArchivesEmployee;
 import com.dt.user.service.HrArchivesEmployeeService;
@@ -14,6 +15,11 @@ public class HrArchivesEmployeeImpl implements HrArchivesEmployeeService {
 
     @Autowired
     private HrArchivesEmployeeMapper hrMapper;
+
+    @Override
+    public List<HrArchivesEmployee> serviceGetEmployeeList(HrEmployeeDto employeeDto) {
+        return hrMapper.getEmployeeList(employeeDto);
+    }
 
     @Override
     public List<HrArchivesEmployee> serviceGetHrEmployeeList() {

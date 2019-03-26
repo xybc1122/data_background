@@ -20,8 +20,34 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<Menu> queryMenuList(UserInfo userInfo) {
-        //父菜单List
         List<Menu> rootMenu = menuMapper.queryMenuList(userInfo);
+        return getMenuList(rootMenu);
+    }
+
+    @Override
+    public List<Menu> findQueryByRoleId(Long roleId) {
+        List<Menu> rootMenu = menuMapper.findQueryByRoleId(roleId);
+        return getMenuList(rootMenu);
+    }
+
+
+    @Override
+    public int addMenu(List<Menu> menu) {
+        return menuMapper.addMenu(menu);
+    }
+
+    @Override
+    public int upMenu(Menu menu) {
+        return menuMapper.upMenu(menu);
+    }
+
+
+
+
+
+
+
+    public List<Menu> getMenuList(List<Menu> rootMenu) {
         List<Menu> menuList = new ArrayList<>();
         List<Menu> childMenuList = new ArrayList<>();
         //先找到所有一级菜单
@@ -40,38 +66,6 @@ public class MenuServiceImpl implements MenuService {
             menu.setChildMenus(getChild(menu.getMenuId(), childMenuList));
         }
         return menuList;
-    }
-
-    @Override
-    public List<Menu> findQueryByRoleId(Long roleId) {
-        //父菜单List
-        List<Menu> rootMenu = menuMapper.findQueryByRoleId(roleId);
-        List<Menu> menuList = new ArrayList<>();
-        List<Menu> childMenuList = new ArrayList<>();
-        //先找到所有一级菜单
-        for (int i = 0; i < rootMenu.size(); i++) {
-            //如果==0代表父菜单
-            if (rootMenu.get(i).getParentId() == 0) {
-                menuList.add(rootMenu.get(i));
-            } else {
-                childMenuList.add(rootMenu.get(i));
-            }
-        }
-        // 为一级菜单设置子菜单 getChild是递归调用的
-        for (Menu menu : menuList) {
-            menu.setChildMenus(getChild(menu.getMenuId(), childMenuList));
-        }
-        return menuList;
-    }
-
-    @Override
-    public int addMenu(List<Menu> menu) {
-        return menuMapper.addMenu(menu);
-    }
-
-    @Override
-    public int upMenu(Menu menu) {
-        return menuMapper.upMenu(menu);
     }
 
     //递归查找子菜单

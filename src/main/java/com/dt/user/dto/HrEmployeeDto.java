@@ -18,7 +18,7 @@ public class HrEmployeeDto extends HrArchivesEmployee {
      */
     private String deptName;
     /**
-     * 名族姓名
+     * 名族名
      */
     private String nation;
 

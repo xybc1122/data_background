@@ -20,7 +20,7 @@ public class SiteDto extends BasicPublicSite {
     private String areaName;
 
     /**
-     * 站点负责人名称
+     * 员工名称 站点负责人
      */
     private String employeeName;
 

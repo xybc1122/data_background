@@ -1,8 +1,7 @@
-package com.dt.user.service.Logistics;
+package com.dt.user.Logistics;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.user.utils.HttpClientUtils;
-import com.dt.user.utils.MD5Util;
 
 import java.util.Date;
 

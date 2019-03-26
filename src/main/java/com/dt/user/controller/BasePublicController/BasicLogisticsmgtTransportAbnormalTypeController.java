@@ -3,6 +3,7 @@ package com.dt.user.controller.BasePublicController;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportAbnormalType;
+import com.dt.user.model.ParentTree;
 import com.dt.user.service.BasePublicService.BasicLogisticsmgtTransportAbnormalTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +26,7 @@ public class BasicLogisticsmgtTransportAbnormalTypeController {
 
     @GetMapping("/findByListAbnormal")
     public ResponseBase findByListAbnormal() {
-        List<BasicLogisticsmgtTransportAbnormalType> abnormalTypeList = abnormalTypeService.serviceFindByListAbnormalType();
+        List<ParentTree> abnormalTypeList = abnormalTypeService.serviceFindByListAbnormalType();
         return JsonData.setResultSuccess(abnormalTypeList);
     }
 }

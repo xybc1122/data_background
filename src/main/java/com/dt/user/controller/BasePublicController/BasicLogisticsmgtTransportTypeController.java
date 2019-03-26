@@ -4,6 +4,7 @@ import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportType;
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
+import com.dt.user.model.ParentTree;
 import com.dt.user.service.BasePublicService.BasicLogisticsmgtTransportTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class BasicLogisticsmgtTransportTypeController {
 
     @GetMapping("/findByListType")
     public ResponseBase findByListType() {
-        List<BasicLogisticsmgtTransportType> basicPublicSiteList = typeService.serviceFindByTypeInfo();
+        List<ParentTree> basicPublicSiteList = typeService.serviceFindByTypeInfo();
         return JsonData.setResultSuccess(basicPublicSiteList);
     }
 }

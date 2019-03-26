@@ -1,6 +1,7 @@
 package com.dt.user.model;
-public class ParentSysTemLog {
 
+
+public class ParentSysTemLog {
     /**
      * 当前页
      */

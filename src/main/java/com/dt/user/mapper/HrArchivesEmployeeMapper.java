@@ -21,7 +21,7 @@ public interface HrArchivesEmployeeMapper {
 
 
     /**
-     * 获取员工表信息
+     * 获取动态查询员工表信息
      */
     @SelectProvider(type = HrArchivesEmployeeProvider.class, method = "findEmployee")
     @Results({

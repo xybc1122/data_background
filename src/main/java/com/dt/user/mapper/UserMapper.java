@@ -13,6 +13,12 @@ import java.util.Map;
 @Mapper
 public interface UserMapper {
     /**
+     * 通过uId查找 userName
+     */
+    @Select("select user_name  from system_user_info where uid=#{uId}")
+    String getName(@Param("uId") Long uId);
+
+    /**
      * 查询用户 状态
      *
      * @param uid

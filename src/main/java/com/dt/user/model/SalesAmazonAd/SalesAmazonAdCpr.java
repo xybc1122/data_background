@@ -37,8 +37,8 @@ public class SalesAmazonAdCpr extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonAdCpr(Integer shopId, Integer siteId, Long createDate, String createIdUser, Long recordingId) {
-        super(createDate, createIdUser);
+    public SalesAmazonAdCpr(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
+        super(createDate, createUser);
         this.shopId = shopId;
         this.siteId = siteId;
         this.recordingId = recordingId;

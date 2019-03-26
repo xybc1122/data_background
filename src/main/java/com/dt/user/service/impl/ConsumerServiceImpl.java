@@ -20,6 +20,7 @@ import com.dt.user.service.BasePublicService.BasicSalesAmazonWarehouseService;
 import com.dt.user.service.ConsumerService;
 import com.dt.user.service.FinancialSalesBalanceService;
 import com.dt.user.service.SalesAmazonAdService.*;
+import com.dt.user.service.UserService;
 import com.dt.user.service.UserUploadService;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.*;
@@ -87,7 +88,8 @@ public class ConsumerServiceImpl implements ConsumerService {
 
     @Autowired
     private SalesAmazonFbaInventoryEndService endService;
-
+    @Autowired
+    private UserService userService;
     @Autowired
     private UserUploadService userUploadService;
     @Autowired
@@ -659,6 +661,8 @@ public class ConsumerServiceImpl implements ConsumerService {
         Map<String, Integer> intMap = new HashMap<>();
         //获得数据库是否存入的信息
         List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(siteId, menuId, null, shopId);
+        //通过uid 查找账号
+        String userName = userService.serviceGetName(uid);
         timing.setMsg("正在校验数据..........");
         for (int i = line; i <= lastRowNum; i++) {
             //numberCount++
@@ -668,7 +672,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             row = sheet.getRow(i);
             // 105 cpr
             if (menuId == 105) {
-                saCpr = setCpr(shopId, siteId, ReqUtils.getUserName(), recordingId);
+                saCpr = setCpr(shopId, siteId, userName, recordingId);
                 for (int j = 0; j < totalNumber; j++) {
                     cell = row.getCell(j);
                     saCpr = setCprPojo(j, saCpr, cell, isImportHead, xlsListHead, totalNumber);

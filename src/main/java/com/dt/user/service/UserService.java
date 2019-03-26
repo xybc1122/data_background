@@ -4,18 +4,17 @@ package com.dt.user.service;
 import com.dt.user.dto.UserDto;
 import com.dt.user.model.UserInfo;
 import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
 import java.util.Map;
 
 public interface UserService {
     /**
-     * 查询用户 状态
-     *
-     * @param uid
-     * @return
+     * 通过uId查找 userName
      */
-
+    String serviceGetName(Long uId);
+    /**
+     * 查询用户 状态
+     */
     UserInfo getUserStatus(Long uid);
 
     //登陆查询用户
@@ -37,9 +36,7 @@ public interface UserService {
     /**
      * 更新用户信息
      *
-     * @return
      */
-
     int upUser(Map<String, Object> userMap);
 
     /**
@@ -60,7 +57,6 @@ public interface UserService {
     /**
      * 注册用户验证用户是否存在
      */
-
     UserInfo getUserName(String userName);
 
     /**

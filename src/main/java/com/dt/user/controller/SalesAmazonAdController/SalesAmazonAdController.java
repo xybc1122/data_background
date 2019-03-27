@@ -1,7 +1,6 @@
 package com.dt.user.controller.SalesAmazonAdController;
 
 import com.dt.user.config.ResponseBase;
-import com.dt.user.model.BasePublicModel.BasicExportHsCode;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
 import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdCprService;
 import com.dt.user.utils.PageInfoUtils;

@@ -1,5 +1,6 @@
 package com.dt.user.utils;
 
+import com.dt.user.exception.LsException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -34,15 +35,13 @@ public class XlsUtils {
     /**
      * 判断文件类型
      */
-    public static Workbook fileType(FileInputStream in, File file) {
-        try {
-            //判断文件是否是excel
-            XlsUtils.checkExcel(file);
-            //判断Excel的版本,获取Workbook
-            return XlsUtils.getWorkbook(in, file);
-        } catch (Exception e) {
-            return null;
-        }
+    public static Workbook fileType(FileInputStream in, File file) throws IOException {
+
+        //判断文件是否是excel
+        XlsUtils.checkExcel(file);
+        //判断Excel的版本,获取Workbook
+        return XlsUtils.getWorkbook(in, file);
+
     }
 
     /**
@@ -67,12 +66,12 @@ public class XlsUtils {
      *
      * @throws Exception
      */
-    public static void checkExcel(File file) throws Exception {
+    public static void checkExcel(File file) {
         if (!file.exists()) {
-            throw new Exception("文件不存在");
+            throw new LsException("文件不存在");
         }
         if (!(file.isFile() && (file.getName().endsWith(EXCEL_XLS) || file.getName().endsWith(EXCEL_XLSX)))) {
-            throw new Exception("文件不是Excel");
+            throw new LsException("文件不是Excel");
         }
     }
 

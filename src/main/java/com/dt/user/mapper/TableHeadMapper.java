@@ -68,4 +68,20 @@ public interface TableHeadMapper {
      */
     @UpdateProvider(type = TableHeadProvider.class, method = "upHeadSort")
     int upHeadSort(@Param("newTopOrder") String[] newTopOrder, @Param("id") Long id);
+
+    /**
+     * 修改/更新 head信息
+     *
+     * @return
+     */
+    @UpdateProvider(type = TableHeadProvider.class, method = "upHeadInfo")
+    int upHead(TableHead tableHead);
+
+    /**
+     * 新增表头信息
+     */
+    @Insert("INSERT INTO`system_user_table_head`\n" +
+            "(`head_name`,`menu_id`,`top_type`,`top_order`,`is_fixed`,`input_type`,`is_reference`)\n" +
+            "VALUES (#{headName},#{menuId},#{topType},#{topOrder},#{isFixed},#{inputType},#{isReference});")
+    int saveHead(TableHead tableHead);
 }

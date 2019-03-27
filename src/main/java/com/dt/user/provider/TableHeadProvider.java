@@ -1,11 +1,14 @@
 package com.dt.user.provider;
 
+import com.dt.user.model.TableHead;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 import java.util.Map;
 
 public class TableHeadProvider {
+
 
     @SuppressWarnings("unchecked")
     public String showTableHead(Map<String, Object> mapHead) {
@@ -26,6 +29,38 @@ public class TableHeadProvider {
         sql.append(")\n");
         sql.append("GROUP BY m.`menu_id`");
         return sql.toString();
+    }
+
+    /**
+     * 更新/修改head字段信息
+     *
+     * @return
+     */
+    public String upHeadInfo(TableHead tableHead) {
+        return new SQL() {{
+            UPDATE("`system_user_table_head`");
+            if (StringUtils.isNotBlank(tableHead.getHeadName())) {
+                SET("head_name=#{headName}");
+            }
+            if (StringUtils.isNotBlank(tableHead.getMenuId())) {
+                SET("menu_id=#{menuId}");
+            }
+            if (StringUtils.isNotBlank(tableHead.getTopType())) {
+                SET("top_type=#{topType}");
+            }
+            if (StringUtils.isNotBlank(tableHead.getTopOrder())) {
+                SET("top_order=#{topOrder}");
+            }
+            if (tableHead.getFixed() != null) {
+                SET("is_fixed=#{isFixed}");
+            }
+            if (tableHead.getInputType() != null) {
+                SET("input_type=#{inputType}");
+            }
+            if (tableHead.getReference() != null) {
+                SET("is_reference=#{isReference}");
+            }
+        }}.toString();
     }
 
     /**

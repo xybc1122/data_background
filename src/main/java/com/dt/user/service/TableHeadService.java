@@ -10,6 +10,31 @@ import java.util.Map;
 
 public interface TableHeadService {
 
+    void setHead(TableHead tableHead);
+
+
+    /**
+     * 更新head信息
+     *
+     * @param tableHead
+     * @return
+     */
+
+    int serviceUpHead(TableHead tableHead);
+
+    /**
+     * 新增头字段
+     *
+     * @param tableHead
+     * @return
+     */
+    int serviceSaveHead(TableHead tableHead);
+
+    /**
+     * 查询引用表头信息
+     */
+    List<TableHead> getIsReference();
+
     List<TableHead> findByMenuIdHeadList(Long menuId);
 
     /**

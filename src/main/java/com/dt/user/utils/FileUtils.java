@@ -1,5 +1,8 @@
 package com.dt.user.utils;
 
+import com.dt.user.exception.LsException;
+import org.apache.commons.lang3.StringUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -41,11 +44,17 @@ public class FileUtils {
      * @throws UnsupportedEncodingException
      */
     public static InputStreamReader streamReader(String filePath) throws Exception {
-        String fileEncode = EncodingDetect.getJavaEncode(filePath);
-        if (fileEncode == null) {
-            throw new Exception("filePath加载文件路径不存在");
+        if (StringUtils.isEmpty(filePath)) {
+            throw new Exception("处理文件路径不存在");
         }
-        return new InputStreamReader(new FileInputStream(filePath), fileEncode);
+        String fileEncode = EncodingDetect.getJavaEncode(filePath);
+        try {
+            return new InputStreamReader(new FileInputStream(filePath), fileEncode);
+        } catch (UnsupportedEncodingException e) {
+            throw new Exception("UnsupportedEncodingException-->文件转码出错");
+        } catch (FileNotFoundException e) {
+            throw new Exception("FileNotFoundException-->读取文件不存在");
+        }
     }
 
     /**

@@ -20,6 +20,32 @@ public class TableHeadController {
     private TableHeadService tableHeadService;
 
     /**
+     * 新增表头信息
+     *
+     * @return
+     */
+    @PostMapping("/saveHead")
+    public ResponseBase saveHead(@RequestBody TableHead tableHead) {
+        int count = tableHeadService.serviceSaveHead(tableHead);
+        if (count != 0) {
+            return JsonData.setResultSuccess("添加成功");
+        }
+        return JsonData.setResultError("添加失败");
+    }
+
+    /**
+     * 查询可以引用的头字段
+     *
+     * @return
+     */
+    @GetMapping("/reference")
+    public ResponseBase IsReference() {
+        List<TableHead> headList = tableHeadService.getIsReference();
+        return JsonData.setResultSuccess(headList);
+
+    }
+
+    /**
      * 通过菜单ID来查询 对应的表头信息
      *
      * @return

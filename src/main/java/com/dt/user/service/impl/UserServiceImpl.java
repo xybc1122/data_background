@@ -19,6 +19,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    public String serviceGetName(Long uId) {
+        return userMapper.getName(uId);
+    }
+
+    @Override
     public UserInfo getUserStatus(Long uid) {
         return userMapper.getUserStatus(uid);
     }

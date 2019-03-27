@@ -4,12 +4,10 @@ package com.dt.user.controller;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.customize.PermissionCheck;
-import com.dt.user.exception.LsException;
 import com.dt.user.model.*;
 import com.dt.user.service.*;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.*;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -121,12 +119,11 @@ public class UploadController {
      * @return
      */
     @PostMapping("/addInfo")
-    public ResponseBase redFileInfo(@RequestBody UserUpload upload) {
+    public ResponseBase redFileInfo(@RequestBody UserUpload upload) throws Exception {
         List<ResponseBase> responseBaseList = new ArrayList<>();
         int baseNum = upload.getUploadSuccessList().size();
         ResponseBase responseBase;
         if (baseNum > 0) {
-            try {
                 for (int i = 0; i < baseNum; i++) {
                     UserUpload userUpload = upload.getUploadSuccessList().get(i);
                     int fileIndex = userUpload.getName().lastIndexOf(".");
@@ -143,9 +140,6 @@ public class UploadController {
                         responseBaseList.add(responseBase);
                     }
                 }
-            } catch (InterruptedException | ExecutionException e) {
-                throw new LsException("数据处理异常");
-            }
         }
         return JsonData.setResultSuccess(responseBaseList);
     }

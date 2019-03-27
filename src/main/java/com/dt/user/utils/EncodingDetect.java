@@ -35,12 +35,8 @@ public class EncodingDetect {
      * @return 文件的编码
      */
     public static String getJavaEncode(String filePath) {
-        if (StringUtils.isEmpty(filePath)) {
-            return null;
-        }
         BytesEncodingDetect s = new BytesEncodingDetect();
-        String fileCode = BytesEncodingDetect.javaname[s.detectEncoding(new File(filePath))];
-        return fileCode;
+        return BytesEncodingDetect.javaname[s.detectEncoding(new File(filePath))];
     }
 //
 //	public static void readFile(String filter, String code) {

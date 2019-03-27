@@ -30,27 +30,16 @@ public class SalesAmazonAdCpr extends ParentUploadInfo {
     private Double sameskuUnitsSales;
     private Double otherskuUnitsSales;
 
-    //记录表ID
-    private Long recordingId;
 
     public SalesAmazonAdCpr() {
 
     }
 
-    public SalesAmazonAdCpr(Integer shopId, Integer siteId, Long createDate, String creatUser, Long recordingId) {
-        super(createDate, creatUser);
+    public SalesAmazonAdCpr(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
+        super(createDate, createUser,recordingId);
         this.shopId = shopId;
         this.siteId = siteId;
-        this.recordingId = recordingId;
 
-    }
-
-    public Long getRecordingId() {
-        return recordingId;
-    }
-
-    public void setRecordingId(Long recordingId) {
-        this.recordingId = recordingId;
     }
 
     public Long getAdCprId() {

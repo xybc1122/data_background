@@ -32,7 +32,9 @@ public class ParentUploadInfo {
      * sku
      */
     private String sku;
-
+    private Long date;
+    //记录表ID
+    private Long recordingId;
     private String remark;
     private Integer status;
     private Long createDate;
@@ -62,10 +64,38 @@ public class ParentUploadInfo {
      * 有效如期范围查询
      */
     private List<Long> effectiveDates;
+    /**
+     * 文件表已有时间
+     */
+    private List<Long> dates;
 
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
+    }
+
+    public List<Long> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<Long> dates) {
+        this.dates = dates;
+    }
 
     public List<Long> getCreateDates() {
         return createDates;
+    }
+
+
+    public Long getRecordingId() {
+        return recordingId;
+    }
+
+    public void setRecordingId(Long recordingId) {
+        this.recordingId = recordingId;
     }
 
     public void setCreateDates(List<Long> createDates) {
@@ -100,9 +130,10 @@ public class ParentUploadInfo {
 
     }
 
-    public ParentUploadInfo(Long createDate, String createUser) {
+    public ParentUploadInfo(Long createDate, String createUser, Long recordingId) {
         this.createDate = createDate;
         this.createUser = createUser;
+        this.recordingId = recordingId;
     }
 
     public Integer getCurrentPage() {

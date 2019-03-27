@@ -30,7 +30,7 @@ public class TableHead implements Serializable {
     /**
      * 是否锁框
      */
-    private int isFixed;
+    private Boolean isFixed;
     /**
      * 账号状态
      */
@@ -43,7 +43,7 @@ public class TableHead implements Serializable {
     /**
      * 输入框类型
      */
-    private int inputType;
+    private Integer inputType;
     /**
      * 接收ids
      */
@@ -57,62 +57,6 @@ public class TableHead implements Serializable {
      */
     private Integer index;
 
-    public Integer getIndex() {
-        return index;
-    }
-
-    public void setIndex(Integer index) {
-        this.index = index;
-    }
-
-    public Boolean getReference() {
-        return isReference;
-    }
-
-    public void setReference(Boolean reference) {
-        isReference = reference;
-    }
-
-    public int getInputType() {
-        return inputType;
-    }
-
-    public void setInputType(int inputType) {
-        this.inputType = inputType;
-    }
-
-    public List<AccountStatusOptions> getStatusOptions() {
-        return statusOptions;
-    }
-
-    public void setStatusOptions(List<AccountStatusOptions> statusOptions) {
-        this.statusOptions = statusOptions;
-    }
-
-    public String getTopOrder() {
-        return topOrder;
-    }
-
-    public void setTopOrder(String topOrder) {
-        this.topOrder = topOrder;
-    }
-
-    public String getmName() {
-        return mName;
-    }
-
-    public void setmName(String mName) {
-        this.mName = mName;
-    }
-
-    public String getIds() {
-        return ids;
-    }
-
-    public void setIds(String ids) {
-        this.ids = ids;
-    }
-
     public Long getId() {
         return id;
     }
@@ -121,7 +65,6 @@ public class TableHead implements Serializable {
         this.id = id;
     }
 
-
     public String getHeadName() {
         return headName;
     }
@@ -129,7 +72,6 @@ public class TableHead implements Serializable {
     public void setHeadName(String headName) {
         this.headName = headName;
     }
-
 
     public String getMenuId() {
         return menuId;
@@ -147,11 +89,67 @@ public class TableHead implements Serializable {
         this.topType = topType;
     }
 
-    public int getIsFixed() {
+    public String getTopOrder() {
+        return topOrder;
+    }
+
+    public void setTopOrder(String topOrder) {
+        this.topOrder = topOrder;
+    }
+
+    public Boolean getFixed() {
         return isFixed;
     }
 
-    public void setIsFixed(int isFixed) {
-        this.isFixed = isFixed;
+    public void setFixed(Boolean fixed) {
+        isFixed = fixed;
+    }
+
+    public List<AccountStatusOptions> getStatusOptions() {
+        return statusOptions;
+    }
+
+    public void setStatusOptions(List<AccountStatusOptions> statusOptions) {
+        this.statusOptions = statusOptions;
+    }
+
+    public String getmName() {
+        return mName;
+    }
+
+    public void setmName(String mName) {
+        this.mName = mName;
+    }
+
+    public Integer getInputType() {
+        return inputType;
+    }
+
+    public void setInputType(Integer inputType) {
+        this.inputType = inputType;
+    }
+
+    public String getIds() {
+        return ids;
+    }
+
+    public void setIds(String ids) {
+        this.ids = ids;
+    }
+
+    public Boolean getReference() {
+        return isReference;
+    }
+
+    public void setReference(Boolean reference) {
+        isReference = reference;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 }

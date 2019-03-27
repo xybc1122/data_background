@@ -55,43 +55,47 @@ public class ProviderSqlStore {
         }
     }
 
-    public static void saveStatus(SQL sql, ParentUploadInfo p) {
-            //有效日期
-            if (p.getEffectiveDates() != null && (p.getEffectiveDates().size() > 0)) {
-                sql.WHERE("effective_date BETWEEN  " + p.getEffectiveDates().get(0) + " AND " + p.getEffectiveDates().get(1) + "");
-            }
-            //备注
-            if (StringUtils.isNotBlank(p.getRemark())) {
-                sql.WHERE("remark=#{remark}");
-            }
-            //状态
-            if (p.getStatus() != null) {
-                sql.WHERE("status=#{status}");
-            }
-            //创建时间
-            if (p.getCreateDates() != null && (p.getCreateDates().size() > 0)) {
-                sql.WHERE("create_date BETWEEN  " + p.getCreateDates().get(0) + " p " + p.getCreateDates().get(1) + "");
-            }
-            //创建人
-            if (StringUtils.isNotBlank(p.getCreateUser())) {
-                sql.WHERE("create_user=#{createUser}");
-            }
-            //修改日期
-            if (p.getModifyDates() != null && (p.getModifyDates().size() > 0)) {
-                sql.WHERE("modify_date BETWEEN  " + p.getModifyDates().get(0) + " AND " + p.getModifyDates().get(1) + "");
-            }
-            //修改人
-            if (StringUtils.isNotBlank(p.getModifyUser())) {
-                sql.WHERE("modify_user=#{modifyUser}");
-            }
-            //审核时间
-            if (p.getAuditDates() != null && (p.getAuditDates().size() > 0)) {
-                sql.WHERE("audit_date BETWEEN  " + p.getAuditDates().get(0) + " AND " + p.getAuditDates().get(1) + "");
-            }
-            //审核人
-            if (StringUtils.isNotBlank(p.getAuditUser())) {
-                sql.WHERE("audit_user=#{auditUser}");
-            }
+    public static void saveUploadStatus(SQL sql, ParentUploadInfo p) {
+        //文件已有时间
+        if (p.getDates() != null && (p.getDates().size() > 0)) {
+            sql.WHERE("date  " + p.getDates().get(0) + " AND " + p.getDates().get(1) + "");
+        }
+        //有效日期
+        if (p.getEffectiveDates() != null && (p.getEffectiveDates().size() > 0)) {
+            sql.WHERE("effective_date BETWEEN  " + p.getEffectiveDates().get(0) + " AND " + p.getEffectiveDates().get(1) + "");
+        }
+        //备注
+        if (StringUtils.isNotBlank(p.getRemark())) {
+            sql.WHERE("remark=#{remark}");
+        }
+        //状态
+        if (p.getStatus() != null) {
+            sql.WHERE("status=#{status}");
+        }
+        //创建时间
+        if (p.getCreateDates() != null && (p.getCreateDates().size() > 0)) {
+            sql.WHERE("create_date BETWEEN  " + p.getCreateDates().get(0) + " AND " + p.getCreateDates().get(1) + "");
+        }
+        //创建人
+        if (StringUtils.isNotBlank(p.getCreateUser())) {
+            sql.WHERE("create_user=#{createUser}");
+        }
+        //修改日期
+        if (p.getModifyDates() != null && (p.getModifyDates().size() > 0)) {
+            sql.WHERE("modify_date BETWEEN  " + p.getModifyDates().get(0) + " AND " + p.getModifyDates().get(1) + "");
+        }
+        //修改人
+        if (StringUtils.isNotBlank(p.getModifyUser())) {
+            sql.WHERE("modify_user=#{modifyUser}");
+        }
+        //审核时间
+        if (p.getAuditDates() != null && (p.getAuditDates().size() > 0)) {
+            sql.WHERE("audit_date BETWEEN  " + p.getAuditDates().get(0) + " AND " + p.getAuditDates().get(1) + "");
+        }
+        //审核人
+        if (StringUtils.isNotBlank(p.getAuditUser())) {
+            sql.WHERE("audit_user=#{auditUser}");
+        }
 
     }
 }

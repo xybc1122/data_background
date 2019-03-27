@@ -19,7 +19,7 @@ public interface ConsumerService {
      * @return
      */
     Future<ResponseBase> importTxt(String uuIdName, String saveFilePath, String fileName, Integer shopId, Long uid, Long
-            recordingId, Integer tbId, Integer aId);
+            recordingId, Integer tbId, Integer aId) throws Exception;
 
     /**
      * 封装处理数据Xls
@@ -35,7 +35,7 @@ public interface ConsumerService {
      * @return
      */
     Future<ResponseBase> importXls(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Long
-            recordingId, Integer tbId);
+            recordingId, Integer tbId) throws Exception;
 
 
     /**
@@ -53,5 +53,5 @@ public interface ConsumerService {
      * @return
      */
     Future<ResponseBase> importCsv(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Integer
-            pId, Long recordingId, Integer tbId, String businessTime);
+            pId, Long recordingId, Integer tbId, String businessTime) throws Exception;
 }

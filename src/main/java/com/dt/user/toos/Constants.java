@@ -104,6 +104,11 @@ public interface Constants {
     String MSG_ERROR = "存入数据失败,请检查表头第一行是否正确/请检查上传的站点~";
 
     /**
+     * 表头不一致
+     */
+    String HEADER_EXCEPTION="表头信息不一致,请找管理员";
+
+    /**
      * 财务导入ID
      */
     int FINANCE_ID = 85;

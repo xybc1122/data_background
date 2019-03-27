@@ -22,6 +22,30 @@ public class TableHeadImpl implements TableHeadService {
     @Autowired
     private TableHeadMapper tableHeadMapper;
 
+
+    @Override
+    public void setHead(TableHead tableHead) {
+        String[] hIds = tableHead.getIds().split(",");
+//        for (int i = 0; i < hIds.length; i++) {
+//
+//        }
+    }
+
+    @Override
+    public int serviceUpHead(TableHead tableHead) {
+        return tableHeadMapper.saveHead(tableHead);
+    }
+
+    @Override
+    public int serviceSaveHead(TableHead tableHead) {
+        return tableHeadMapper.saveHead(tableHead);
+    }
+
+    @Override
+    public List<TableHead> getIsReference() {
+        return tableHeadMapper.getIsReference();
+    }
+
     @Override
     public List<TableHead> findByMenuIdHeadList(Long menuId) {
         List<TableHead> head = tableHeadMapper.findByHeader(menuId);

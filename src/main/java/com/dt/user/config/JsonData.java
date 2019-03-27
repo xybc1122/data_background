@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 public class JsonData {
     // redis封装
     @Autowired
-    protected BaseRedisService baseRedisService;
+    protected BaseRedisService redisService;
 
     // 返回错误 ，可以传msg
     public static ResponseBase setResultError(String msg) {

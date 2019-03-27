@@ -71,10 +71,10 @@ public class LoginController extends JsonData {
     @Transactional
     public ResponseBase login(HttpServletResponse response, @RequestBody UserDto userDto) {
         String userKey = userDto.getUserName() + "error";
-        String strRedis = baseRedisService.getStringKey(userKey);
+        String strRedis = redisService.getStringKey(userKey);
         //如果不等于null
         if (StringUtils.isNotEmpty(strRedis)) {
-            Long ttlDate = baseRedisService.getTtl(userKey);
+            Long ttlDate = redisService.getTtl(userKey);
             return JsonData.setResultError("账号/或密码错误被锁定/" + ttlDate + "秒后到期!");
         }
         //查询用户信息
@@ -97,18 +97,17 @@ public class LoginController extends JsonData {
             SsoWebLoginHelper.login(user, pwd);
             //设置token  Cookie
             JSONObject uJson = put(response, user, userDto.isRememberMe());
-
-            String redisToken = baseRedisService.getStringKey(userDto.getUserName() + "token");
-            //如果在线  发送消息
-            if (StringUtils.isNotBlank(redisToken)) {
-                socketServer.sendInfo("你已被踢下线", user.getUid());
-            }
+//            String redisToken = redisService.getStringKey(userDto.getUserName() + "token");
+//            //如果在线  发送消息
+//            if (StringUtils.isNotBlank(redisToken)) {
+//                socketServer.sendInfo("你已被踢下线", user.getUid());
+//            }
             //登陆成功后 删除Map指定元素
             if (hashMap.get(user.getUserName()) != null) {
                 hashMap.entrySet().removeIf(entry -> entry.getKey().equals(user.getUserName()));
             }
             return JsonData.setResultSuccess(uJson);
-        } catch (Exception e) {
+        } catch (LsException ls) {
             return setLockingTime(userDto);
         }
     }
@@ -126,7 +125,7 @@ public class LoginController extends JsonData {
         uJson.put("user", user);
         uJson.put("token", userToken);
         //设置token
-        baseRedisService.setString(user.getUserName() + Constants.TOKEN, userToken, time);
+        redisService.setString(user.getUserName() + Constants.TOKEN, userToken, time);
         //设置Cookie
         CookieUtil.set(response, Constants.TOKEN, userToken, ifRemember);
         return uJson;

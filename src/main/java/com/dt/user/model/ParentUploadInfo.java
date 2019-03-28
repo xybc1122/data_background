@@ -28,10 +28,13 @@ public class ParentUploadInfo {
      * 店铺名称
      */
     private String shopName;
+    private Long skuId;
     /**
      * sku
      */
     private String sku;
+    private Integer shopId;
+    private Integer siteId;
     private Long date;
     //记录表ID
     private Long recordingId;
@@ -69,71 +72,17 @@ public class ParentUploadInfo {
      */
     private List<Long> dates;
 
-    public Long getDate() {
-        return date;
-    }
-
-    public void setDate(Long date) {
-        this.date = date;
-    }
-
-    public List<Long> getDates() {
-        return dates;
-    }
-
-    public void setDates(List<Long> dates) {
-        this.dates = dates;
-    }
-
-    public List<Long> getCreateDates() {
-        return createDates;
-    }
-
-
-    public Long getRecordingId() {
-        return recordingId;
-    }
-
-    public void setRecordingId(Long recordingId) {
-        this.recordingId = recordingId;
-    }
-
-    public void setCreateDates(List<Long> createDates) {
-        this.createDates = createDates;
-    }
-
-    public List<Long> getModifyDates() {
-        return modifyDates;
-    }
-
-    public void setModifyDates(List<Long> modifyDates) {
-        this.modifyDates = modifyDates;
-    }
-
-    public List<Long> getAuditDates() {
-        return auditDates;
-    }
-
-    public void setAuditDates(List<Long> auditDates) {
-        this.auditDates = auditDates;
-    }
-
-    public List<Long> getEffectiveDates() {
-        return effectiveDates;
-    }
-
-    public void setEffectiveDates(List<Long> effectiveDates) {
-        this.effectiveDates = effectiveDates;
-    }
-
     public ParentUploadInfo() {
 
     }
 
-    public ParentUploadInfo(Long createDate, String createUser, Long recordingId) {
+    public ParentUploadInfo(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
         this.createDate = createDate;
         this.createUser = createUser;
         this.recordingId = recordingId;
+        this.shopId = shopId;
+        this.siteId = siteId;
+
     }
 
     public Integer getCurrentPage() {
@@ -150,6 +99,70 @@ public class ParentUploadInfo {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public Long getSkuId() {
+        return skuId;
+    }
+
+    public void setSkuId(Long skuId) {
+        this.skuId = skuId;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
+    }
+
+    public Integer getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(Integer siteId) {
+        this.siteId = siteId;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
+    }
+
+    public Long getRecordingId() {
+        return recordingId;
+    }
+
+    public void setRecordingId(Long recordingId) {
+        this.recordingId = recordingId;
     }
 
     public String getRemark() {
@@ -216,27 +229,43 @@ public class ParentUploadInfo {
         this.auditUser = auditUser;
     }
 
-    public String getSiteName() {
-        return siteName;
+    public List<Long> getCreateDates() {
+        return createDates;
     }
 
-    public void setSiteName(String siteName) {
-        this.siteName = siteName;
+    public void setCreateDates(List<Long> createDates) {
+        this.createDates = createDates;
     }
 
-    public String getShopName() {
-        return shopName;
+    public List<Long> getModifyDates() {
+        return modifyDates;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
+    public void setModifyDates(List<Long> modifyDates) {
+        this.modifyDates = modifyDates;
     }
 
-    public String getSku() {
-        return sku;
+    public List<Long> getAuditDates() {
+        return auditDates;
     }
 
-    public void setSku(String sku) {
-        this.sku = sku;
+    public void setAuditDates(List<Long> auditDates) {
+        this.auditDates = auditDates;
+    }
+
+    public List<Long> getEffectiveDates() {
+        return effectiveDates;
+    }
+
+    public void setEffectiveDates(List<Long> effectiveDates) {
+        this.effectiveDates = effectiveDates;
+    }
+
+    public List<Long> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<Long> dates) {
+        this.dates = dates;
     }
 }

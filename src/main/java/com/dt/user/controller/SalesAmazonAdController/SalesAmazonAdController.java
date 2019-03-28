@@ -2,7 +2,9 @@ package com.dt.user.controller.SalesAmazonAdController;
 
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
+import com.dt.user.model.SalesAmazonAd.SalesAmazonAdStr;
 import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdCprService;
+import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdStrService;
 import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +24,19 @@ public class SalesAmazonAdController {
     @Autowired
     private SalesAmazonAdCprService cprService;
 
+    @Autowired
+    private SalesAmazonAdStrService strService;
+
     @PostMapping("/getCprInfo")
     public ResponseBase getCprInfo(@RequestBody SalesAmazonAdCpr adCpr) {
         PageInfoUtils.setPage(adCpr.getPageSize(), adCpr.getCurrentPage());
         return PageInfoUtils.returnPage(cprService.serviceFindByListCpr(adCpr), adCpr.getCurrentPage());
+    }
+
+    @PostMapping("/getStrInfo")
+    public ResponseBase getStrInfo(@RequestBody SalesAmazonAdStr str) {
+        PageInfoUtils.setPage(str.getPageSize(), str.getCurrentPage());
+        return PageInfoUtils.returnPage(strService.serviceFindByListStr(str), str.getCurrentPage());
     }
 
 

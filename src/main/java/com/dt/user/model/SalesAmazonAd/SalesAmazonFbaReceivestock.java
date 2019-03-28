@@ -1,209 +1,92 @@
 package com.dt.user.model.SalesAmazonAd;
 
+import com.dt.user.model.ParentUploadInfo;
+
 /**
  * 接收库存
  */
-public class SalesAmazonFbaReceivestock {
+public class SalesAmazonFbaReceivestock extends ParentUploadInfo {
 
-  private Long id;
-  private Long date;
-  private Integer shopId;
-  private Integer siteId;
-  private String fbaShipmentId;
-  private String sku;
-  private String fnsku;
-  private Long skuId;
-  private String productName;
-  private Integer quantity;
-  private String fc;
-  private Integer awId;
-  private String remark;
-  private Integer status;
-  private Long createDate;
-  private Long createIdUser;
-  private Long modifyDate;
-  private Long modifyIdUser;
-  private Long auditDate;
-  private Long auditIdUser;
-  private Long recordingId;
+    private Long id;
+    private String fbaShipmentId;
+    private String fnsku;
+    private Long skuId;
+    private String productName;
+    private Integer quantity;
+    private String fc;
+    private Integer awId;
 
-  public SalesAmazonFbaReceivestock() {
+    public SalesAmazonFbaReceivestock() {
 
-  }
+    }
 
-  public SalesAmazonFbaReceivestock(Integer shopId, Long createDate, Long createIdUser, Long recordingId) {
-    this.shopId = shopId;
-    this.createDate = createDate;
-    this.createIdUser = createIdUser;
-    this.recordingId = recordingId;
-  }
+    public SalesAmazonFbaReceivestock(Integer shopId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, null, createDate, createUser, recordingId);
+    }
 
+    public Long getId() {
+        return id;
+    }
 
-  public Long getId() {
-    return id;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public String getFbaShipmentId() {
+        return fbaShipmentId;
+    }
 
-  public Long getDate() {
-    return date;
-  }
+    public void setFbaShipmentId(String fbaShipmentId) {
+        this.fbaShipmentId = fbaShipmentId;
+    }
 
-  public void setDate(Long date) {
-    this.date = date;
-  }
+    public String getFnsku() {
+        return fnsku;
+    }
 
-  public Integer getShopId() {
-    return shopId;
-  }
+    public void setFnsku(String fnsku) {
+        this.fnsku = fnsku;
+    }
 
-  public void setShopId(Integer shopId) {
-    this.shopId = shopId;
-  }
+    @Override
+    public Long getSkuId() {
+        return skuId;
+    }
 
-  public Integer getSiteId() {
-    return siteId;
-  }
+    @Override
+    public void setSkuId(Long skuId) {
+        this.skuId = skuId;
+    }
 
-  public void setSiteId(Integer siteId) {
-    this.siteId = siteId;
-  }
+    public String getProductName() {
+        return productName;
+    }
 
-  public String getFbaShipmentId() {
-    return fbaShipmentId;
-  }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-  public void setFbaShipmentId(String fbaShipmentId) {
-    this.fbaShipmentId = fbaShipmentId;
-  }
+    public Integer getQuantity() {
+        return quantity;
+    }
 
-  public String getSku() {
-    return sku;
-  }
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
-  public void setSku(String sku) {
-    this.sku = sku;
-  }
+    public String getFc() {
+        return fc;
+    }
 
-  public String getFnsku() {
-    return fnsku;
-  }
+    public void setFc(String fc) {
+        this.fc = fc;
+    }
 
-  public void setFnsku(String fnsku) {
-    this.fnsku = fnsku;
-  }
+    public Integer getAwId() {
+        return awId;
+    }
 
-  public Long getSkuId() {
-    return skuId;
-  }
-
-  public void setSkuId(Long skuId) {
-    this.skuId = skuId;
-  }
-
-  public String getProductName() {
-    return productName;
-  }
-
-  public void setProductName(String productName) {
-    this.productName = productName;
-  }
-
-  public Integer getQuantity() {
-    return quantity;
-  }
-
-  public void setQuantity(Integer quantity) {
-    this.quantity = quantity;
-  }
-
-  public String getFc() {
-    return fc;
-  }
-
-  public void setFc(String fc) {
-    this.fc = fc;
-  }
-
-  public Integer getAwId() {
-    return awId;
-  }
-
-  public void setAwId(Integer awId) {
-    this.awId = awId;
-  }
-
-  public String getRemark() {
-    return remark;
-  }
-
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
-
-  public Integer getStatus() {
-    return status;
-  }
-
-  public void setStatus(Integer status) {
-    this.status = status;
-  }
-
-  public Long getCreateDate() {
-    return createDate;
-  }
-
-  public void setCreateDate(Long createDate) {
-    this.createDate = createDate;
-  }
-
-  public Long getCreateIdUser() {
-    return createIdUser;
-  }
-
-  public void setCreateIdUser(Long createIdUser) {
-    this.createIdUser = createIdUser;
-  }
-
-  public Long getModifyDate() {
-    return modifyDate;
-  }
-
-  public void setModifyDate(Long modifyDate) {
-    this.modifyDate = modifyDate;
-  }
-
-  public Long getModifyIdUser() {
-    return modifyIdUser;
-  }
-
-  public void setModifyIdUser(Long modifyIdUser) {
-    this.modifyIdUser = modifyIdUser;
-  }
-
-  public Long getAuditDate() {
-    return auditDate;
-  }
-
-  public void setAuditDate(Long auditDate) {
-    this.auditDate = auditDate;
-  }
-
-  public Long getAuditIdUser() {
-    return auditIdUser;
-  }
-
-  public void setAuditIdUser(Long auditIdUser) {
-    this.auditIdUser = auditIdUser;
-  }
-
-  public Long getRecordingId() {
-    return recordingId;
-  }
-
-  public void setRecordingId(Long recordingId) {
-    this.recordingId = recordingId;
-  }
+    public void setAwId(Integer awId) {
+        this.awId = awId;
+    }
 }

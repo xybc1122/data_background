@@ -3,18 +3,13 @@ package com.dt.user.model;
 /**
  * 德国存入数据表
  */
-public class FinancialSalesBalance {
+public class FinancialSalesBalance extends ParentUploadInfo {
 
     private Long balanceId;
-    private Long date;
-    private Integer shopId;
-    private Integer siteId;
     private String settlemenId;
     private Long paymentTypeId;
     private String type;
     private String orderId;
-    private String sku;
-    private Long skuId;
     private String description;
     private Long oQuantity;
     private Long quantity;
@@ -55,14 +50,6 @@ public class FinancialSalesBalance {
     private Double stdFbaOriginal;
     private Double lightningDealFee;
     private Double fbaInventoryFee;
-    private Long status;
-    private Long createDate;
-    private Long createIdUser;
-    private Long modifyDate;
-    private Long modifyIdUser;
-    private Long auditDate;
-    private Long auditIdUser;
-    private Long recordingId;
     /**
      * 积分费用(日本ポイントの費用)
      */
@@ -76,13 +63,9 @@ public class FinancialSalesBalance {
 
     }
 
-    public FinancialSalesBalance(Integer shopId, Integer siteId, Long paymentTypeId, Long createDate, Long createIdUser, Long recordingId) {
-        this.shopId = shopId;
-        this.siteId = siteId;
+    public FinancialSalesBalance(Integer shopId, Integer siteId, Long paymentTypeId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, siteId, createDate, createUser, recordingId);
         this.paymentTypeId = paymentTypeId;
-        this.createDate = createDate;
-        this.createIdUser = createIdUser;
-        this.recordingId = recordingId;
     }
 
     public Double getLowValueGoods() {
@@ -101,14 +84,6 @@ public class FinancialSalesBalance {
         this.pointFee = pointFee;
     }
 
-    public Long getRecordingId() {
-        return recordingId;
-    }
-
-    public void setRecordingId(Long recordingId) {
-        this.recordingId = recordingId;
-    }
-
     public Long getBalanceId() {
         return balanceId;
     }
@@ -117,29 +92,6 @@ public class FinancialSalesBalance {
         this.balanceId = balanceId;
     }
 
-    public Long getDate() {
-        return date;
-    }
-
-    public void setDate(Long date) {
-        this.date = date;
-    }
-
-    public Integer getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Integer shopId) {
-        this.shopId = shopId;
-    }
-
-    public Integer getSiteId() {
-        return siteId;
-    }
-
-    public void setSiteId(Integer siteId) {
-        this.siteId = siteId;
-    }
 
     public String getSettlemenId() {
         return settlemenId;
@@ -173,21 +125,6 @@ public class FinancialSalesBalance {
         this.orderId = orderId;
     }
 
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public Long getSkuId() {
-        return skuId;
-    }
-
-    public void setSkuId(Long skuId) {
-        this.skuId = skuId;
-    }
 
     public String getDescription() {
         return description;
@@ -507,124 +444,5 @@ public class FinancialSalesBalance {
 
     public void setFbaInventoryFee(Double fbaInventoryFee) {
         this.fbaInventoryFee = fbaInventoryFee;
-    }
-
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
-    }
-
-    public Long getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Long createDate) {
-        this.createDate = createDate;
-    }
-
-    public Long getCreateIdUser() {
-        return createIdUser;
-    }
-
-    public void setCreateIdUser(Long createIdUser) {
-        this.createIdUser = createIdUser;
-    }
-
-    public Long getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Long modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
-    public Long getModifyIdUser() {
-        return modifyIdUser;
-    }
-
-    public void setModifyIdUser(Long modifyIdUser) {
-        this.modifyIdUser = modifyIdUser;
-    }
-
-    public Long getAuditDate() {
-        return auditDate;
-    }
-
-    public void setAuditDate(Long auditDate) {
-        this.auditDate = auditDate;
-    }
-
-    public Long getAuditIdUser() {
-        return auditIdUser;
-    }
-
-    public void setAuditIdUser(Long auditIdUser) {
-        this.auditIdUser = auditIdUser;
-    }
-
-    @Override
-    public String toString() {
-        return "FinancialSalesBalance{" +
-                "balanceId=" + balanceId +
-                ", date=" + date +
-                ", shopId=" + shopId +
-                ", siteId=" + siteId +
-                ", settlemenId='" + settlemenId + '\'' +
-                ", paymentTypeId=" + paymentTypeId +
-                ", type='" + type + '\'' +
-                ", orderId='" + orderId + '\'' +
-                ", sku='" + sku + '\'' +
-                ", skuId=" + skuId +
-                ", description='" + description + '\'' +
-                ", oQuantity=" + oQuantity +
-                ", quantity=" + quantity +
-                ", refundQuantity=" + refundQuantity +
-                ", orderQty=" + orderQty +
-                ", adjustmentQty=" + adjustmentQty +
-                ", marketplace='" + marketplace + '\'' +
-                ", fulfillment='" + fulfillment + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", postal='" + postal + '\'' +
-                ", sales=" + sales +
-                ", salePrice=" + salePrice +
-                ", preSalePrice=" + preSalePrice +
-                ", stdSalePrice=" + stdSalePrice +
-                ", newShippingCredits=" + newShippingCredits +
-                ", shippingCredits=" + shippingCredits +
-                ", giftwrapCredits=" + giftwrapCredits +
-                ", promotionalRebates=" + promotionalRebates +
-                ", salesTax=" + salesTax +
-                ", marketplaceFacilitatorTax=" + marketplaceFacilitatorTax +
-                ", sellingFees=" + sellingFees +
-                ", fbaFee=" + fbaFee +
-                ", otherTransactionFees=" + otherTransactionFees +
-                ", other=" + other +
-                ", total=" + total +
-                ", serviceFee=" + serviceFee +
-                ", transfer=" + transfer +
-                ", adjustment=" + adjustment +
-                ", newPromotionalRebates=" + newPromotionalRebates +
-                ", newShippingFba=" + newShippingFba +
-                ", stdProductSales=" + stdProductSales +
-                ", stdSalesOriginal=" + stdSalesOriginal +
-                ", stdSalesAdd=" + stdSalesAdd +
-                ", stdSalesMinus=" + stdSalesMinus +
-                ", stdFba=" + stdFba +
-                ", stdFbas=" + stdFbas +
-                ", stdFbaOriginal=" + stdFbaOriginal +
-                ", lightningDealFee=" + lightningDealFee +
-                ", fbaInventoryFee=" + fbaInventoryFee +
-                ", status=" + status +
-                ", createDate=" + createDate +
-                ", createIdUser=" + createIdUser +
-                ", modifyDate=" + modifyDate +
-                ", modifyIdUser=" + modifyIdUser +
-                ", auditDate=" + auditDate +
-                ", auditIdUser=" + auditIdUser +
-                '}';
     }
 }

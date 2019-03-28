@@ -2,6 +2,8 @@ package com.dt.user.provider;
 
 
 import com.dt.user.model.FinancialSalesBalance;
+import com.dt.user.store.ProviderSqlStore;
+import com.dt.user.store.SpliceSqlStore;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 
@@ -32,8 +34,8 @@ public class FinancialSalesBalanceProvider {
                 "`transfer`,`adjustment`,`new_promotional_rebates`,`new_shipping_fba`," +
                 "`std_product_sales`,`std_sales_original`,`std_sales_add`,`std_sales_minus`," +
                 "`std_fba`,`std_fbas`,`std_fba_original`,`lightning_deal_fee`," +
-                " `fba_inventory_fee`,`status`,`create_date`,`create_id_user`," +
-                "`modify_date`,`modify_id_user`, `audit_date`, `audit_id_user`,`recording_id`,`point_fee`,`low_value_goods`)" +
+                "`fba_inventory_fee`,`point_fee`,`low_value_goods`,`create_date`,`create_user`," +
+                "`recording_id`)" +
                 " values";
         // 保存sql后缀
         StringBuilder sb = new StringBuilder();
@@ -41,7 +43,7 @@ public class FinancialSalesBalanceProvider {
         for (int i = 0; i < fsbList.size(); i++) {
             FinancialSalesBalance fsb = fsbList.get(i);
             // 构建sql后缀
-            sb.append("(" + fsb.getDate() + "," + fsb.getShopId() + "," + fsb.getSiteId() + ",");
+            sb.append("(").append(fsb.getDate()).append(",").append(fsb.getShopId()).append(",").append(fsb.getSiteId()).append(",");
             //#
             StrUtils.appBuider(sb, fsb.getSettlemenId());
             sb.append(",");
@@ -61,8 +63,7 @@ public class FinancialSalesBalanceProvider {
             //#
             StrUtils.appBuider(sb, fsb.getDescription());
             sb.append(",");
-            sb.append("" + fsb.getoQuantity() + "," + fsb.getQuantity() + "," +
-                    "" + fsb.getRefundQuantity() + "," + fsb.getOrderQty() + "," + fsb.getAdjustmentQty() + ",");
+            sb.append(fsb.getoQuantity()).append(",").append(fsb.getQuantity()).append(",").append(fsb.getRefundQuantity()).append(",").append(fsb.getOrderQty()).append(",").append(fsb.getAdjustmentQty()).append(",");
             //#
             StrUtils.appBuider(sb, fsb.getMarketplace());
             sb.append(",");
@@ -78,19 +79,25 @@ public class FinancialSalesBalanceProvider {
             //#
             StrUtils.appBuider(sb, fsb.getPostal());
             sb.append(",");
-            sb.append("" + fsb.getSales() + "," + fsb.getSalePrice() + "," + fsb.getPreSalePrice() + "," + fsb.getStdSalePrice() + "," +
-                    "" + fsb.getNewShippingCredits() + "," + fsb.getShippingCredits() + "," + fsb.getGiftwrapCredits() + "," + fsb.getPromotionalRebates() + "," +
-                    "" + fsb.getSalesTax() + "," + fsb.getMarketplaceFacilitatorTax() + "," + fsb.getSellingFees() + "," + fsb.getFbaFee() + "," +
-                    "" + fsb.getOtherTransactionFees() + "," + fsb.getOther() + "" + "," + fsb.getTotal() + "," + fsb.getServiceFee() + "" +
-                    "," + fsb.getTransfer() + "," + fsb.getAdjustment() + "," + fsb.getNewPromotionalRebates() + "," + fsb.getNewShippingFba() + "," +
-                    "" + fsb.getStdProductSales() + "," + fsb.getStdSalesOriginal() + "," + fsb.getStdSalesAdd() + "," + fsb.getStdSalesMinus() + "," +
-                    fsb.getStdFba() + "," + fsb.getStdFbas() + "," + fsb.getStdFbaOriginal() + "," + fsb.getLightningDealFee() + "," +
-                    "" + fsb.getFbaInventoryFee() + "," + fsb.getStatus() + "," + fsb.getCreateDate() + "," + fsb.getCreateIdUser() + "," +
-                    "" + fsb.getModifyDate() + "," + fsb.getModifyIdUser() + "," + fsb.getAuditDate() + "," + fsb.getAuditIdUser() + "," + fsb.getRecordingId() + "," + fsb.getPointFee() + "," + fsb.getLowValueGoods() + "),")
-            ;
+            sb.append(fsb.getSales()).append(",").append(fsb.getSalePrice()).
+                    append(",").append(fsb.getPreSalePrice()).append(",").
+                    append(fsb.getStdSalePrice()).append(",").
+                    append(fsb.getNewShippingCredits()).append(",").
+                    append(fsb.getShippingCredits()).append(",").
+                    append(fsb.getGiftwrapCredits()).append(",").
+                    append(fsb.getPromotionalRebates()).append(",").
+                    append(fsb.getSalesTax()).append(",").append(fsb.getMarketplaceFacilitatorTax()).append(",").
+                    append(fsb.getSellingFees()).append(",").append(fsb.getFbaFee()).append(",").append(fsb.getOtherTransactionFees()).
+                    append(",").append(fsb.getOther()).append(",").append(fsb.getTotal()).append(",").append(fsb.getServiceFee()).append(",").
+                    append(fsb.getTransfer()).append(",").append(fsb.getAdjustment()).append(",").append(fsb.getNewPromotionalRebates()).
+                    append(",").append(fsb.getNewShippingFba()).append(",").append(fsb.getStdProductSales()).append(",").
+                    append(fsb.getStdSalesOriginal()).append(",").append(fsb.getStdSalesAdd()).append(",").append(fsb.getStdSalesMinus()).
+                    append(",").append(fsb.getStdFba()).append(",").append(fsb.getStdFbas()).append(",").append(fsb.getStdFbaOriginal()).
+                    append(",").append(fsb.getLightningDealFee()).append(",").append(fsb.getFbaInventoryFee()).append(",");
+            sb.append(+fsb.getPointFee()).append(",").append(fsb.getLowValueGoods());
+            SpliceSqlStore.set(sb, fsb);
         }
-        String sql = sb.toString().substring(0, sb.length() - 1);
         // 构建完整sql
-        return sql;
+        return sb.toString().substring(0, sb.length() - 1);
     }
 }

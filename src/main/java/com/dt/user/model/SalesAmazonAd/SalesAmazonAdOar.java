@@ -1,233 +1,118 @@
 package com.dt.user.model.SalesAmazonAd;
 
 
-public class SalesAmazonAdOar {
+import com.dt.user.model.ParentUploadInfo;
 
-  private Long id;
-  private Long date;
-  private Integer shopId;
-  private Integer siteId;
-  private String campaignName;
-  private String adGroupName;
-  private String advertisedSku;
-  private String advertisedAsin;
-  private String targeting;
-  private String matchType;
-  private String otherAsin;
-  private Long skuId;
-  private Double otherAsinUnits;
-  private Double otherAsinUnitsOrdered;
-  private Double otherAsinUnitsOrderedSales;
-  private String remark;
-  private Integer status;
-  private Long createDate;
-  private Long createIdUser;
-  private Long modifyDate;
-  private Long modifyIdUser;
-  private Long auditDate;
-  private Long auditIdUser;
-  private Long recordingId;
+import java.math.BigDecimal;
 
-  public SalesAmazonAdOar() {
+public class SalesAmazonAdOar extends ParentUploadInfo {
 
-  }
-  public SalesAmazonAdOar(Integer shopId, Integer siteId, Long createDate, Long createIdUser, Long recordingId) {
-    this.shopId = shopId;
-    this.siteId = siteId;
-    this.createDate = createDate;
-    this.createIdUser = createIdUser;
-    this.recordingId = recordingId;
-  }
+    private Long oar_id;
+    private String advertisedSku;
+    private String advertisedAsin;
+    private String matchType;
+    private String otherAsin;
+    private Double otherAsinUnits;
+    private Double otherAsinUnitsOrdered;
+    private BigDecimal otherAsinUnitsOrderedSales;
+    private String adGroupName;
+    private String campaignName;
+    private String targeting;
 
-  public Long getId() {
-    return id;
-  }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public SalesAmazonAdOar() {
 
-  public Long getDate() {
-    return date;
-  }
+    }
 
-  public void setDate(Long date) {
-    this.date = date;
-  }
+    public SalesAmazonAdOar(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, siteId, createDate, createUser, recordingId);
+    }
 
-  public Integer getShopId() {
-    return shopId;
-  }
+    public String getAdGroupName() {
+        return adGroupName;
+    }
 
-  public void setShopId(Integer shopId) {
-    this.shopId = shopId;
-  }
+    public void setAdGroupName(String adGroupName) {
+        this.adGroupName = adGroupName;
+    }
 
-  public Integer getSiteId() {
-    return siteId;
-  }
+    public String getCampaignName() {
+        return campaignName;
+    }
 
-  public void setSiteId(Integer siteId) {
-    this.siteId = siteId;
-  }
+    public void setCampaignName(String campaignName) {
+        this.campaignName = campaignName;
+    }
 
-  public String getCampaignName() {
-    return campaignName;
-  }
+    public String getTargeting() {
+        return targeting;
+    }
 
-  public void setCampaignName(String campaignName) {
-    this.campaignName = campaignName;
-  }
+    public void setTargeting(String targeting) {
+        this.targeting = targeting;
+    }
 
-  public String getAdGroupName() {
-    return adGroupName;
-  }
+    public Long getOar_id() {
+        return oar_id;
+    }
 
-  public void setAdGroupName(String adGroupName) {
-    this.adGroupName = adGroupName;
-  }
+    public void setOar_id(Long oar_id) {
+        this.oar_id = oar_id;
+    }
 
-  public String getAdvertisedSku() {
-    return advertisedSku;
-  }
+    public String getAdvertisedSku() {
+        return advertisedSku;
+    }
 
-  public void setAdvertisedSku(String advertisedSku) {
-    this.advertisedSku = advertisedSku;
-  }
+    public void setAdvertisedSku(String advertisedSku) {
+        this.advertisedSku = advertisedSku;
+    }
 
-  public String getAdvertisedAsin() {
-    return advertisedAsin;
-  }
+    public String getAdvertisedAsin() {
+        return advertisedAsin;
+    }
 
-  public void setAdvertisedAsin(String advertisedAsin) {
-    this.advertisedAsin = advertisedAsin;
-  }
+    public void setAdvertisedAsin(String advertisedAsin) {
+        this.advertisedAsin = advertisedAsin;
+    }
 
-  public String getTargeting() {
-    return targeting;
-  }
+    public String getMatchType() {
+        return matchType;
+    }
 
-  public void setTargeting(String targeting) {
-    this.targeting = targeting;
-  }
+    public void setMatchType(String matchType) {
+        this.matchType = matchType;
+    }
 
-  public String getMatchType() {
-    return matchType;
-  }
+    public String getOtherAsin() {
+        return otherAsin;
+    }
 
-  public void setMatchType(String matchType) {
-    this.matchType = matchType;
-  }
+    public void setOtherAsin(String otherAsin) {
+        this.otherAsin = otherAsin;
+    }
 
-  public String getOtherAsin() {
-    return otherAsin;
-  }
+    public Double getOtherAsinUnits() {
+        return otherAsinUnits;
+    }
 
-  public void setOtherAsin(String otherAsin) {
-    this.otherAsin = otherAsin;
-  }
+    public void setOtherAsinUnits(Double otherAsinUnits) {
+        this.otherAsinUnits = otherAsinUnits;
+    }
 
-  public Long getSkuId() {
-    return skuId;
-  }
+    public Double getOtherAsinUnitsOrdered() {
+        return otherAsinUnitsOrdered;
+    }
 
-  public void setSkuId(Long skuId) {
-    this.skuId = skuId;
-  }
+    public void setOtherAsinUnitsOrdered(Double otherAsinUnitsOrdered) {
+        this.otherAsinUnitsOrdered = otherAsinUnitsOrdered;
+    }
 
-  public Double getOtherAsinUnits() {
-    return otherAsinUnits;
-  }
+    public BigDecimal getOtherAsinUnitsOrderedSales() {
+        return otherAsinUnitsOrderedSales;
+    }
 
-  public void setOtherAsinUnits(Double otherAsinUnits) {
-    this.otherAsinUnits = otherAsinUnits;
-  }
-
-  public Double getOtherAsinUnitsOrdered() {
-    return otherAsinUnitsOrdered;
-  }
-
-  public void setOtherAsinUnitsOrdered(Double otherAsinUnitsOrdered) {
-    this.otherAsinUnitsOrdered = otherAsinUnitsOrdered;
-  }
-
-  public Double getOtherAsinUnitsOrderedSales() {
-    return otherAsinUnitsOrderedSales;
-  }
-
-  public void setOtherAsinUnitsOrderedSales(Double otherAsinUnitsOrderedSales) {
-    this.otherAsinUnitsOrderedSales = otherAsinUnitsOrderedSales;
-  }
-
-  public String getRemark() {
-    return remark;
-  }
-
-  public void setRemark(String remark) {
-    this.remark = remark;
-  }
-
-  public Integer getStatus() {
-    return status;
-  }
-
-  public void setStatus(Integer status) {
-    this.status = status;
-  }
-
-  public Long getCreateDate() {
-    return createDate;
-  }
-
-  public void setCreateDate(Long createDate) {
-    this.createDate = createDate;
-  }
-
-  public Long getCreateIdUser() {
-    return createIdUser;
-  }
-
-  public void setCreateIdUser(Long createIdUser) {
-    this.createIdUser = createIdUser;
-  }
-
-  public Long getModifyDate() {
-    return modifyDate;
-  }
-
-  public void setModifyDate(Long modifyDate) {
-    this.modifyDate = modifyDate;
-  }
-
-  public Long getModifyIdUser() {
-    return modifyIdUser;
-  }
-
-  public void setModifyIdUser(Long modifyIdUser) {
-    this.modifyIdUser = modifyIdUser;
-  }
-
-  public Long getAuditDate() {
-    return auditDate;
-  }
-
-  public void setAuditDate(Long auditDate) {
-    this.auditDate = auditDate;
-  }
-
-  public Long getAuditIdUser() {
-    return auditIdUser;
-  }
-
-  public void setAuditIdUser(Long auditIdUser) {
-    this.auditIdUser = auditIdUser;
-  }
-
-  public Long getRecordingId() {
-    return recordingId;
-  }
-
-  public void setRecordingId(Long recordingId) {
-    this.recordingId = recordingId;
-  }
+    public void setOtherAsinUnitsOrderedSales(BigDecimal otherAsinUnitsOrderedSales) {
+        this.otherAsinUnitsOrderedSales = otherAsinUnitsOrderedSales;
+    }
 }

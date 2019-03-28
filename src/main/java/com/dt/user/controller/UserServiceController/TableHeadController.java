@@ -5,6 +5,7 @@ import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.TableHeadDto;
 import com.dt.user.model.TableHead;
 import com.dt.user.service.TableHeadService;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,16 @@ public class TableHeadController {
 
     @Autowired
     private TableHeadService tableHeadService;
+
+    /**
+     * 引用表头
+     *
+     * @return
+     */
+    @PostMapping("/saveReference")
+    public ResponseBase saveReferenceHead(@RequestBody TableHead tableHead) {
+        return tableHeadService.setHead(tableHead);
+    }
 
     /**
      * 新增表头信息

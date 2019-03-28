@@ -3,6 +3,8 @@ package com.dt.user.utils;
 import com.dt.user.model.FinancialSalesBalance;
 import org.apache.commons.lang3.StringUtils;
 
+import java.math.BigDecimal;
+
 public class StrUtils {
 
 
@@ -17,6 +19,42 @@ public class StrUtils {
             return Integer.parseInt(v);
         }
         return null;
+    }
+
+    /**
+     * 通用替换字符串转Decimal
+     */
+    public static BigDecimal repDecimal(String str) {
+        if (StringUtils.isBlank(str)) {
+            return null;
+        }
+        int h = str.indexOf("£");
+        int l = str.indexOf("%");
+        int j = str.indexOf("$");
+        int k = str.indexOf(",");
+        int g = str.indexOf("￥");
+        int f = str.indexOf("€");
+        int c = str.indexOf("Can");
+        int v = str.indexOf("MXN");
+        if (v == -1 && c == -1 && h == -1 && l == -1 && j == -1 && k == -1 && g == -1 && f == -1) {
+            return new BigDecimal(str);
+        }
+        String strNew = str.
+                replace("￥", "").
+                replace("%", "").
+                replace("$", "").
+                replace(",", "").
+                replace("£", "").
+                replace("€", "").
+                replace("Can", "").
+                replace("MXN", "")
+                .trim();
+        if (l != -1) {
+            BigDecimal b1 = new BigDecimal(strNew);
+            BigDecimal b2 = new BigDecimal("100");
+            return b1.divide(b2);
+        }
+        return new BigDecimal(strNew);
     }
 
     /**

@@ -17,4 +17,9 @@ public class SalesAmazonAdStrServiceImpl implements SalesAmazonAdStrService {
     public int AddSalesAmazonAdStrList(List<SalesAmazonAdStr> strList) {
         return strMapper.AddSalesAmazonAdStrList(strList);
     }
+
+    @Override
+    public List<SalesAmazonAdStr> serviceFindByListStr(SalesAmazonAdStr str) {
+        return strMapper.findByListStr(str);
+    }
 }

@@ -17,10 +17,9 @@ public class SalesAmazonAdCprProvider {
         List<SalesAmazonAdCpr> cprList = (List<SalesAmazonAdCpr>) mapCpr.get("cprList");
         StringBuilder sb = new StringBuilder();
         sb.append("insert into sales_amazon_ad_cpr(`date`,shop_id,site_id,sku_id,advertised_sku,advertised_asin," +
-                "campaign_name," +
-                "ad_group_name,keyword,match_type,impressions,clicks,total_spend,orders_placed,sales,roas," +
-                "total_units,samesku_units_ordered,othersku_units_ordered,samesku_units_sales,othersku_units_sales," +
-                "create_date,create_use,`recording_id`) values");
+                "campaign_name,ad_group_name,targeting,match_type,impressions,clicks,total_spend,orders_placed,sales,roas," +
+                "total_units,same_sku_units_ordered,other_sku_units_ordered,same_sku_units_sales,other_sku_units_sales," +
+                "create_date,create_user,`recording_id`) values");
         for (SalesAmazonAdCpr cpr : cprList) {
             sb.append("(").append(cpr.getDate()).append(",").
                     append(cpr.getShopId()).append(",").append(cpr.getSiteId()).append(",");
@@ -33,7 +32,7 @@ public class SalesAmazonAdCprProvider {
             sb.append(",");
             StrUtils.appBuider(sb, cpr.getAdGroupName());
             sb.append(",");
-            StrUtils.appBuider(sb, cpr.getKeyword());
+            StrUtils.appBuider(sb, cpr.getTargeting());
             sb.append(",");
             StrUtils.appBuider(sb, cpr.getMatchType());
             sb.append(",");
@@ -42,9 +41,9 @@ public class SalesAmazonAdCprProvider {
                     append(",").append(cpr.getOrdersPlaced()).append(",").append(cpr.getSales()).
                     append(",").append(cpr.getRoas()).append(",").
                     append(cpr.getTotalUnits()).append(",").
-                    append(cpr.getSameskuUnitsOrdered()).
-                    append(",").append(cpr.getOtherskuUnitsOrdered()).append(",").
-                    append(cpr.getSameskuUnitsSales()).append(",").append(cpr.getOtherskuUnitsSales()).append(",");
+                    append(cpr.getSameSkuUnitsOrdered()).
+                    append(",").append(cpr.getOtherSkuUnitsOrdered()).append(",").
+                    append(cpr.getSameSkuUnitsSales()).append(",").append(cpr.getOtherSkuUnitsSales()).append(",");
             //通用set 拼接
             SpliceSqlStore.set(sb, cpr);
         }
@@ -57,28 +56,16 @@ public class SalesAmazonAdCprProvider {
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`ad_cpr_id`, `date`,`advertised_sku`,\n" +
                 "`advertised_asin`,`campaign_name`,`ad_group_name`,\n" +
-                "`keyword`,`match_type`,`impressions`,\n" +
+                "`targeting`,`match_type`,`impressions`,\n" +
                 "`clicks`,`total_spend`,`orders_placed`,\n" +
                 "`sales`,`roas`,`total_units`,\n" +
-                "`samesku_units_ordered`,`othersku_units_ordered`,`samesku_units_sales`,\n" +
-                "`othersku_units_sales`,`remark`,`status`,`create_date`,`create_user`,\n" +
-                "`modify_date`,`modify_user`,`audit_date`,`audit_user`\n" +
-                "FROM `sales_amazon_ad_cpr` AS ac \n");
-        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=ac.`shop_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = ac.`site_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = ac.`sku_id`");
-        // sku
-        if (StringUtils.isNotBlank(cpr.getSku())) {
-            sql.WHERE("POSITION('" + cpr.getSku() + "' IN ps.`sku`)");
-        }
-        //店铺名称
-        if (StringUtils.isNotBlank(cpr.getShopName())) {
-            sql.WHERE("POSITION('" + cpr.getShopName() + "' IN s.`shop_name`)");
-        }
-        //站点名称
-        if (StringUtils.isNotBlank(cpr.getSiteName())) {
-            sql.WHERE("POSITION('" + cpr.getSiteName() + "' IN cs.`site_name`)");
-        }
+                "`same_sku_units_ordered`,`other_sku_units_ordered`,`same_sku_units_sales`,\n" +
+                "`other_sku_units_sales`," + ProviderSqlStore.statusV + "" +
+                "FROM `sales_amazon_ad_cpr` AS cpr \n");
+        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=cpr.`shop_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = cpr.`site_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = cpr.`sku_id`");
+
         //广告SKU
         if (StringUtils.isNotBlank(cpr.getAdvertisedSku())) {
             sql.WHERE("POSITION('" + cpr.getAdvertisedSku() + "' IN `advertised_sku`)");
@@ -87,18 +74,7 @@ public class SalesAmazonAdCprProvider {
         if (StringUtils.isNotBlank(cpr.getAdvertisedAsin())) {
             sql.WHERE("POSITION('" + cpr.getAdvertisedAsin() + "' IN `advertised_asin`)");
         }
-        //广告活动
-        if (StringUtils.isNotBlank(cpr.getCampaignName())) {
-            sql.WHERE("POSITION('" + cpr.getCampaignName() + "' IN `campaign_name`)");
-        }
-        //广告组
-        if (StringUtils.isNotBlank(cpr.getAdGroupName())) {
-            sql.WHERE("POSITION('" + cpr.getAdGroupName() + "' IN `ad_group_name`)");
-        }
-        //关键词
-        if (StringUtils.isNotBlank(cpr.getKeyword())) {
-            sql.WHERE("POSITION('" + cpr.getKeyword() + "' IN `keyword`)");
-        }
+
         //匹配方式
         if (StringUtils.isNotBlank(cpr.getMatchType())) {
             sql.WHERE("POSITION('" + cpr.getMatchType() + "' IN `match_type`)");
@@ -132,20 +108,20 @@ public class SalesAmazonAdCprProvider {
             sql.WHERE("total_units=#{totalUnits}");
         }
         //广告SKU销量
-        if (cpr.getSameskuUnitsOrdered() != null) {
-            sql.WHERE("samesku_units_ordered=#{sameskuUnitsOrdered}");
+        if (cpr.getSameSkuUnitsOrdered() != null) {
+            sql.WHERE("same_sku_units_ordered=#{sameSkuUnitsOrdered}");
         }
         //其他SKU销量
-        if (cpr.getOtherskuUnitsOrdered() != null) {
-            sql.WHERE("othersku_units_ordered=#{otherskuUnitsOrdered}");
+        if (cpr.getOtherSkuUnitsOrdered() != null) {
+            sql.WHERE("other_sku_units_ordered=#{otherSkuUnitsOrdered}");
         }
         //广告SKU销售额
-        if (cpr.getSameskuUnitsSales() != null) {
-            sql.WHERE("samesku_units_sales=#{sameskuUnitsSales}");
+        if (cpr.getSameSkuUnitsSales() != null) {
+            sql.WHERE("same_sku_units_sales=#{sameSkuUnitsSales}");
         }
         //其他SKU销售额
-        if (cpr.getOtherskuUnitsSales() != null) {
-            sql.WHERE("othersku_units_sales=#{otherskuUnitsSales}");
+        if (cpr.getOtherSkuUnitsSales() != null) {
+            sql.WHERE("other_sku_units_sales=#{otherSkuUnitsSales}");
         }
         ProviderSqlStore.saveUploadStatus(sql, cpr);
         return sql.toString();

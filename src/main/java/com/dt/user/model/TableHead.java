@@ -57,6 +57,16 @@ public class TableHead implements Serializable {
      */
     private Integer index;
 
+    private List<TableHead> headList;
+
+    public List<TableHead> getHeadList() {
+        return headList;
+    }
+
+    public void setHeadList(List<TableHead> headList) {
+        this.headList = headList;
+    }
+
     public Long getId() {
         return id;
     }

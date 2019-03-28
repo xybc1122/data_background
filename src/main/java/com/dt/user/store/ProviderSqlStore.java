@@ -12,7 +12,17 @@ import org.apache.ibatis.jdbc.SQL;
  * @Date 2019/3/19 9:58
  **/
 public class ProviderSqlStore {
+    //通用设置sql状态
+    public static String statusV = "`remark`,`status`,`create_date`,`create_user`," +
+            "`modify_date`,`modify_user`,`audit_date`,`audit_user` \n";
 
+    /**
+     * 通用设置
+     *
+     * @param logStatus
+     * @param as
+     * @param sql
+     */
     public static void saveStatus(SystemLogStatus logStatus, String as, SQL sql) {
         if (logStatus != null) {
             sql.LEFT_OUTER_JOIN("`system_log_status` AS ls ON ls.status_id=" + as + ". `status_id` ");
@@ -55,7 +65,25 @@ public class ProviderSqlStore {
         }
     }
 
+    /**
+     * 通用设置
+     *
+     * @param sql
+     * @param p
+     */
     public static void saveUploadStatus(SQL sql, ParentUploadInfo p) {
+        // sku
+        if (StringUtils.isNotBlank(p.getSku())) {
+            sql.WHERE("POSITION('" + p.getSku() + "' IN ps.`sku`)");
+        }
+        //店铺名称
+        if (StringUtils.isNotBlank(p.getShopName())) {
+            sql.WHERE("POSITION('" + p.getShopName() + "' IN s.`shop_name`)");
+        }
+        //站点名称
+        if (StringUtils.isNotBlank(p.getSiteName())) {
+            sql.WHERE("POSITION('" + p.getSiteName() + "' IN cs.`site_name`)");
+        }
         //文件已有时间
         if (p.getDates() != null && (p.getDates().size() > 0)) {
             sql.WHERE("date  " + p.getDates().get(0) + " AND " + p.getDates().get(1) + "");

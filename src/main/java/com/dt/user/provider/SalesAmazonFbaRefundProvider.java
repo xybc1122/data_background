@@ -1,6 +1,7 @@
 package com.dt.user.provider;
 
 import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaRefund;
+import com.dt.user.store.SpliceSqlStore;
 import com.dt.user.utils.StrUtils;
 
 import java.util.List;
@@ -16,9 +17,8 @@ public class SalesAmazonFbaRefundProvider {
         sb.append("INSERT INTO `sales_amazon_fba_refund`" +
                 "(`date`,`purchase_date`,`shop_id`,`site_id`,`order_id`,`sku`,`s_asin`,\n" +
                 "`fnsku`,`sku_id`,`p_name`,`quantity`,`fc`,`aw_id`,`detailed_disposition`,\n" +
-                "`reason`,`refund_staus`,`license_plate_number`,`customer_remarks`,`remark`,\n" +
-                "`status`,`create_date`,`create_id_user`,`modify_date`,`modify_id_user`,\n" +
-                "`audit_date`,`audit_id_user`,`recordingId`)values");
+                "`reason`,`refund_staus`,`license_plate_number`,`customer_remarks`," +
+                "`create_date`,`create_user`,`recordingId`)values");
         for (SalesAmazonFbaRefund refund : refundList) {
             sb.append("(" + refund.getDate() + "," + refund.getPurchaseDate() + ","
                     + refund.getShopId() + "," + refund.getSiteId());
@@ -30,15 +30,15 @@ public class SalesAmazonFbaRefundProvider {
             StrUtils.appBuider(sb, refund.getsAsin());
             sb.append(",");
             StrUtils.appBuider(sb, refund.getFnsku());
-            sb.append("," + refund.getSkuId() + ",");
+            sb.append(",").append(refund.getSkuId()).append(",");
 
             StrUtils.appBuider(sb, refund.getpName());
 
-            sb.append("," + refund.getQuantity() + (","));
+            sb.append(",").append(refund.getQuantity()).append(",");
 
             StrUtils.appBuider(sb, refund.getFc());
 
-            sb.append("," + refund.getAwId() + ",");
+            sb.append(",").append(refund.getAwId()).append(",");
             StrUtils.appBuider(sb, refund.getDetailedDisposition());
             sb.append(",");
             StrUtils.appBuider(sb, refund.getReason());
@@ -49,14 +49,8 @@ public class SalesAmazonFbaRefundProvider {
             sb.append(",");
             StrUtils.appBuider(sb, refund.getCustomerRemarks());
             sb.append(",");
-            StrUtils.appBuider(sb, refund.getRemark());
-            sb.append(",");
-            sb.append(refund.getStatus() + "," + refund.getCreateDate() + ","
-                    + refund.getCreateIdUser() + "," + refund.getModifyDate() + ","
-                    + refund.getModifyIdUser() + "," + refund.getAuditDate() + ","
-                    + refund.getAuditIdUser() + "," + refund.getRecordingId() + "),");
+            SpliceSqlStore.set(sb, refund);
         }
-        String sql = sb.toString().substring(0, sb.length() - 1);
-        return sql;
+        return sb.toString().substring(0, sb.length() - 1);
     }
 }

@@ -1,17 +1,16 @@
 package com.dt.user.model.SalesAmazonAd;
 
+import com.dt.user.model.ParentUploadInfo;
+
 /**
  * 订单报告表
  */
-public class SalesAmazonFbaTradeReport {
+public class SalesAmazonFbaTradeReport extends ParentUploadInfo {
 
     private Long id;
     private String amazonOrderId;
     private String merchantOrderId;
-    private Long date;
     private Long lastUpdatedDate;
-    private Integer shopId;
-    private Integer siteId;
     private String orderStatus;
     private String fulfillmentChannel;
     private String salesChannel;
@@ -19,8 +18,6 @@ public class SalesAmazonFbaTradeReport {
     private String url;
     private String shipServiceLevel;
     private String productName;
-    private String sku;
-    private Long skuId;
     private String asin;
     private String itemStatus;
     private Integer quantity;
@@ -43,49 +40,14 @@ public class SalesAmazonFbaTradeReport {
     private String priceDesignation;
     private String isReplacementOrder;
     private String originalOrderId;
-    private Long createDate;
-    private Long createIdUser;
-    private Long modifyDate;
-    private Long modifyIdUser;
-    private Long auditDate;
-    private Long auditIdUser;
-    private Long recordingId;
-
 
 
     public SalesAmazonFbaTradeReport() {
 
     }
 
-    public SalesAmazonFbaTradeReport(Integer shopId, Long createDate, Long createIdUser, Long recordingId) {
-        this.shopId = shopId;
-        this.createDate = createDate;
-        this.createIdUser = createIdUser;
-        this.recordingId = recordingId;
-    }
-
-    public String getIsReplacementOrder() {
-        return isReplacementOrder;
-    }
-
-    public void setIsReplacementOrder(String isReplacementOrder) {
-        this.isReplacementOrder = isReplacementOrder;
-    }
-
-    public String getOriginalOrderId() {
-        return originalOrderId;
-    }
-
-    public void setOriginalOrderId(String originalOrderId) {
-        this.originalOrderId = originalOrderId;
-    }
-
-    public Long getRecordingId() {
-        return recordingId;
-    }
-
-    public void setRecordingId(Long recordingId) {
-        this.recordingId = recordingId;
+    public SalesAmazonFbaTradeReport(Integer shopId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, null, createDate, createUser, recordingId);
     }
 
     public Long getId() {
@@ -112,36 +74,12 @@ public class SalesAmazonFbaTradeReport {
         this.merchantOrderId = merchantOrderId;
     }
 
-    public Long getDate() {
-        return date;
-    }
-
-    public void setDate(Long date) {
-        this.date = date;
-    }
-
     public Long getLastUpdatedDate() {
         return lastUpdatedDate;
     }
 
     public void setLastUpdatedDate(Long lastUpdatedDate) {
         this.lastUpdatedDate = lastUpdatedDate;
-    }
-
-    public Integer getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Integer shopId) {
-        this.shopId = shopId;
-    }
-
-    public Integer getSiteId() {
-        return siteId;
-    }
-
-    public void setSiteId(Integer siteId) {
-        this.siteId = siteId;
     }
 
     public String getOrderStatus() {
@@ -198,22 +136,6 @@ public class SalesAmazonFbaTradeReport {
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getSku() {
-        return sku;
-    }
-
-    public void setSku(String sku) {
-        this.sku = sku;
-    }
-
-    public Long getSkuId() {
-        return skuId;
-    }
-
-    public void setSkuId(Long skuId) {
-        this.skuId = skuId;
     }
 
     public String getAsin() {
@@ -376,100 +298,19 @@ public class SalesAmazonFbaTradeReport {
         this.priceDesignation = priceDesignation;
     }
 
-    public Long getCreateDate() {
-        return createDate;
+    public String getIsReplacementOrder() {
+        return isReplacementOrder;
     }
 
-    public void setCreateDate(Long createDate) {
-        this.createDate = createDate;
+    public void setIsReplacementOrder(String isReplacementOrder) {
+        this.isReplacementOrder = isReplacementOrder;
     }
 
-    public Long getCreateIdUser() {
-        return createIdUser;
+    public String getOriginalOrderId() {
+        return originalOrderId;
     }
 
-    public void setCreateIdUser(Long createIdUser) {
-        this.createIdUser = createIdUser;
-    }
-
-    public Long getModifyDate() {
-        return modifyDate;
-    }
-
-    public void setModifyDate(Long modifyDate) {
-        this.modifyDate = modifyDate;
-    }
-
-    public Long getModifyIdUser() {
-        return modifyIdUser;
-    }
-
-    public void setModifyIdUser(Long modifyIdUser) {
-        this.modifyIdUser = modifyIdUser;
-    }
-
-    public Long getAuditDate() {
-        return auditDate;
-    }
-
-    public void setAuditDate(Long auditDate) {
-        this.auditDate = auditDate;
-    }
-
-    public Long getAuditIdUser() {
-        return auditIdUser;
-    }
-
-    public void setAuditIdUser(Long auditIdUser) {
-        this.auditIdUser = auditIdUser;
-    }
-
-    @Override
-    public String toString() {
-        return "SalesAmazonFbaTradeReport{" +
-                "id=" + id +
-                ", amazonOrderId='" + amazonOrderId + '\'' +
-                ", merchantOrderId='" + merchantOrderId + '\'' +
-                ", date=" + date +
-                ", lastUpdatedDate=" + lastUpdatedDate +
-                ", shopId=" + shopId +
-                ", siteId=" + siteId +
-                ", orderStatus='" + orderStatus + '\'' +
-                ", fulfillmentChannel='" + fulfillmentChannel + '\'' +
-                ", salesChannel='" + salesChannel + '\'' +
-                ", orderChannel='" + orderChannel + '\'' +
-                ", url='" + url + '\'' +
-                ", shipServiceLevel='" + shipServiceLevel + '\'' +
-                ", productName='" + productName + '\'' +
-                ", sku='" + sku + '\'' +
-                ", skuId=" + skuId +
-                ", asin='" + asin + '\'' +
-                ", itemStatus='" + itemStatus + '\'' +
-                ", quantity=" + quantity +
-                ", currency='" + currency + '\'' +
-                ", itemPrice=" + itemPrice +
-                ", itemTax=" + itemTax +
-                ", shippingPrice=" + shippingPrice +
-                ", shippingTax=" + shippingTax +
-                ", giftWrapPrice=" + giftWrapPrice +
-                ", giftWrapTax=" + giftWrapTax +
-                ", itemPromotionDiscount=" + itemPromotionDiscount +
-                ", shipPromotionDiscount=" + shipPromotionDiscount +
-                ", shipCity='" + shipCity + '\'' +
-                ", shipState='" + shipState + '\'' +
-                ", shipPostalCode='" + shipPostalCode + '\'' +
-                ", shipCountry='" + shipCountry + '\'' +
-                ", promotionIds='" + promotionIds + '\'' +
-                ", isBusinessOrder='" + isBusinessOrder + '\'' +
-                ", purchaseOrderNumber='" + purchaseOrderNumber + '\'' +
-                ", priceDesignation='" + priceDesignation + '\'' +
-                ", createDate=" + createDate +
-                ", createIdUser=" + createIdUser +
-                ", modifyDate=" + modifyDate +
-                ", modifyIdUser=" + modifyIdUser +
-                ", auditDate=" + auditDate +
-                ", auditIdUser=" + auditIdUser +
-                ", recordingId=" + recordingId +
-                '}';
+    public void setOriginalOrderId(String originalOrderId) {
+        this.originalOrderId = originalOrderId;
     }
 }

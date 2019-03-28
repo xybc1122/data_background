@@ -1,5 +1,7 @@
 package com.dt.user.provider;
+
 import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaInventoryEnd;
+import com.dt.user.store.SpliceSqlStore;
 import com.dt.user.utils.StrUtils;
 
 import java.util.List;
@@ -14,31 +16,24 @@ public class SalesAmazonFbaInventoryEndProvider {
         sb.append("INSERT INTO `sales_amazon_fba_Inventory_End`\n" +
                 "(`date`,`shop_id`,`site_id`,`sku`,`fnsku`,`sku_id`,\n" +
                 "`ProductName`,`quantity`,`fc`,`aw_id`,`disposition`,`country`,\n" +
-                "`remark`,`status`,`create_date`,`create_id_user`, `modify_date`,\n" +
-                "`modify_id_user`,`audit_date`,`audit_id_user`,`recordingId`)values");
+                "`create_date`,`create_user`,`recordingId`)values");
         for (SalesAmazonFbaInventoryEnd end : endList) {
-            sb.append("(" + end.getDate() + "," + end.getShopId() + "," + end.getSiteId() + ",");
+            sb.append("(").append(end.getDate()).append(",").append(end.getShopId()).append(",").append(end.getSiteId()).append(",");
             StrUtils.appBuider(sb, end.getSku());
             sb.append(",");
             StrUtils.appBuider(sb, end.getFnsku());
-            sb.append("," + end.getSkuId() + ",");
+            sb.append(",").append(end.getSkuId()).append(",");
             StrUtils.appBuider(sb, end.getProductName());
-            sb.append("," + end.getQuantity() + ",");
+            sb.append(",").append(end.getQuantity()).append(",");
             StrUtils.appBuider(sb, end.getFc());
-            sb.append("," + end.getAwId() + ",");
+            sb.append(",").append(end.getAwId()).append(",");
             StrUtils.appBuider(sb, end.getDisposition());
             sb.append(",");
             StrUtils.appBuider(sb, end.getCountry());
             sb.append(",");
-            StrUtils.appBuider(sb, end.getRemark());
-            sb.append(",");
-            sb.append(end.getStatus() + "," + end.getCreateDate() + ","
-                    + end.getCreateIdUser() + "," + end.getModifyDate() + ","
-                    + end.getModifyIdUser() + "," + end.getAuditDate() + ","
-                    + end.getAuditIdUser() + "," + end.getRecordingId() + "),");
+            SpliceSqlStore.set(sb, end);
         }
-        String sql = sb.toString().substring(0, sb.length() - 1);
-        return sql;
+        return sb.toString().substring(0, sb.length() - 1);
     }
 
 }

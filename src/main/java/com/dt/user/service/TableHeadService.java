@@ -9,8 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface TableHeadService {
-
-    void setHead(TableHead tableHead);
+    /**
+     * 处理引用头数据
+     *
+     * @param tableHead
+     */
+    ResponseBase setHead(TableHead tableHead);
 
 
     /**

@@ -3,6 +3,7 @@ package com.dt.user.service.impl;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.TableHeadDto;
+import com.dt.user.exception.LsException;
 import com.dt.user.mapper.TableHeadMapper;
 import com.dt.user.model.TableHead;
 import com.dt.user.service.TableHeadService;
@@ -10,6 +11,7 @@ import com.dt.user.utils.ArrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,11 +26,19 @@ public class TableHeadImpl implements TableHeadService {
 
 
     @Override
-    public void setHead(TableHead tableHead) {
-        String[] hIds = tableHead.getIds().split(",");
-//        for (int i = 0; i < hIds.length; i++) {
-//
-//        }
+    @Transactional
+    public ResponseBase setHead(TableHead tableHead) {
+        try {
+            if (tableHead.getHeadList() != null && tableHead.getHeadList().size() > 0) {
+                for (TableHead t : tableHead.getHeadList()) {
+//                    serviceUpHead(t);
+                }
+                return JsonData.setResultSuccess("引用成功");
+            }
+        } catch (Exception e) {
+            throw new LsException("引用头异常" + e.getMessage());
+        }
+        return JsonData.setResultError("引用失败");
     }
 
     @Override

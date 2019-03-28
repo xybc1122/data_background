@@ -14,14 +14,15 @@ public class LsException extends RuntimeException {
      */
     private String msg;
 
-    public LsException(int code, String msg) {
-        super(msg);
-        this.code = code;
-        this.msg = msg;
-    }
 
     public LsException(String msg) {
         super(msg);
+        this.msg = msg;
+    }
+
+    public LsException(int code, String msg) {
+        super(msg);
+        this.code = code;
         this.msg = msg;
     }
 

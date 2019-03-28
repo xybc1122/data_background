@@ -1,7 +1,9 @@
 package com.dt.user.store;
+
 import org.springframework.stereotype.Component;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.CookieUtil;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
  * @author xuxueli 2018-04-02 20:03:11
  */
 @Component
-public class SsoLoginStore{
+public class SsoLoginStore {
     /**
-     * client logout, cookie only
+     * 删除 token
      *
      * @param request
      * @param response

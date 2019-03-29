@@ -1,6 +1,6 @@
 package com.dt.user.utils;
 
-import com.dt.user.model.Timing;
+import com.dt.user.model.RealTimeData;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -32,8 +32,8 @@ public class CrrUtils {
 
 
     //set并发add
-    public static Set<Timing> inCreateSet(ThreadLocal<Set<Timing>> timingSet, Timing timing) {
-        Set<Timing> timings = timingSet.get();
+    public static Set<RealTimeData> inCreateSet(ThreadLocal<Set<RealTimeData>> timingSet, RealTimeData timing) {
+        Set<RealTimeData> timings = timingSet.get();
         if (timings == null) {
             timings = new HashSet<>();
         }

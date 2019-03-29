@@ -4,12 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.csvreader.CsvReader;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
-import com.dt.user.config.WebSocketServer;
 import com.dt.user.exception.LsException;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicAmazonTypeMapper;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonWarehouse;
 import com.dt.user.model.FinancialSalesBalance;
+import com.dt.user.model.RealTimeData;
 import com.dt.user.model.SalesAmazonAd.*;
 import com.dt.user.model.UserUpload;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
@@ -21,9 +21,11 @@ import com.dt.user.service.FinancialSalesBalanceService;
 import com.dt.user.service.SalesAmazonAdService.*;
 import com.dt.user.service.UserService;
 import com.dt.user.service.UserUploadService;
+import com.dt.user.store.RealTimeDataStore;
 import com.dt.user.store.UploadStore;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.*;
+import com.dt.user.websocket.WebSocketServer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -120,7 +122,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     /**
      * 实时数据Set集合
      */
-//    private ThreadLocal<Set<Timing>> timSet = new ThreadLocal<>();
+    private ThreadLocal<Set<RealTimeData>> timeDataSet = new ThreadLocal<>();
 
     //#######################Txt
 
@@ -582,7 +584,9 @@ public class ConsumerServiceImpl implements ConsumerService {
             if (!isFlg) {
                 setErrorInfo(recordingId, Constants.HEADER_EXCEPTION + JsonUtils.json(sqlHead));
             }
-            ResponseBase responseXls = saveXls(shopId, siteId, uid, recordingId, totalNumber, sqlHead, menuId, sheet, xlsListHead);
+            //创建对象设置文件总数
+            RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
+            ResponseBase responseXls = saveXls(shopId, siteId, uid, recordingId, totalNumber, sqlHead, menuId, sheet, xlsListHead, timeData);
             return saveUserUploadInfo(responseXls.getMsg(), recordingId, fileName, null, 1, filePath, uuIdName);
         } finally {
             CrrUtils.clearListThread(noSkuList);
@@ -603,7 +607,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     public ResponseBase saveXls(Integer shopId, Integer siteId, Long uid, Long
-            recordingId, int totalNumber, List<String> sqlHead, Integer menuId, Sheet sheet, List<String> xlsListHead) {
+            recordingId, int totalNumber, List<String> sqlHead, Integer menuId, Sheet sheet, List<String> xlsListHead, RealTimeData timeData) {
         // 开始时间
         Long begin = new Date().getTime();
         Row row;
@@ -623,6 +627,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         //保存J的索引 为了拿到 出错的头 字段
         int k = 0;
         try {
+            Map<String, Integer> intMap = new HashMap<>();
             for (int i = line; i <= lastRowNum; i++) {
                 //numberCount++
                 CrrUtils.inCreateNumberLong(numberCount);
@@ -683,6 +688,9 @@ public class ConsumerServiceImpl implements ConsumerService {
                     hlList.add(adHl);
                 }
                 index++;
+                //设置进度 传输
+                ws.schedule(intMap, RealTimeDataStore.setSchedule(timeData, index), timeDataSet, timeData, uid);
+
             }
         } catch (Exception e) {
             setErrorInfo(recordingId, "出错字段" + xlsListHead.get(k) + "下" + (numberCount.get() + 1) + "行信息错误,错误原因," + e.getMessage());

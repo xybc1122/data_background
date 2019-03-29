@@ -1,28 +1,29 @@
-package com.dt.user.config;
+package com.dt.user.websocket;
 
 import com.alibaba.fastjson.JSON;
-import com.dt.user.model.Timing;
+import com.dt.user.model.RealTimeData;
 import com.dt.user.utils.CrrUtils;
-import com.dt.user.utils.ReqUtils;
 import org.springframework.stereotype.Component;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@ServerEndpoint("/socket")
+@ServerEndpoint("/webSocket/{uId}")
 @Component
 public class WebSocketServer {
-    //接收uId
+    //接收sid
     private Long uId = null;
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
-    private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<WebSocketServer>();
+    private static CopyOnWriteArraySet<WebSocketServer> webSocketSet = new CopyOnWriteArraySet<>();
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
@@ -30,11 +31,11 @@ public class WebSocketServer {
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session, @PathParam("uId") Long uId) {
         this.session = session;
         webSocketSet.add(this);
-        this.uId = ReqUtils.getUid();
-        System.out.println("连接成功");
+        this.uId = uId;
+        System.out.println("WebSocket连接成功");
     }
 
 
@@ -50,32 +51,29 @@ public class WebSocketServer {
      *
      * @param intMap
      * @param currentCount
-     * @param timSet
-     * @param timing
      * @param uid
      */
-    public void schedule(Map<String, Integer> intMap, int currentCount, ThreadLocal<Set<Timing>> timSet, Timing timing, Long uid) {
+    public void schedule(Map<String, Integer> intMap, int currentCount, ThreadLocal<Set<RealTimeData>> setTimeData, RealTimeData realTimeData, Long uid) throws IOException {
         if (intMap.size() == 0) {
             intMap.put("current", currentCount);
         }
         //如果值不一样 发送webSocket给前端
         if (intMap.get("current") != currentCount) {
-            sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(timSet, timing)), uid);
+            sendInfo(JSON.toJSONString(CrrUtils.inCreateSet(setTimeData, realTimeData)), uid);
             intMap.put("current", currentCount);
         }
     }
 
-    public void sendInfo(String message, Long uId) {
+    public void sendInfo(String message, Long uId) throws IOException {
         for (WebSocketServer item : webSocketSet) {
-            try {
-                //这里可以设定只推送给这个uid的，为null则全部推送
-                if (uId == null) {
-                    item.sendMessage(message);
-                } else if (item.uId.equals(uId)) {
-                    item.sendMessage(message);
-                }
-            } catch (IOException e) {
-                continue;
+            //这里可以设定只推送给这个uid的，为null则全部推送
+            if (uId == null) {
+                item.sendMessage(message);
+                break;
+            } else if (item.uId.equals(uId)) {
+                // System.out.println(item.uId);
+                item.sendMessage(message);
+                break;
             }
         }
     }

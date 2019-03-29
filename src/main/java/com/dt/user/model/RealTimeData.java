@@ -6,12 +6,12 @@ import com.dt.user.utils.FileUtils;
 /**
  * 定时请求的对象
  */
-public class Timing {
+public class RealTimeData {
     private String fileName;
     //上传页面id
     private Long redId;
 
-//    private static volatile Timing timing = null;
+//    private static volatile RealTimeData timing = null;
     /**
      * 总数
      */

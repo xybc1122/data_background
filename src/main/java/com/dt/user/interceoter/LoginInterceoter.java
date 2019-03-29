@@ -35,6 +35,8 @@ public class LoginInterceoter implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("监听器过滤");
+        System.out.println(request.getRequestURI());
         UserService userService = ApplicationContextRegister.getBean(UserService.class);
         BaseRedisService redisService = ApplicationContextRegister.getBean(BaseRedisService.class);
         String token = request.getHeader("token");

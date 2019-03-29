@@ -60,6 +60,7 @@ public class TableHeadProvider {
             if (tableHead.getReference() != null) {
                 SET("is_reference=#{isReference}");
             }
+            WHERE("id=#{id}");
         }}.toString();
     }
 

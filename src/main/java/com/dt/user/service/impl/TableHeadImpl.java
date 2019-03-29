@@ -31,7 +31,7 @@ public class TableHeadImpl implements TableHeadService {
         try {
             if (tableHead.getHeadList() != null && tableHead.getHeadList().size() > 0) {
                 for (TableHead t : tableHead.getHeadList()) {
-//                    serviceUpHead(t);
+                    serviceUpHead(t);
                 }
                 return JsonData.setResultSuccess("引用成功");
             }
@@ -43,7 +43,7 @@ public class TableHeadImpl implements TableHeadService {
 
     @Override
     public int serviceUpHead(TableHead tableHead) {
-        return tableHeadMapper.saveHead(tableHead);
+        return tableHeadMapper.upHead(tableHead);
     }
 
     @Override

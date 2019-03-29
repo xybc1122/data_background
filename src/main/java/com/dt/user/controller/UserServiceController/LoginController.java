@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.BaseRedisService;
 import com.dt.user.config.ResponseBase;
-import com.dt.user.config.WebSocketServer;
 import com.dt.user.dto.UserDto;
 import com.dt.user.exception.LsException;
 import com.dt.user.login.SsoWebLoginHelper;
@@ -16,6 +15,7 @@ import com.dt.user.utils.CookieUtil;
 import com.dt.user.utils.JwtUtils;
 import com.dt.user.utils.MD5Util;
 import com.dt.user.utils.ReqUtils;
+import com.dt.user.websocket.WebSocketServer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -25,13 +25,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/login")
 public class LoginController extends JsonData {
-    @Autowired
-    private WebSocketServer socketServer;
     @Autowired
     private UserService userService;
 
@@ -40,6 +39,8 @@ public class LoginController extends JsonData {
     //并发 hashMap
     private ConcurrentHashMap<String, Integer> hashMap = new ConcurrentHashMap<>();
 
+    @Autowired
+    private WebSocketServer ws;
 
     /**
      * 每天6点清除 hashMap中的元素
@@ -69,7 +70,7 @@ public class LoginController extends JsonData {
      */
     @PostMapping("/ajaxLogin")
     @Transactional
-    public ResponseBase login(HttpServletResponse response, @RequestBody UserDto userDto) {
+    public ResponseBase login(HttpServletResponse response, @RequestBody UserDto userDto) throws IOException {
         String userKey = userDto.getUserName() + "error";
         String strRedis = redisService.getStringKey(userKey);
         //如果不等于null
@@ -90,6 +91,11 @@ public class LoginController extends JsonData {
             if (user.getDelUser() == 1) {
                 return JsonData.setResultError("账号凭着已过期/或删除 请联系管理员");
             }
+            String redisToken = redisService.getStringKey(userDto.getUserName() + "token");
+            //如果在线  发送消息
+            if (StringUtils.isNotBlank(redisToken)) {
+                ws.sendInfo("你已被踢下线", 1L);
+            }
             //更新登陆时间
             userService.upUserLandingTime(user);
             String pwd = MD5Util.saltMd5(userDto.getUserName(), userDto.getPwd());
@@ -97,11 +103,7 @@ public class LoginController extends JsonData {
             SsoWebLoginHelper.login(user, pwd);
             //设置token  Cookie
             JSONObject uJson = put(response, user, userDto.isRememberMe());
-//            String redisToken = redisService.getStringKey(userDto.getUserName() + "token");
-//            //如果在线  发送消息
-//            if (StringUtils.isNotBlank(redisToken)) {
-//                socketServer.sendInfo("你已被踢下线", user.getUid());
-//            }
+
             //登陆成功后 删除Map指定元素
             if (hashMap.get(user.getUserName()) != null) {
                 hashMap.entrySet().removeIf(entry -> entry.getKey().equals(user.getUserName()));

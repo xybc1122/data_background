@@ -1,4 +1,4 @@
-package com.dt.user.Logistics.Controller;
+package com.dt.user.logistics.Controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

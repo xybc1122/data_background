@@ -1,4 +1,4 @@
-package com.dt.user.Logistics;
+package com.dt.user.logistics;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.user.utils.HttpClientUtils;

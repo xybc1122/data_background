@@ -29,6 +29,7 @@ public class LsExceptionHandler {
         } else if (e instanceof SQLException) {
             System.out.println(e.getMessage());
             return JsonData.setResultError("数据库存入异常,请联系管理员");
+            //多线程 包装异常
         } else if (e instanceof ExecutionException) {
             return JsonData.setResultError("多线程数据处理中断" + e.getMessage());
         }

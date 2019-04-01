@@ -48,7 +48,7 @@ public class TableHeadImpl implements TableHeadService {
 
     @Override
     public int serviceSaveHead(TableHead tableHead) {
-        return tableHeadMapper.saveHead(tableHead);
+        return tableHeadMapper.insertHead(tableHead);
     }
 
     @Override

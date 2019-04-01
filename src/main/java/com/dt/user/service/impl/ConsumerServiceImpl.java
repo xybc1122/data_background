@@ -1,5 +1,6 @@
 package com.dt.user.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.csvreader.CsvReader;
 import com.dt.user.config.JsonData;
@@ -12,6 +13,10 @@ import com.dt.user.model.FinancialSalesBalance;
 import com.dt.user.model.RealTimeData;
 import com.dt.user.model.SalesAmazonAd.*;
 import com.dt.user.model.UserUpload;
+import com.dt.user.netty.ChatService;
+import com.dt.user.netty.ChatServiceImpl;
+import com.dt.user.netty.ChatType;
+import com.dt.user.netty.ResponseJson;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
 import com.dt.user.service.BasePublicService.BasicPublicSkuService;
 import com.dt.user.service.BasePublicService.BasicSalesAmazonCsvTxtXslHeaderService;
@@ -25,7 +30,7 @@ import com.dt.user.store.RealTimeDataStore;
 import com.dt.user.store.UploadStore;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.*;
-import com.dt.user.websocket.WebSocketServer;
+import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -95,9 +100,6 @@ public class ConsumerServiceImpl implements ConsumerService {
     private UserService userService;
     @Autowired
     private UserUploadService userUploadService;
-    @Autowired
-    private WebSocketServer ws;
-
     /**
      * 多线程返回接收
      */
@@ -124,6 +126,9 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     private ThreadLocal<Set<RealTimeData>> timeDataSet = new ThreadLocal<>();
 
+
+    @Autowired
+    private ChatServiceImpl chatService;
     //#######################Txt
 
 
@@ -163,10 +168,12 @@ public class ConsumerServiceImpl implements ConsumerService {
             boolean isFlg = ArrUtils.eqOrderList(head, txtHead);
             if (!isFlg) {
                 //更新信息
-                setErrorInfo(recordingId, Constants.HEADER_EXCEPTION + JsonUtils.json(head));
+                setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(head));
             }
+            //创建对象设置文件总数
+            RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
             //多线程处理
-            ResponseBase responseTxt = saveTxt(br, shopId, uid, recordingId, lineHead, menuId, aId);
+            ResponseBase responseTxt = saveTxt(br, shopId, uid, recordingId, lineHead, menuId, aId, timeData);
             return saveUserUploadInfo(responseTxt.getMsg(), recordingId, fileName, null, 3, saveFilePath, uuIdName);
         } finally {
             CrrUtils.clearListThread(noSkuList);
@@ -176,7 +183,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     private ResponseBase saveTxt(BufferedReader br, Integer shopId, Long uid, Long
-            recordingId, String lineHead, Integer menuId, Integer aId) throws IOException {
+            recordingId, String lineHead, Integer menuId, Integer aId, RealTimeData timeData) throws IOException {
         // 开始时间
         Long begin = new Date().getTime();
         List<SalesAmazonFbaReceivestock> sfReceivesList = null;
@@ -193,6 +200,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         String line;
         int index = 0;
         try {
+            Map<String, Integer> intMap = new HashMap<>();
             while ((line = br.readLine()) != null) {
                 //numberCount++
                 CrrUtils.inCreateNumberLong(numberCount);
@@ -267,9 +275,11 @@ public class ConsumerServiceImpl implements ConsumerService {
                         break;
                 }
                 index++;
+                //设置进度 传输
+                //ws.schedule(intMap, RealTimeDataStore.setSchedule(timeData, index), timeDataSet, timeData, uid);
             }
         } catch (Exception e) {
-            setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage());
+            setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int countTrad = 0;
         try {
@@ -294,7 +304,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 }
             }
         } catch (Exception e) {
-            setErrorInfo(recordingId, "数据库存入异常");
+            setErrorInfo(recordingId, "数据库存入异常", null);
         }
         if (countTrad != 0) {
             return printCount(begin, count.get(), index);
@@ -569,7 +579,7 @@ public class ConsumerServiceImpl implements ConsumerService {
              Workbook wb = XlsUtils.fileType(in, file)) {
             if (wb == null) {
                 //返回错误信息
-                setErrorInfo(recordingId, "不是excel文件");
+                setErrorInfo(recordingId, "不是excel文件", null);
             }
             assert wb != null;
             Sheet sheet = wb.getSheetAt(0);
@@ -582,10 +592,10 @@ public class ConsumerServiceImpl implements ConsumerService {
             boolean isFlg = compareHeadXls(xlsListHead, sqlHead);
             //如果表头对比失败
             if (!isFlg) {
-                setErrorInfo(recordingId, Constants.HEADER_EXCEPTION + JsonUtils.json(sqlHead));
+                setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(sqlHead));
             }
             //创建对象设置文件总数
-            RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
+            RealTimeData timeData = new RealTimeData((double) sheet.getLastRowNum());
             ResponseBase responseXls = saveXls(shopId, siteId, uid, recordingId, totalNumber, sqlHead, menuId, sheet, xlsListHead, timeData);
             return saveUserUploadInfo(responseXls.getMsg(), recordingId, fileName, null, 1, filePath, uuIdName);
         } finally {
@@ -617,6 +627,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         List<SalesAmazonAdOar> oarList = null;
         List<SalesAmazonAdHl> hlList = null;
         List<?> tList = new ArrayList<>();
+        ChannelHandlerContext ctx;
         int index = 0;
         int line = 1;
         int lastRowNum = sheet.getLastRowNum(); // 获取总行数
@@ -628,6 +639,10 @@ public class ConsumerServiceImpl implements ConsumerService {
         int k = 0;
         try {
             Map<String, Integer> intMap = new HashMap<>();
+            //获得 ctx 对象
+            ctx = chatService.getCtx(uid);
+            ResponseJson responseJson = new ResponseJson().success()
+                    .setData("type", ChatType.PROGRESS_BAR);
             for (int i = line; i <= lastRowNum; i++) {
                 //numberCount++
                 CrrUtils.inCreateNumberLong(numberCount);
@@ -688,12 +703,16 @@ public class ConsumerServiceImpl implements ConsumerService {
                     hlList.add(adHl);
                 }
                 index++;
-                //设置进度 传输
-                ws.schedule(intMap, RealTimeDataStore.setSchedule(timeData, index), timeDataSet, timeData, uid);
+                if (ctx != null) {
+                    String msg = JSON.toJSONString(CrrUtils.inCreateSet(timeDataSet, timeData));
+                    //设置进度 传输
+                    chatService.schedule(ctx, intMap, RealTimeDataStore.setSchedule(timeData, index), responseJson.setMsg(msg).toString());
+                }
 
             }
+            System.out.println(index + "index============>");
         } catch (Exception e) {
-            setErrorInfo(recordingId, "出错字段" + xlsListHead.get(k) + "下" + (numberCount.get() + 1) + "行信息错误,错误原因," + e.getMessage());
+            setErrorInfo(recordingId, "出错字段" + xlsListHead.get(k) + "下" + (numberCount.get() + 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int saveCount = 0;
         try {
@@ -718,7 +737,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 }
             }
         } catch (Exception e) {
-            setErrorInfo(recordingId, "数据库存入异常");
+            setErrorInfo(recordingId, "数据库存入异常", null);
         }
         if (saveCount > 0) {
             return printCount(begin, count.get(), index);
@@ -1060,7 +1079,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         row = (Integer) rowJson.get("index");
         if (row == -1) {
             //返回错误信息
-            setErrorInfo(recordingId, "表中真实字段第一行信息比对不上");
+            setErrorInfo(recordingId, "表中真实字段第一行信息比对不上", null);
         }
         //拿到之前的表头信息
         csvHeadList = JSONObject.parseArray(rowJson.get("head").toString(), String.class);
@@ -1070,11 +1089,13 @@ public class ConsumerServiceImpl implements ConsumerService {
         boolean isFlg = compareHeadCsv(csvHeadList, sqlHeadList);
         if (!isFlg) {
             //返回错误信息
-            setErrorInfo(recordingId, Constants.HEADER_EXCEPTION + JsonUtils.json(sqlHeadList));
+            setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(sqlHeadList));
         }
         try (InputStreamReader isr = FileUtils.streamReader(filePath)) {
             csvReader = new CsvReader(isr);
-            ResponseBase responseCsv = saveCsv(csvReader, row, shopId, siteId, uid, pId, recordingId, tbId, businessTime, csvHeadList);
+            //创建对象设置文件总数
+            RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
+            ResponseBase responseCsv = saveCsv(csvReader, row, shopId, siteId, uid, pId, recordingId, tbId, businessTime, csvHeadList, timeData);
             return saveUserUploadInfo(responseCsv.getMsg(), recordingId, fileName, csvHeadList, 2, saveFilePath, uuIdName);
         } finally {
             if (csvReader != null) {
@@ -1096,7 +1117,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     public ResponseBase saveCsv(CsvReader csvReader, int row, Integer sId, Integer seId, Long uid, Integer pId, Long
-            recordingId, Integer menuId, String businessTime, List<String> csvHeadList) {
+            recordingId, Integer menuId, String businessTime, List<String> csvHeadList, RealTimeData timeData) {
         List<FinancialSalesBalance> fsbList = null;
         List<SalesAmazonFbaBusinessreport> sfbList = null;
         // 开始时间
@@ -1108,6 +1129,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         //通过uid 查找账号
         String userName = userService.serviceGetName(uid);
         try {
+            Map<String, Integer> intMap = new HashMap<>();
             while (csvReader.readRecord()) {
                 if (index >= row) {
                     //numberCount++
@@ -1144,9 +1166,11 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                 }
                 index++;
+                //设置进度 传输
+                //ws.schedule(intMap, RealTimeDataStore.setSchedule(timeData, index), timeDataSet, timeData, uid);
             }
         } catch (Exception e) {
-            setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage());
+            setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int number = 0;
         try {
@@ -1165,7 +1189,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 }
             }
         } catch (Exception e) {
-            setErrorInfo(recordingId, "数据库存入异常");
+            setErrorInfo(recordingId, "数据库存入异常", null);
         }
         if (number != 0) {
             return printCount(begin, count.get(), index);
@@ -1637,9 +1661,17 @@ public class ConsumerServiceImpl implements ConsumerService {
 
     /**
      * 错误更新信息
+     *
+     * @param recordingId 文件记录表ID
+     * @param msg         错误消息
+     * @param data        错误数据
      */
-    public void setErrorInfo(Long recordingId, String msg) {
+    public void setErrorInfo(Long recordingId, String msg, String data) {
         recordInfo(1, msg, recordingId, null, null, null);
-        throw new LsException(msg);
+        if (StringUtils.isEmpty(data)) {
+            throw new LsException(msg);
+        }
+
+        throw new LsException(msg + data);
     }
 }

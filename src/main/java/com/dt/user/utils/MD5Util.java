@@ -48,7 +48,7 @@ public class MD5Util {
 
     public static void main(String[] args) {
         //盐值加密
-        ByteSource salt = ByteSource.Util.bytes("tttt");
+        ByteSource salt = ByteSource.Util.bytes("dd");
         Object result = new SimpleHash("MD5", "1", salt, 1024);
         //d6f1c053e0a3faca08830aabca5f9885
         System.out.println(result);

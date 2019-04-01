@@ -37,21 +37,17 @@ public class RealTimeData {
      */
     private String msg;
 
+    public RealTimeData() {
 
-    public void setInfo(String status, Integer percentage, String msg) {
-        this.status = status;
-        this.percentage = percentage;
-        this.msg = msg;
     }
 
-    public void setInfo(String status, String msg) {
-        this.status = status;
-        this.msg = msg;
-    }
-
-    public void setInfo(String fileName, Long redId) {
-        this.fileName = fileName;
-        this.redId = redId;
+    /**
+     * 设置总行数xls
+     *
+     * @param totalNumber
+     */
+    public RealTimeData(Double totalNumber) {
+        this.totalNumber = totalNumber;
     }
 
     /**
@@ -61,8 +57,7 @@ public class RealTimeData {
      * @return
      */
     public int setAttributesTim(int index) {
-        int percentage = (int) (((index + 1) / this.totalNumber) * 100);
-        this.percentage = percentage;
+        this.percentage = (int) (((index + 1) / this.totalNumber) * 100);
         if (this.percentage == 60) {
             //设置颜色
             this.color = "#8e71c7";

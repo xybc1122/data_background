@@ -4,6 +4,7 @@ package com.dt.user.service;
 import com.dt.user.dto.UserDto;
 import com.dt.user.model.UserInfo;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ public interface UserService {
      * 通过uId查找 userName
      */
     String serviceGetName(Long uId);
+
     /**
      * 查询用户 状态
      */
@@ -25,7 +27,7 @@ public interface UserService {
     List<UserInfo> findByUsers(UserDto pageDto);
 
     //更新登陆时间
-    int upUserLandingTime(UserInfo userInfo);
+    int upUserLandingTime(Long uId, Long landingTime);
 
 
     /**
@@ -35,7 +37,6 @@ public interface UserService {
 
     /**
      * 更新用户信息
-     *
      */
     int upUser(Map<String, Object> userMap);
 

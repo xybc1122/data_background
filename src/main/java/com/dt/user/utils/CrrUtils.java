@@ -32,13 +32,13 @@ public class CrrUtils {
 
 
     //set并发add
-    public static Set<RealTimeData> inCreateSet(ThreadLocal<Set<RealTimeData>> timingSet, RealTimeData timing) {
+    public static Set<RealTimeData> inCreateSet(ThreadLocal<Set<RealTimeData>> timingSet, RealTimeData timeData) {
         Set<RealTimeData> timings = timingSet.get();
         if (timings == null) {
             timings = new HashSet<>();
         }
-        if (timing != null) {
-            timings.add(timing);
+        if (timeData != null) {
+            timings.add(timeData);
         }
         timingSet.set(timings);
         return timings;

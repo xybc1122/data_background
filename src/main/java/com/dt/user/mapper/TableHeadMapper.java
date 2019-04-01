@@ -80,8 +80,6 @@ public interface TableHeadMapper {
     /**
      * 新增表头信息
      */
-    @Insert("INSERT INTO`system_user_table_head`\n" +
-            "(`head_name`,`menu_id`,`top_type`,`top_order`,`is_fixed`,`input_type`,`is_reference`)\n" +
-            "VALUES (#{headName},#{menuId},#{topType},#{topOrder},#{isFixed},#{inputType},#{isReference});")
-    int saveHead(TableHead tableHead);
+    @InsertProvider(type = TableHeadProvider.class, method = "insertHead")
+    int insertHead(TableHead tableHead);
 }

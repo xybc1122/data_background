@@ -8,6 +8,9 @@ import com.dt.user.dto.UserDto;
 import com.dt.user.exception.LsException;
 import com.dt.user.login.SsoWebLoginHelper;
 import com.dt.user.model.UserInfo;
+import com.dt.user.netty.ChatServiceImpl;
+import com.dt.user.netty.ChatType;
+import com.dt.user.netty.ResponseJson;
 import com.dt.user.service.UserService;
 import com.dt.user.store.SsoLoginStore;
 import com.dt.user.toos.Constants;
@@ -15,7 +18,6 @@ import com.dt.user.utils.CookieUtil;
 import com.dt.user.utils.JwtUtils;
 import com.dt.user.utils.MD5Util;
 import com.dt.user.utils.ReqUtils;
-import com.dt.user.websocket.WebSocketServer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -36,11 +38,13 @@ public class LoginController extends JsonData {
 
     @Autowired
     private BaseRedisService redisService;
+
+
+    @Autowired
+    private ChatServiceImpl chatService;
     //并发 hashMap
     private ConcurrentHashMap<String, Integer> hashMap = new ConcurrentHashMap<>();
 
-    @Autowired
-    private WebSocketServer ws;
 
     /**
      * 每天6点清除 hashMap中的元素
@@ -69,8 +73,7 @@ public class LoginController extends JsonData {
      * @return
      */
     @PostMapping("/ajaxLogin")
-    @Transactional
-    public ResponseBase login(HttpServletResponse response, @RequestBody UserDto userDto) throws IOException {
+    public ResponseBase login(HttpServletResponse response, @RequestBody UserDto userDto) {
         String userKey = userDto.getUserName() + "error";
         String strRedis = redisService.getStringKey(userKey);
         //如果不等于null
@@ -78,7 +81,7 @@ public class LoginController extends JsonData {
             Long ttlDate = redisService.getTtl(userKey);
             return JsonData.setResultError("账号/或密码错误被锁定/" + ttlDate + "秒后到期!");
         }
-        //查询用户信息
+        //查询用户信息 更新更新登陆时间
         UserInfo user = userService.findByUser(userDto.getUserName());
         try {
             // 账号不存在 异常
@@ -94,10 +97,11 @@ public class LoginController extends JsonData {
             String redisToken = redisService.getStringKey(userDto.getUserName() + "token");
             //如果在线  发送消息
             if (StringUtils.isNotBlank(redisToken)) {
-                ws.sendInfo("你已被踢下线", 1L);
+                String responseJson = new ResponseJson().error("有人登陆,你被踢下线,若不是本人,请修改密码")
+                        .setData("type", ChatType.KICK_OUT)
+                        .toString();
+                chatService.kickOutMsg(user.getUid(), responseJson);
             }
-            //更新登陆时间
-            userService.upUserLandingTime(user);
             String pwd = MD5Util.saltMd5(userDto.getUserName(), userDto.getPwd());
             // 登陆校验
             SsoWebLoginHelper.login(user, pwd);

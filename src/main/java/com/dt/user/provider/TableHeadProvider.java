@@ -1,5 +1,6 @@
 package com.dt.user.provider;
 
+import com.dt.user.exception.LsException;
 import com.dt.user.model.TableHead;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -29,6 +30,28 @@ public class TableHeadProvider {
         sql.append(")\n");
         sql.append("GROUP BY m.`menu_id`");
         return sql.toString();
+    }
+
+    /**
+     * 新增字段
+     *
+     * @return
+     */
+    public String insertHead(TableHead tableHead) {
+        return new SQL() {{
+            INSERT_INTO("`system_user_table_head`");
+            if (StringUtils.isBlank(tableHead.getHeadName())) {
+                throw new LsException("headName参数不能为空");
+            }
+            if (StringUtils.isBlank(tableHead.getTopType())) {
+                throw new LsException("TopType参数不能为空");
+            }
+            if (StringUtils.isBlank(tableHead.getMenuId())) {
+                throw new LsException("menuId参数不能为空");
+            }
+            VALUES("`head_name`,`menu_id`,`top_type`,`top_order`,`is_fixed`,`input_type`," +
+                    "`is_reference`", "#{headName},#{menuId},#{topType},#{topOrder},#{isFixed},#{inputType},#{isReference}");
+        }}.toString();
     }
 
     /**

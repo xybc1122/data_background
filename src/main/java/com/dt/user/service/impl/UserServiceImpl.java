@@ -7,9 +7,11 @@ import com.dt.user.model.UserInfo;
 import com.dt.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,19 +31,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserInfo findByUser(String userName) {
-        return userMapper.findByUser(userName);
+        UserInfo userInfo = userMapper.findByUser(userName);
+        upUserLandingTime(userInfo.getUid(), new Date().getTime());
+        return userInfo;
     }
 
     @Override
     public List<UserInfo> findByUsers(UserDto pageDto) {
-
         return userMapper.findByUsers(pageDto);
     }
 
     @Override
-    public int upUserLandingTime(UserInfo userInfo) {
-        return userMapper.upUserLandingTime(userInfo);
+    public int upUserLandingTime(Long uId, Long landingTime) {
+        return userMapper.upUserLandingTime(uId, landingTime);
     }
 
     @Override

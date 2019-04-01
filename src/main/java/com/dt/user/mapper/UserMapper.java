@@ -62,8 +62,8 @@ public interface UserMapper {
      */
     @Update("UPDATE `system_user_info`\n" +
             "SET `landing_time` = #{landingTime}\n" +
-            "WHERE `uid` = #{uid};")
-    int upUserLandingTime(UserInfo userInfo);
+            "WHERE `uid` = #{uId};")
+    int upUserLandingTime(@Param("uId") Long uId, @Param("landingTime") Long landingTime);
 
 
     /**

@@ -22,9 +22,15 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class Constant {
     /**
-     * 保存webSocket连接对象
+     * 保存webSocket连接对象 用户绑定
      */
     public static Map<Long, ChannelHandlerContext> onLineUserMap =
             new ConcurrentHashMap<Long, ChannelHandlerContext>();
+
+    /**
+     * 保存webSocket 握手对象
+     */
+    public static Map<String, WebSocketServerHandshaker> webSocketHandShakerMap =
+            new ConcurrentHashMap<String, WebSocketServerHandshaker>();
 
 }

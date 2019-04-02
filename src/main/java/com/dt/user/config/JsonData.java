@@ -45,9 +45,19 @@ public class JsonData {
         return setResult(Constants.HTTP_RES_CODE_200, msg, data);
     }
 
+    // 返回成功 ，没有data值 有type值
+    public static ResponseBase setResultTypeSuccess(String msg, String type) {
+        return setResultType(Constants.HTTP_RES_CODE_200, msg, type);
+    }
+
     // 通用封装
     public static ResponseBase setResult(Integer code, String msg, Object data) {
         return new ResponseBase(code, msg, data);
+    }
+
+
+    public static ResponseBase setResultType(Integer code, String msg, String type) {
+        return new ResponseBase(code, msg, type);
     }
 
     // 通用封装

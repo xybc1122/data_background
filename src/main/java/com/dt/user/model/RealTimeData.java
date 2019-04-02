@@ -51,25 +51,6 @@ public class RealTimeData {
     }
 
     /**
-     * 设置属性
-     *
-     * @param index
-     * @return
-     */
-    public int setAttributesTim(int index) {
-        this.percentage = (int) (((index + 1) / this.totalNumber) * 100);
-        if (this.percentage == 60) {
-            //设置颜色
-            this.color = "#8e71c7";
-        }
-        if (this.percentage == 95) {
-            //设置颜色
-            this.color = "#67C23A";
-        }
-        return this.percentage;
-    }
-
-    /**
      * 设置文件总数
      *
      * @param filePath

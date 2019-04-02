@@ -1,18 +1,26 @@
 package com.dt.user.config;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 封装返回前端信息
  */
-public class ResponseBase{
+public class ResponseBase {
 
     private Integer code;
     private String msg;
     private Object data;
+    private String type;
 
 
     @Override
     public String toString() {
-        return "ResponseBase [code=" + code + ", msg=" + msg + ", data=" + data + "]";
+        return "ResponseBase{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                ", type='" + type + '\'' +
+                '}';
     }
 
     public ResponseBase(Integer code, String msg, Object data) {
@@ -27,6 +35,14 @@ public class ResponseBase{
         this.code = code;
         this.msg = msg;
     }
+
+    public ResponseBase(Integer code, String msg, String type) {
+        super();
+        this.code = code;
+        this.msg = msg;
+        this.type = type;
+    }
+
     public ResponseBase() {
 
     }
@@ -53,5 +69,13 @@ public class ResponseBase{
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

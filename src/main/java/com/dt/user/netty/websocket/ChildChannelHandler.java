@@ -51,7 +51,6 @@ public class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
 //        pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
         //自定义的处理器
         pipeline.addLast(new HttpRequestHandler());
-
     }
 
 

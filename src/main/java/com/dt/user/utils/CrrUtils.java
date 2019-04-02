@@ -33,15 +33,15 @@ public class CrrUtils {
 
     //set并发add
     public static Set<RealTimeData> inCreateSet(ThreadLocal<Set<RealTimeData>> timingSet, RealTimeData timeData) {
-        Set<RealTimeData> timings = timingSet.get();
-        if (timings == null) {
-            timings = new HashSet<>();
+        Set<RealTimeData> realTimeDataSet = timingSet.get();
+        if (realTimeDataSet == null) {
+            realTimeDataSet = new HashSet<>();
         }
         if (timeData != null) {
-            timings.add(timeData);
+            realTimeDataSet.add(timeData);
         }
-        timingSet.set(timings);
-        return timings;
+        timingSet.set(realTimeDataSet);
+        return realTimeDataSet;
     }
 
     //List清空数据

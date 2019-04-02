@@ -17,13 +17,12 @@ import javax.annotation.PostConstruct;
  **/
 @Component
 public class NettyServer {
-
+    private int port = 3333;
 
     // 构造方法少了会报错
     public NettyServer() {
     }
 
-    private int port;
 
     private void startServer() {
         //服务端需要2个线程组  boss处理客户端连接  work进行客服端连接之后的处理
@@ -37,9 +36,9 @@ public class NettyServer {
             bootstrap.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
                     .childHandler(new ChildChannelHandler());
             long end = System.currentTimeMillis();
-            System.out.println("Netty Websocket服务器启动完成，耗时 " + (end - begin) + " ms，已绑定端口 " + 3333 + " 阻塞式等候客户端连接");
+            System.out.println("Netty Websocket服务器启动完成，耗时 " + (end - begin) + " ms，已绑定端口 " + port + " 阻塞式等候客户端连接");
             //绑定端口  开启事件驱动
-            Channel channel = bootstrap.bind(3333).sync().channel();
+            Channel channel = bootstrap.bind(port).sync().channel();
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -51,7 +50,7 @@ public class NettyServer {
     }
 
     @PostConstruct()
-    public void init(){
+    public void init() {
         //需要开启一个新的线程来执行netty server 服务器
         new Thread(new Runnable() {
             public void run() {

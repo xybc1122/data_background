@@ -1,9 +1,5 @@
 package com.dt.user.netty.websocket;
 
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
-import io.netty.util.concurrent.GlobalEventExecutor;
-
 /**
  * @ClassName Channel
  * Description TODO
@@ -15,6 +11,6 @@ public class Channel {
      * webSocket
      * 用户全局对象
      */
-    public static ChannelGroup clients =
-            new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+//    public static ChannelGroup clients =
+//            new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 }

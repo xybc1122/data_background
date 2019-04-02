@@ -11,6 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
  * @Date 2019/3/22 16:58
  **/
 public interface ChatService {
+    
     /**
      * 设置连接成功socket对象
      */

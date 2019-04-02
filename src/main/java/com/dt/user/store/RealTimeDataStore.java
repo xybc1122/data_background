@@ -12,9 +12,21 @@ public class RealTimeDataStore {
     /**
      * 设置百分比进度
      */
-
     public static int setSchedule(RealTimeData timeData, int index) {
-        return timeData.setAttributesTim(index);
+        timeData.setPercentage((int) ((index / timeData.getTotalNumber()) * 100));
+        if (timeData.getPercentage() == 60) {
+            //设置颜色
+            timeData.setColor("#8e71c7");
+        }
+        if (timeData.getPercentage() == 95) {
+            //设置颜色
+            timeData.setColor("#67C23A");
+        }
+        if (timeData.getPercentage() == 100) {
+            //设置颜色
+            timeData.setColor("#67C23A");
+        }
+        return timeData.getPercentage();
     }
 
     /**

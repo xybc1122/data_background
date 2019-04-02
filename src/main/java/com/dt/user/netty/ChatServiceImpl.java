@@ -1,10 +1,7 @@
 package com.dt.user.netty;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.dt.user.model.RealTimeData;
 import com.dt.user.toos.Constant;
-import com.dt.user.utils.CrrUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.slf4j.Logger;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @ClassName ChatServiceImpl
@@ -30,6 +26,7 @@ public class ChatServiceImpl implements ChatService {
     public void register(JSONObject object, ChannelHandlerContext ctx) {
         Integer uId = (Integer) object.get("uId");
         Constant.onLineUserMap.put(uId.longValue(), ctx);
+        System.out.println("绑定用户" + uId + "----" + ctx.channel());
         String responseJson = new ResponseJson().success()
                 .setData("type", ChatType.REGISTER)
                 .toString();
@@ -50,6 +47,10 @@ public class ChatServiceImpl implements ChatService {
         while (iterator.hasNext()) {
             Map.Entry<Long, ChannelHandlerContext> entry = iterator.next();
             if (entry.getValue() == ctx) {
+                LOGGER.info("正在移除握手实例...");
+                Constant.webSocketHandShakerMap.remove(ctx.channel().id().asLongText());
+                LOGGER.info(MessageFormat.format("已移除握手实例，当前握手实例总数为：{0}"
+                        , Constant.webSocketHandShakerMap.size()));
                 iterator.remove();
                 LOGGER.info(MessageFormat.format("userId为 {0} 的用户已退出聊天，当前在线人数为：{1}"
                         , entry.getKey(), Constant.onLineUserMap.size()));
@@ -78,9 +79,10 @@ public class ChatServiceImpl implements ChatService {
                          String msg) {
         if (intMap.size() == 0) {
             intMap.put("current", currentCount);
+            servicePush(ctx, msg);
         }
         //如果值不一样 发送webSocket给前端
-        if (intMap.get("current") != currentCount) {
+        else if (intMap.get("current") != currentCount) {
             servicePush(ctx, msg);
             intMap.put("current", currentCount);
         }
@@ -92,7 +94,7 @@ public class ChatServiceImpl implements ChatService {
      * @param ctx
      * @param message
      */
-    private void sendMessage(ChannelHandlerContext ctx, String message) {
+    public void sendMessage(ChannelHandlerContext ctx, String message) {
         ctx.channel().writeAndFlush(new TextWebSocketFrame(message));
     }
 

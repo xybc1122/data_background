@@ -118,7 +118,7 @@ public class LoginController extends JsonData {
         }
     }
 
-    public JSONObject put(HttpServletResponse response, UserInfo user, boolean ifRemember) {
+    private JSONObject put(HttpServletResponse response, UserInfo user, boolean ifRemember) {
         long time;
         if (ifRemember) {
             time = 60 * 60 * 24 * 7L;
@@ -138,7 +138,7 @@ public class LoginController extends JsonData {
     }
 
 
-    public ResponseBase setLockingTime(UserDto userDto) {
+    private ResponseBase setLockingTime(UserDto userDto) {
         int errorNumber = 0;
         errorNumber++;
         Long lockingTime = null;

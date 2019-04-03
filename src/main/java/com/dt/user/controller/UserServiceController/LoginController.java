@@ -1,34 +1,25 @@
 package com.dt.user.controller.UserServiceController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dt.user.config.JsonData;
-import com.dt.user.config.BaseRedisService;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.UserDto;
 import com.dt.user.exception.LsException;
-import com.dt.user.login.SsoWebLoginHelper;
-import com.dt.user.model.UserInfo;
-import com.dt.user.netty.ChatServiceImpl;
-import com.dt.user.netty.ChatType;
-import com.dt.user.netty.ResponseJson;
+import com.dt.user.netty.ChatService;
 import com.dt.user.service.UserService;
+import com.dt.user.store.ChatStore;
 import com.dt.user.store.SsoLoginStore;
+import com.dt.user.toos.Constant;
 import com.dt.user.toos.Constants;
-import com.dt.user.utils.CookieUtil;
-import com.dt.user.utils.JwtUtils;
-import com.dt.user.utils.MD5Util;
-import com.dt.user.utils.ReqUtils;
+import com.dt.user.utils.*;
+import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/login")
@@ -37,13 +28,7 @@ public class LoginController extends JsonData {
     private UserService userService;
 
     @Autowired
-    private BaseRedisService redisService;
-
-
-    @Autowired
-    private ChatServiceImpl chatService;
-    //并发 hashMap
-    private ConcurrentHashMap<String, Integer> hashMap = new ConcurrentHashMap<>();
+    private ChatService chatService;
 
 
     /**
@@ -53,7 +38,7 @@ public class LoginController extends JsonData {
     @Scheduled(cron = "0 0 6 * * ?")
     public void clearHashMap() {
         System.out.println("删除元素");
-        hashMap.clear();
+        Constant.errorPwdMap.clear();
     }
 
     /**
@@ -81,93 +66,9 @@ public class LoginController extends JsonData {
             Long ttlDate = redisService.getTtl(userKey);
             return JsonData.setResultError("账号/或密码错误被锁定/" + ttlDate + "秒后到期!");
         }
-        //查询用户信息 更新更新登陆时间
-        UserInfo user = userService.findByUser(userDto.getUserName());
-        try {
-            // 账号不存在 异常
-            if (user == null) {
-                return JsonData.setResultError("未知账户/没找到帐号,登录失败");
-            }
-            if (user.getAccountStatus() == 1) {
-                return JsonData.setResultError("账号已被锁定,请联系管理员");
-            }
-            if (user.getDelUser() == 1) {
-                return JsonData.setResultError("账号凭着已过期/或删除 请联系管理员");
-            }
-            String redisToken = redisService.getStringKey(userDto.getUserName() + "token");
-            //如果在线  发送消息
-            if (StringUtils.isNotBlank(redisToken)) {
-                String responseJson = new ResponseJson().error("有人登陆,你被踢下线,若不是本人,请修改密码")
-                        .setData("type", ChatType.KICK_OUT)
-                        .toString();
-                chatService.kickOutMsg(user.getUid(), responseJson);
-            }
-            String pwd = MD5Util.saltMd5(userDto.getUserName(), userDto.getPwd());
-            // 登陆校验
-            SsoWebLoginHelper.login(user, pwd);
-            //设置token  Cookie
-            JSONObject uJson = put(response, user, userDto.isRememberMe());
-
-            //登陆成功后 删除Map指定元素
-            if (hashMap.get(user.getUserName()) != null) {
-                hashMap.entrySet().removeIf(entry -> entry.getKey().equals(user.getUserName()));
-            }
-            return JsonData.setResultSuccess(uJson);
-        } catch (LsException ls) {
-            return setLockingTime(userDto);
-        }
+        return userService.doGetAuthenticationInfo(response, userDto);
     }
 
-    private JSONObject put(HttpServletResponse response, UserInfo user, boolean ifRemember) {
-        long time;
-        if (ifRemember) {
-            time = 60 * 60 * 24 * 7L;
-        } else {
-            time = 30 * 60L;
-        }
-        //设置 JwtToken
-        String userToken = JwtUtils.genJsonWebToken(user);
-        JSONObject uJson = new JSONObject();
-        uJson.put("user", user);
-        uJson.put("token", userToken);
-        //设置token
-        redisService.setString(user.getUserName() + Constants.TOKEN, userToken, time);
-        //设置Cookie
-        CookieUtil.set(response, Constants.TOKEN, userToken, ifRemember);
-        return uJson;
-    }
-
-
-    private ResponseBase setLockingTime(UserDto userDto) {
-        int errorNumber = 0;
-        errorNumber++;
-        Long lockingTime = null;
-        //报错后 先进来看看 这个账号有没有在hashMap里 ---如果里面有 进去
-        if (hashMap.get(userDto.getUserName()) != null) {
-            hashMap.put(userDto.getUserName(), errorNumber + hashMap.get(userDto.getUserName()));
-        } else {
-            hashMap.put(userDto.getUserName(), errorNumber);
-        }
-        if (hashMap.get(userDto.getUserName()) >= 4) {
-            switch (hashMap.get(userDto.getUserName())) {
-                case 4:
-                    lockingTime = 6L * 5;
-                    break;
-                case 5:
-                    lockingTime = 60L * 5;
-                    break;
-                case 6:
-                    lockingTime = 60L * 15;
-                    break;
-                case 7:
-                    lockingTime = 60L * 60 * 24;
-                    break;
-            }
-            redisService.setString(userDto.getUserName() + "error", "error", lockingTime);
-            return JsonData.setResultError("账号被锁定!" + lockingTime + "秒");
-        }
-        return JsonData.setResultError("账号或密码错误/你还有" + (4 - hashMap.get(userDto.getUserName()) + "次机会"));
-    }
 
     /**
      * 退出
@@ -177,13 +78,19 @@ public class LoginController extends JsonData {
     @GetMapping("/logout")
     public ResponseBase logout(HttpServletRequest request, HttpServletResponse response) {
         String uName = ReqUtils.getUserName();
-        if (uName == null) {
+        Long uId = ReqUtils.getUid();
+        if (uName == null || uId == null) {
             throw new LsException("注销失败");
         }
         //删除redis token
         int result = redisService.delKey(uName + Constants.TOKEN);
         //删除 cookie里的  token
         SsoLoginStore.removeTokenByCookie(request, response);
+        //删除webSocket
+        ChannelHandlerContext ctx = chatService.getCtx(uId);
+        if (ctx != null) {
+            ctx.channel().close();
+        }
         if (result == 1) {
             return JsonData.setResultSuccess("注销成功!");
         }

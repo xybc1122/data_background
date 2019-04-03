@@ -13,7 +13,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/22 13:23
  **/
-@Mapper
 public interface BasicExportGrosscustomsTypeMapper {
     /**
      * 查询清关类型

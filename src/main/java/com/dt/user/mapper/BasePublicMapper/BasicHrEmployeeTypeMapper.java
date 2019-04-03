@@ -13,7 +13,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/19 14:24
  **/
-@Mapper
 public interface BasicHrEmployeeTypeMapper {
 
     /**

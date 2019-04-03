@@ -13,7 +13,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/13 11:02
  **/
-@Mapper
 public interface BasicPublicDutiesTaxrateMapper {
 
     /**

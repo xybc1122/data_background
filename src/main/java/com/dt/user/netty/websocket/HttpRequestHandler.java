@@ -2,10 +2,10 @@ package com.dt.user.netty.websocket;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.user.config.ApplicationContextRegister;
-import com.dt.user.exception.LsException;
+import com.dt.user.config.JsonData;
 import com.dt.user.netty.ChatService;
-import com.dt.user.netty.ResponseJson;
 import com.dt.user.toos.Constant;
+import com.dt.user.utils.JsonUtils;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -140,10 +140,7 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
 
 
     private void sendErrorMessage(ChannelHandlerContext ctx, String errorMsg) {
-        String responseJson = new ResponseJson()
-                .error(errorMsg)
-                .toString();
-        ctx.channel().writeAndFlush(new TextWebSocketFrame(responseJson));
+        ctx.channel().writeAndFlush(new TextWebSocketFrame(JSONObject.toJSONString(JsonData.setResultError(errorMsg))));
     }
 
 

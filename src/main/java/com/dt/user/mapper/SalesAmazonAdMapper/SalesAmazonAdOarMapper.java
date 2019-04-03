@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
 
-@Mapper
 public interface SalesAmazonAdOarMapper {
     /**
      * 存入广告Oar数据

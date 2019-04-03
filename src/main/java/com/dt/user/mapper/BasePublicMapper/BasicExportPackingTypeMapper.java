@@ -12,7 +12,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/25 8:45
  **/
-@Mapper
 public interface BasicExportPackingTypeMapper {
 
 

@@ -12,7 +12,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/4 14:32
  **/
-@Mapper
 public interface SystemMenuIconMapper {
     /**
      * 获得所有icon

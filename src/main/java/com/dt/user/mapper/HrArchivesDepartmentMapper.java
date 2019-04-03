@@ -11,7 +11,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/26 9:50
  **/
-@Mapper
 public interface HrArchivesDepartmentMapper {
 
 

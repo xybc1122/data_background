@@ -12,4 +12,10 @@ public interface SalesAmazonAdOarService {
      * @return
      */
     int AddSalesAmazonAdOarList(List<SalesAmazonAdOar> oarList);
+
+    /**
+     * 查询oar 数据
+     */
+    List<SalesAmazonAdOar> serviceFindByListOar(SalesAmazonAdOar oar);
+
 }

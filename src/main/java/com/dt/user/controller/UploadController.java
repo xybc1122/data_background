@@ -42,7 +42,7 @@ public class UploadController {
                                              request, HttpServletResponse response, @RequestBody Map<String, Object> fileMap) {
         String filePath = (String) fileMap.get("filePath");
         FileUtils.downloadFile(filePath, response, request);
-        return null;
+        return JsonData.setResultSuccess("下载成功");
     }
 
     /**
@@ -72,45 +72,41 @@ public class UploadController {
         String msg;
         List<UserUpload> uploadList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        try {
-            for (int i = 0; i < files.size(); i++) {
-                file = files.get(i);
-                // String contentType = filter.getContentType();//图片||文件类型
-                String fileName = file.getOriginalFilename();//图片||文件名字
-                String uuId = UuIDUtils.fileUuId(fileName);
-                try {
-                    FileUtils.uploadFile(file.getBytes(), Constants.SAVE_FILE_PATH, uuId);
-                    msg = "上传成功~";
-                } catch (Exception e) {
-                    isUpload = false;
-                    msg = "上传失败~" + fileName;
-                    fileCount++;
-                    sb.append(fileName);
-                }
-                //店铺ID
-                Integer shopId = StrUtils.isIntegerNull(sId);
-                //站点ID
-                Integer siteId = StrUtils.isIntegerNull(seId);
-                //菜单ID
-                Integer tbId = StrUtils.isIntegerNull(menuId);
-                // 付款类型选择ID
-                Integer pId = StrUtils.isIntegerNull(payId);
-                // 洲ID
-                Integer aId = StrUtils.isIntegerNull(areaId);
-                int status = isUpload ? 0 : 4;
-                //记录用户上传信息~
-                UserUpload upload = uploadOperating(siteId, shopId, fileName, Constants.SAVE_FILE_PATH, ReqUtils.getUid(), pId, status, msg, tbId, aId, businessTime, uuId);
-                if (isUpload) {
-                    uploadList.add(upload);
-                }
-                isUpload = true;
+
+        for (int i = 0; i < files.size(); i++) {
+            file = files.get(i);
+            // String contentType = filter.getContentType();//图片||文件类型
+            String fileName = file.getOriginalFilename();//图片||文件名字
+            String uuId = UuIDUtils.fileUuId(fileName);
+            try {
+                FileUtils.uploadFile(file.getBytes(), Constants.SAVE_FILE_PATH, uuId);
+                msg = "上传成功~";
+            } catch (Exception e) {
+                isUpload = false;
+                msg = "上传失败~" + fileName;
+                fileCount++;
+                sb.append(fileName);
             }
-            String getMsg = "上传了" + files.size() + "个文件/" + "其中" + fileCount + "个文件失败~ 失败文件名字" + sb.toString() + "";
-            return JsonData.setResultSuccess(getMsg, uploadList);
-        } catch (Exception e) {
-            //System.out.println(e.getMessage());
-            return JsonData.setResultError("上传异常,请检查问题", uploadList);
+            //店铺ID
+            Integer shopId = StrUtils.isIntegerNull(sId);
+            //站点ID
+            Integer siteId = StrUtils.isIntegerNull(seId);
+            //菜单ID
+            Integer tbId = StrUtils.isIntegerNull(menuId);
+            // 付款类型选择ID
+            Integer pId = StrUtils.isIntegerNull(payId);
+            // 洲ID
+            Integer aId = StrUtils.isIntegerNull(areaId);
+            int status = isUpload ? 0 : 4;
+            //记录用户上传信息~
+            UserUpload upload = uploadOperating(siteId, shopId, fileName, Constants.SAVE_FILE_PATH, ReqUtils.getUid(), pId, status, msg, tbId, aId, businessTime, uuId);
+            if (isUpload) {
+                uploadList.add(upload);
+            }
+            isUpload = true;
         }
+        String getMsg = "上传了" + files.size() + "个文件/" + "其中" + fileCount + "个文件失败~ 失败文件名字" + sb.toString() + "";
+        return JsonData.setResultSuccess(getMsg, uploadList);
     }
 
     /**
@@ -124,22 +120,22 @@ public class UploadController {
         int baseNum = upload.getUploadSuccessList().size();
         ResponseBase responseBase;
         if (baseNum > 0) {
-                for (int i = 0; i < baseNum; i++) {
-                    UserUpload userUpload = upload.getUploadSuccessList().get(i);
-                    int fileIndex = userUpload.getName().lastIndexOf(".");
-                    String typeFile = userUpload.getName().substring(fileIndex + 1);
-                    if (typeFile.equals("csv")) {
-                        responseBase = consumerService.importCsv(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(),
-                                userUpload.getpId(), userUpload.getId(), userUpload.getTbId(), userUpload.getBusinessTime()).get();
-                        responseBaseList.add(responseBase);
-                    } else if (typeFile.equals("xlsx") || typeFile.equals("xls")) {
-                        responseBase = consumerService.importXls(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getTbId()).get();
-                        responseBaseList.add(responseBase);
-                    } else if (typeFile.equals("txt")) {
-                        responseBase = consumerService.importTxt(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getTbId(), userUpload.getAreaId()).get();
-                        responseBaseList.add(responseBase);
-                    }
+            for (int i = 0; i < baseNum; i++) {
+                UserUpload userUpload = upload.getUploadSuccessList().get(i);
+                int fileIndex = userUpload.getName().lastIndexOf(".");
+                String typeFile = userUpload.getName().substring(fileIndex + 1);
+                if (typeFile.equals("csv")) {
+                    responseBase = consumerService.importCsv(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(),
+                            userUpload.getpId(), userUpload.getId(), userUpload.getTbId(), userUpload.getBusinessTime()).get();
+                    responseBaseList.add(responseBase);
+                } else if (typeFile.equals("xlsx") || typeFile.equals("xls")) {
+                    responseBase = consumerService.importXls(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getTbId()).get();
+                    responseBaseList.add(responseBase);
+                } else if (typeFile.equals("txt")) {
+                    responseBase = consumerService.importTxt(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getTbId(), userUpload.getAreaId()).get();
+                    responseBaseList.add(responseBase);
                 }
+            }
         }
         return JsonData.setResultSuccess(responseBaseList);
     }

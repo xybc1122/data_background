@@ -1,8 +1,6 @@
 package com.dt.user.mapper.BasePublicMapper;
 
-import com.dt.user.dto.ProductDto;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonType;
-import com.dt.user.provider.BasicPublicProductProvider;
 import com.dt.user.provider.BasicSalesAmazonTypeProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
@@ -15,7 +13,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/20 10:41
  **/
-@Mapper
 public interface BasicSalesAmazonTypeMapper {
 
 

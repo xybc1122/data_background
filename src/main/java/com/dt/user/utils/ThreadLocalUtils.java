@@ -7,7 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CrrUtils {
+/**
+ * 并发 ThreadLocal 转换类
+ */
+public class ThreadLocalUtils {
 
 
     /**

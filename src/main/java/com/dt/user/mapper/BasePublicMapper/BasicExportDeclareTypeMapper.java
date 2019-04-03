@@ -12,7 +12,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/22 13:16
  **/
-@Mapper
 public interface BasicExportDeclareTypeMapper {
     /**
      * 查询报关类型

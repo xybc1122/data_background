@@ -7,7 +7,6 @@ import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
-@Mapper
 public interface BasicPublicCountryMapper {
 
     /**

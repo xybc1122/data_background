@@ -34,17 +34,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private HrArchivesEmployeeService hrService;
-
-    @Autowired
-    private UserRoleService userRoleService;
 
     @Autowired
     private BaseRedisService redisService;
-
-    @Autowired
-    private SystemLogStatusService logStatusService;
 
 
     /**
@@ -79,30 +71,8 @@ public class UserController {
      * @return
      */
     @PostMapping("/upUserInfo")
-    @Transactional
     public ResponseBase userInfoUp(@RequestBody Map<String, Object> userMap) {
-        //更新用户信息
-        try {
-            int updateResult = userService.upUser(userMap);
-            if (updateResult != 1) {
-                throw new Exception("更新失败,请重新操作");
-            }
-            String uMobilePhone = (String) userMap.get("mobilePhone");
-            if (StringUtils.isNotBlank(uMobilePhone)) {
-                //更新员工信息
-                hrService.upHrInfo(userMap);
-            }
-            //先判断是否为空
-            String pwd = (String) userMap.get("pwd");
-            //如果不是空 说明已经修改了密码
-            if (StringUtils.isNotBlank(pwd)) {
-                //踢出用户 如果是null  说明没有这个用户在线
-
-            }
-            return JsonData.setResultSuccess("更新成功");
-        } catch (Exception e) {
-            return JsonData.setResultError(e.getMessage());
-        }
+        return userService.updateUserInfo(userMap);
     }
 
 
@@ -183,69 +153,9 @@ public class UserController {
      * @param userMap 前端传的数据
      * @return JSON 对象
      */
-    @SuppressWarnings("unchecked")
-    @Transactional //事物
     @PostMapping("/saveUserInfo")
     public ResponseBase saveUserInfo(@RequestBody Map<String, Object> userMap) {
-        //获得登陆的时候 生成的token
-        String userName = (String) userMap.get("userName");
-        String pwd = (String) userMap.get("pwd");
-        Boolean checkedUpPwd = (Boolean) userMap.get("pwdAlways");
-        Boolean checkedUserAlways = (Boolean) userMap.get("uAlways");
-        Boolean checkedPwdAlways = (Boolean) userMap.get("pwdAlways");
-        Integer staffValue = (Integer) userMap.get("staffValue");
-        List<Integer> rolesId = (List<Integer>) userMap.get("rolesId");
-        if (StringUtils.isBlank(userName) || StringUtils.isBlank(pwd) || checkedUpPwd == null
-                || checkedUserAlways == null || checkedPwdAlways == null || staffValue == null || rolesId == null) {
-            return JsonData.setResultError("新增失败");
-        }
-        //这里前端会传空字符串 或者 Long类型数据 要判断
-        UserInfo userInfo = new UserInfo();
-        //首次登陆是否修改密码
-        if (checkedUpPwd) {
-            userInfo.setFirstLogin(true);
-        } else {
-            userInfo.setFirstLogin(false);
-        }
-        userInfo.setUserName(userName);
-        String md5Pwd = MD5Util.saltMd5(userName, pwd);
-        userInfo.setPwd(md5Pwd);
-        //如果点击了   用户始终有效
-        if (checkedUserAlways) {
-            userInfo.setUserExpirationDate(0L);
-        } else {
-            Long userExpirationDate = (Long) userMap.get("userExpirationDate");
-            //设置 用户有效时间
-            userInfo.setUserExpirationDate(userExpirationDate);
-        }
-        //如果点击了   密码始终有效
-        if (checkedPwdAlways) {
-            userInfo.setPwdValidityPeriod(0L);
-        } else {
-            //前台会传2个类型参数 根据判断转换 来设计 用户 密码有效时间
-            Integer pwdValidityPeriod = (Integer) userMap.get("pwdValidityPeriod");
-            userInfo.setPwdValidityPeriod(DateUtils.getRearDate(pwdValidityPeriod));
-        }
-        //新增 通用状态
-        SystemLogStatus logStatus = new SystemLogStatus();
-        //设置创建时间
-        logStatus.setCreateDate(new Date().getTime());
-        logStatusService.serviceSaveSysStatusInfo(logStatus);
-        userInfo.setStatusId(logStatus.getStatusId());
-        //新增用户
-        userService.saveUserInfo(userInfo);
-        Long uid = userInfo.getUid();
-        Long sid = staffValue.longValue();
-        //关联员工信息 更新
-        hrService.bindHrInfo(uid, sid);
-        //新增角色信息
-        List<UserRole> urList = new ArrayList<>();
-        UserRole userRole = new UserRole();
-        userRole.setuId(uid);
-        userRole.setrIds(rolesId);
-        urList.add(userRole);
-        userRoleService.addUserRole(urList);
-        return JsonData.setResultSuccess("新增成功");
+        return userService.saveUserInfo(userMap);
     }
 
     /**

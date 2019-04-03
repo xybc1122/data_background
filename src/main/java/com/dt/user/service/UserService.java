@@ -1,12 +1,15 @@
 package com.dt.user.service;
 
 
+import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.UserDto;
 import com.dt.user.model.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public interface UserService {
     /**
@@ -19,16 +22,12 @@ public interface UserService {
      */
     UserInfo getUserStatus(Long uid);
 
-    //登陆查询用户
-    UserInfo findByUser(String userName);
+    //用户认证
+    ResponseBase doGetAuthenticationInfo(HttpServletResponse response, UserDto userDto);
 
 
     //查询账号管理信息
     List<UserInfo> findByUsers(UserDto pageDto);
-
-    //更新登陆时间
-    int upUserLandingTime(Long uId, Long landingTime);
-
 
     /**
      * 通过 id查询 用户
@@ -38,7 +37,7 @@ public interface UserService {
     /**
      * 更新用户信息
      */
-    int upUser(Map<String, Object> userMap);
+    ResponseBase updateUserInfo(Map<String, Object> userMap);
 
     /**
      * 单个删除或批量删除用户信息
@@ -60,10 +59,6 @@ public interface UserService {
      */
     UserInfo getUserName(String userName);
 
-    /**
-     * 新增一个用户
-     */
-    int saveUserInfo(UserInfo userInfo);
 
     /**
      * 查找所有用户信息
@@ -76,5 +71,12 @@ public interface UserService {
      * @return
      */
     int upUserPwd(@Param("uid") Long uid, @Param("pwd") String pwd);
+
+    /**
+     * 新增用户
+     *
+     * @return
+     */
+    ResponseBase saveUserInfo(Map<String, Object> userMap);
 
 }

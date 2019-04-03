@@ -13,7 +13,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/26 14:06
  **/
-@Mapper
 public interface BasicPublicCompanyOffshoreMapper {
 
     /**

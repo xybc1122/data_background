@@ -1,8 +1,10 @@
 package com.dt.user.service;
 
+import com.dt.user.config.ResponseBase;
 import com.dt.user.model.RoleMenu;
 
 import java.util.List;
+import java.util.Map;
 
 public interface RoleMenuService {
 
@@ -12,15 +14,12 @@ public interface RoleMenuService {
      **/
     List<RoleMenu> gerRoleMenus(Long rid);
 
-
     /**
-     * 添加角色跟菜单
+     * 添加角色菜单/删除角色菜单
+     *
+     * @return
      */
-    int addRoleMenu(Long menuId, Long rid);
+    ResponseBase addAndDelMenu(Map<String, Object> menuMap);
 
 
-    /**
-     * 删除角色跟菜单
-     */
-    int delRoleMenu(RoleMenu roleMenu);
 }

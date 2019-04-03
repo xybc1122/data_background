@@ -8,7 +8,6 @@ import org.apache.ibatis.mapping.FetchType;
 import java.util.List;
 import java.util.Map;
 
-@Mapper
 public interface TableHeadMapper {
 
     /**
@@ -82,4 +81,10 @@ public interface TableHeadMapper {
      */
     @InsertProvider(type = TableHeadProvider.class, method = "insertHead")
     int insertHead(TableHead tableHead);
+
+    /**
+     * 检查表中名字是否一直
+     */
+    @Select("SELECT `head_name` FROM `system_user_table_head` WHERE head_name=#{headName}")
+    String isHeadName(@Param("headName") String headName);
 }

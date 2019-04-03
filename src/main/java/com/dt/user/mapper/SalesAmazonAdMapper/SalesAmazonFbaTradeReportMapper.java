@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * 订单报告表
  */
-@Mapper
 public interface SalesAmazonFbaTradeReportMapper {
 
 

@@ -9,7 +9,6 @@ import org.apache.ibatis.mapping.FetchType;
 import java.util.List;
 import java.util.Map;
 
-@Mapper
 public interface HrArchivesEmployeeMapper {
     /**
      * 获得员工信息 没有关联用户的

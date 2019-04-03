@@ -5,7 +5,7 @@ import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.TableHeadDto;
 import com.dt.user.model.TableHead;
 import com.dt.user.service.TableHeadService;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -122,8 +122,19 @@ public class TableHeadController {
      * @return
      */
     @PostMapping("/upHeadSort")
-    @Transactional
     public ResponseBase upHeadSort(@RequestBody TableHeadDto headDto) {
         return tableHeadService.dataProcessing(headDto);
+    }
+
+    /**
+     * 查看数据库是否有名字
+     */
+    @GetMapping("/IsHeadName")
+    public ResponseBase getIsHeadName(@Param("headName") String headName) {
+        String isFlg = tableHeadService.isHeadName(headName);
+        if (isFlg != null) {
+            return JsonData.setResultError("已存在");
+        }
+        return JsonData.setResultSuccess("不存在");
     }
 }

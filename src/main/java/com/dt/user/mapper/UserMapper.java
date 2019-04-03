@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 
-@Mapper
 public interface UserMapper {
     /**
      * 通过uId查找 userName

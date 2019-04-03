@@ -15,7 +15,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/25 9:00
  **/
-@Mapper
 public interface BasicExportMonitoringConditionMapper {
 
     /**

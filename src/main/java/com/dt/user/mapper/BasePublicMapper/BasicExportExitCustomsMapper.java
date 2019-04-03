@@ -15,7 +15,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/25 10:48
  **/
-@Mapper
 public interface BasicExportExitCustomsMapper {
 
     /**

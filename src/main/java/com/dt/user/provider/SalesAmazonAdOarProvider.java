@@ -58,7 +58,22 @@ public class SalesAmazonAdOarProvider {
         sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=oar.`shop_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = oar.`site_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = oar.`sku_id`");
-
+        //广告组
+        if (StringUtils.isNotBlank(oar.getAdGroupName())) {
+            sql.WHERE("POSITION('" + oar.getAdGroupName() + "' IN `ad_group_name`)");
+        }
+        //广告活动
+        if (StringUtils.isNotBlank(oar.getCampaignName())) {
+            sql.WHERE("POSITION('" + oar.getCampaignName() + "' IN `campaign_name`)");
+        }
+        //广告SKU
+        if (StringUtils.isNotBlank(oar.getAdvertisedSku())) {
+            sql.WHERE("POSITION('" + oar.getAdvertisedSku() + "' IN `advertised_sku`)");
+        }
+        //广告ASIN
+        if (StringUtils.isNotBlank(oar.getAdvertisedAsin())) {
+            sql.WHERE("POSITION('" + oar.getAdvertisedAsin() + "' IN `advertised_asin`)");
+        }
         //其他ASIN
         if (StringUtils.isNotBlank(oar.getOtherAsin())) {
             sql.WHERE("POSITION('" + oar.getOtherAsin() + "' IN `other_asin`)");
@@ -67,6 +82,10 @@ public class SalesAmazonAdOarProvider {
         if (oar.getOtherAsinUnits() != null) {
             sql.WHERE("other_asin_units=#{otherAsinUnits}");
         }
+        //匹配方式
+        if (StringUtils.isNotBlank(oar.getMatchType())) {
+            sql.WHERE("POSITION('" + oar.getMatchType() + "' IN `match_type`)");
+        }
         //其他ASIN销量
         if (oar.getOtherAsinUnitsOrdered() != null) {
             sql.WHERE("other_asin_units_ordered=#{otherAsinUnitsOrdered}");
@@ -74,6 +93,10 @@ public class SalesAmazonAdOarProvider {
         //其他ASIN销售额
         if (oar.getOtherAsinUnitsOrderedSales() != null) {
             sql.WHERE("other_asin_units_ordered_sales=#{otherAsinUnitsOrderedSales}");
+        }
+        //关键词
+        if (StringUtils.isNotBlank(oar.getTargeting())) {
+            sql.WHERE("POSITION('" + oar.getTargeting() + "' IN `targeting`)");
         }
         ProviderSqlStore.saveUploadStatus(sql, oar);
         return sql.toString();

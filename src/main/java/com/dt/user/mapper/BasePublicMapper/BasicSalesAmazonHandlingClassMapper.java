@@ -14,7 +14,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/19 16:31
  **/
-@Mapper
 public interface BasicSalesAmazonHandlingClassMapper {
 
 

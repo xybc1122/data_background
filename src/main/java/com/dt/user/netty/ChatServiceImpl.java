@@ -2,6 +2,7 @@ package com.dt.user.netty;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.user.toos.Constant;
+import com.dt.user.utils.JsonUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import org.slf4j.Logger;
@@ -27,10 +28,7 @@ public class ChatServiceImpl implements ChatService {
         Integer uId = (Integer) object.get("uId");
         Constant.onLineUserMap.put(uId.longValue(), ctx);
         System.out.println("绑定用户" + uId + "----" + ctx.channel());
-        String responseJson = new ResponseJson().success()
-                .setData("type", ChatType.REGISTER)
-                .toString();
-        sendMessage(ctx, responseJson);
+        sendMessage(ctx, JsonUtils.getJsonTypeSuccess("绑定用户" + uId + "----" + ctx.channel(), ChatType.REGISTER));
         LOGGER.info(MessageFormat.format("userId为 {0} 的用户登记到在线用户表，当前在线人数为：{1}"
                 , uId, Constant.onLineUserMap.size()));
     }

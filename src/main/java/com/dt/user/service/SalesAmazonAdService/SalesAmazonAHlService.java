@@ -12,4 +12,12 @@ public interface SalesAmazonAHlService {
      * @return
      */
     int AddSalesAmazonAdHlList(List<SalesAmazonAdHl> hlList);
+
+    /**
+     * 查询HL数据
+     *
+     * @param hl
+     * @return
+     */
+    List<SalesAmazonAdHl> serviceFindByListHl(SalesAmazonAdHl hl);
 }

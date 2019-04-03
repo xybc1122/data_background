@@ -13,7 +13,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/26 13:51
  **/
-@Mapper
 public interface BasicHrNationMapper {
 
 

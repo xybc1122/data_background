@@ -71,4 +71,9 @@ public interface TableHeadService {
      * @return
      */
     int upHeadSort(String[] newTopOrder, Long id);
+
+    /**
+     * 检查表中名字是否一直
+     */
+    String isHeadName(String headName);
 }

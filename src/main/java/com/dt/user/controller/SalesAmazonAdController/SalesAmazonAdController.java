@@ -2,8 +2,10 @@ package com.dt.user.controller.SalesAmazonAdController;
 
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
+import com.dt.user.model.SalesAmazonAd.SalesAmazonAdOar;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdStr;
 import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdCprService;
+import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdOarService;
 import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdStrService;
 import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,9 @@ public class SalesAmazonAdController {
     @Autowired
     private SalesAmazonAdStrService strService;
 
+    @Autowired
+    private SalesAmazonAdOarService oarService;
+
     @PostMapping("/getCprInfo")
     public ResponseBase getCprInfo(@RequestBody SalesAmazonAdCpr adCpr) {
         PageInfoUtils.setPage(adCpr.getPageSize(), adCpr.getCurrentPage());
@@ -39,5 +44,9 @@ public class SalesAmazonAdController {
         return PageInfoUtils.returnPage(strService.serviceFindByListStr(str), str.getCurrentPage());
     }
 
-
+    @PostMapping("/getOarInfo")
+    public ResponseBase geOarInfo(@RequestBody SalesAmazonAdOar oar) {
+        PageInfoUtils.setPage(oar.getPageSize(), oar.getCurrentPage());
+        return PageInfoUtils.returnPage(oarService.serviceFindByListOar(oar), oar.getCurrentPage());
+    }
 }

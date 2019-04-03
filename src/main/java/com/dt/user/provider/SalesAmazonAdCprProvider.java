@@ -74,7 +74,18 @@ public class SalesAmazonAdCprProvider {
         if (StringUtils.isNotBlank(cpr.getAdvertisedAsin())) {
             sql.WHERE("POSITION('" + cpr.getAdvertisedAsin() + "' IN `advertised_asin`)");
         }
-
+        //广告组
+        if (StringUtils.isNotBlank(cpr.getAdGroupName())) {
+            sql.WHERE("POSITION('" + cpr.getAdGroupName() + "' IN `ad_group_name`)");
+        }
+        //广告活动
+        if (StringUtils.isNotBlank(cpr.getCampaignName())) {
+            sql.WHERE("POSITION('" + cpr.getCampaignName() + "' IN `campaign_name`)");
+        }
+        //关键词
+        if (StringUtils.isNotBlank(cpr.getTargeting())) {
+            sql.WHERE("POSITION('" + cpr.getTargeting() + "' IN `targeting`)");
+        }
         //匹配方式
         if (StringUtils.isNotBlank(cpr.getMatchType())) {
             sql.WHERE("POSITION('" + cpr.getMatchType() + "' IN `match_type`)");

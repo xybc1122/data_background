@@ -131,77 +131,74 @@ public class TableHeadImpl implements TableHeadService {
     }
 
     @Override
+    @Transactional
     public ResponseBase dataProcessing(TableHeadDto headDto) {
-        try {
-            for (TableHead sort : headDto.getSort()) {
-                //切割 TopOrder获得一个数组
-                String[] strTopOrder;
-                String[] strNewTopOrder;
-                String[] topOrderArr;
-                int indexTopOrder = -1;
-                //查看对象中的menuId 是否有 ,
-                int indexMid = sort.getMenuId().indexOf(",");
-                if (indexMid != -1) {
-                    String[] strMid = sort.getMenuId().split(",");
-                    //循环 查找要替换的下标
-                    for (int i = 0; i < strMid.length; i++) {
-                        if (headDto.getmId().equals(Integer.parseInt(strMid[i]))) {
-                            //这里 判断不是null  或者 " " 的情况下
-                            if (StringUtils.isNotBlank(sort.getTopOrder())) {
-                                indexTopOrder = sort.getTopOrder().indexOf(",");
-                            }
-                            //如果是-1 说明里面的值是null 或者 是单个元素
-                            if (indexTopOrder == -1) {
-                                //设置新的top OrderArr 长度
-                                topOrderArr = new String[i + 1];
-                                //把他sort.getTopOrder
-                                topOrderArr[i] = sort.getIndex().toString();
+        for (TableHead sort : headDto.getSort()) {
+            //切割 TopOrder获得一个数组
+            String[] strTopOrder;
+            String[] strNewTopOrder;
+            String[] topOrderArr;
+            int indexTopOrder = -1;
+            //查看对象中的menuId 是否有 ,
+            int indexMid = sort.getMenuId().indexOf(",");
+            if (indexMid != -1) {
+                String[] strMid = sort.getMenuId().split(",");
+                //循环 查找要替换的下标
+                for (int i = 0; i < strMid.length; i++) {
+                    if (headDto.getmId().equals(Integer.parseInt(strMid[i]))) {
+                        //这里 判断不是null  或者 " " 的情况下
+                        if (StringUtils.isNotBlank(sort.getTopOrder())) {
+                            indexTopOrder = sort.getTopOrder().indexOf(",");
+                        }
+                        //如果是-1 说明里面的值是null 或者 是单个元素
+                        if (indexTopOrder == -1) {
+                            //设置新的top OrderArr 长度
+                            topOrderArr = new String[i + 1];
+                            //把他sort.getTopOrder
+                            topOrderArr[i] = sort.getIndex().toString();
+                            //更新数据
+                            upHeadSort(topOrderArr, sort.getId());
+                            break;
+                        } else {
+                            //如果不是-1 说明里面有长度
+                            strTopOrder = sort.getTopOrder().split(",");
+                            //看看两个长度如果一样
+                            if (strTopOrder.length == strMid.length) {
+                                //记录索引  数组替换
+                                Arrays.fill(strTopOrder, i, i + 1, sort.getIndex().toString());
                                 //更新数据
-                                upHeadSort(topOrderArr, sort.getId());
+                                upHeadSort(strTopOrder, sort.getId());
                                 break;
                             } else {
-                                //如果不是-1 说明里面有长度
-                                strTopOrder = sort.getTopOrder().split(",");
-                                //看看两个长度如果一样
-                                if (strTopOrder.length == strMid.length) {
-                                    //记录索引  数组替换
-                                    Arrays.fill(strTopOrder, i, i + 1, sort.getIndex().toString());
-                                    //更新数据
-                                    upHeadSort(strTopOrder, sort.getId());
-                                    break;
-                                } else {
-                                    //如果不一样
-                                    //创建一个新的数组
-                                    strNewTopOrder = ArrUtils.getArr(strMid, strTopOrder, i, sort);
-                                    //更新数据
-                                    upHeadSort(strNewTopOrder, sort.getId());
-                                    break;
-                                }
+                                //如果不一样
+                                //创建一个新的数组
+                                strNewTopOrder = ArrUtils.getArr(strMid, strTopOrder, i, sort);
+                                //更新数据
+                                upHeadSort(strNewTopOrder, sort.getId());
+                                break;
                             }
                         }
                     }
-                    //如果菜单 indexMid ID 是一个的话
-                } else {
-                    if (StringUtils.isNotBlank(sort.getTopOrder())) {
-                        //而且这个必须是-1 说明只有一个值
-                        indexTopOrder = sort.getTopOrder().indexOf(",");
-                        if (indexTopOrder == -1) {
-                            topOrderArr = new String[1];
-                            topOrderArr[0] = sort.getIndex().toString();
-                            //更新数据
-                            upHeadSort(topOrderArr, sort.getId());
-                        }
-                    } else {
-                        //如果是null  直接赋值
+                }
+                //如果菜单 indexMid ID 是一个的话
+            } else {
+                if (StringUtils.isNotBlank(sort.getTopOrder())) {
+                    //而且这个必须是-1 说明只有一个值
+                    indexTopOrder = sort.getTopOrder().indexOf(",");
+                    if (indexTopOrder == -1) {
                         topOrderArr = new String[1];
                         topOrderArr[0] = sort.getIndex().toString();
                         //更新数据
                         upHeadSort(topOrderArr, sort.getId());
                     }
+                } else {
+                    //如果是null  直接赋值
+                    topOrderArr = new String[1];
+                    topOrderArr[0] = sort.getIndex().toString();
+                    //更新数据
+                    upHeadSort(topOrderArr, sort.getId());
                 }
             }
-        } catch (Exception e) {
-            return JsonData.setResultError("更新数据失败");
         }
         return JsonData.setResultSuccess("更新数据成功");
     }
@@ -209,6 +206,11 @@ public class TableHeadImpl implements TableHeadService {
     @Override
     public int upHeadSort(String[] newTopOrder, Long id) {
         return tableHeadMapper.upHeadSort(newTopOrder, id);
+    }
+
+    @Override
+    public String isHeadName(String headName) {
+        return tableHeadMapper.isHeadName(headName);
     }
 
 

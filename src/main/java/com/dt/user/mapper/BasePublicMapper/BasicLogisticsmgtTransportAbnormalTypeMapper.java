@@ -1,13 +1,10 @@
 package com.dt.user.mapper.BasePublicMapper;
 
-import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportAbnormalType;
 import com.dt.user.model.ParentTree;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
-@Mapper
 public interface BasicLogisticsmgtTransportAbnormalTypeMapper {
 
 

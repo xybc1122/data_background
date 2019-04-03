@@ -3,7 +3,6 @@ package com.dt.user.mapper;
 import com.dt.user.model.SystemLogStatus;
 import org.apache.ibatis.annotations.*;
 
-@Mapper
 public interface SystemLogStatusMapper {
     /**
      * 通用查询状态

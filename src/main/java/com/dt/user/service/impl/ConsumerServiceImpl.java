@@ -1,6 +1,5 @@
 package com.dt.user.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.csvreader.CsvReader;
 import com.dt.user.config.JsonData;
@@ -13,10 +12,8 @@ import com.dt.user.model.FinancialSalesBalance;
 import com.dt.user.model.RealTimeData;
 import com.dt.user.model.SalesAmazonAd.*;
 import com.dt.user.model.UserUpload;
-import com.dt.user.netty.ChatService;
 import com.dt.user.netty.ChatServiceImpl;
 import com.dt.user.netty.ChatType;
-import com.dt.user.netty.ResponseJson;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
 import com.dt.user.service.BasePublicService.BasicPublicSkuService;
 import com.dt.user.service.BasePublicService.BasicSalesAmazonCsvTxtXslHeaderService;
@@ -176,7 +173,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             ResponseBase responseTxt = saveTxt(br, shopId, uid, recordingId, lineHead, menuId, aId, timeData);
             return saveUserUploadInfo(responseTxt, recordingId, fileName, null, 3, saveFilePath, uuIdName);
         } finally {
-            CrrUtils.clearListThread(noSkuList);
+            ThreadLocalUtils.clearListThread(noSkuList);
             count.set(0L);
             numberCount.set(0L);
         }
@@ -199,15 +196,15 @@ public class ConsumerServiceImpl implements ConsumerService {
         List<String> txtHeadList = UploadStore.setLineHeadList(lineHead);
         String line;
         int index = 0;
+        Map<String, Integer> intMap = new HashMap<>();
+        //获得 ctx 对象
+        ChannelHandlerContext ctx = chatService.getCtx(uid);
         try {
-            Map<String, Integer> intMap = new HashMap<>();
-            //获得 ctx 对象
-            ChannelHandlerContext ctx = chatService.getCtx(uid);
             while ((line = br.readLine()) != null) {
                 //numberCount++
-                CrrUtils.inCreateNumberLong(numberCount);
+                ThreadLocalUtils.inCreateNumberLong(numberCount);
                 //count ++ 成功数量
-                CrrUtils.inCreateNumberLong(count);
+                ThreadLocalUtils.inCreateNumberLong(count);
                 // 一次读入一行数据
                 String[] newLine = line.split("\t", -1);
                 switch (menuId) {
@@ -281,7 +278,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 sendRealTimeData(ctx, intMap, timeData, index);
             }
         } catch (Exception e) {
-            setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage(), null);
+            return setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int countTrad = 0;
         try {
@@ -306,12 +303,12 @@ public class ConsumerServiceImpl implements ConsumerService {
                 }
             }
         } catch (Exception e) {
-            setErrorInfo(recordingId, "数据库存入异常", null);
+            return setErrorInfo(recordingId, "数据库存入异常", null);
         }
         if (countTrad != 0) {
             return printCount(begin, count.get(), index);
         }
-        throw new LsException("存入数据失败,请检查信息/文件中所有行的shuId 无效");
+        return JsonData.setResultError("存入数据失败,请检查信息/文件中所有行的shuId 无效");
     }
 
     /**
@@ -598,7 +595,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             ResponseBase responseXls = saveXls(shopId, siteId, uid, recordingId, totalNumber, sqlHead, menuId, sheet, xlsListHead);
             return saveUserUploadInfo(responseXls, recordingId, fileName, null, 1, filePath, uuIdName);
         } finally {
-            CrrUtils.clearListThread(noSkuList);
+            ThreadLocalUtils.clearListThread(noSkuList);
             count.set(0L);
             numberCount.set(0L);
         }
@@ -642,9 +639,9 @@ public class ConsumerServiceImpl implements ConsumerService {
         try {
             for (int i = 1; i <= lastRowNum; i++) {
                 //numberCount++
-                CrrUtils.inCreateNumberLong(numberCount);
+                ThreadLocalUtils.inCreateNumberLong(numberCount);
                 //count ++ 成功数量
-                CrrUtils.inCreateNumberLong(count);
+                ThreadLocalUtils.inCreateNumberLong(count);
                 row = sheet.getRow(i);
                 // 105 cpr
                 if (menuId == 105) {
@@ -707,7 +704,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         }
         int saveCount = 0;
         if (ctx != null) {
-            chatService.sendMessage(ctx,JSONObject.toJSONString(JsonData.setResultTypeSuccess("存入数据中", "REGISTER")));
+            chatService.sendMessage(ctx, JsonUtils.getJsonTypeSuccess("存入数据中", ChatType.PROGRESS_BAR));
         }
         try {
             if (cprList != null) {
@@ -737,7 +734,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             return printCount(begin, count.get(), index);
         }
 
-        throw new LsException("存入数据失败,请检查信息/文件中所有行的shuId 无效");
+        return JsonData.setResultError("存入数据失败,请检查信息/文件中所有行的shuId 无效");
     }
 
     /**
@@ -746,15 +743,15 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     public void skuSetting(Row row, int totalNumber, List<String> head) {
-        CrrUtils.inCreateList(noSkuList);
+        ThreadLocalUtils.inCreateList(noSkuList);
         //如果等于0 就先设置头
         if (noSkuList.get().size() == 0) {
             noSkuList.get().add(head);
         }
         //count --
-        CrrUtils.delCreateNumberLong(count);
+        ThreadLocalUtils.delCreateNumberLong(count);
         //sumNoSku ++
-        CrrUtils.inCreateNumberInteger(sumErrorSku);
+        ThreadLocalUtils.inCreateNumberInteger(sumErrorSku);
         List<String> skuListNo = new ArrayList<>();
         //拿到那一行信息
         for (int i = 0; i < totalNumber; i++) {
@@ -1095,7 +1092,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             if (csvReader != null) {
                 csvReader.close();
             }
-            CrrUtils.clearListThread(noSkuList);
+            ThreadLocalUtils.clearListThread(noSkuList);
             count.set(0L);
             numberCount.set(0L);
         }
@@ -1129,9 +1126,9 @@ public class ConsumerServiceImpl implements ConsumerService {
             while (csvReader.readRecord()) {
                 if (index >= row) {
                     //numberCount++
-                    CrrUtils.inCreateNumberLong(numberCount);
+                    ThreadLocalUtils.inCreateNumberLong(numberCount);
                     //count ++ 成功数量
-                    CrrUtils.inCreateNumberLong(count);
+                    ThreadLocalUtils.inCreateNumberLong(count);
                     //85 == 财务上传ID | 104 运营上传
                     if (menuId == Constants.FINANCE_ID || menuId == Constants.FINANCE_ID_YY) {
                         fsbList = ArrUtils.listT(tList);
@@ -1377,11 +1374,11 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     public String exportCsvType(CsvReader csvReader, Long skuId) throws IOException {
         if (skuId == null || skuId == -1) {
-            CrrUtils.inCreateList(noSkuList);
+            ThreadLocalUtils.inCreateList(noSkuList);
             //count --
-            CrrUtils.delCreateNumberLong(count);
+            ThreadLocalUtils.delCreateNumberLong(count);
             //sumNoSku ++
-            CrrUtils.inCreateNumberInteger(sumErrorSku);
+            ThreadLocalUtils.inCreateNumberInteger(sumErrorSku);
             List<String> skuListNo = new ArrayList<>();
             for (int i = 0; i < csvReader.getColumnCount(); i++) {
                 skuListNo.add(csvReader.get(i).replace(",", "."));
@@ -1578,11 +1575,11 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     public void exportTxtType(List<String> head, String line) {
-        CrrUtils.inCreateList(noSkuList);
+        ThreadLocalUtils.inCreateList(noSkuList);
         //count --
-        CrrUtils.delCreateNumberLong(count);
+        ThreadLocalUtils.delCreateNumberLong(count);
         //sumNoSku ++
-        CrrUtils.inCreateNumberInteger(sumErrorSku);
+        ThreadLocalUtils.inCreateNumberInteger(sumErrorSku);
         if (noSkuList.get().size() == 0) {
             noSkuList.get().add(head);
         }
@@ -1684,10 +1681,13 @@ public class ConsumerServiceImpl implements ConsumerService {
 
     public void sendRealTimeData(ChannelHandlerContext ctx, Map<String, Integer> intMap, RealTimeData timeData, int index) {
         if (ctx != null) {
+            //设置进度
             RealTimeDataStore.setSchedule(timeData, index);
-            String msg = JSON.toJSONString(CrrUtils.inCreateSet(timeDataSet, timeData));
+            //转换 数据
+            String msg = JsonUtils.getJsonObj(ThreadLocalUtils.inCreateSet(timeDataSet, timeData));
             //设置进度 传输
-            chatService.schedule(ctx, intMap, timeData.getPercentage(), JSONObject.toJSONString(JsonData.setResultTypeSuccess(msg, "REGISTER")));
+            chatService.schedule(ctx, intMap, timeData.getPercentage(), JsonUtils.getJsonTypeSuccess(msg, ChatType.PROGRESS_BAR));
         }
     }
+
 }

@@ -8,7 +8,6 @@ import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
-@Mapper
 public interface BasicPublicSiteMapper {
     /**
      * 查询所有站点信息 //包含区域信息

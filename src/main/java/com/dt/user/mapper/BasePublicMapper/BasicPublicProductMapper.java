@@ -7,7 +7,6 @@ import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
-@Mapper
 public interface BasicPublicProductMapper {
     /**
      * 查询产品物料信息

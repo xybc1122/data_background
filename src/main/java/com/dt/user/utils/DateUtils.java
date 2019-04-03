@@ -9,6 +9,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * 时间转换 设置
+ */
 public class DateUtils {
 
     /**
@@ -18,7 +21,7 @@ public class DateUtils {
      * @param seId
      * @throws IOException
      */
-    public static void setDate(FinancialSalesBalance fsb, Integer seId, String time){
+    public static void setDate(FinancialSalesBalance fsb, Integer seId, String time) {
         switch (seId) {
             case 1:
                 fsb.setDate(DateUtils.getTime(time, Constants.USA_TIME));
@@ -62,6 +65,7 @@ public class DateUtils {
         calendar.add(Calendar.DAY_OF_MONTH, time);
         return calendar.getTime().getTime();
     }
+
     /**
      * 美国/加拿大/德国/澳大利亚/英国/时间转换/北美
      *
@@ -134,6 +138,7 @@ public class DateUtils {
         }
         return time;
     }
+
     /**
      * 意大利日期转换
      *
@@ -195,6 +200,7 @@ public class DateUtils {
 
     /**
      * 法国日期转换
+     *
      * @param date
      * @param pattern
      * @return
@@ -253,7 +259,7 @@ public class DateUtils {
 
     public static void main(String[] args) throws ParseException {
         String stringDate = "18-十二月-2019";
-        System.out.println(getXlsStrTime(stringDate,"dd-MM-yyyy"));
+        System.out.println(getXlsStrTime(stringDate, "dd-MM-yyyy"));
 //        System.out.println(DateUtils.getFranceTime(stringDate, Constants.FRANCE_TIME));
 
     }

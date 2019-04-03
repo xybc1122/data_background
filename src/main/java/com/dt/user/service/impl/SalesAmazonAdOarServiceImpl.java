@@ -17,4 +17,9 @@ public class SalesAmazonAdOarServiceImpl implements SalesAmazonAdOarService {
     public int AddSalesAmazonAdOarList(List<SalesAmazonAdOar> oarList) {
         return oarMapper.AddSalesAmazonAdOarList(oarList);
     }
+
+    @Override
+    public List<SalesAmazonAdOar> serviceFindByListOar(SalesAmazonAdOar oar) {
+        return oarMapper.findByListOar(oar);
+    }
 }

@@ -140,7 +140,7 @@ public class FileUtils {
             toClient.write(buffer);
             toClient.flush();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw new LsException("文件下载传出异常");
         }
     }
 }

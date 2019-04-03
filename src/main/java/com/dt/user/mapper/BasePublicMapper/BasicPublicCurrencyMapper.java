@@ -6,7 +6,6 @@ import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
-@Mapper
 public interface BasicPublicCurrencyMapper {
     /**
      * 查询币别所有相关信息

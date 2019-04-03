@@ -7,7 +7,6 @@ import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 
-@Mapper
 public interface BasicSalesAmazonCsvTxtXslHeaderMapper {
     /**
      * 通过seId获取 header信息

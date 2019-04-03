@@ -88,7 +88,7 @@ public class ArrUtils {
         String[] strNewTopOrder = new String[strMid.length];
         for (int j = 0; j < strNewTopOrder.length; j++) {
             //把 strTopOrder 赋值给strNewTopOrder
-            System.out.println(strTopOrder.length);
+          //  System.out.println(strTopOrder.length);
             if (strTopOrder.length > j) {
                 strNewTopOrder[j] = strTopOrder[j];
             } else {

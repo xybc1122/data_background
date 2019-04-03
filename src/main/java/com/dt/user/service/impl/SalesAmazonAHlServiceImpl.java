@@ -17,4 +17,9 @@ public class SalesAmazonAHlServiceImpl implements SalesAmazonAHlService {
     public int AddSalesAmazonAdHlList(List<SalesAmazonAdHl> hlList) {
         return aHlMapper.AddSalesAmazonAdHlList(hlList);
     }
+
+    @Override
+    public List<SalesAmazonAdHl> serviceFindByListHl(SalesAmazonAdHl hl) {
+        return aHlMapper.findByListHl(hl);
+    }
 }

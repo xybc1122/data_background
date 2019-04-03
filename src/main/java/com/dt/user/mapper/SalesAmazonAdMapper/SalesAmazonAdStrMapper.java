@@ -1,6 +1,4 @@
 package com.dt.user.mapper.SalesAmazonAdMapper;
-
-;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdStr;
 import com.dt.user.provider.SalesAmazonAdStrProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -10,7 +8,6 @@ import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
 
-@Mapper
 public interface SalesAmazonAdStrMapper {
     /**
      * 存入广告Str数据

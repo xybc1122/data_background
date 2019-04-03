@@ -13,7 +13,6 @@ import java.util.List;
  * @Author 陈恩惠
  * @Date 2019/3/20 13:17
  **/
-@Mapper
 public interface BasicSalesDeliveryTypeMapper {
 
 

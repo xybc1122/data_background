@@ -12,8 +12,8 @@ public interface RoleMenuMapper {
     /**
      * 通过角色id来查询拥有的菜单
      **/
-    @Select("select m_id,r_id,id  from system_user_role_menu where r_id=#{rid}")
-    List<RoleMenu> gerRoleMenus(@Param("rid") Long rid);
+    @Select("select m_id from system_user_role_menu where r_id=#{rid}")
+    List<String> gerRoleMenus(@Param("rid") Long rid);
 
     /**
      * 添加角色跟菜单
@@ -25,6 +25,6 @@ public interface RoleMenuMapper {
     /**
      * 删除角色跟菜单
      */
-    @DeleteProvider(type = RoleMenuProvider.class,method="delRoleMenu")
+    @DeleteProvider(type = RoleMenuProvider.class, method = "delRoleMenu")
     int delRoleMenu(RoleMenu roleMenu);
 }

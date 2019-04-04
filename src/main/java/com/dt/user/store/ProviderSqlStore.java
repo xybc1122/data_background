@@ -72,10 +72,6 @@ public class ProviderSqlStore {
      * @param p
      */
     public static void saveUploadStatus(SQL sql, ParentUploadInfo p) {
-        // sku
-        if (StringUtils.isNotBlank(p.getSku())) {
-            sql.WHERE("POSITION('" + p.getSku() + "' IN ps.`sku`)");
-        }
         //店铺名称
         if (StringUtils.isNotBlank(p.getShopName())) {
             sql.WHERE("POSITION('" + p.getShopName() + "' IN s.`shop_name`)");

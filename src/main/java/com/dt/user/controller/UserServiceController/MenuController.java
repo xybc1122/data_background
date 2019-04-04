@@ -65,7 +65,7 @@ public class MenuController {
                 int count = menuService.addMenu(menus);
                 if (count > 0) {
                     //代表更新
-                    redisService.setString("tokenMenu", 0);
+                    redisService.setString("tokenMenu", "success");
                     return JsonData.setResultSuccess("新增成功");
                 }
             }

@@ -55,9 +55,13 @@ public class SalesAmazonAdOarProvider {
                 "`other_asin_units_ordered_sales`," +
                 "" + ProviderSqlStore.statusV + "" +
                 "FROM `sales_amazon_ad_oar` AS oar");
-        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=oar.`shop_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = oar.`site_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = oar.`sku_id`");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=oar.`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = oar.`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = oar.`sku_id`");
+        // sku
+        if (StringUtils.isNotBlank(oar.getSku())) {
+            sql.WHERE("POSITION('" + oar.getSku() + "' IN ps.`sku`)");
+        }
         //广告组
         if (StringUtils.isNotBlank(oar.getAdGroupName())) {
             sql.WHERE("POSITION('" + oar.getAdGroupName() + "' IN `ad_group_name`)");

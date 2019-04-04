@@ -8,6 +8,7 @@ import com.dt.user.model.*;
 import com.dt.user.service.*;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api/v1/upload")
@@ -185,7 +185,7 @@ public class UploadController {
         //菜单信息
         upload.setTbId(tbId);
         //业务报告时间信息
-        if (!businessTime.equals("undefined")) {
+        if (StringUtils.isNotBlank(businessTime)) {
             upload.setBusinessTime(businessTime);
         }
         userUploadService.addUserUploadInfo(upload);

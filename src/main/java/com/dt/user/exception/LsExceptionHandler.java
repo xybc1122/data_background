@@ -2,8 +2,11 @@ package com.dt.user.exception;
 
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.SQLSyntaxErrorException;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -24,6 +27,9 @@ public class LsExceptionHandler {
             //自定义异常
             LsException lsException = (LsException) e;
             return JsonData.setResultError(lsException.getMsg());
+        } else if (e instanceof BadSqlGrammarException) {
+            System.out.println(e.getMessage());
+            return JsonData.setResultError("SQL异常");
         } else if (e instanceof ExecutionException) {
             return JsonData.setResultError("多线程数据处理中断" + e.getMessage());
         }

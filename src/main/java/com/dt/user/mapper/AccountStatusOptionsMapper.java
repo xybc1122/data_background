@@ -1,7 +1,6 @@
 package com.dt.user.mapper;
 
 import com.dt.user.model.AccountStatusOptions;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

@@ -1,5 +1,7 @@
 package com.dt.user.model;
 
+import java.math.BigDecimal;
+
 /**
  * 德国存入数据表
  */
@@ -8,6 +10,7 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     private Long balanceId;
     private String settlemenId;
     private Long paymentTypeId;
+    private String financialSku;
     private String type;
     private String orderId;
     private String description;
@@ -21,35 +24,35 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     private String city;
     private String state;
     private String postal;
-    private Double sales;
-    private Double salePrice;
-    private Double preSalePrice;
-    private Double stdSalePrice;
-    private Double newShippingCredits;
-    private Double shippingCredits;
-    private Double giftwrapCredits;
-    private Double promotionalRebates;
-    private Double salesTax;
-    private Double marketplaceFacilitatorTax;
-    private Double sellingFees;
-    private Double fbaFee;
-    private Double otherTransactionFees;
-    private Double other;
-    private Double total;
-    private Double serviceFee;
-    private Double transfer;
-    private Double adjustment;
-    private Double newPromotionalRebates;
-    private Double newShippingFba;
-    private Double stdProductSales;
-    private Double stdSalesOriginal;
-    private Double stdSalesAdd;
-    private Double stdSalesMinus;
-    private Double stdFba;
-    private Double stdFbas;
-    private Double stdFbaOriginal;
-    private Double lightningDealFee;
-    private Double fbaInventoryFee;
+    private BigDecimal sales;
+    private BigDecimal salePrice;
+    private BigDecimal preSalePrice;
+    private BigDecimal stdSalePrice;
+    private BigDecimal newShippingCredits;
+    private BigDecimal shippingCredits;
+    private BigDecimal giftwrapCredits;
+    private BigDecimal promotionalRebates;
+    private BigDecimal salesTax;
+    private BigDecimal marketplaceFacilitatorTax;
+    private BigDecimal sellingFees;
+    private BigDecimal fbaFee;
+    private BigDecimal otherTransactionFees;
+    private BigDecimal other;
+    private BigDecimal total;
+    private BigDecimal serviceFee;
+    private BigDecimal transfer;
+    private BigDecimal adjustment;
+    private BigDecimal newPromotionalRebates;
+    private BigDecimal newShippingFba;
+    private BigDecimal stdProductSales;
+    private BigDecimal stdSalesOriginal;
+    private BigDecimal stdSalesAdd;
+    private BigDecimal stdSalesMinus;
+    private BigDecimal stdFba;
+    private BigDecimal stdFbas;
+    private BigDecimal stdFbaOriginal;
+    private BigDecimal lightningDealFee;
+    private BigDecimal fbaInventoryFee;
     /**
      * 积分费用(日本ポイントの費用)
      */
@@ -68,20 +71,12 @@ public class FinancialSalesBalance extends ParentUploadInfo {
         this.paymentTypeId = paymentTypeId;
     }
 
-    public Double getLowValueGoods() {
-        return lowValueGoods;
+    public String getFinancialSku() {
+        return financialSku;
     }
 
-    public void setLowValueGoods(Double lowValueGoods) {
-        this.lowValueGoods = lowValueGoods;
-    }
-
-    public Double getPointFee() {
-        return pointFee;
-    }
-
-    public void setPointFee(Double pointFee) {
-        this.pointFee = pointFee;
+    public void setFinancialSku(String financialSku) {
+        this.financialSku = financialSku;
     }
 
     public Long getBalanceId() {
@@ -91,7 +86,6 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     public void setBalanceId(Long balanceId) {
         this.balanceId = balanceId;
     }
-
 
     public String getSettlemenId() {
         return settlemenId;
@@ -124,7 +118,6 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
-
 
     public String getDescription() {
         return description;
@@ -214,235 +207,251 @@ public class FinancialSalesBalance extends ParentUploadInfo {
         this.postal = postal;
     }
 
-    public Double getSales() {
+    public BigDecimal getSales() {
         return sales;
     }
 
-    public void setSales(Double sales) {
+    public void setSales(BigDecimal sales) {
         this.sales = sales;
     }
 
-    public Double getSalePrice() {
+    public BigDecimal getSalePrice() {
         return salePrice;
     }
 
-    public void setSalePrice(Double salePrice) {
+    public void setSalePrice(BigDecimal salePrice) {
         this.salePrice = salePrice;
     }
 
-    public Double getPreSalePrice() {
+    public BigDecimal getPreSalePrice() {
         return preSalePrice;
     }
 
-    public void setPreSalePrice(Double preSalePrice) {
+    public void setPreSalePrice(BigDecimal preSalePrice) {
         this.preSalePrice = preSalePrice;
     }
 
-    public Double getStdSalePrice() {
+    public BigDecimal getStdSalePrice() {
         return stdSalePrice;
     }
 
-    public void setStdSalePrice(Double stdSalePrice) {
+    public void setStdSalePrice(BigDecimal stdSalePrice) {
         this.stdSalePrice = stdSalePrice;
     }
 
-    public Double getNewShippingCredits() {
+    public BigDecimal getNewShippingCredits() {
         return newShippingCredits;
     }
 
-    public void setNewShippingCredits(Double newShippingCredits) {
+    public void setNewShippingCredits(BigDecimal newShippingCredits) {
         this.newShippingCredits = newShippingCredits;
     }
 
-    public Double getShippingCredits() {
+    public BigDecimal getShippingCredits() {
         return shippingCredits;
     }
 
-    public void setShippingCredits(Double shippingCredits) {
+    public void setShippingCredits(BigDecimal shippingCredits) {
         this.shippingCredits = shippingCredits;
     }
 
-    public Double getGiftwrapCredits() {
+    public BigDecimal getGiftwrapCredits() {
         return giftwrapCredits;
     }
 
-    public void setGiftwrapCredits(Double giftwrapCredits) {
+    public void setGiftwrapCredits(BigDecimal giftwrapCredits) {
         this.giftwrapCredits = giftwrapCredits;
     }
 
-    public Double getPromotionalRebates() {
+    public BigDecimal getPromotionalRebates() {
         return promotionalRebates;
     }
 
-    public void setPromotionalRebates(Double promotionalRebates) {
+    public void setPromotionalRebates(BigDecimal promotionalRebates) {
         this.promotionalRebates = promotionalRebates;
     }
 
-    public Double getSalesTax() {
+    public BigDecimal getSalesTax() {
         return salesTax;
     }
 
-    public void setSalesTax(Double salesTax) {
+    public void setSalesTax(BigDecimal salesTax) {
         this.salesTax = salesTax;
     }
 
-    public Double getMarketplaceFacilitatorTax() {
+    public BigDecimal getMarketplaceFacilitatorTax() {
         return marketplaceFacilitatorTax;
     }
 
-    public void setMarketplaceFacilitatorTax(Double marketplaceFacilitatorTax) {
+    public void setMarketplaceFacilitatorTax(BigDecimal marketplaceFacilitatorTax) {
         this.marketplaceFacilitatorTax = marketplaceFacilitatorTax;
     }
 
-    public Double getSellingFees() {
+    public BigDecimal getSellingFees() {
         return sellingFees;
     }
 
-    public void setSellingFees(Double sellingFees) {
+    public void setSellingFees(BigDecimal sellingFees) {
         this.sellingFees = sellingFees;
     }
 
-    public Double getFbaFee() {
+    public BigDecimal getFbaFee() {
         return fbaFee;
     }
 
-    public void setFbaFee(Double fbaFee) {
+    public void setFbaFee(BigDecimal fbaFee) {
         this.fbaFee = fbaFee;
     }
 
-    public Double getOtherTransactionFees() {
+    public BigDecimal getOtherTransactionFees() {
         return otherTransactionFees;
     }
 
-    public void setOtherTransactionFees(Double otherTransactionFees) {
+    public void setOtherTransactionFees(BigDecimal otherTransactionFees) {
         this.otherTransactionFees = otherTransactionFees;
     }
 
-    public Double getOther() {
+    public BigDecimal getOther() {
         return other;
     }
 
-    public void setOther(Double other) {
+    public void setOther(BigDecimal other) {
         this.other = other;
     }
 
-    public Double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(Double total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
     }
 
-    public Double getServiceFee() {
+    public BigDecimal getServiceFee() {
         return serviceFee;
     }
 
-    public void setServiceFee(Double serviceFee) {
+    public void setServiceFee(BigDecimal serviceFee) {
         this.serviceFee = serviceFee;
     }
 
-    public Double getTransfer() {
+    public BigDecimal getTransfer() {
         return transfer;
     }
 
-    public void setTransfer(Double transfer) {
+    public void setTransfer(BigDecimal transfer) {
         this.transfer = transfer;
     }
 
-    public Double getAdjustment() {
+    public BigDecimal getAdjustment() {
         return adjustment;
     }
 
-    public void setAdjustment(Double adjustment) {
+    public void setAdjustment(BigDecimal adjustment) {
         this.adjustment = adjustment;
     }
 
-    public Double getNewPromotionalRebates() {
+    public BigDecimal getNewPromotionalRebates() {
         return newPromotionalRebates;
     }
 
-    public void setNewPromotionalRebates(Double newPromotionalRebates) {
+    public void setNewPromotionalRebates(BigDecimal newPromotionalRebates) {
         this.newPromotionalRebates = newPromotionalRebates;
     }
 
-    public Double getNewShippingFba() {
+    public BigDecimal getNewShippingFba() {
         return newShippingFba;
     }
 
-    public void setNewShippingFba(Double newShippingFba) {
+    public void setNewShippingFba(BigDecimal newShippingFba) {
         this.newShippingFba = newShippingFba;
     }
 
-    public Double getStdProductSales() {
+    public BigDecimal getStdProductSales() {
         return stdProductSales;
     }
 
-    public void setStdProductSales(Double stdProductSales) {
+    public void setStdProductSales(BigDecimal stdProductSales) {
         this.stdProductSales = stdProductSales;
     }
 
-    public Double getStdSalesOriginal() {
+    public BigDecimal getStdSalesOriginal() {
         return stdSalesOriginal;
     }
 
-    public void setStdSalesOriginal(Double stdSalesOriginal) {
+    public void setStdSalesOriginal(BigDecimal stdSalesOriginal) {
         this.stdSalesOriginal = stdSalesOriginal;
     }
 
-    public Double getStdSalesAdd() {
+    public BigDecimal getStdSalesAdd() {
         return stdSalesAdd;
     }
 
-    public void setStdSalesAdd(Double stdSalesAdd) {
+    public void setStdSalesAdd(BigDecimal stdSalesAdd) {
         this.stdSalesAdd = stdSalesAdd;
     }
 
-    public Double getStdSalesMinus() {
+    public BigDecimal getStdSalesMinus() {
         return stdSalesMinus;
     }
 
-    public void setStdSalesMinus(Double stdSalesMinus) {
+    public void setStdSalesMinus(BigDecimal stdSalesMinus) {
         this.stdSalesMinus = stdSalesMinus;
     }
 
-    public Double getStdFba() {
+    public BigDecimal getStdFba() {
         return stdFba;
     }
 
-    public void setStdFba(Double stdFba) {
+    public void setStdFba(BigDecimal stdFba) {
         this.stdFba = stdFba;
     }
 
-    public Double getStdFbas() {
+    public BigDecimal getStdFbas() {
         return stdFbas;
     }
 
-    public void setStdFbas(Double stdFbas) {
+    public void setStdFbas(BigDecimal stdFbas) {
         this.stdFbas = stdFbas;
     }
 
-    public Double getStdFbaOriginal() {
+    public BigDecimal getStdFbaOriginal() {
         return stdFbaOriginal;
     }
 
-    public void setStdFbaOriginal(Double stdFbaOriginal) {
+    public void setStdFbaOriginal(BigDecimal stdFbaOriginal) {
         this.stdFbaOriginal = stdFbaOriginal;
     }
 
-    public Double getLightningDealFee() {
+    public BigDecimal getLightningDealFee() {
         return lightningDealFee;
     }
 
-    public void setLightningDealFee(Double lightningDealFee) {
+    public void setLightningDealFee(BigDecimal lightningDealFee) {
         this.lightningDealFee = lightningDealFee;
     }
 
-    public Double getFbaInventoryFee() {
+    public BigDecimal getFbaInventoryFee() {
         return fbaInventoryFee;
     }
 
-    public void setFbaInventoryFee(Double fbaInventoryFee) {
+    public void setFbaInventoryFee(BigDecimal fbaInventoryFee) {
         this.fbaInventoryFee = fbaInventoryFee;
+    }
+
+    public Double getPointFee() {
+        return pointFee;
+    }
+
+    public void setPointFee(Double pointFee) {
+        this.pointFee = pointFee;
+    }
+
+    public Double getLowValueGoods() {
+        return lowValueGoods;
+    }
+
+    public void setLowValueGoods(Double lowValueGoods) {
+        this.lowValueGoods = lowValueGoods;
     }
 }

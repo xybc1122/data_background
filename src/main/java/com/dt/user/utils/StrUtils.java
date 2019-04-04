@@ -50,9 +50,7 @@ public class StrUtils {
                 replace("MXN", "")
                 .trim();
         if (l != -1) {
-            BigDecimal b1 = new BigDecimal(strNew);
-            BigDecimal b2 = new BigDecimal("100");
-            return b1.divide(b2);
+            return new BigDecimal(strNew).divide(new BigDecimal("100"));
         }
         return new BigDecimal(strNew);
     }
@@ -113,39 +111,40 @@ public class StrUtils {
     }
 
     /**
-     * 财务字符串替换Double
+     * 财务字符串替换BigDecimal
      *
-     * @param number
+     * @param str
      * @return
      */
-    public static Double replaceDouble(String number) {
-        if (StringUtils.isBlank(number)) {
+    public static BigDecimal replaceDecimal(String str) {
+        String strNew;
+        if (StringUtils.isBlank(str)) {
             return null;
         }
-        int i = number.indexOf(".");
-        int j = number.indexOf(",");
-        int k = number.indexOf("?");
+        int i = str.indexOf(".");
+        int j = str.indexOf(",");
+        int k = str.indexOf("?");
         //如果都有 并且 j > i 等于德国的
         if (i != -1 && j != -1 && j > i) {
-            String newNumber = number.
+            strNew = str.
                     replace(".", "").
                     replace(',', '.');
-            return Double.parseDouble(newNumber);
+            return new BigDecimal(strNew);
         }
         //如果都有 并且 j < i 等于加拿大的
         else if (i != -1 && j != -1 && j < i) {
-            String newNumber = number.
+            strNew = str.
                     replace(",", "");
-            return Double.parseDouble(newNumber);
+            return new BigDecimal(strNew);
         }
         //法国会出现,号
         else if (k != -1 && j != -1) {
-            String newNumber = number.
+            strNew = str.
                     replace("?", "").
                     replace(',', '.');
-            return Double.parseDouble(newNumber);
+            return new BigDecimal(strNew);
         }
-        return Double.parseDouble(number.replace(',', '.'));
+        return new BigDecimal(str.replace(',', '.'));
     }
 
     /**
@@ -205,26 +204,27 @@ public class StrUtils {
     public static void isService(String typeName, FinancialSalesBalance fsb) {
         if (StringUtils.isNotEmpty(typeName)) {
             //促销费用（abs(运费)<abs(促销费用)）
-            if (Math.abs(fsb.getShippingCredits()) < Math.abs(fsb.getPromotionalRebates())) {
-                fsb.setNewPromotionalRebates(fsb.getShippingCredits() + fsb.getPromotionalRebates());
+            //返回值 -1 小于 0 等于 1 大于
+            if (fsb.getShippingCredits().abs().compareTo(fsb.getPromotionalRebates().abs()) < 0) {
+                fsb.setNewPromotionalRebates(fsb.getShippingCredits().add(fsb.getPromotionalRebates()));
             }
             //促销费用（abs(运费)>abs(促销费用)）
-            if (Math.abs(fsb.getShippingCredits()) > Math.abs(fsb.getPromotionalRebates())) {
+            if (fsb.getShippingCredits().abs().compareTo(fsb.getPromotionalRebates().abs()) > 0) {
                 fsb.setNewShippingCredits(fsb.getShippingCredits());
                 fsb.setNewPromotionalRebates(fsb.getPromotionalRebates());
             }
             //促销费用（abs(运费)=abs(促销费用)）
-            if (Math.abs(fsb.getShippingCredits()) == Math.abs(fsb.getPromotionalRebates())) {
-                fsb.setNewShippingCredits(0.0);
-                fsb.setNewPromotionalRebates(0.0);
+            if (fsb.getShippingCredits().abs().compareTo(fsb.getPromotionalRebates().abs()) == 0) {
+                fsb.setNewShippingCredits(new BigDecimal(0.0));
+                fsb.setNewPromotionalRebates(new BigDecimal(0.0));
             }
             if (fsb.getNewShippingCredits() == null) {
-                fsb.setNewShippingCredits(0.0);
+                fsb.setNewShippingCredits(new BigDecimal(0.0));
             }
             if (fsb.getFbaFee() == null) {
-                fsb.setFbaFee(0.0);
+                fsb.setFbaFee(new BigDecimal(0.0));
             }
-            fsb.setNewShippingFba(fsb.getNewShippingCredits() + fsb.getFbaFee());
+            fsb.setNewShippingFba(fsb.getNewShippingCredits().add(fsb.getFbaFee()));
             if (!typeName.equals("退货")) {
                 fsb.setQuantity(fsb.getoQuantity());
             }

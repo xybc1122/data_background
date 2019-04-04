@@ -59,8 +59,8 @@ public class SalesAmazonAdStrProvider {
                 "`other_sku_units_ordered`,`advertised_sku_units_sales`,`other_sku_units_sales`," +
                 "" + ProviderSqlStore.statusV + "" +
                 "FROM `sales_amazon_ad_str` AS str");
-        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=str.`shop_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = str.`site_id`");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=str.`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = str.`site_id`");
 
         //店铺名称
         if (StringUtils.isNotBlank(str.getShopName())) {

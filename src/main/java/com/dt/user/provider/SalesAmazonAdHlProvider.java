@@ -1,7 +1,6 @@
 package com.dt.user.provider;
 
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdHl;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdOar;
 import com.dt.user.store.ProviderSqlStore;
 import com.dt.user.store.SpliceSqlStore;
 import com.dt.user.utils.StrUtils;
@@ -37,15 +36,12 @@ public class SalesAmazonAdHlProvider {
         SQL sql = new SQL();
         sql.SELECT("s.`shop_name`, cs.`site_name`,\n" +
                 "`hl_id`,`date`,`campaign_name`,`impressions`,\n" +
-                "`clicks`, `ctr`,`cpc`, `spend`,\n" +
+                "`clicks`, `ctr`,`cpc`,`spend`,\n" +
                 "`acos`,`roas`, `total_sales`,`total_orders`,`total_units`,\n" +
-                "`conversion_rate`,`remark`,`status`,`create_date`,\n" +
-                "`create_user`,`modify_date`,`modify_user`,\n" +
-                "`audit_date`,`audit_user`,`recording_id`," +
-                "" + ProviderSqlStore.statusV + "" +
+                "`conversion_rate`," + ProviderSqlStore.statusV + "" +
                 "FROM `sales_amazon_ad_hl` AS hl");
-        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=hl.`shop_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = hl.`site_id`");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=hl.`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = hl.`site_id`");
         //广告活动
         if (StringUtils.isNotBlank(hl.getCampaignName())) {
             sql.WHERE("POSITION('" + hl.getCampaignName() + "' IN `campaign_name`)");
@@ -60,6 +56,10 @@ public class SalesAmazonAdHlProvider {
         }
         //CTR
         if (hl.getCtr() != null) {
+            sql.WHERE("ctr=#{ctr}");
+        }
+        //CPC
+        if (hl.getCpc() != null) {
             sql.WHERE("cpc=#{cpc}");
         }
         //花费
@@ -76,19 +76,19 @@ public class SalesAmazonAdHlProvider {
         }
         //广告销售额
         if (hl.getTotalSales() != null) {
-            sql.WHERE("totalSales=#{total_sales}");
+            sql.WHERE("total_sales=#{totalSales}");
         }
         //订单量
         if (hl.getTotalOrders() != null) {
-            sql.WHERE("totalOrders=#{total_orders}");
+            sql.WHERE("total_orders=#{totalOrders}");
         }
         //TotalUnits
         if (hl.getTotalUnits() != null) {
-            sql.WHERE("totalUnits=#{total_units}");
+            sql.WHERE("total_units=#{totalUnits}");
         }
         //转化率
         if (hl.getConversionRate() != null) {
-            sql.WHERE("conversionRate=#{conversion_rate}");
+            sql.WHERE("conversion_rate=#{conversionRate}");
         }
         ProviderSqlStore.saveUploadStatus(sql, hl);
         return sql.toString();

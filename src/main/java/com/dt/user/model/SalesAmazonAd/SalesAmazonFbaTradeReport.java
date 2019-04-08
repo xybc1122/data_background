@@ -2,12 +2,14 @@ package com.dt.user.model.SalesAmazonAd;
 
 import com.dt.user.model.ParentUploadInfo;
 
+import java.util.List;
+
 /**
  * 订单报告表
  */
 public class SalesAmazonFbaTradeReport extends ParentUploadInfo {
 
-    private Long id;
+    private Long tradeId;
     private String amazonOrderId;
     private String merchantOrderId;
     private Long lastUpdatedDate;
@@ -40,6 +42,11 @@ public class SalesAmazonFbaTradeReport extends ParentUploadInfo {
     private String priceDesignation;
     private String isReplacementOrder;
     private String originalOrderId;
+    private String tradeSku;
+    /**
+     * 最近更新日期
+     */
+    List<Long> lastUpdatedDates;
 
 
     public SalesAmazonFbaTradeReport() {
@@ -50,12 +57,28 @@ public class SalesAmazonFbaTradeReport extends ParentUploadInfo {
         super(shopId, null, createDate, createUser, recordingId);
     }
 
-    public Long getId() {
-        return id;
+    public List<Long> getLastUpdatedDates() {
+        return lastUpdatedDates;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLastUpdatedDates(List<Long> lastUpdatedDates) {
+        this.lastUpdatedDates = lastUpdatedDates;
+    }
+
+    public Long getTradeId() {
+        return tradeId;
+    }
+
+    public void setTradeId(Long tradeId) {
+        this.tradeId = tradeId;
+    }
+
+    public String getTradeSku() {
+        return tradeSku;
+    }
+
+    public void setTradeSku(String tradeSku) {
+        this.tradeSku = tradeSku;
     }
 
     public String getAmazonOrderId() {

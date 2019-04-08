@@ -23,9 +23,9 @@ public class BasicSalesAmazonCsvTxtXslHeader extends ParentSysTemLog {
 
     private Integer isImport;
     /**
-     * 哪儿数据类型上传标识  1代表财务
+     * 菜单ID
      */
-    private Integer tbId;
+    private Integer menuId;
     /**
      * 开或者关
      */
@@ -46,6 +46,7 @@ public class BasicSalesAmazonCsvTxtXslHeader extends ParentSysTemLog {
      * 排序
      */
     private Integer sort;
+
 
     public Integer getSort() {
         return sort;
@@ -87,12 +88,12 @@ public class BasicSalesAmazonCsvTxtXslHeader extends ParentSysTemLog {
         this.openClose = openClose;
     }
 
-    public Integer getTbId() {
-        return tbId;
+    public Integer getMenuId() {
+        return menuId;
     }
 
-    public void setTbId(Integer tbId) {
-        this.tbId = tbId;
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
     }
 
     public Long getSiteId() {

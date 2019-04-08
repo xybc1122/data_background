@@ -1,9 +1,8 @@
-package com.dt.user.mapper.SalesAmazonAdMapper;
+package com.dt.user.mapper.SalesAmazonMapper;
 
 import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaInventoryEnd;
 import com.dt.user.provider.SalesAmazonFbaInventoryEndProvider;
 import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

@@ -47,6 +47,15 @@ public class ThreadLocalUtils {
         return realTimeDataSet;
     }
 
+    //set清空数据
+    public static void clearSetThread(ThreadLocal<Set<RealTimeData>> set) {
+        Set<RealTimeData> realTimeData = set.get();
+        if (realTimeData != null && realTimeData.size() > 0) {
+            realTimeData.clear();
+            set.set(realTimeData);
+        }
+    }
+
     //List清空数据
     public static void clearListThread(ThreadLocal<List<List<String>>> timingList) {
         List<List<String>> timings = timingList.get();

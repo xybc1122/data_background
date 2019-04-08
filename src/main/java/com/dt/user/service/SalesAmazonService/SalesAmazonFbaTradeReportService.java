@@ -1,4 +1,4 @@
-package com.dt.user.service.SalesAmazonAdService;
+package com.dt.user.service.SalesAmazonService;
 
 import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaTradeReport;
 
@@ -17,4 +17,10 @@ public interface SalesAmazonFbaTradeReportService {
      * 通过站点店铺ID 跟订单号 查询 下单时间 站点 ID
      */
     SalesAmazonFbaTradeReport getReport(Integer sId, String oId);
+
+
+    /**
+     * 查询订单报告数据
+     */
+    List<SalesAmazonFbaTradeReport> serviceFindByListOrderReport(SalesAmazonFbaTradeReport report);
 }

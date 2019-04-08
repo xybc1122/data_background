@@ -2,12 +2,14 @@ package com.dt.user.model.SalesAmazonAd;
 
 import com.dt.user.model.ParentUploadInfo;
 
+import java.math.BigDecimal;
+
 /**
  * 业务报告导入数据
  */
 public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
 
-    private Long id;
+    private Long busId;
     private String fAsin;
     private String sAsin;
     private String pName;
@@ -17,10 +19,11 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
     private Double buyBoxPer;
     private Integer order;
     private Integer orderB2B;
-    private Double sales;
-    private Double salesB2B;
+    private BigDecimal sales;
+    private BigDecimal salesB2B;
     private Integer orderItems;
     private Integer orderItemsB2B;
+    private String busSku;
 
     public SalesAmazonFbaBusinessreport() {
 
@@ -30,12 +33,20 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
         super(shopId, siteId, createDate, createUser, recordingId);
     }
 
-    public Long getId() {
-        return id;
+    public String getBusSku() {
+        return busSku;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setBusSku(String busSku) {
+        this.busSku = busSku;
+    }
+
+    public Long getBusId() {
+        return busId;
+    }
+
+    public void setBusId(Long busId) {
+        this.busId = busId;
     }
 
     public String getfAsin() {
@@ -110,19 +121,19 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
         this.orderB2B = orderB2B;
     }
 
-    public Double getSales() {
+    public BigDecimal getSales() {
         return sales;
     }
 
-    public void setSales(Double sales) {
+    public void setSales(BigDecimal sales) {
         this.sales = sales;
     }
 
-    public Double getSalesB2B() {
+    public BigDecimal getSalesB2B() {
         return salesB2B;
     }
 
-    public void setSalesB2B(Double salesB2B) {
+    public void setSalesB2B(BigDecimal salesB2B) {
         this.salesB2B = salesB2B;
     }
 

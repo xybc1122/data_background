@@ -45,6 +45,12 @@ public class SalesAmazonAdOarProvider {
     }
 
     public String getOarInfo(SalesAmazonAdOar oar) {
+        String sqlTable = "`sales_amazon_ad_oar`";
+        if (oar.getSqlMode() != null) {
+            if (oar.getSqlMode() == 1) {
+                sqlTable = "`sales_amazon_ad_oar_wk`";
+            }
+        }
         SQL sql = new SQL();
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 " `oar_id`,`date`,\n" +
@@ -54,7 +60,7 @@ public class SalesAmazonAdOarProvider {
                 "`other_asin_units`,`other_asin_units_ordered`,\n" +
                 "`other_asin_units_ordered_sales`," +
                 "" + ProviderSqlStore.statusV + "" +
-                "FROM `sales_amazon_ad_oar` AS oar");
+                "FROM " + sqlTable + " AS oar");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=oar.`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = oar.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = oar.`sku_id`");

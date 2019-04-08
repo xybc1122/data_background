@@ -15,7 +15,7 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
         sql.SELECT("  h.status_id,h.`id`,h.`import_templet`,h.`is_import`,h.`open_close`,h.`sort`,\n" +
                         "  m.`m_name`,si.`site_name`,s.`shop_name`\n" +
                         "from `basic_sales_amazon_csv_txt_xsl_header` as " + Alias + "");
-        sql.LEFT_OUTER_JOIN("`system_user_menu` AS m ON m.`menu_id`=h.`tb_id`");
+        sql.LEFT_OUTER_JOIN("`system_user_menu` AS m ON m.`menu_id`=h.`menu_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id` = h.`site_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id` = h.`shop_id`");
         //状态数据查询
@@ -55,7 +55,7 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
 
     public String findHeadInfo(Map<String, Object> mapHead) {
         Integer seId = (Integer) mapHead.get("seId");
-        Integer tbId = (Integer) mapHead.get("tbId");
+        Integer menuId = (Integer) mapHead.get("tbId");
         Integer areaId = (Integer) mapHead.get("areaId");
         Integer shopId = (Integer) mapHead.get("shopId");
         return new SQL() {{
@@ -64,8 +64,8 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
             if (seId != null) {
                 WHERE("site_id=" + seId);
             }
-            if (tbId != null) {
-                WHERE("tb_id=" + tbId);
+            if (menuId != null) {
+                WHERE("menu_id=" + menuId);
             }
             if (areaId != null) {
                 WHERE("area_id=" + areaId);
@@ -84,7 +84,7 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
      */
     public String getHead(Map<String, Object> mapHead) {
         Integer seId = (Integer) mapHead.get("seId");
-        Integer tbId = (Integer) mapHead.get("tbId");
+        Integer menuId = (Integer) mapHead.get("tbId");
         Integer areaId = (Integer) mapHead.get("areaId");
         Integer shopId = (Integer) mapHead.get("shopId");
         return new SQL() {{
@@ -97,7 +97,7 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
                 WHERE("site_id=" + seId);
             }
             WHERE("shop_id=" + shopId);
-            WHERE("tb_id=" + tbId);
+            WHERE("menu_id=" + menuId);
             WHERE("is_import= 1");
             ORDER_BY("sort asc");
         }}.toString();

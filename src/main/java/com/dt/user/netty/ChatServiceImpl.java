@@ -75,6 +75,7 @@ public class ChatServiceImpl implements ChatService {
     public void schedule(ChannelHandlerContext ctx,
                          Map<String, Integer> intMap, int currentCount,
                          String msg) {
+        //如果是第一次
         if (intMap.size() == 0) {
             intMap.put("current", currentCount);
             servicePush(ctx, msg);
@@ -93,7 +94,9 @@ public class ChatServiceImpl implements ChatService {
      * @param message
      */
     public void sendMessage(ChannelHandlerContext ctx, String message) {
-        ctx.channel().writeAndFlush(new TextWebSocketFrame(message));
+        if (ctx != null) {
+            ctx.channel().writeAndFlush(new TextWebSocketFrame(message));
+        }
     }
 
     /**

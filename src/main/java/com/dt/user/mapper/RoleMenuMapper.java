@@ -23,7 +23,7 @@ public interface RoleMenuMapper {
 
 
     /**
-     * 删除角色跟菜单
+     * 删除角色的菜单
      */
     @DeleteProvider(type = RoleMenuProvider.class, method = "delRoleMenu")
     int delRoleMenu(RoleMenu roleMenu);

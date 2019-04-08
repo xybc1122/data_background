@@ -9,6 +9,10 @@ import java.util.List;
  * @Date 2019/3/26 16:33
  **/
 public class ParentUploadInfo {
+    /**
+     * 通过这个判断查询周数据表 还是普通数据表  1是代表查询周表
+     */
+    private Integer sqlMode;
 
     /**
      * 当前页
@@ -83,6 +87,14 @@ public class ParentUploadInfo {
         this.shopId = shopId;
         this.siteId = siteId;
 
+    }
+
+    public Integer getSqlMode() {
+        return sqlMode;
+    }
+
+    public void setSqlMode(Integer sqlMode) {
+        this.sqlMode = sqlMode;
     }
 
     public Integer getCurrentPage() {

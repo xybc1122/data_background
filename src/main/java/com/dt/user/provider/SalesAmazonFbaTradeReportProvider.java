@@ -1,8 +1,12 @@
 package com.dt.user.provider;
 
+import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaTradeReport;
+import com.dt.user.store.ProviderSqlStore;
 import com.dt.user.store.SpliceSqlStore;
 import com.dt.user.utils.StrUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 import java.util.Map;
@@ -98,5 +102,164 @@ public class SalesAmazonFbaTradeReportProvider {
         }
         // 构建完整sql
         return sb.toString().substring(0, sb.length() - 1);
+    }
+
+
+    public String getRePortInfo(SalesAmazonFbaTradeReport report) {
+        SQL sql = new SQL();
+        sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
+                "`trade_id`, `amazon_order_id`,`merchant_order_id`,`date`,\n" +
+                "`last_updated_date`,`order_status`,`fulfillment_channel`,\n" +
+                "`sales_channel`,`order_channel`, tr.`url`,\n" +
+                "`ship_service_level`, `product_name`,`trade_sku`,\n" +
+                "`asin`,`item_status`,`quantity`, `currency`,\n" +
+                "`item_price`,`item_tax`,`shipping_price`,`shipping_tax`,\n" +
+                "`gift_wrap_price`, `gift_wrap_tax`,`item_promotion_discount`,\n" +
+                "`ship_promotion_discount`, `ship_city`,`ship_state`,\n" +
+                "`ship_postal_code`,`ship_country`,`promotion_ids`,\n" +
+                "`is_business_order`,`purchase_order_number`,`price_designation`,\n" +
+                "`is_replacement_order`, `original_order_id`," + ProviderSqlStore.statusV + "" +
+                "FROM sales_amazon_fba_trade_report AS tr \n");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=tr.`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = tr.`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = tr.`sku_id`");
+        // sku
+        if (StringUtils.isNotBlank(report.getSku())) {
+            sql.WHERE("POSITION('" + report.getSku() + "' IN ps.`sku`)");
+        }
+        //亚马逊订单号
+        if (StringUtils.isNotBlank(report.getAmazonOrderId())) {
+            sql.WHERE("POSITION('" + report.getAmazonOrderId() + "' IN `amazon_order_id`)");
+        }
+        //店铺订单号
+        if (StringUtils.isNotBlank(report.getMerchantOrderId())) {
+            sql.WHERE("POSITION('" + report.getMerchantOrderId() + "' IN `merchant_order_id`)");
+        }
+        //最近更新日期
+        if (report.getLastUpdatedDates() != null && (report.getLastUpdatedDates().size() > 0)) {
+            sql.WHERE("last_updated_date  " + report.getLastUpdatedDates().get(0) + " AND " + report.getLastUpdatedDates().get(1) + "");
+        }
+        //订单状态
+        if (StringUtils.isNotBlank(report.getOrderStatus())) {
+            sql.WHERE("POSITION('" + report.getOrderStatus() + "' IN `order_status`)");
+        }
+        //发货方式
+        if (StringUtils.isNotBlank(report.getFulfillmentChannel())) {
+            sql.WHERE("POSITION('" + report.getFulfillmentChannel() + "' IN `fulfillment_channel`)");
+        }
+        //销售渠道
+        if (StringUtils.isNotBlank(report.getSalesChannel())) {
+            sql.WHERE("POSITION('" + report.getSalesChannel() + "' IN `sales_channel`)");
+        }
+        //订单渠道
+        if (StringUtils.isNotBlank(report.getOrderChannel())) {
+            sql.WHERE("POSITION('" + report.getOrderChannel() + "' IN `order_channel`)");
+        }
+        //URL
+        if (StringUtils.isNotBlank(report.getUrl())) {
+            sql.WHERE("POSITION('" + report.getUrl() + "' IN tr.`url`)");
+        }
+        //运输服务等级
+        if (StringUtils.isNotBlank(report.getShipServiceLevel())) {
+            sql.WHERE("POSITION('" + report.getShipServiceLevel() + "' IN `ship_service_level`)");
+        }
+        //产品名称
+        if (StringUtils.isNotBlank(report.getProductName())) {
+            sql.WHERE("POSITION('" + report.getProductName() + "' IN `product_name`)");
+        }
+        //SKU
+        if (StringUtils.isNotBlank(report.getTradeSku())) {
+            sql.WHERE("POSITION('" + report.getTradeSku() + "' IN `trade_sku`)");
+        }
+        //子ASIN
+        if (StringUtils.isNotBlank(report.getAsin())) {
+            sql.WHERE("POSITION('" + report.getAsin() + "' IN `asin`)");
+        }
+        //商品状态
+        if (StringUtils.isNotBlank(report.getItemStatus())) {
+            sql.WHERE("POSITION('" + report.getItemStatus() + "' IN `item_status`)");
+        }
+        //数量
+        if (report.getQuantity() != null) {
+            sql.WHERE("quantity=#{quantity}");
+        }
+        //币别
+        if (StringUtils.isNotBlank(report.getCurrency())) {
+            sql.WHERE("POSITION('" + report.getCurrency() + "' IN `currency`)");
+        }
+        //商品价格
+        if (report.getItemPrice() != null) {
+            sql.WHERE("item_price=#{itemPrice}");
+        }
+        //商品税
+        if (report.getItemTax() != null) {
+            sql.WHERE("item_tax=#{itemTax}");
+        }
+        //运输价格
+        if (report.getShippingPrice() != null) {
+            sql.WHERE("shipping_price=#{shippingPrice}");
+        }
+        //运输税
+        if (report.getShippingTax() != null) {
+            sql.WHERE("shipping_tax=#{shippingTax}");
+        }
+        //礼物包装价格
+        if (report.getGiftWrapPrice() != null) {
+            sql.WHERE("gift_wrap_price=#{giftWrapPrice}");
+        }
+        //礼物包装税
+        if (report.getGiftWrapTax() != null) {
+            sql.WHERE("gift_wrap_tax=#{giftWrapTax}");
+        }
+        //促销折扣
+        if (report.getItemPromotionDiscount() != null) {
+            sql.WHERE("item_promotion_discount=#{itemPromotionDiscount}");
+        }
+        //运输折扣
+        if (report.getShipPromotionDiscount() != null) {
+            sql.WHERE("ship_promotion_discount=#{shipPromotionDiscount}");
+        }
+        //城市
+        if (StringUtils.isNotBlank(report.getShipCity())) {
+            sql.WHERE("POSITION('" + report.getShipCity() + "' IN `ship_city`)");
+        }
+        //州
+        if (StringUtils.isNotBlank(report.getShipState())) {
+            sql.WHERE("POSITION('" + report.getShipState() + "' IN `ship_state`)");
+        }
+        //邮编
+        if (StringUtils.isNotBlank(report.getShipPostalCode())) {
+            sql.WHERE("POSITION('" + report.getShipPostalCode() + "' IN `ship_postal_code`)");
+        }
+        //国家
+        if (StringUtils.isNotBlank(report.getShipCountry())) {
+            sql.WHERE("POSITION('" + report.getShipCountry() + "' IN `ship_country`)");
+        }
+        //折扣码
+        if (StringUtils.isNotBlank(report.getPromotionIds())) {
+            sql.WHERE("POSITION('" + report.getPromotionIds() + "' IN `promotion_ids`)");
+        }
+        //是否商业订单
+        if (StringUtils.isNotBlank(report.getIsBusinessOrder())) {
+            sql.WHERE("POSITION('" + report.getIsBusinessOrder() + "' IN `is_business_order`)");
+        }
+        //采购订单编号
+        if (StringUtils.isNotBlank(report.getPurchaseOrderNumber())) {
+            sql.WHERE("POSITION('" + report.getPurchaseOrderNumber() + "' IN `purchase_order_number`)");
+        }
+        //价格类型
+        if (StringUtils.isNotBlank(report.getPriceDesignation())) {
+            sql.WHERE("POSITION('" + report.getPriceDesignation() + "' IN `price_designation`)");
+        }
+        //是否退换货订单
+        if (StringUtils.isNotBlank(report.getIsReplacementOrder())) {
+            sql.WHERE("POSITION('" + report.getIsReplacementOrder() + "' IN `is_replacement_order`)");
+        }
+        //原始订单号
+        if (StringUtils.isNotBlank(report.getOriginalOrderId())) {
+            sql.WHERE("POSITION('" + report.getOriginalOrderId() + "' IN `original_order_id`)");
+        }
+        ProviderSqlStore.saveUploadStatus(sql, report);
+        return sql.toString();
     }
 }

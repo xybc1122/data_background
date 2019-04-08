@@ -52,6 +52,12 @@ public class SalesAmazonAdCprProvider {
 
 
     public String getCprInfo(SalesAmazonAdCpr cpr) {
+        String sqlTable = "`sales_amazon_ad_cpr`";
+        if (cpr.getSqlMode() != null) {
+            if (cpr.getSqlMode() == 1) {
+                sqlTable = "`sales_amazon_ad_cpr_wk`";
+            }
+        }
         SQL sql = new SQL();
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`ad_cpr_id`, `date`,`advertised_sku`,\n" +
@@ -61,7 +67,7 @@ public class SalesAmazonAdCprProvider {
                 "`sales`,`roas`,`total_units`,\n" +
                 "`same_sku_units_ordered`,`other_sku_units_ordered`,`same_sku_units_sales`,\n" +
                 "`other_sku_units_sales`," + ProviderSqlStore.statusV + "" +
-                "FROM `sales_amazon_ad_cpr` AS cpr \n");
+                "FROM " + sqlTable + " AS cpr \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=cpr.`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = cpr.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = cpr.`sku_id`");

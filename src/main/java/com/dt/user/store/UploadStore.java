@@ -20,4 +20,20 @@ public class UploadStore {
         return txtHeadList;
     }
 
+    /**
+     * 转换List
+     *
+     * @return
+     */
+    public static List<String> conversionList(List<String> oldHeadList) {
+        List<String> headList = new ArrayList<>();
+        //转换下头信息
+        for (String anOldHeadList : oldHeadList) {
+            String head = anOldHeadList.replace("\"", "").replace("﻿", "").trim();
+            headList.add(head);
+            System.out.println(head);
+        }
+        return headList;
+    }
+
 }

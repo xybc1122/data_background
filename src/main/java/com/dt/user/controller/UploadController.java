@@ -117,6 +117,9 @@ public class UploadController {
     @PostMapping("/addInfo")
     public ResponseBase redFileInfo(@RequestBody UserUpload upload) throws Exception {
         List<ResponseBase> responseBaseList = new ArrayList<>();
+        if (upload.getUploadSuccessList() == null) {
+            return JsonData.setResultError("处理数据为空");
+        }
         int baseNum = upload.getUploadSuccessList().size();
         ResponseBase responseBase;
         if (baseNum > 0) {

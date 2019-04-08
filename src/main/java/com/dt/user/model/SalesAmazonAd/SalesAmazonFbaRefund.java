@@ -4,23 +4,22 @@ package com.dt.user.model.SalesAmazonAd;
 import com.dt.user.model.ParentUploadInfo;
 
 /**
- * 退货表
+ * 退货报告
  */
 public class SalesAmazonFbaRefund extends ParentUploadInfo {
 
-    private Long id;
+    private Long refId;
     private Long purchaseDate;
     private String orderId;
     private String sAsin;
-    private String fnsku;
-    private Long skuId;
+    private String fnSku;
     private String pName;
     private Integer quantity;
     private String fc;
     private Long awId;
     private String detailedDisposition;
     private String reason;
-    private String refundStaus;
+    private String refundStatus;
     private String licensePlateNumber;
     private String customerRemarks;
 
@@ -33,12 +32,12 @@ public class SalesAmazonFbaRefund extends ParentUploadInfo {
         super(shopId, null, createDate, createUser, recordingId);
     }
 
-    public Long getId() {
-        return id;
+    public Long getRefId() {
+        return refId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRefId(Long refId) {
+        this.refId = refId;
     }
 
     public Long getPurchaseDate() {
@@ -65,20 +64,12 @@ public class SalesAmazonFbaRefund extends ParentUploadInfo {
         this.sAsin = sAsin;
     }
 
-    public String getFnsku() {
-        return fnsku;
+    public String getFnSku() {
+        return fnSku;
     }
 
-    public void setFnsku(String fnsku) {
-        this.fnsku = fnsku;
-    }
-
-    public Long getSkuId() {
-        return skuId;
-    }
-
-    public void setSkuId(Long skuId) {
-        this.skuId = skuId;
+    public void setFnSku(String fnSku) {
+        this.fnSku = fnSku;
     }
 
     public String getpName() {
@@ -129,12 +120,12 @@ public class SalesAmazonFbaRefund extends ParentUploadInfo {
         this.reason = reason;
     }
 
-    public String getRefundStaus() {
-        return refundStaus;
+    public String getRefundStatus() {
+        return refundStatus;
     }
 
-    public void setRefundStaus(String refundStaus) {
-        this.refundStaus = refundStaus;
+    public void setRefundStatus(String refundStatus) {
+        this.refundStatus = refundStatus;
     }
 
     public String getLicensePlateNumber() {

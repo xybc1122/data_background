@@ -1,4 +1,4 @@
-package com.dt.user.service.SalesAmazonAdService;
+package com.dt.user.service.SalesAmazonService;
 
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdOar;
 

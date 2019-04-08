@@ -15,9 +15,9 @@ public class SalesAmazonFbaRefundProvider {
         List<SalesAmazonFbaRefund> refundList = (List<SalesAmazonFbaRefund>) mapStr.get("refundList");
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO `sales_amazon_fba_refund`" +
-                "(`date`,`purchase_date`,`shop_id`,`site_id`,`order_id`,`sku`,`s_asin`,\n" +
-                "`fnsku`,`sku_id`,`p_name`,`quantity`,`fc`,`aw_id`,`detailed_disposition`,\n" +
-                "`reason`,`refund_staus`,`license_plate_number`,`customer_remarks`," +
+                "(`date`,`purchase_date`,`shop_id`,`site_id`,`order_id`,`ref_sku`,`s_asin`,\n" +
+                "`fn_sku`,`sku_id`,`p_name`,`quantity`,`fc`,`aw_id`,`detailed_disposition`,\n" +
+                "`reason`,`refund_status`,`license_plate_number`,`customer_remarks`," +
                 "`create_date`,`create_user`,`recordingId`)values");
         for (SalesAmazonFbaRefund refund : refundList) {
             sb.append("(" + refund.getDate() + "," + refund.getPurchaseDate() + ","
@@ -29,7 +29,7 @@ public class SalesAmazonFbaRefundProvider {
             sb.append(",");
             StrUtils.appBuider(sb, refund.getsAsin());
             sb.append(",");
-            StrUtils.appBuider(sb, refund.getFnsku());
+            StrUtils.appBuider(sb, refund.getFnSku());
             sb.append(",").append(refund.getSkuId()).append(",");
 
             StrUtils.appBuider(sb, refund.getpName());
@@ -43,7 +43,7 @@ public class SalesAmazonFbaRefundProvider {
             sb.append(",");
             StrUtils.appBuider(sb, refund.getReason());
             sb.append(",");
-            StrUtils.appBuider(sb, refund.getRefundStaus());
+            StrUtils.appBuider(sb, refund.getRefundStatus());
             sb.append(",");
             StrUtils.appBuider(sb, refund.getLicensePlateNumber());
             sb.append(",");

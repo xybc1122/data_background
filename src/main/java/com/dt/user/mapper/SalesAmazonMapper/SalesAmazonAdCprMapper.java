@@ -1,4 +1,4 @@
-package com.dt.user.mapper.SalesAmazonAdMapper;
+package com.dt.user.mapper.SalesAmazonMapper;
 
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
 import com.dt.user.provider.SalesAmazonAdCprProvider;

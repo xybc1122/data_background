@@ -1,4 +1,4 @@
-package com.dt.user.service.SalesAmazonAdService;
+package com.dt.user.service.SalesAmazonService;
 
 import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaBusinessreport;
 
@@ -12,5 +12,13 @@ public interface SalesAmazonFbaBusinessreportService {
      * @return
      */
     int AddSalesAmazonAdBusList(List<SalesAmazonFbaBusinessreport> hlList);
+
+    /**
+     * 查询业务报告数据
+     *
+     * @param rePort
+     * @return
+     */
+    List<SalesAmazonFbaBusinessreport> serviceFindByListBus(SalesAmazonFbaBusinessreport rePort);
 
 }

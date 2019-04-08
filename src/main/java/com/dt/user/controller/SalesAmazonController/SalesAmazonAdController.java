@@ -1,14 +1,14 @@
-package com.dt.user.controller.SalesAmazonAdController;
+package com.dt.user.controller.SalesAmazonController;
 
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdHl;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdOar;
 import com.dt.user.model.SalesAmazonAd.SalesAmazonAdStr;
-import com.dt.user.service.SalesAmazonAdService.SalesAmazonAHlService;
-import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdCprService;
-import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdOarService;
-import com.dt.user.service.SalesAmazonAdService.SalesAmazonAdStrService;
+import com.dt.user.service.SalesAmazonService.SalesAmazonAHlService;
+import com.dt.user.service.SalesAmazonService.SalesAmazonAdCprService;
+import com.dt.user.service.SalesAmazonService.SalesAmazonAdOarService;
+import com.dt.user.service.SalesAmazonService.SalesAmazonAdStrService;
 import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,28 +37,48 @@ public class SalesAmazonAdController {
     @Autowired
     private SalesAmazonAHlService hlService;
 
+    /**
+     * 查询cpr信息
+     * @param adCpr
+     * @return
+     */
     @PostMapping("/getCprInfo")
     public ResponseBase getCprInfo(@RequestBody SalesAmazonAdCpr adCpr) {
         PageInfoUtils.setPage(adCpr.getPageSize(), adCpr.getCurrentPage());
         return PageInfoUtils.returnPage(cprService.serviceFindByListCpr(adCpr), adCpr.getCurrentPage());
     }
 
+    /**
+     * 查询str信息
+     * @param str
+     * @return
+     */
     @PostMapping("/getStrInfo")
     public ResponseBase getStrInfo(@RequestBody SalesAmazonAdStr str) {
         PageInfoUtils.setPage(str.getPageSize(), str.getCurrentPage());
         return PageInfoUtils.returnPage(strService.serviceFindByListStr(str), str.getCurrentPage());
     }
 
+    /**
+     * 查询oar信息
+     * @param oar
+     * @return
+     */
     @PostMapping("/getOarInfo")
     public ResponseBase geOarInfo(@RequestBody SalesAmazonAdOar oar) {
         PageInfoUtils.setPage(oar.getPageSize(), oar.getCurrentPage());
         return PageInfoUtils.returnPage(oarService.serviceFindByListOar(oar), oar.getCurrentPage());
     }
 
-
+    /**
+     * 查询Hl信息
+     * @param hl
+     * @return
+     */
     @PostMapping("/getHlInfo")
     public ResponseBase geHlInfo(@RequestBody SalesAmazonAdHl hl) {
         PageInfoUtils.setPage(hl.getPageSize(), hl.getCurrentPage());
         return PageInfoUtils.returnPage(hlService.serviceFindByListHl(hl), hl.getCurrentPage());
     }
+
 }

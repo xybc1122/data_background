@@ -1,8 +1,18 @@
 package com.dt.user.netty;
 
 public enum ChatType {
-
-    REGISTER, SINGLE_SENDING, GROUP_SENDING, FILE_MSG_SINGLE_SENDING, FILE_MSG_GROUP_SENDING, KICK_OUT,PROGRESS_BAR;
+    /**
+     * 寄存频道
+     */
+    REGISTER,
+    /**
+     * 踢出频道
+     */
+    KICK_OUT,
+    /**
+     * 进度条频道
+     */
+    PROGRESS_BAR;
 
     public static void main(String[] args) {
         System.out.println(ChatType.REGISTER);

@@ -1,10 +1,10 @@
 package com.dt.user.controller.SalesAmazonController;
 
 import com.dt.user.config.ResponseBase;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdHl;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdOar;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdStr;
+import com.dt.user.model.SalesAmazon.SalesAmazonAdCpr;
+import com.dt.user.model.SalesAmazon.SalesAmazonAdHl;
+import com.dt.user.model.SalesAmazon.SalesAmazonAdOar;
+import com.dt.user.model.SalesAmazon.SalesAmazonAdStr;
 import com.dt.user.service.SalesAmazonService.SalesAmazonAHlService;
 import com.dt.user.service.SalesAmazonService.SalesAmazonAdCprService;
 import com.dt.user.service.SalesAmazonService.SalesAmazonAdOarService;

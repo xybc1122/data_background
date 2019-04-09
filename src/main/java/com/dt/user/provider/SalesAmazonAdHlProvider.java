@@ -1,8 +1,8 @@
 package com.dt.user.provider;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdHl;
+import com.dt.user.model.SalesAmazon.SalesAmazonAdHl;
 import com.dt.user.store.ProviderSqlStore;
-import com.dt.user.store.SpliceSqlStore;
+import com.dt.user.store.AppendSqlStore;
 import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -27,7 +27,7 @@ public class SalesAmazonAdHlProvider {
             sb.append(",").append(hl.getImpressions()).append(",").append(hl.getClicks()).append(",");
             sb.append(hl.getCtr()).append(",").append(hl.getCpc()).append(",").append(hl.getSpend()).append(",").append(hl.getAcos()).append(",").append(hl.getRoas()).append(",").append(hl.getTotalSales()).append(",").append(hl.getTotalOrders()).append(",").append(hl.getTotalUnits()).append(",").append(hl.getConversionRate()).append(",");
             //通用set 拼接
-            SpliceSqlStore.set(sb, hl);
+            AppendSqlStore.set(sb, hl);
         }
         return sb.toString().substring(0, sb.length() - 1);
     }

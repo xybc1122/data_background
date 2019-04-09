@@ -1,9 +1,8 @@
 package com.dt.user.provider;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdStr;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaBusinessreport;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaBusinessreport;
+import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
-import com.dt.user.store.SpliceSqlStore;
 import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -23,7 +22,7 @@ public class SalesAmazonFbaBusinessreporProvider {
                 "`create_date`,`create_user`,`recording_id`)values");
         for (SalesAmazonFbaBusinessreport bus : busList) {
             sb.append("(").append(bus.getDate()).append(",").append(bus.getShopId()).append(",").append(bus.getSiteId()).append(",");
-            StrUtils.appBuider(sb, bus.getSku());
+            StrUtils.appBuider(sb, bus.getBusSku());
             sb.append(",").append(bus.getSkuId()).append(",");
             StrUtils.appBuider(sb, bus.getfAsin());
             sb.append(",");
@@ -32,19 +31,15 @@ public class SalesAmazonFbaBusinessreporProvider {
             StrUtils.appBuider(sb, bus.getpName());
             sb.append(",");
             sb.append(bus.getSessionsVisit()).append(",").append(bus.getSessionsPer()).append(",").append(bus.getPageViews()).append(",").append(bus.getBuyBoxPer()).append(",").append(bus.getOrder()).append(",").append(bus.getOrderB2B()).append(",").append(bus.getSales()).append(",").append(bus.getSalesB2B()).append(",").append(bus.getOrderItems()).append(",").append(bus.getOrderItemsB2B()).append(",");
-            SpliceSqlStore.set(sb, bus);
+            AppendSqlStore.set(sb, bus);
         }
         return sb.toString().substring(0, sb.length() - 1);
     }
 
 
     public String getBusInfo(SalesAmazonFbaBusinessreport rePort) {
-        String sqlTable = "`sales_amazon_fba_businessreport`";
-        if (rePort.getSqlMode() != null) {
-            if (rePort.getSqlMode() == 1) {
-                sqlTable = "`sales_amazon_fba_businessreport_wk`";
-            }
-        }
+        String table = AppendSqlStore.setSqlTable(rePort, "`sales_amazon_fba_businessreport`",
+                "`sales_amazon_fba_businessreport_wk`");
         SQL sql = new SQL();
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`bus_id`,`date`,`bus_sku`,`f_asin`,bus.`s_asin`,`p_name`,`sessions_visit`,\n" +
@@ -52,7 +47,7 @@ public class SalesAmazonFbaBusinessreporProvider {
                 "`order`,`order_b2b`,`sales`,\n" +
                 "`sales_b2b`,`order_items`, `order_items_b2b`," +
                 "" + ProviderSqlStore.statusV + "" +
-                "FROM " + sqlTable + " AS bus");
+                "FROM " + table + " AS bus");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=bus.`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = bus.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = bus.`sku_id`");

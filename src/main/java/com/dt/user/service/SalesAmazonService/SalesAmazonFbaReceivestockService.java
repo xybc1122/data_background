@@ -1,6 +1,6 @@
 package com.dt.user.service.SalesAmazonService;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaReceivestock;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaReceivestock;
 
 import java.util.List;
 
@@ -11,5 +11,13 @@ public interface SalesAmazonFbaReceivestockService {
      *
      * @return
      */
-    int AddSalesAmazonAdReceivestockList(List<SalesAmazonFbaReceivestock> receivesList);
+    int addSalesAmazonAdReceivestockList(List<SalesAmazonFbaReceivestock> receivesList);
+
+    /**
+     * 查询接收库存数据
+     *
+     * @param rec
+     * @return
+     */
+    List<SalesAmazonFbaReceivestock> serviceFindByListRec(SalesAmazonFbaReceivestock rec);
 }

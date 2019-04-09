@@ -42,6 +42,7 @@ public class JsonUtils {
         return JSONObject.toJSONString(JsonData.setResultTypeSuccess(msg, type.toString()));
     }
 
+
     /**
      * 失败  转换string
      *

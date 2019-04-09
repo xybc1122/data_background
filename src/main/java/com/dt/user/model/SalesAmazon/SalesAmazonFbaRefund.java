@@ -1,7 +1,9 @@
-package com.dt.user.model.SalesAmazonAd;
+package com.dt.user.model.SalesAmazon;
 
 
 import com.dt.user.model.ParentUploadInfo;
+
+import java.util.List;
 
 /**
  * 退货报告
@@ -22,6 +24,11 @@ public class SalesAmazonFbaRefund extends ParentUploadInfo {
     private String refundStatus;
     private String licensePlateNumber;
     private String customerRemarks;
+    private String refSku;
+    /**
+     * 下单日期范围查询
+     */
+    private List<Long> purchaseDates;
 
 
     public SalesAmazonFbaRefund() {
@@ -30,6 +37,22 @@ public class SalesAmazonFbaRefund extends ParentUploadInfo {
 
     public SalesAmazonFbaRefund(Integer shopId, Long createDate, String createUser, Long recordingId) {
         super(shopId, null, createDate, createUser, recordingId);
+    }
+
+    public String getRefSku() {
+        return refSku;
+    }
+
+    public void setRefSku(String refSku) {
+        this.refSku = refSku;
+    }
+
+    public List<Long> getPurchaseDates() {
+        return purchaseDates;
+    }
+
+    public void setPurchaseDates(List<Long> purchaseDates) {
+        this.purchaseDates = purchaseDates;
     }
 
     public Long getRefId() {

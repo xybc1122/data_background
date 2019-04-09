@@ -1,11 +1,9 @@
 package com.dt.user.provider;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaTradeReport;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaTradeReport;
+import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
-import com.dt.user.store.SpliceSqlStore;
 import com.dt.user.utils.StrUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
@@ -19,7 +17,7 @@ public class SalesAmazonFbaTradeReportProvider {
         // sql前缀
         String prefix = "INSERT INTO`sales_amazon_fba_trade_report`\n" +
                 "(`amazon_order_id`,`merchant_order_id`,`date`,`last_updated_date`,`shop_id`,`site_id`,`order_status`,\n" +
-                "`fulfillment_channel`, `sales_channel`,`order_channel`,`url`,`ship_service_level`,`product_name`,`sku`,`sku_id`,\n" +
+                "`fulfillment_channel`, `sales_channel`,`order_channel`,`url`,`ship_service_level`,`product_name`,`trade_sku`,`sku_id`,\n" +
                 "`asin`,`item_status`,`quantity`,`currency`,`item_price`,`item_tax`,`shipping_price`,`shipping_tax`,`gift_wrap_price`,\n" +
                 "`gift_wrap_tax`,`item_promotion_discount`,`ship_promotion_discount`,`ship_city`,`ship_state`,`ship_postal_code`,\n" +
                 "`ship_country`,`promotion_ids`,`is_business_order`,`purchase_order_number`,`price_designation`, `is_replacement_order`,`original_order_id`,\n" +
@@ -55,7 +53,7 @@ public class SalesAmazonFbaTradeReportProvider {
             //#
             StrUtils.appBuider(sb, trade.getProductName());
             sb.append(",");
-            StrUtils.appBuider(sb, trade.getSku());
+            StrUtils.appBuider(sb, trade.getTradeSku());
             sb.append(",").append(trade.getSkuId());
             sb.append(",");
             StrUtils.appBuider(sb, trade.getAsin());
@@ -97,7 +95,7 @@ public class SalesAmazonFbaTradeReportProvider {
             //#
             StrUtils.appBuider(sb, trade.getOriginalOrderId());
             sb.append(",");
-            SpliceSqlStore.set(sb, trade);
+            AppendSqlStore.set(sb, trade);
 
         }
         // 构建完整sql
@@ -124,69 +122,41 @@ public class SalesAmazonFbaTradeReportProvider {
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = tr.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = tr.`sku_id`");
         // sku
-        if (StringUtils.isNotBlank(report.getSku())) {
-            sql.WHERE("POSITION('" + report.getSku() + "' IN ps.`sku`)");
-        }
+        AppendSqlStore.sqlWhere(report.getSku(), "ps.`sku`", sql);
         //亚马逊订单号
-        if (StringUtils.isNotBlank(report.getAmazonOrderId())) {
-            sql.WHERE("POSITION('" + report.getAmazonOrderId() + "' IN `amazon_order_id`)");
-        }
+        AppendSqlStore.sqlWhere(report.getAmazonOrderId(), "amazon_order_id", sql);
         //店铺订单号
-        if (StringUtils.isNotBlank(report.getMerchantOrderId())) {
-            sql.WHERE("POSITION('" + report.getMerchantOrderId() + "' IN `merchant_order_id`)");
-        }
+        AppendSqlStore.sqlWhere(report.getMerchantOrderId(), "merchant_order_id", sql);
         //最近更新日期
         if (report.getLastUpdatedDates() != null && (report.getLastUpdatedDates().size() > 0)) {
             sql.WHERE("last_updated_date  " + report.getLastUpdatedDates().get(0) + " AND " + report.getLastUpdatedDates().get(1) + "");
         }
         //订单状态
-        if (StringUtils.isNotBlank(report.getOrderStatus())) {
-            sql.WHERE("POSITION('" + report.getOrderStatus() + "' IN `order_status`)");
-        }
+        AppendSqlStore.sqlWhere(report.getOrderStatus(), "order_status", sql);
         //发货方式
-        if (StringUtils.isNotBlank(report.getFulfillmentChannel())) {
-            sql.WHERE("POSITION('" + report.getFulfillmentChannel() + "' IN `fulfillment_channel`)");
-        }
+        AppendSqlStore.sqlWhere(report.getFulfillmentChannel(), "fulfillment_channel", sql);
         //销售渠道
-        if (StringUtils.isNotBlank(report.getSalesChannel())) {
-            sql.WHERE("POSITION('" + report.getSalesChannel() + "' IN `sales_channel`)");
-        }
+        AppendSqlStore.sqlWhere(report.getSalesChannel(), "sales_channel", sql);
         //订单渠道
-        if (StringUtils.isNotBlank(report.getOrderChannel())) {
-            sql.WHERE("POSITION('" + report.getOrderChannel() + "' IN `order_channel`)");
-        }
+        AppendSqlStore.sqlWhere(report.getOrderChannel(), "order_channel", sql);
         //URL
-        if (StringUtils.isNotBlank(report.getUrl())) {
-            sql.WHERE("POSITION('" + report.getUrl() + "' IN tr.`url`)");
-        }
+        AppendSqlStore.sqlWhere(report.getUrl(), "tr.`url`", sql);
         //运输服务等级
-        if (StringUtils.isNotBlank(report.getShipServiceLevel())) {
-            sql.WHERE("POSITION('" + report.getShipServiceLevel() + "' IN `ship_service_level`)");
-        }
+        AppendSqlStore.sqlWhere(report.getShipServiceLevel(), "ship_service_level", sql);
         //产品名称
-        if (StringUtils.isNotBlank(report.getProductName())) {
-            sql.WHERE("POSITION('" + report.getProductName() + "' IN `product_name`)");
-        }
+        AppendSqlStore.sqlWhere(report.getProductName(), "product_name", sql);
         //SKU
-        if (StringUtils.isNotBlank(report.getTradeSku())) {
-            sql.WHERE("POSITION('" + report.getTradeSku() + "' IN `trade_sku`)");
-        }
+        AppendSqlStore.sqlWhere(report.getTradeSku(), "trade_sku", sql);
         //子ASIN
-        if (StringUtils.isNotBlank(report.getAsin())) {
-            sql.WHERE("POSITION('" + report.getAsin() + "' IN `asin`)");
-        }
+        AppendSqlStore.sqlWhere(report.getAsin(), "asin", sql);
         //商品状态
-        if (StringUtils.isNotBlank(report.getItemStatus())) {
-            sql.WHERE("POSITION('" + report.getItemStatus() + "' IN `item_status`)");
-        }
+        AppendSqlStore.sqlWhere(report.getItemStatus(), "item_status", sql);
         //数量
         if (report.getQuantity() != null) {
             sql.WHERE("quantity=#{quantity}");
         }
         //币别
-        if (StringUtils.isNotBlank(report.getCurrency())) {
-            sql.WHERE("POSITION('" + report.getCurrency() + "' IN `currency`)");
-        }
+        AppendSqlStore.sqlWhere(report.getCurrency(), "currency", sql);
         //商品价格
         if (report.getItemPrice() != null) {
             sql.WHERE("item_price=#{itemPrice}");
@@ -220,45 +190,25 @@ public class SalesAmazonFbaTradeReportProvider {
             sql.WHERE("ship_promotion_discount=#{shipPromotionDiscount}");
         }
         //城市
-        if (StringUtils.isNotBlank(report.getShipCity())) {
-            sql.WHERE("POSITION('" + report.getShipCity() + "' IN `ship_city`)");
-        }
+        AppendSqlStore.sqlWhere(report.getShipCity(), "ship_city", sql);
         //州
-        if (StringUtils.isNotBlank(report.getShipState())) {
-            sql.WHERE("POSITION('" + report.getShipState() + "' IN `ship_state`)");
-        }
+        AppendSqlStore.sqlWhere(report.getShipState(), "ship_state", sql);
         //邮编
-        if (StringUtils.isNotBlank(report.getShipPostalCode())) {
-            sql.WHERE("POSITION('" + report.getShipPostalCode() + "' IN `ship_postal_code`)");
-        }
+        AppendSqlStore.sqlWhere(report.getShipPostalCode(), "ship_postal_code", sql);
         //国家
-        if (StringUtils.isNotBlank(report.getShipCountry())) {
-            sql.WHERE("POSITION('" + report.getShipCountry() + "' IN `ship_country`)");
-        }
+        AppendSqlStore.sqlWhere(report.getShipCountry(), "ship_country", sql);
         //折扣码
-        if (StringUtils.isNotBlank(report.getPromotionIds())) {
-            sql.WHERE("POSITION('" + report.getPromotionIds() + "' IN `promotion_ids`)");
-        }
+        AppendSqlStore.sqlWhere(report.getPromotionIds(), "promotion_ids", sql);
         //是否商业订单
-        if (StringUtils.isNotBlank(report.getIsBusinessOrder())) {
-            sql.WHERE("POSITION('" + report.getIsBusinessOrder() + "' IN `is_business_order`)");
-        }
+        AppendSqlStore.sqlWhere(report.getIsBusinessOrder(), "is_business_order", sql);
         //采购订单编号
-        if (StringUtils.isNotBlank(report.getPurchaseOrderNumber())) {
-            sql.WHERE("POSITION('" + report.getPurchaseOrderNumber() + "' IN `purchase_order_number`)");
-        }
+        AppendSqlStore.sqlWhere(report.getPurchaseOrderNumber(), "purchase_order_number", sql);
         //价格类型
-        if (StringUtils.isNotBlank(report.getPriceDesignation())) {
-            sql.WHERE("POSITION('" + report.getPriceDesignation() + "' IN `price_designation`)");
-        }
+        AppendSqlStore.sqlWhere(report.getPriceDesignation(), "price_designation", sql);
         //是否退换货订单
-        if (StringUtils.isNotBlank(report.getIsReplacementOrder())) {
-            sql.WHERE("POSITION('" + report.getIsReplacementOrder() + "' IN `is_replacement_order`)");
-        }
+        AppendSqlStore.sqlWhere(report.getIsReplacementOrder(), "is_replacement_order", sql);
         //原始订单号
-        if (StringUtils.isNotBlank(report.getOriginalOrderId())) {
-            sql.WHERE("POSITION('" + report.getOriginalOrderId() + "' IN `original_order_id`)");
-        }
+        AppendSqlStore.sqlWhere(report.getOriginalOrderId(), "original_order_id", sql);
         ProviderSqlStore.saveUploadStatus(sql, report);
         return sql.toString();
     }

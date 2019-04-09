@@ -1,8 +1,10 @@
 package com.dt.user.provider;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaRefund;
-import com.dt.user.store.SpliceSqlStore;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaRefund;
+import com.dt.user.store.AppendSqlStore;
+import com.dt.user.store.ProviderSqlStore;
 import com.dt.user.utils.StrUtils;
+import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +27,7 @@ public class SalesAmazonFbaRefundProvider {
             sb.append(",");
             StrUtils.appBuider(sb, refund.getOrderId());
             sb.append(",");
-            StrUtils.appBuider(sb, refund.getSku());
+            StrUtils.appBuider(sb, refund.getRefSku());
             sb.append(",");
             StrUtils.appBuider(sb, refund.getsAsin());
             sb.append(",");
@@ -49,8 +51,61 @@ public class SalesAmazonFbaRefundProvider {
             sb.append(",");
             StrUtils.appBuider(sb, refund.getCustomerRemarks());
             sb.append(",");
-            SpliceSqlStore.set(sb, refund);
+            AppendSqlStore.set(sb, refund);
         }
         return sb.toString().substring(0, sb.length() - 1);
+    }
+
+
+    public String getRefundInfo(SalesAmazonFbaRefund refund) {
+        SQL sql = new SQL();
+        sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
+                "`ref_id`, `purchase_date`,\n" +
+                "`order_id`, `ref_sku`, re.`s_asin`,`fn_sku`,\n" +
+                "`p_name`, `quantity`, `fc`, `aw_id`,\n" +
+                "`detailed_disposition`,`reason`,`refund_status`,\n" +
+                "`license_plate_number`,`customer_remarks`," + ProviderSqlStore.statusV + "" +
+                "FROM sales_amazon_fba_refund AS re \n");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=re.`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = re.`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = re.`sku_id`");
+        // sku
+        AppendSqlStore.sqlWhere(refund.getSku(), "ps.`sku`", sql);
+        //下单日期
+        if (refund.getPurchaseDates() != null && (refund.getPurchaseDates().size() > 0)) {
+            sql.WHERE("purchase_date  " + refund.getPurchaseDates().get(0) + " AND " + refund.getPurchaseDates().get(1) + "");
+        }
+        //订单号
+        AppendSqlStore.sqlWhere(refund.getOrderId(), "order_id", sql);
+        //SKU
+        AppendSqlStore.sqlWhere(refund.getRefSku(), "ref_sku", sql);
+        //子ASIN
+        AppendSqlStore.sqlWhere(refund.getsAsin(), "re.`s_asin`", sql);
+        //fnsku
+        AppendSqlStore.sqlWhere(refund.getFnSku(), "`fn_sku`", sql);
+        //产品名称
+        AppendSqlStore.sqlWhere(refund.getpName(), "`p_name`", sql);
+        //退货数量
+        if (refund.getQuantity() != null) {
+            sql.WHERE("quantity=#{quantity}");
+        }
+        //亚马逊仓库代码
+        AppendSqlStore.sqlWhere(refund.getFc(), "`fc`", sql);
+        //亚马逊仓库ID
+        if (refund.getAwId() != null) {
+            sql.WHERE("aw_id=#{awId}");
+        }
+        //处理细节
+        AppendSqlStore.sqlWhere(refund.getDetailedDisposition(), "`detailed_disposition`", sql);
+        //原因
+        AppendSqlStore.sqlWhere(refund.getReason(), "`reason`", sql);
+        //退货状态
+        AppendSqlStore.sqlWhere(refund.getRefundStatus(), "`refund_status`", sql);
+        //平台号
+        AppendSqlStore.sqlWhere(refund.getLicensePlateNumber(), "`license_plate_number`", sql);
+        //客户备注
+        AppendSqlStore.sqlWhere(refund.getCustomerRemarks(), "`customer_remarks`", sql);
+        ProviderSqlStore.saveUploadStatus(sql, refund);
+        return sql.toString();
     }
 }

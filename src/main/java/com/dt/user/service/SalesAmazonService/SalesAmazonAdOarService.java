@@ -1,6 +1,6 @@
 package com.dt.user.service.SalesAmazonService;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdOar;
+import com.dt.user.model.SalesAmazon.SalesAmazonAdOar;
 
 import java.util.List;
 

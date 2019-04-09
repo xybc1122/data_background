@@ -1,6 +1,6 @@
 package com.dt.user.mapper.SalesAmazonMapper;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaTradeReport;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaTradeReport;
 import com.dt.user.provider.SalesAmazonFbaTradeReportProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;

@@ -78,24 +78,30 @@ public class UserUpload {
      * 业务报告时间
      */
     private String businessTime;
+    /**
+     * 当前页
+     */
+    private Integer currentPage;
 
-    public UserUpload(Long uid, String name, Long createDate, Long delDate, Long delDateId, String filePath, String writeFilePath, String remark, Integer status, Integer shopId, Integer siteId, Integer pId, Integer tbId, Long recordingId, Integer areaId, String businessTime) {
-        this.uid = uid;
-        this.name = name;
-        this.createDate = createDate;
-        this.delDate = delDate;
-        this.delDateId = delDateId;
-        this.filePath = filePath;
-        this.writeFilePath = writeFilePath;
-        this.remark = remark;
-        this.status = status;
-        this.shopId = shopId;
-        this.siteId = siteId;
-        this.pId = pId;
-        this.tbId = tbId;
-        this.recordingId = recordingId;
-        this.areaId = areaId;
-        this.businessTime = businessTime;
+    /**
+     * 显示的页数
+     */
+    private Integer pageSize;
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 
     public String getUuidName() {

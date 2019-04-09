@@ -1,7 +1,7 @@
 package com.dt.user.service.impl;
 
 import com.dt.user.mapper.SalesAmazonMapper.SalesAmazonFbaBusinessreportMapper;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaBusinessreport;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaBusinessreport;
 import com.dt.user.service.SalesAmazonService.SalesAmazonFbaBusinessreportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +14,8 @@ public class SalesAmazonFbaBusinessreportServiceImpl implements SalesAmazonFbaBu
     private SalesAmazonFbaBusinessreportMapper busMapper;
 
     @Override
-    public int AddSalesAmazonAdBusList(List<SalesAmazonFbaBusinessreport> hlList) {
-        return busMapper.AddSalesAmazonAdHlList(hlList);
+    public int addSalesAmazonAdBusList(List<SalesAmazonFbaBusinessreport> hlList) {
+        return busMapper.addSalesAmazonAdHlList(hlList);
     }
 
     @Override

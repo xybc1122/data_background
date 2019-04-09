@@ -1,6 +1,6 @@
 package com.dt.user.service.SalesAmazonService;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaRefund;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaRefund;
 
 import java.util.List;
 
@@ -14,4 +14,9 @@ public interface SalesAmazonFbaRefundService {
      * @return
      */
     int AddSalesAmazonAdRefundList(List<SalesAmazonFbaRefund> refundList);
+
+    /**
+     * 查询退货报告数据
+     */
+    List<SalesAmazonFbaRefund> serviceFindByListRefund(SalesAmazonFbaRefund report);
 }

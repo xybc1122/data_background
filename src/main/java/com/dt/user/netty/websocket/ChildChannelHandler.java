@@ -42,7 +42,7 @@ public class ChildChannelHandler extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new IdleStateHandler(60, 30, 60 * 30, TimeUnit.SECONDS));
         //自定义空闲状态检测
         pipeline.addLast(new HeartBeatHandler());
-        /*
+        /**
          * websocket 服务器处理的协议 ，用于指定给客户端连接访问的路由 :/ws
          * 本handler 会帮你处理一些繁重的复杂的事
          * 会帮你处理握手动作 ：handshaking （close，ping，pong）ping+pong=心跳

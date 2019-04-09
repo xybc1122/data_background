@@ -1,6 +1,6 @@
 package com.dt.user.mapper.SalesAmazonMapper;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaBusinessreport;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaBusinessreport;
 import com.dt.user.provider.SalesAmazonFbaBusinessreporProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;
@@ -17,7 +17,7 @@ public interface SalesAmazonFbaBusinessreportMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonFbaBusinessreporProvider.class, method = "addAmazonAdBus")
-    int AddSalesAmazonAdHlList(@Param("busList") List<SalesAmazonFbaBusinessreport> busList);
+    int addSalesAmazonAdHlList(@Param("busList") List<SalesAmazonFbaBusinessreport> busList);
 
 
     /**

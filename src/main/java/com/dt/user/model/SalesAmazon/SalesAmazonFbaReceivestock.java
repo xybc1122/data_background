@@ -1,4 +1,4 @@
-package com.dt.user.model.SalesAmazonAd;
+package com.dt.user.model.SalesAmazon;
 
 import com.dt.user.model.ParentUploadInfo;
 
@@ -7,14 +7,14 @@ import com.dt.user.model.ParentUploadInfo;
  */
 public class SalesAmazonFbaReceivestock extends ParentUploadInfo {
 
-    private Long id;
+    private Long recId;
     private String fbaShipmentId;
-    private String fnsku;
-    private Long skuId;
+    private String fnSku;
     private String productName;
     private Integer quantity;
     private String fc;
     private Integer awId;
+    private String recSku;
 
     public SalesAmazonFbaReceivestock() {
 
@@ -24,12 +24,12 @@ public class SalesAmazonFbaReceivestock extends ParentUploadInfo {
         super(shopId, null, createDate, createUser, recordingId);
     }
 
-    public Long getId() {
-        return id;
+    public Long getRecId() {
+        return recId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRecId(Long recId) {
+        this.recId = recId;
     }
 
     public String getFbaShipmentId() {
@@ -40,22 +40,12 @@ public class SalesAmazonFbaReceivestock extends ParentUploadInfo {
         this.fbaShipmentId = fbaShipmentId;
     }
 
-    public String getFnsku() {
-        return fnsku;
+    public String getFnSku() {
+        return fnSku;
     }
 
-    public void setFnsku(String fnsku) {
-        this.fnsku = fnsku;
-    }
-
-    @Override
-    public Long getSkuId() {
-        return skuId;
-    }
-
-    @Override
-    public void setSkuId(Long skuId) {
-        this.skuId = skuId;
+    public void setFnSku(String fnSku) {
+        this.fnSku = fnSku;
     }
 
     public String getProductName() {
@@ -88,5 +78,13 @@ public class SalesAmazonFbaReceivestock extends ParentUploadInfo {
 
     public void setAwId(Integer awId) {
         this.awId = awId;
+    }
+
+    public String getRecSku() {
+        return recSku;
+    }
+
+    public void setRecSku(String recSku) {
+        this.recSku = recSku;
     }
 }

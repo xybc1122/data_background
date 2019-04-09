@@ -22,7 +22,12 @@ public class FinancialSalesBalanceController {
     @Autowired
     private FinancialSalesBalanceService fsbService;
 
-
+    /**
+     * 查询财务结算报告
+     *
+     * @param fsb
+     * @return
+     */
     @PostMapping("/getFsbInfo")
     public ResponseBase geFsbInfo(@RequestBody FinancialSalesBalance fsb) {
         PageInfoUtils.setPage(fsb.getPageSize(), fsb.getCurrentPage());

@@ -9,7 +9,7 @@ import com.dt.user.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonWarehouse;
 import com.dt.user.model.FinancialSalesBalance;
 import com.dt.user.model.RealTimeData;
-import com.dt.user.model.SalesAmazonAd.*;
+import com.dt.user.model.SalesAmazon.*;
 import com.dt.user.model.UserUpload;
 import com.dt.user.netty.ChatServiceImpl;
 import com.dt.user.netty.ChatType;
@@ -174,7 +174,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             boolean isFlg = ArrUtils.eqOrderList(head, txtHead);
             if (!isFlg) {
                 //更新信息
-                setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(head));
+                return setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(head));
             }
             //创建对象设置文件总数
             RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
@@ -252,7 +252,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         sfReceivesList = ArrUtils.listT(tList);
                         SalesAmazonFbaReceivestock sfReceives = setReceives(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
-                            sfReceives = saveReceiveStock(i, sfReceives, newLine, txtHead, isImportHead);
+                            sfReceives = saveReceiveStock(i, sfReceives, newLine, txtHead, shopId, isImportHead);
                             if (sfReceives == null) {
                                 //先拿到这一行信息 newLine
                                 exportTxtType(txtHeadList, line);
@@ -289,25 +289,14 @@ public class ConsumerServiceImpl implements ConsumerService {
         }
         int countTrad = 0;
         try {
-            if (safTradList != null) {
-                if (safTradList.size() > 0) {
-                    countTrad = tradeReportService.AddSalesAmazonAdTrdList(safTradList);
-                }
-            } else if (safRefundList != null) {
-                if (safRefundList.size() > 0) {
-                    //导入数据库
-                    countTrad = refundService.AddSalesAmazonAdRefundList(safRefundList);
-                }
-            } else if (sfReceivesList != null) {
-                if (sfReceivesList.size() > 0) {
-                    //导入数据库
-                    countTrad = receivestockService.AddSalesAmazonAdReceivestockList(sfReceivesList);
-                }
-            } else if (safEndList != null) {
-                if (safEndList.size() > 0) {
-                    //导入数据库
-                    countTrad = endService.AddSalesAmazonAdInventoryEndList(safEndList);
-                }
+            if (safTradList != null && safTradList.size() > 0) {
+                countTrad = tradeReportService.AddSalesAmazonAdTrdList(safTradList);
+            } else if (safRefundList != null && safRefundList.size() > 0) {
+                countTrad = refundService.AddSalesAmazonAdRefundList(safRefundList);
+            } else if (sfReceivesList != null && sfReceivesList.size() > 0) {
+                countTrad = receivestockService.addSalesAmazonAdReceivestockList(sfReceivesList);
+            } else if (safEndList != null && safEndList.size() > 0) {
+                countTrad = endService.addSalesAmazonAdInventoryEndList(safEndList);
             }
         } catch (Exception e) {
             return setErrorInfo(recordingId, "数据库存入异常", null);
@@ -332,9 +321,9 @@ public class ConsumerServiceImpl implements ConsumerService {
         if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
             sft.setDate(DateUtils.getTime(j[i], Constants.ORDER_RETURN));
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
-            sft.setFnsku(StrUtils.repString(j[i]));
+            sft.setFnSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
-            sft.setSku(StrUtils.repString(j[i]));
+            sft.setInvSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose()) {
             sft.setProductName(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose()) {
@@ -346,14 +335,12 @@ public class ConsumerServiceImpl implements ConsumerService {
             }
             sft.setFc(fc);
             BasicSalesAmazonWarehouse warehouse = warehouseService.getWarehouse(fc);
-            if (warehouse == null) {
-                return null;
-            }
-            if (warehouse.getSiteId() == null || warehouse.getAmazonWarehouseId() == null) {
+            if (warehouse == null || warehouse.getSiteId() == null || warehouse.getAmazonWarehouseId() == null) {
                 return null;
             }
             sft.setSiteId(warehouse.getSiteId());
             sft.setAwId(warehouse.getAmazonWarehouseId());
+
         } else if (txtHeadList.get(i).equals(isImportHead.get(6).getImportTemplet()) && isImportHead.get(6).getOpenClose()) {
             sft.setDisposition(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(7).getImportTemplet()) && isImportHead.get(7).getOpenClose()) {
@@ -371,13 +358,17 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @throws IOException
      */
     public SalesAmazonFbaReceivestock saveReceiveStock(int i, SalesAmazonFbaReceivestock sft, String[] j,
-                                                       List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
+                                                       List<String> txtHeadList, Integer shopId, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
         if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
             sft.setDate(DateUtils.getTime(j[i], Constants.ORDER_RETURN));
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
-            sft.setFnsku(StrUtils.repString(j[i]));
+            sft.setFnSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
-            sft.setSku(StrUtils.repString(j[i]));
+            String recSku = StrUtils.repString(j[i]);
+            if (StringUtils.isEmpty(recSku)) {
+                return null;
+            }
+            sft.setRecSku(recSku);
         } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose()) {
             sft.setProductName(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose()) {
@@ -391,14 +382,16 @@ public class ConsumerServiceImpl implements ConsumerService {
             }
             sft.setFc(fc);
             BasicSalesAmazonWarehouse warehouse = warehouseService.getWarehouse(fc);
-            if (warehouse == null) {
-                return null;
-            }
-            if (warehouse.getSiteId() == null || warehouse.getAmazonWarehouseId() == null) {
+            if (warehouse == null || warehouse.getSiteId() == null || warehouse.getAmazonWarehouseId() == null) {
                 return null;
             }
             sft.setAwId(warehouse.getAmazonWarehouseId());
             sft.setSiteId(warehouse.getSiteId());
+            //设置skuId
+            boolean isFlg = skuEqSku(sft.getRecSku(), shopId, sft.getSiteId(), sft);
+            if (!isFlg) {
+                return null;
+            }
         }
         return sft;
     }
@@ -433,7 +426,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             sft.setSiteId(serviceReport.getSiteId());
             sft.setPurchaseDate(serviceReport.getDate());
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
-            sft.setSku(StrUtils.repString(j[i]));
+            sft.setRefSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose()) {
             sft.setsAsin(StrUtils.repString(j[i]));
             boolean isFlgId = skuEqAsin(sft.getSku(), sft.getsAsin(), sId, sft.getSiteId(), sft);
@@ -512,7 +505,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         else if (txtHeadList.get(i).equals(isImportHead.get(10).getImportTemplet()) && isImportHead.get(10).getOpenClose())
             sft.setProductName(StrUtils.repString(j[i]));
         else if (txtHeadList.get(i).equals(isImportHead.get(11).getImportTemplet()) && isImportHead.get(11).getOpenClose()) {
-            sft.setSku(StrUtils.repString(j[i]));
+            sft.setTradeSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(12).getImportTemplet()) && isImportHead.get(12).getOpenClose()) {
             sft.setAsin(StrUtils.repString(j[i]));
             boolean isFlgId = skuEqAsin(sft.getSku(), sft.getAsin(), sId, sft.getSiteId(), sft);
@@ -702,40 +695,28 @@ public class ConsumerServiceImpl implements ConsumerService {
                 sendRealTimeData(ctx, intMap, timeData, index);
             }
         } catch (Exception e) {
-            chatService.sendMessage(ctx, JsonUtils.getJsonTypeSuccess("error", ChatType.PROGRESS_BAR));
+            chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "出错字段" + xlsListHead.get(k) + "下" + (numberCount.get() + 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int saveCount = 0;
         chatService.sendMessage(ctx, JsonUtils.getJsonTypeSuccess("存入数据中", ChatType.PROGRESS_BAR));
         try {
-            if (cprList != null) {
-                if (cprList.size() > 0) {
-                    saveCount = cprService.AddSalesAmazonAdCprList(cprList);
-                }
-            }
-            if (strList != null) {
-                if (strList.size() > 0) {
-                    saveCount = strService.AddSalesAmazonAdStrList(strList);
-                }
-            }
-            if (oarList != null) {
-                if (oarList.size() > 0) {
-                    saveCount = oarService.AddSalesAmazonAdOarList(oarList);
-                }
-            }
-            if (hlList != null) {
-                if (hlList.size() > 0) {
-                    saveCount = hlService.AddSalesAmazonAdHlList(hlList);
-                }
+            if (cprList != null && cprList.size() > 0) {
+                saveCount = cprService.AddSalesAmazonAdCprList(cprList);
+            } else if (strList != null && strList.size() > 0) {
+                saveCount = strService.AddSalesAmazonAdStrList(strList);
+            } else if (oarList != null && oarList.size() > 0) {
+                saveCount = oarService.AddSalesAmazonAdOarList(oarList);
+            } else if (hlList != null && hlList.size() > 0) {
+                saveCount = hlService.AddSalesAmazonAdHlList(hlList);
             }
         } catch (Exception e) {
-            chatService.sendMessage(ctx, JsonUtils.getJsonTypeSuccess("error", ChatType.PROGRESS_BAR));
+            chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "数据库存入异常", null);
         }
         if (saveCount > 0) {
             return printCount(begin, count.get(), index, ctx);
         }
-
         return JsonData.setResultError("存入数据失败,请检查信息/文件中所有行的shuId 无效");
     }
 
@@ -1169,18 +1150,13 @@ public class ConsumerServiceImpl implements ConsumerService {
         int number = 0;
         try {
             //财务
-            if (fsbList != null) {
-                if (fsbList.size() > 0) {
-                    //插入数据
-                    number = fsbService.addInfo(fsbList, menuId);
-                }
+            if (fsbList != null && fsbList.size() > 0) {
+                //插入数据
+                number = fsbService.addInfo(fsbList, menuId);
             }
             //业务
-            if (sfbList != null) {
-                if (sfbList.size() > 0) {
-                    number = busService.AddSalesAmazonAdBusList(sfbList);
-
-                }
+            else if (sfbList != null && sfbList.size() > 0) {
+                number = busService.addSalesAmazonAdBusList(sfbList);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1251,7 +1227,6 @@ public class ConsumerServiceImpl implements ConsumerService {
                 sfb.setOrderItems(StrUtils.replaceInteger(csvReader.get(j)));
             }
         }
-        System.out.println(csvReader.getColumnCount());
         if ((j + 1) == csvReader.getColumnCount()) {
             Long skuId = skuService.getAsinSkuId(sId, seId, sfb.getsAsin());
             String result = skuList(skuId, csvReader, sfb.getfAsin());
@@ -1533,6 +1508,31 @@ public class ConsumerServiceImpl implements ConsumerService {
             return headService.headerList(seId, Constants.FINANCE_ID, areaId, shopId);
         }
         return headService.headerList(seId, tbId, areaId, shopId);
+    }
+
+
+    /**
+     * 获得skuId
+     *
+     * @param sku
+     * @param sId
+     * @param seId
+     * @return
+     */
+    public boolean skuEqSku(String sku, Integer sId, Integer seId, Object obj) {
+        if (StringUtils.isBlank(sku)) {
+            return false;
+        }
+        Long skuId = skuService.selSkuId(sId, seId, sku);
+        if (skuId == null) {
+            return false;
+        }
+        if (obj instanceof SalesAmazonFbaReceivestock) {
+            SalesAmazonFbaReceivestock receive = (SalesAmazonFbaReceivestock) obj;
+            receive.setSkuId(skuId);
+            return true;
+        }
+        return false;
     }
 
     /**

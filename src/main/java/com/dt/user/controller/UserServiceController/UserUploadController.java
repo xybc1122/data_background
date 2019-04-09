@@ -6,6 +6,8 @@ import com.dt.user.model.UserInfo;
 import com.dt.user.model.UserUpload;
 import com.dt.user.service.UserUploadService;
 import com.dt.user.utils.CookieUtil;
+import com.dt.user.utils.PageInfoUtils;
+import com.dt.user.utils.ReqUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,15 +28,11 @@ public class UserUploadController {
      * @return
      */
     @PostMapping("/getInfo")
-    public ResponseBase getInfo(@RequestBody UserUpload requestUp, HttpServletRequest request) {
-        UserInfo user = CookieUtil.getUser(request);
-        if (user == null) {
-            return JsonData.setResultError("用户无效~");
-        }
-        List<UserUpload> userUploadList;
-        requestUp.setUid(user.getUid());
-        userUploadList = userUploadService.getUserUploadInfo(requestUp);
-        return JsonData.setResultSuccess(userUploadList);
+    public ResponseBase getInfo(@RequestBody UserUpload upload) {
+        PageInfoUtils.setPage(upload.getPageSize(), upload.getCurrentPage());
+        upload.setUid(ReqUtils.getUid());
+        return PageInfoUtils.returnPage(userUploadService.getUserUploadInfo(upload), upload.getCurrentPage());
+
     }
 
     /**

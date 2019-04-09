@@ -53,27 +53,27 @@ public class LoginInterceoter implements HandlerInterceptor {
                 String vRedis = redisService.getStringKey(uName + "token");
                 //如果是null 说明 token 已经过期
                 if (StringUtils.isEmpty(vRedis)) {
-                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "令牌失效，请重新登陆"));
+                    sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "令牌失效，请重新登陆"));
                     return false;
                 }
                 //说明前面已经有人在登陆
                 if (!vRedis.equals(token)) {
-                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "已有人登陆此账号"));
+                    sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "已有人登陆此账号"));
                     return false;
                 }
                 //通过ID 查询 账号状态
                 UserInfo user = userService.getUserStatus(uId.longValue());
                 // 账号不存在 异常
                 if (user == null) {
-                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "未知账户/没找到帐号,登录失败"));
+                    sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "未知账户/没找到帐号,登录失败"));
                     return false;
                 }
                 if (user.getAccountStatus() == 1) {
-                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "账号已被锁定,请联系管理员"));
+                    sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "账号已被锁定,请联系管理员"));
                     return false;
                 }
                 if (user.getDelUser() == 1) {
-                    sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "账号凭着已过期/或删除 请联系管理员"));
+                    sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "账号凭着已过期/或删除 请联系管理员"));
                     return false;
                 }
                 //首次登陆修改密码接口
@@ -83,16 +83,16 @@ public class LoginInterceoter implements HandlerInterceptor {
                 }
                 //首次登陆 需要修改密码
                 if (user.getFirstLogin()) {
-                    sendJsonMessaget(response, JsonData.setResultError(Constants.FIRST_CODE, "首次登陆修改密码"));
+                    sendJsonMessage(response, JsonData.setResultError(Constants.FIRST_CODE, "首次登陆修改密码"));
                     return false;
                 }
                 ReqUtils.set(request, uId, uName);
                 return true;
             }
-            sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "令牌错误 请重新登陆"));
+            sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "令牌错误 请重新登陆"));
             return false;
         }
-        sendJsonMessaget(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "请登录"));
+        sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "请登录"));
         return false;
     }
 
@@ -101,7 +101,7 @@ public class LoginInterceoter implements HandlerInterceptor {
      *
      * @param response
      */
-    public static void sendJsonMessaget(HttpServletResponse response, Object obj) throws IOException {
+    public static void sendJsonMessage(HttpServletResponse response, Object obj) throws IOException {
         response.setContentType("application/json;charset=utf-8");
         PrintWriter writer = response.getWriter();
         writer.print(gson.toJson(obj));

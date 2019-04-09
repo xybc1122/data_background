@@ -1,4 +1,4 @@
-package com.dt.user.model.SalesAmazonAd;
+package com.dt.user.model.SalesAmazon;
 
 import com.dt.user.model.ParentUploadInfo;
 
@@ -7,14 +7,15 @@ import com.dt.user.model.ParentUploadInfo;
  */
 public class SalesAmazonFbaInventoryEnd extends ParentUploadInfo {
 
-    private Long id;
-    private String fnsku;
+    private Long invId;
+    private String fnSku;
     private String productName;
     private Integer quantity;
     private String fc;
     private Integer awId;
     private String disposition;
     private String country;
+    private String invSku;
 
 
     public SalesAmazonFbaInventoryEnd() {
@@ -25,20 +26,28 @@ public class SalesAmazonFbaInventoryEnd extends ParentUploadInfo {
         super(shopId, null, createDate, createUser, recordingId);
     }
 
-    public Long getId() {
-        return id;
+    public String getInvSku() {
+        return invSku;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setInvSku(String invSku) {
+        this.invSku = invSku;
     }
 
-    public String getFnsku() {
-        return fnsku;
+    public Long getInvId() {
+        return invId;
     }
 
-    public void setFnsku(String fnsku) {
-        this.fnsku = fnsku;
+    public void setInvId(Long invId) {
+        this.invId = invId;
+    }
+
+    public String getFnSku() {
+        return fnSku;
+    }
+
+    public void setFnSku(String fnSku) {
+        this.fnSku = fnSku;
     }
 
     public String getProductName() {

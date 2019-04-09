@@ -1,4 +1,4 @@
-package com.dt.user.model.SalesAmazonAd;
+package com.dt.user.model.SalesAmazon;
 
 import com.dt.user.model.ParentUploadInfo;
 

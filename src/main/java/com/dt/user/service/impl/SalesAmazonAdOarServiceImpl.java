@@ -1,7 +1,7 @@
 package com.dt.user.service.impl;
 
 import com.dt.user.mapper.SalesAmazonMapper.SalesAmazonAdOarMapper;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdOar;
+import com.dt.user.model.SalesAmazon.SalesAmazonAdOar;
 import com.dt.user.service.SalesAmazonService.SalesAmazonAdOarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

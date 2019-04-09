@@ -2,9 +2,8 @@ package com.dt.user.provider;
 
 
 import com.dt.user.model.FinancialSalesBalance;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdCpr;
 import com.dt.user.store.ProviderSqlStore;
-import com.dt.user.store.SpliceSqlStore;
+import com.dt.user.store.AppendSqlStore;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -97,13 +96,14 @@ public class FinancialSalesBalanceProvider {
                     append(",").append(fsb.getStdFba()).append(",").append(fsb.getStdFbas()).append(",").append(fsb.getStdFbaOriginal()).
                     append(",").append(fsb.getLightningDealFee()).append(",").append(fsb.getFbaInventoryFee()).append(",");
             sb.append(fsb.getPointFee()).append(",").append(fsb.getLowValueGoods()).append(",");
-            SpliceSqlStore.set(sb, fsb);
+            AppendSqlStore.set(sb, fsb);
         }
         // 构建完整sql
         return sb.toString().substring(0, sb.length() - 1);
     }
 
     public String getFbsInfo(FinancialSalesBalance fbs) {
+        String table = AppendSqlStore.setSqlTable(fbs, "`financial_sales_amazon_balance`", "`sales_amazon_fba_balance`");
         SQL sql = new SQL();
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`financial_sku`,`settlemen_id`,`date`, `payment_type_id`, `type`, `order_id`,\n" +
@@ -120,7 +120,7 @@ public class FinancialSalesBalanceProvider {
                 "`new_shipping_fba`, `std_product_sales`, `std_sales_original`, `std_sales_add`,\n" +
                 "`std_sales_minus`,`std_fba`,`std_fbas`,`std_fba_original`,`lightning_deal_fee`," +
                 "`fba_inventory_fee`," + ProviderSqlStore.statusV + "" +
-                "FROM `financial_sales_amazon_balance` AS sab \n");
+                "FROM " + table + " AS sab \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=sab.`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = sab.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = sab.`sku_id`");

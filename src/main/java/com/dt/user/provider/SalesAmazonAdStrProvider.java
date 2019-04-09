@@ -1,8 +1,8 @@
 package com.dt.user.provider;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonAdStr;
+import com.dt.user.model.SalesAmazon.SalesAmazonAdStr;
 import com.dt.user.store.ProviderSqlStore;
-import com.dt.user.store.SpliceSqlStore;
+import com.dt.user.store.AppendSqlStore;
 import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -45,7 +45,7 @@ public class SalesAmazonAdStrProvider {
                     append(",").append(str.getOtherSkuUnitsOrdered()).append(",").
                     append(str.getAdvertisedSkuUnitsSales()).append(",").append(str.getOtherSkuUnitsSales()).append(",");
             //通用set 拼接
-            SpliceSqlStore.set(sb, str);
+            AppendSqlStore.set(sb, str);
         }
         return sb.toString().substring(0, sb.length() - 1);
     }

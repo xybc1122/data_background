@@ -1,7 +1,7 @@
 package com.dt.user.service.impl;
 
 import com.dt.user.mapper.SalesAmazonMapper.SalesAmazonFbaRefundMapper;
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaRefund;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaRefund;
 import com.dt.user.service.SalesAmazonService.SalesAmazonFbaRefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,5 +16,10 @@ public class SalesAmazonFbaRefundServiceImpl implements SalesAmazonFbaRefundServ
     @Override
     public int AddSalesAmazonAdRefundList(List<SalesAmazonFbaRefund> refundList) {
         return refundMapper.AddSalesAmazonAdRefundList(refundList);
+    }
+
+    @Override
+    public List<SalesAmazonFbaRefund> serviceFindByListRefund(SalesAmazonFbaRefund report) {
+        return refundMapper.findByListRefund(report);
     }
 }

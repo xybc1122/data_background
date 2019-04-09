@@ -1,9 +1,10 @@
 package com.dt.user.mapper.SalesAmazonMapper;
 
-import com.dt.user.model.SalesAmazonAd.SalesAmazonFbaReceivestock;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaReceivestock;
 import com.dt.user.provider.SalesAmazonFbaReceivestockProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
 
@@ -16,7 +17,11 @@ public interface SalesAmazonFbaReceivestockMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonFbaReceivestockProvider.class, method = "addReceives")
-    int AddSalesAmazonAdReceivestockList(@Param("receivesList") List<SalesAmazonFbaReceivestock> receivesList);
+    int addSalesAmazonAdReceiveStockList(@Param("receivesList") List<SalesAmazonFbaReceivestock> receivesList);
 
-
+    /**
+     * 查询接收库存数据
+     */
+    @SelectProvider(type = SalesAmazonFbaReceivestockProvider.class, method = "getRecInfo")
+    List<SalesAmazonFbaReceivestock> findByListRec(SalesAmazonFbaReceivestock rec);
 }

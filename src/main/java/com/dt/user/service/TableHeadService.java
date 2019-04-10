@@ -73,7 +73,12 @@ public interface TableHeadService {
     int upHeadSort(String[] newTopOrder, Long id);
 
     /**
-     * 检查表中名字是否一直
+     * 检查表中名字是否一致
      */
     String isHeadName(String headName);
+
+    /**
+     * 检查表中topType是否一致
+     */
+    String isTopType(String topType);
 }

@@ -213,6 +213,11 @@ public class TableHeadImpl implements TableHeadService {
         return tableHeadMapper.isHeadName(headName);
     }
 
+    @Override
+    public String isTopType(String topType) {
+        return tableHeadMapper.isTopType(topType);
+    }
+
 
     /**
      * 遍历查找对应的menuId

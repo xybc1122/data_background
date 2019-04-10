@@ -129,10 +129,22 @@ public class TableHeadController {
     /**
      * 查看数据库是否有名字
      */
-    @GetMapping("/IsHeadName")
-    public ResponseBase getIsHeadName(@Param("headName") String headName) {
-        String isFlg = tableHeadService.isHeadName(headName);
-        if (isFlg != null) {
+    @GetMapping("/isHeadName")
+    public ResponseBase getIsHeadName(@RequestParam(name = "headName",required=false) String headName) {
+        String result = tableHeadService.isHeadName(headName);
+        if (result != null) {
+            return JsonData.setResultError("已存在");
+        }
+        return JsonData.setResultSuccess("不存在");
+    }
+
+    /**
+     * 查看数据库是否有topType
+     */
+    @GetMapping("/isTopType")
+    public ResponseBase getIsTopType(@RequestParam(name = "topType",required=false) String topType) {
+        String result = tableHeadService.isTopType(topType);
+        if (result != null) {
             return JsonData.setResultError("已存在");
         }
         return JsonData.setResultSuccess("不存在");

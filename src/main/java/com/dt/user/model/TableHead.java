@@ -30,7 +30,7 @@ public class TableHead implements Serializable {
     /**
      * 是否锁框
      */
-    private Boolean isFixed;
+    private Boolean fixed;
     /**
      * 账号状态
      */
@@ -51,13 +51,30 @@ public class TableHead implements Serializable {
     /**
      * 是否引用
      */
-    private Boolean isReference;
+    private Boolean reference;
     /**
      * 重新排序的顺序
      */
     private Integer index;
 
     private List<TableHead> headList;
+
+
+    public Boolean getFixed() {
+        return fixed;
+    }
+
+    public void setFixed(Boolean fixed) {
+        this.fixed = fixed;
+    }
+
+    public Boolean getReference() {
+        return reference;
+    }
+
+    public void setReference(Boolean reference) {
+        this.reference = reference;
+    }
 
     public List<TableHead> getHeadList() {
         return headList;
@@ -107,13 +124,6 @@ public class TableHead implements Serializable {
         this.topOrder = topOrder;
     }
 
-    public Boolean getFixed() {
-        return isFixed;
-    }
-
-    public void setFixed(Boolean fixed) {
-        isFixed = fixed;
-    }
 
     public List<AccountStatusOptions> getStatusOptions() {
         return statusOptions;
@@ -147,13 +157,6 @@ public class TableHead implements Serializable {
         this.ids = ids;
     }
 
-    public Boolean getReference() {
-        return isReference;
-    }
-
-    public void setReference(Boolean reference) {
-        isReference = reference;
-    }
 
     public Integer getIndex() {
         return index;

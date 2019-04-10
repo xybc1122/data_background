@@ -83,8 +83,14 @@ public interface TableHeadMapper {
     int insertHead(TableHead tableHead);
 
     /**
-     * 检查表中名字是否一直
+     * 检查表中名字是否一致
      */
     @Select("SELECT `head_name` FROM `system_user_table_head` WHERE head_name=#{headName}")
     String isHeadName(@Param("headName") String headName);
+
+    /**
+     * 检查topType类型是否一致
+     */
+    @Select("SELECT `top_type` FROM `system_user_table_head` WHERE top_type=#{topType}")
+    String isTopType(@Param("topType") String topType);
 }

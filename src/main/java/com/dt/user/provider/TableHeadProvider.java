@@ -50,7 +50,7 @@ public class TableHeadProvider {
                 throw new LsException("menuId参数不能为空");
             }
             VALUES("`head_name`,`menu_id`,`top_type`,`top_order`,`is_fixed`,`input_type`," +
-                    "`is_reference`", "#{headName},#{menuId},#{topType},#{topOrder},#{isFixed},#{inputType},#{isReference}");
+                    "`is_reference`", "#{headName},#{menuId},#{topType},#{topOrder},#{fixed},#{inputType},#{reference}");
         }}.toString();
     }
 
@@ -75,13 +75,13 @@ public class TableHeadProvider {
                 SET("top_order=#{topOrder}");
             }
             if (tableHead.getFixed() != null) {
-                SET("is_fixed=#{isFixed}");
+                SET("is_fixed=#{fixed}");
             }
             if (tableHead.getInputType() != null) {
                 SET("input_type=#{inputType}");
             }
             if (tableHead.getReference() != null) {
-                SET("is_reference=#{isReference}");
+                SET("is_reference=#{reference}");
             }
             WHERE("id=#{id}");
         }}.toString();

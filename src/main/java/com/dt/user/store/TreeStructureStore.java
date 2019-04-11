@@ -24,9 +24,9 @@ public class TreeStructureStore {
             for (ParentTree obj : result) {
                 if (obj.getParentId() != null) {
                     //是否为父目录
-                    if (obj.getParent() != null) {
+                    if (obj.getParentNodeIs() != null) {
                         //如果是父目录
-                        if (obj.getParent()) {
+                        if (obj.getParentNodeIs()) {
                             firstArrList.add(obj);
                         } else {
                             childArrList.add(obj);

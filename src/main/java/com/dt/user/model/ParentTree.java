@@ -28,14 +28,64 @@ public class ParentTree {
     /**
      * 是否为父类
      */
-    private Boolean isParent;
+    private Boolean parentNodeIs;
     /**
      * 树ID
      */
     private Integer treeId;
 
-
+    /**
+     * 树节点ID
+     */
     private String treeName;
+    /**
+     * 是否删除
+     */
+    private Integer delOrNot;
+    /**
+     * 版本标识
+     */
+    private Integer version;
+    /**
+     * 状态ID
+     */
+    private Long statusId;
+
+
+    //状态对象
+    private SystemLogStatus systemLogStatus;
+
+    public SystemLogStatus getSystemLogStatus() {
+        return systemLogStatus;
+    }
+
+    public void setSystemLogStatus(SystemLogStatus systemLogStatus) {
+        this.systemLogStatus = systemLogStatus;
+    }
+
+    public Long getStatusId() {
+        return statusId;
+    }
+
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public Integer getDelOrNot() {
+        return delOrNot;
+    }
+
+    public void setDelOrNot(Integer delOrNot) {
+        this.delOrNot = delOrNot;
+    }
 
     public Integer getNumber() {
         return number;
@@ -85,11 +135,11 @@ public class ParentTree {
         this.path = path;
     }
 
-    public Boolean getParent() {
-        return isParent;
+    public Boolean getParentNodeIs() {
+        return parentNodeIs;
     }
 
-    public void setParent(Boolean parent) {
-        isParent = parent;
+    public void setParentNodeIs(Boolean parentNodeIs) {
+        this.parentNodeIs = parentNodeIs;
     }
 }

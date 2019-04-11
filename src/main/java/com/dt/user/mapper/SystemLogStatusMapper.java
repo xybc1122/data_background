@@ -1,6 +1,7 @@
 package com.dt.user.mapper;
 
 import com.dt.user.model.SystemLogStatus;
+import com.dt.user.provider.SystemLogStatusProvider;
 import org.apache.ibatis.annotations.*;
 
 public interface SystemLogStatusMapper {
@@ -25,4 +26,16 @@ public interface SystemLogStatusMapper {
             "VALUES (#{remark},#{status},#{createDate},#{createUser},#{modifyDate},#{modifyUser},#{auditDate}, #{auditUser})")
     @Options(useGeneratedKeys = true, keyProperty = "statusId", keyColumn = "status_id")
     int saveSysStatusInfo(SystemLogStatus logStatus);
+
+    /**
+     * 更新状态信息
+     */
+    @UpdateProvider(type = SystemLogStatusProvider.class, method = "upLogStatusPro")
+    int upSysStatusInfo(SystemLogStatus logStatus);
+
+    /**
+     * 批量删除数据/更新
+     */
+    @UpdateProvider(type = SystemLogStatusProvider.class, method = "delLogStatusPro")
+    int delLogStatus(@Param("statusIds") String statusIds);
 }

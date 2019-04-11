@@ -19,6 +19,10 @@ public class SystemLogStatus implements Serializable {
     private Long auditDate;
     private String auditUser;
     private Long effectiveDate;
+    /**
+     * 是否删除
+     */
+    private Integer delOrNot;
 
     /**
      * 创建时间范围查询变量
@@ -39,6 +43,14 @@ public class SystemLogStatus implements Serializable {
      * 有效如期范围查询
      */
     private List<Long> effectiveDates;
+
+    public Integer getDelOrNot() {
+        return delOrNot;
+    }
+
+    public void setDelOrNot(Integer delOrNot) {
+        this.delOrNot = delOrNot;
+    }
 
     public Long getStatusId() {
         return statusId;

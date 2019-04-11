@@ -4,6 +4,7 @@ package com.dt.user.provider;
 import com.dt.user.dto.UserDto;
 import com.dt.user.store.ProviderSqlStore;
 import com.dt.user.utils.MD5Util;
+import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -140,20 +141,9 @@ public class UserProvider {
 
     public String delUserInfo(Map<String, Object> mapDel) {
         String uidIds = mapDel.get("uidIds").toString();
-        String[] newIds = uidIds.split(",");
-        List<String> ids = java.util.Arrays.asList(newIds);
-        StringBuilder sql = new StringBuilder();
-        sql.append("UPDATE `system_user_info`\n" +
-                "SET `del_user` = 1" +
-                ",`del_date` = " + new Date().getTime() + "\n" +
-                "WHERE uid in (");
-        for (String id : ids) {
-            if (ids.indexOf(id) > 0)
-                sql.append(",");
-            sql.append("'").append(id).append("'");
-        }
-        sql.append(")");
-        return sql.toString();
+        return StrUtils.updateSql(uidIds,
+                "UPDATE `system_user_info`\n" + "SET `del_user` = ,", "1", "`del_date` = ", "uid");
+
     }
 
     public String reUserInfo(Map<String, Object> mapDel) {

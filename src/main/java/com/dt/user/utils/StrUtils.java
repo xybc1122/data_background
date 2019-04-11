@@ -4,9 +4,36 @@ import com.dt.user.model.FinancialSalesBalance;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 public class StrUtils {
 
+    /**
+     * 更新sql //批量删除数据
+     *
+     * @param delIds
+     * @param sql
+     * @param thisId
+     * @return
+     */
+    public static String updateSql(String delIds, String sql, String param, String delDate, String thisId) {
+        String[] newDelIds = delIds.split(",");
+        List<String> idsList = java.util.Arrays.asList(newDelIds);
+        StringBuilder sb = new StringBuilder();
+        sb.append(sql).append(param);
+        if (StringUtils.isNotBlank(delDate)) {
+            sb.append(delDate).append(new Date().getTime());
+        }
+        sb.append("\n").append("WHERE ").append(thisId).append(" in (");
+        for (String id : idsList) {
+            if (idsList.indexOf(id) > 0)
+                sb.append(",");
+            sb.append("'").append(id).append("'");
+        }
+        sb.append(")");
+        return sb.toString();
+    }
 
     /**
      * 转换Integer
@@ -201,7 +228,7 @@ public class StrUtils {
     /**
      * 判断TypeName是否== xxxxx  计算一些数据
      */
-    public static void isService(String typeName, FinancialSalesBalance fsb) {
+    public static void setInfo(String typeName, FinancialSalesBalance fsb) {
         if (StringUtils.isNotEmpty(typeName)) {
             //促销费用（abs(运费)<abs(促销费用)）
             //返回值 -1 小于 0 等于 1 大于

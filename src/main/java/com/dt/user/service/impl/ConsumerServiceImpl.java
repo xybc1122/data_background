@@ -1299,7 +1299,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         }
         //这里最后执行
         if ((j + 1) == csvReader.getColumnCount()) {
-            StrUtils.isService(fsb.getType(), fsb);
+            StrUtils.setInfo(fsb.getType(), fsb);
             Long skuId = skuService.selSkuId(sId, seId, fsb.getSku());
             String result = skuList(skuId, csvReader, fsb.getSku());
             if (StringUtils.isEmpty(result)) {

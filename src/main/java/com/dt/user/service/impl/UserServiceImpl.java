@@ -250,11 +250,7 @@ public class UserServiceImpl extends JsonData implements UserService {
             Integer pwdValidityPeriod = (Integer) userMap.get("pwdValidityPeriod");
             userInfo.setPwdValidityPeriod(DateUtils.getRearDate(pwdValidityPeriod));
         }
-        //新增 通用状态
-        SystemLogStatus logStatus = new SystemLogStatus();
-        //设置创建时间
-        logStatus.setCreateDate(new Date().getTime());
-        logStatusService.serviceSaveSysStatusInfo(logStatus);
+        SystemLogStatus logStatus = logStatusService.serviceSaveSysStatusInfo();
         userInfo.setStatusId(logStatus.getStatusId());
         //新增用户
         userMapper.saveUserInfo(userInfo);

@@ -1,5 +1,6 @@
 package com.dt.user.service;
 
+
 /**
  * @ClassName GeneralQueryService
  * Description TODO
@@ -8,9 +9,11 @@ package com.dt.user.service;
  **/
 public interface GeneralQueryService {
 
+
+
     /**
-     * 通过用查询 状态ID
-     * @return
+     * 封装判断 statusId服务  通过用查询 状态ID
      */
-    Long serviceGetStatusId(Object obj);
+    void statusIdExist(Object obj);
+
 }

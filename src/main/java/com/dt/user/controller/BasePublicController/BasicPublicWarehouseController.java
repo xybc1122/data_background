@@ -29,7 +29,7 @@ public class BasicPublicWarehouseController {
     }
 
     @PostMapping("/delWar")
-    public ResponseBase upWarInfo(@RequestBody Map<String, String> warMp) {
+    public ResponseBase delWarInfo(@RequestBody Map<String, String> warMp) {
         return warehouseService.serviceDelWarehouses(warMp);
     }
 

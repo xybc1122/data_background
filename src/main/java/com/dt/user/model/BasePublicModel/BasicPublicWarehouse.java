@@ -13,7 +13,4 @@ public class BasicPublicWarehouse extends ParentTree {
         return warehouseAddress;
     }
 
-    public void setWarehouseAddress(String warehouseAddress) {
-        this.warehouseAddress = warehouseAddress;
-    }
 }

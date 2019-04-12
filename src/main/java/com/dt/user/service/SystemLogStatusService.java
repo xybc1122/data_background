@@ -1,6 +1,9 @@
 package com.dt.user.service;
 
+import com.dt.user.config.ResponseBase;
 import com.dt.user.model.SystemLogStatus;
+
+import java.util.Map;
 
 /**
  * @ClassName SystemLogStatusService
@@ -11,10 +14,12 @@ import com.dt.user.model.SystemLogStatus;
 public interface SystemLogStatusService {
     /**
      * 查询 状态服务
+     *
      * @param statusId
      * @return
      */
     SystemLogStatus serviceFindSysStatusInfo(Long statusId);
+
     /**
      * 新增状态信息
      */
@@ -28,8 +33,24 @@ public interface SystemLogStatusService {
 
     /**
      * 删除数据 //更新
-     * @param statusIds
-     * @return
      */
     int delLogStatus(String statusIds);
+
+    /**
+     * 封装更新状态返回
+     */
+    ResponseBase msgCodeUp(int result, SystemLogStatus logStatus, Long statusId);
+
+    /**
+     * 封装删除状态返回
+     */
+    ResponseBase msgCodeDel(int result, Map<String, String> dataMap);
+
+    /**
+     * obj 设置statusId
+     *
+     * @param obj
+     * @return
+     */
+    Object setObjStatusId(Object obj);
 }

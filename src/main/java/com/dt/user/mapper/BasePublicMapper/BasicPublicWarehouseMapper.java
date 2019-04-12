@@ -33,7 +33,7 @@ public interface BasicPublicWarehouseMapper {
      * 批量删除数据/更新
      */
     @UpdateProvider(type = WarehouseInfoProvider.class, method = "delWarehousePro")
-    int delWarehouses(@Param("warIds") String warIds);
+    int delWarehouses(@Param("thisIds") String thisIds);
 
     /**
      * 新增仓库数据

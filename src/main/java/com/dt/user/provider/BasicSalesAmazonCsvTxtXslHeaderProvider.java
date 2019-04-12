@@ -12,9 +12,9 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
     public String getTemplate(BasicSalesAmazonCsvTxtXslHeader header) {
         SQL sql = new SQL();
         String Alias = "h";
-        sql.SELECT("  h.status_id,h.`id`,h.`import_templet`,h.`is_import`,h.`open_close`,h.`sort`,\n" +
-                        "  m.`m_name`,si.`site_name`,s.`shop_name`\n" +
-                        "from `basic_sales_amazon_csv_txt_xsl_header` as " + Alias + "");
+        sql.SELECT(" h.status_id,h.`id`,h.`import_templet`,h.`is_import`,h.`open_close`,h.`sort`,\n" +
+                "  m.`m_name`,si.`site_name`,s.`shop_name`\n" +
+                "from `basic_sales_amazon_csv_txt_xsl_header` as " + Alias + "");
         sql.LEFT_OUTER_JOIN("`system_user_menu` AS m ON m.`menu_id`=h.`menu_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id` = h.`site_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id` = h.`shop_id`");
@@ -70,7 +70,11 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
             if (areaId != null) {
                 WHERE("area_id=" + areaId);
             }
-            WHERE("shop_id=" + shopId);
+            if (shopId != null) {
+                WHERE("shop_id=" + shopId);
+            }
+            //查询关闭着的
+            WHERE("open_close= 1");
             ORDER_BY("sort asc");
         }}.toString();
 
@@ -98,6 +102,7 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
             }
             WHERE("shop_id=" + shopId);
             WHERE("menu_id=" + menuId);
+            //查询是否可以导入的
             WHERE("is_import= 1");
             ORDER_BY("sort asc");
         }}.toString();

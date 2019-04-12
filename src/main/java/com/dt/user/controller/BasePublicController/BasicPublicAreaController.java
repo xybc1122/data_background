@@ -25,7 +25,7 @@ public class BasicPublicAreaController {
      * @return
      */
     @PostMapping("/findByListRegion")
-    public ResponseBase findByListCompany(@RequestBody AreaDto areaDto) {
+    public ResponseBase findByListRegion(@RequestBody AreaDto areaDto) {
         List<AreaDto> basicPublicAreaList;
         if (areaDto.getCurrentPage() != null && areaDto.getPageSize() != null) {
             PageHelper.startPage(areaDto.getCurrentPage(), areaDto.getPageSize());

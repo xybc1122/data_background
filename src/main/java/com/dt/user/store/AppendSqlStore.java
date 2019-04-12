@@ -28,7 +28,7 @@ public class AppendSqlStore {
     }
 
     /**
-     * 封装 where条件
+     * 封装 where IN查询条件
      *
      * @param k
      * @param v
@@ -39,6 +39,7 @@ public class AppendSqlStore {
             sql.WHERE("POSITION('" + k + "' IN " + v + ")");
         }
     }
+
 
     /**
      * 设置sql 对应的表头

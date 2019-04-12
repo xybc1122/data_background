@@ -31,8 +31,8 @@ public class WarehouseInfoProvider {
     }
 
     public String delWarehousePro(Map<String, Object> mapDel) {
-        String warIds = mapDel.get("warIds").toString();
-        return StrUtils.updateSql(warIds,
+        String thisIds = mapDel.get("thisIds").toString();
+        return StrUtils.updateSql(thisIds,
                 "UPDATE `basic_public_warehouse`\n" + "SET `del_or_not` = ", "1", null, "warehouse_id");
     }
 }

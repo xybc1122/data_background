@@ -2,7 +2,6 @@ package com.dt.user.service.impl;
 
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
-import com.dt.user.exception.LsException;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicWarehouseMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
 import com.dt.user.model.ParentTree;
@@ -24,8 +23,6 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
     private BasicPublicWarehouseMapper warehouseMapper;
     @Autowired
     private SystemLogStatusService logStatusService;
-    @Autowired
-    private GeneralQueryService queryService;
 
     @Override
     public List<ParentTree> findByWarehouseInfo() {
@@ -38,50 +35,27 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
         int result;
         //如果前端传来的是null
         if (war.getStatusId() == null) {
-            //先去数据库查一下是否真的为null
-            Long statusIdSql = queryService.serviceGetStatusId(war);
-            //如果 = null 说明里面确实是空的
-            if (statusIdSql != null) {
-                return JsonData.setResultError("statusId参数为空");
-            }
-            //新增 状态
-            SystemLogStatus logStatus = logStatusService.serviceSaveSysStatusInfo();
-            war.setStatusId(logStatus.getStatusId());
             //更新信息
-            result = warehouseMapper.upWarehouses(war);
-
+            result = warehouseMapper.upWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war));
         } else {
             //如果有statusId 直接更新
             result = warehouseMapper.upWarehouses(war);
         }
-        if (result != 0) {
-            //更新状态的修改信息
-            logStatusService.serviceUpSysStatusInfo(war.getSystemLogStatus(), war.getStatusId());
-            return JsonData.setResultSuccess("更新成功");
-        }
-        throw new LsException("更新失败");
+        //通用更新消息
+        return logStatusService.msgCodeUp(result, war.getSystemLogStatus(), war.getStatusId());
     }
 
     @Override
     @Transactional
     public ResponseBase serviceDelWarehouses(Map<String, String> warMp) {
         int result = warehouseMapper.delWarehouses(warMp.get("warIds"));
-        if (result != 0) {
-            //更新状态的修改信息
-            System.out.println(warMp.get("statusIds"));
-            logStatusService.delLogStatus(warMp.get("statusIds"));
-            return JsonData.setResultSuccess("删除成功");
-        }
-        throw new LsException("删除失败");
+        return logStatusService.msgCodeDel(result, warMp);
     }
 
     @Override
     public ResponseBase serviceSaveWarehouses(BasicPublicWarehouse war) {
-        //新增 状态
-        SystemLogStatus logStatus = logStatusService.serviceSaveSysStatusInfo();
-        war.setStatusId(logStatus.getStatusId());
         //新增仓库数据
-        int result = warehouseMapper.saveWarehouses(war);
+        int result = warehouseMapper.saveWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war));
         if (result != 0) {
             return JsonData.setResultSuccess("新增成功");
         }

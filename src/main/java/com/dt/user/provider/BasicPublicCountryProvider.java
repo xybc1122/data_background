@@ -52,6 +52,7 @@ public class BasicPublicCountryProvider {
         if (StringUtils.isNotBlank(countryDto.getLanguageName())) {
             sql.WHERE("l.`language_name`=#{languageName}");
         }
+        sql.WHERE("c.del_or_not=0");
         return sql.toString();
     }
 

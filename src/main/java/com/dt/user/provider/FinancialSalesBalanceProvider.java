@@ -36,8 +36,9 @@ public class FinancialSalesBalanceProvider {
                 "`transfer`,`adjustment`,`new_promotional_rebates`,`new_shipping_fba`," +
                 "`std_product_sales`,`std_sales_original`,`std_sales_add`,`std_sales_minus`," +
                 "`std_fba`,`std_fbas`,`std_fba_original`,`lightning_deal_fee`," +
-                "`fba_inventory_fee`,`point_fee`,`low_value_goods`,`create_date`,`create_user`," +
-                "`recording_id`)" +
+                "`fba_inventory_fee`,`point_fee`,`low_value_goods`," +
+                "`new_other`,`vat`,`sales_for_tax`,`service_fee_tax`," +
+                "`create_date`,`create_user`,`recording_id`)" +
                 " values";
         // 保存sql后缀
         StringBuilder sb = new StringBuilder();
@@ -96,6 +97,7 @@ public class FinancialSalesBalanceProvider {
                     append(",").append(fsb.getStdFba()).append(",").append(fsb.getStdFbas()).append(",").append(fsb.getStdFbaOriginal()).
                     append(",").append(fsb.getLightningDealFee()).append(",").append(fsb.getFbaInventoryFee()).append(",");
             sb.append(fsb.getPointFee()).append(",").append(fsb.getLowValueGoods()).append(",");
+            sb.append(fsb.getNewOther()).append(fsb.getVat()).append(fsb.getSalesForTax()).append(fsb.getServiceFeeTax()).append(",");
             AppendSqlStore.set(sb, fsb);
         }
         // 构建完整sql
@@ -123,7 +125,7 @@ public class FinancialSalesBalanceProvider {
                 "FROM " + table + " AS sab \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=sab.`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = sab.`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = sab.`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = sab.`sku_id`");
         //结算号
         if (StringUtils.isNotBlank(fbs.getSettlemenId())) {
             sql.WHERE("POSITION('" + fbs.getSettlemenId() + "' IN `settlemen_id`)");

@@ -2,15 +2,17 @@ package com.dt.user.model.BasePublicModel;
 
 import com.dt.user.model.ParentSysTemLog;
 
+import java.math.BigDecimal;
+
 /**
  * 汇率表
  */
 public class BasicPublicExchangeRate extends ParentSysTemLog {
 
-    private Long exchangeRateId;
+    private Integer exchangeRateId;
     private Integer currencyId;
-    private Double toRmb;
-    private Double toUsd;
+    private BigDecimal toRmb;
+    private BigDecimal toUsd;
 
 
     //汇率名称
@@ -24,14 +26,13 @@ public class BasicPublicExchangeRate extends ParentSysTemLog {
         this.currencyName = currencyName;
     }
 
-    public Long getExchangeRateId() {
+    public Integer getExchangeRateId() {
         return exchangeRateId;
     }
 
-    public void setExchangeRateId(Long exchangeRateId) {
+    public void setExchangeRateId(Integer exchangeRateId) {
         this.exchangeRateId = exchangeRateId;
     }
-
 
     public Integer getCurrencyId() {
         return currencyId;
@@ -41,20 +42,19 @@ public class BasicPublicExchangeRate extends ParentSysTemLog {
         this.currencyId = currencyId;
     }
 
-    public Double getToRmb() {
+    public BigDecimal getToRmb() {
         return toRmb;
     }
 
-    public void setToRmb(Double toRmb) {
+    public void setToRmb(BigDecimal toRmb) {
         this.toRmb = toRmb;
     }
 
-    public Double getToUsd() {
+    public BigDecimal getToUsd() {
         return toUsd;
     }
 
-    public void setToUsd(Double toUsd) {
+    public void setToUsd(BigDecimal toUsd) {
         this.toUsd = toUsd;
     }
-
 }

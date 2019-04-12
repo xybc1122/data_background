@@ -53,14 +53,18 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     private BigDecimal stdFbaOriginal;
     private BigDecimal lightningDealFee;
     private BigDecimal fbaInventoryFee;
+    private BigDecimal newOther;
+    private BigDecimal vat;
+    private BigDecimal salesForTax;
+    private BigDecimal serviceFeeTax;
     /**
      * 积分费用(日本ポイントの費用)
      */
-    private Double pointFee;
+    private BigDecimal pointFee;
     /**
      * 低价值商品(澳洲)
      */
-    private Double lowValueGoods;
+    private BigDecimal lowValueGoods;
 
     public FinancialSalesBalance() {
 
@@ -69,6 +73,38 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     public FinancialSalesBalance(Integer shopId, Integer siteId, Long paymentTypeId, Long createDate, String createUser, Long recordingId) {
         super(shopId, siteId, createDate, createUser, recordingId);
         this.paymentTypeId = paymentTypeId;
+    }
+
+    public BigDecimal getNewOther() {
+        return newOther;
+    }
+
+    public void setNewOther(BigDecimal newOther) {
+        this.newOther = newOther;
+    }
+
+    public BigDecimal getVat() {
+        return vat;
+    }
+
+    public void setVat(BigDecimal vat) {
+        this.vat = vat;
+    }
+
+    public BigDecimal getSalesForTax() {
+        return salesForTax;
+    }
+
+    public void setSalesForTax(BigDecimal salesForTax) {
+        this.salesForTax = salesForTax;
+    }
+
+    public BigDecimal getServiceFeeTax() {
+        return serviceFeeTax;
+    }
+
+    public void setServiceFeeTax(BigDecimal serviceFeeTax) {
+        this.serviceFeeTax = serviceFeeTax;
     }
 
     public String getFinancialSku() {
@@ -439,19 +475,19 @@ public class FinancialSalesBalance extends ParentUploadInfo {
         this.fbaInventoryFee = fbaInventoryFee;
     }
 
-    public Double getPointFee() {
+    public BigDecimal getPointFee() {
         return pointFee;
     }
 
-    public void setPointFee(Double pointFee) {
+    public void setPointFee(BigDecimal pointFee) {
         this.pointFee = pointFee;
     }
 
-    public Double getLowValueGoods() {
+    public BigDecimal getLowValueGoods() {
         return lowValueGoods;
     }
 
-    public void setLowValueGoods(Double lowValueGoods) {
+    public void setLowValueGoods(BigDecimal lowValueGoods) {
         this.lowValueGoods = lowValueGoods;
     }
 }

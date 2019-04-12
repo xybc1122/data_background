@@ -1,6 +1,7 @@
 package com.dt.user.mapper.BasePublicMapper;
 
 import com.dt.user.dto.ExchangeRateDto;
+import com.dt.user.model.BasePublicModel.BasicPublicExchangeRate;
 import com.dt.user.provider.BasicPublicExchangeRateProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
@@ -22,4 +23,27 @@ public interface BasicPublicExchangeRateMapper {
             )
     })
     List<ExchangeRateDto> getRateInfo(ExchangeRateDto rateDto);
+
+    /**
+     * 更新汇率信息
+     */
+    @UpdateProvider(type = BasicPublicExchangeRateProvider.class, method = "upRatePro")
+    int upRate(BasicPublicExchangeRate rate);
+
+    /**
+     * 批量删除数据/更新
+     */
+    @UpdateProvider(type = BasicPublicExchangeRateProvider.class, method = "delRatePro")
+    int delRate(@Param("thisIds") String thisIds);
+
+    /**
+     * 新增汇率数据
+     */
+    @Insert("INSERT INTO `basic_public_exchange_rate`\n" +
+            "(`currency_id`, `to_rmb`,`to_usd`,`status_id`)" +
+            "VALUES (#{currencyId}, #{toRmb},#{toUsd},\n" +
+            "#{statusId});")
+    int saveRate(BasicPublicExchangeRate rate);
+
+
 }

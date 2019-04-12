@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.csvreader.CsvReader;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
+import com.dt.user.exception.LsException;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicAmazonTypeMapper;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonWarehouse;
@@ -22,6 +23,7 @@ import com.dt.user.service.FinancialImportService.FinancialSalesBalanceService;
 import com.dt.user.service.SalesAmazonService.*;
 import com.dt.user.service.UserService;
 import com.dt.user.service.UserUploadService;
+import com.dt.user.store.FsbStore;
 import com.dt.user.store.RealTimeDataStore;
 import com.dt.user.store.UploadStore;
 import com.dt.user.toos.Constants;
@@ -285,6 +287,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 sendRealTimeData(ctx, intMap, timeData, index);
             }
         } catch (Exception e) {
+            chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int countTrad = 0;
@@ -299,6 +302,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 countTrad = endService.addSalesAmazonAdInventoryEndList(safEndList);
             }
         } catch (Exception e) {
+            chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "数据库存入异常", null);
         }
         if (countTrad != 0) {
@@ -1145,6 +1149,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 sendRealTimeData(ctx, intMap, timeData, index);
             }
         } catch (Exception e) {
+            chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int number = 0;
@@ -1159,7 +1164,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 number = busService.addSalesAmazonAdBusList(sfbList);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "数据库存入异常", null);
         }
         if (number != 0) {
@@ -1299,9 +1304,14 @@ public class ConsumerServiceImpl implements ConsumerService {
         }
         //这里最后执行
         if ((j + 1) == csvReader.getColumnCount()) {
-            StrUtils.setInfo(fsb.getType(), fsb);
-            Long skuId = skuService.selSkuId(sId, seId, fsb.getSku());
-            String result = skuList(skuId, csvReader, fsb.getSku());
+            //通过typeName设置信息
+            FsbStore.setInfo(fsb.getType(), fsb);
+            //设置广告税
+            FsbStore.setAdTax(fsb);
+            //计算
+            FsbStore.calculation(fsb);
+            Long skuId = skuService.selSkuId(sId, seId, fsb.getFinancialSku());
+            String result = skuList(skuId, csvReader, fsb.getFinancialSku());
             if (StringUtils.isEmpty(result)) {
                 return null;
             }
@@ -1377,7 +1387,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 return true;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new LsException("IO异常" + e.getMessage());
         }
         return false;
     }
@@ -1392,8 +1402,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         String typeName = typeMapper.getTypeName(seId, type);
         //如果数据库查询出来为空
         if (StringUtils.isEmpty(typeName)) {
-            String result = exportCsvType(csvReader, -1L);
-            return result;
+            return exportCsvType(csvReader, -1L);
         }
         return typeName;
     }
@@ -1437,6 +1446,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     /**
+     * /**
      * 封装通用更新方法
      */
     private ResponseBase upUserUpload(int status, Long id, String fileName, String msg, String saveFilePath, String uuIdName) {
@@ -1672,6 +1682,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param data        错误数据
      */
     public ResponseBase setErrorInfo(Long recordingId, String msg, String data) {
+        //更新上传信息
         recordInfo(1, msg, recordingId, null, null, null);
         if (StringUtils.isEmpty(data)) {
             return JsonData.setResultError(msg);

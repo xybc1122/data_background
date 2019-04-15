@@ -73,9 +73,9 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
             if (shopId != null) {
                 WHERE("shop_id=" + shopId);
             }
-            //查询关闭着的
-            WHERE("open_close= 1");
-            ORDER_BY("sort asc");
+            //查询对比表头的字段
+            WHERE("head_contrast= true");
+            ORDER_BY("sort_file asc");
         }}.toString();
 
     }
@@ -102,7 +102,7 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
             }
             WHERE("shop_id=" + shopId);
             WHERE("menu_id=" + menuId);
-            //查询是否可以导入的
+            //查询是否导入的字段
             WHERE("is_import= 1");
             ORDER_BY("sort asc");
         }}.toString();

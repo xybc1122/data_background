@@ -2,7 +2,9 @@ package com.dt.user.provider;
 
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
 import com.dt.user.model.ParentTree;
+import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ParentTreeStore;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -22,9 +24,7 @@ public class WarehouseInfoProvider {
         SQL sql = new SQL();
         sql.UPDATE("`basic_public_warehouse`");
         //仓库地址
-        if (StringUtils.isNotBlank(warehouse.getWarehouseAddress())) {
-            sql.SET("warehouse_address=#{warehouseAddress}");
-        }
+        AppendSqlStore.sqlWhere(warehouse.getWarehouseAddress(), "warehouse_address", sql, Constants.SELECT);
         ParentTreeStore.setTree(warehouse, sql);
         sql.WHERE("warehouse_id=#{treeId}");
         return sql.toString();

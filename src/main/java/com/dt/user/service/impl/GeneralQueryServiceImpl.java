@@ -1,10 +1,13 @@
 package com.dt.user.service.impl;
 
 
+import com.dt.user.config.JsonData;
+import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
 import com.dt.user.mapper.GeneralQueryMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicCompany;
 import com.dt.user.model.BasePublicModel.BasicPublicExchangeRate;
+import com.dt.user.model.BasePublicModel.BasicPublicProduct;
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
 import com.dt.user.service.GeneralQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,12 @@ public class GeneralQueryServiceImpl implements GeneralQueryService {
         }
     }
 
+    @Override
+    public ResponseBase selType(String topType, Integer menuId) {
+        return JsonData.setResultSuccess(topType);
+    }
+
+
     /**
      * 返回对应的 sql 查询语句
      *
@@ -49,6 +58,9 @@ public class GeneralQueryServiceImpl implements GeneralQueryService {
         } else if (obj instanceof BasicPublicExchangeRate) {
             BasicPublicExchangeRate rate = (BasicPublicExchangeRate) obj;
             return queryMapper.getStatusId("exchange_rate_id", rate.getExchangeRateId().longValue(), "basic_public_exchange_rate");
+        } else if (obj instanceof BasicPublicProduct) {
+            BasicPublicProduct product = (BasicPublicProduct) obj;
+            return queryMapper.getStatusId("product_id", product.getProductId().longValue(), "basic_public_product");
         }
         return null;
     }

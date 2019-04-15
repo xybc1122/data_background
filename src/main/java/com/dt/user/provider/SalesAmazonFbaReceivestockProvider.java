@@ -3,6 +3,7 @@ package com.dt.user.provider;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaReceivestock;
 import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -50,21 +51,21 @@ public class SalesAmazonFbaReceivestockProvider {
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = rec.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = rec.`sku_id`");
         // sku
-        AppendSqlStore.sqlWhere(rec.getSku(), "ps.`sku`", sql);
+        AppendSqlStore.sqlWhere(rec.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //FBA号
-        AppendSqlStore.sqlWhere(rec.getFbaShipmentId(), "`fba_shipment_id`", sql);
+        AppendSqlStore.sqlWhere(rec.getFbaShipmentId(), "`fba_shipment_id`", sql, Constants.SELECT);
         //recSku
-        AppendSqlStore.sqlWhere(rec.getRecSku(), "`rec_sku`", sql);
+        AppendSqlStore.sqlWhere(rec.getRecSku(), "`rec_sku`", sql, Constants.SELECT);
         //fnSku
-        AppendSqlStore.sqlWhere(rec.getFnSku(), "`fn_sku`", sql);
+        AppendSqlStore.sqlWhere(rec.getFnSku(), "`fn_sku`", sql, Constants.SELECT);
         //产品名称
-        AppendSqlStore.sqlWhere(rec.getProductName(), "`product_name`", sql);
+        AppendSqlStore.sqlWhere(rec.getProductName(), "`product_name`", sql, Constants.SELECT);
         //接收数量
         if (rec.getQuantity() != null) {
             sql.WHERE("quantity=#{quantity}");
         }
         //亚马逊仓库代码
-        AppendSqlStore.sqlWhere(rec.getFc(), "`fc`", sql);
+        AppendSqlStore.sqlWhere(rec.getFc(), "`fc`", sql, Constants.SELECT);
         //亚马逊仓库ID
         if (rec.getAwId() != null) {
             sql.WHERE("aw_id=#{awId}");

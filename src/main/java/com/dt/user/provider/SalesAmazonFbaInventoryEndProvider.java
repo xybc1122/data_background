@@ -3,6 +3,7 @@ package com.dt.user.provider;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaInventoryEnd;
 import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -51,27 +52,27 @@ public class SalesAmazonFbaInventoryEndProvider {
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = re.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = re.`sku_id`");
         // sku
-        AppendSqlStore.sqlWhere(inv.getSku(), "ps.`sku`", sql);
+        AppendSqlStore.sqlWhere(inv.getSku(), "ps.`sku`", sql, Constants.SELECT);
         // inv_sku
-        AppendSqlStore.sqlWhere(inv.getInvSku(), "`inv_sku`", sql);
+        AppendSqlStore.sqlWhere(inv.getInvSku(), "`inv_sku`", sql, Constants.SELECT);
         //fn_sku
-        AppendSqlStore.sqlWhere(inv.getFnSku(), "`fn_sku`", sql);
+        AppendSqlStore.sqlWhere(inv.getFnSku(), "`fn_sku`", sql, Constants.SELECT);
         //产品名称
-        AppendSqlStore.sqlWhere(inv.getProductName(), "`product_name`", sql);
+        AppendSqlStore.sqlWhere(inv.getProductName(), "`product_name`", sql, Constants.SELECT);
         //接收数量
         if (inv.getQuantity() != null) {
             sql.WHERE("quantity=#{quantity}");
         }
         //亚马逊仓库代码
-        AppendSqlStore.sqlWhere(inv.getFc(), "`fc`", sql);
+        AppendSqlStore.sqlWhere(inv.getFc(), "`fc`", sql, Constants.SELECT);
         //亚马逊仓库ID
         if (inv.getAwId() != null) {
             sql.WHERE("aw_id=#{awId}");
         }
         //未知
-        AppendSqlStore.sqlWhere(inv.getDisposition(), "`disposition`", sql);
+        AppendSqlStore.sqlWhere(inv.getDisposition(), "`disposition`", sql, Constants.SELECT);
         //未知
-        AppendSqlStore.sqlWhere(inv.getCountry(), "`country`", sql);
+        AppendSqlStore.sqlWhere(inv.getCountry(), "`country`", sql, Constants.SELECT);
         ProviderSqlStore.saveUploadStatus(sql, inv);
         return sql.toString();
     }

@@ -6,6 +6,7 @@ import com.dt.user.exception.LsException;
 import com.dt.user.mapper.SystemLogStatusMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicCompany;
 import com.dt.user.model.BasePublicModel.BasicPublicExchangeRate;
+import com.dt.user.model.BasePublicModel.BasicPublicProduct;
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
 import com.dt.user.model.SystemLogStatus;
 import com.dt.user.service.GeneralQueryService;
@@ -80,11 +81,13 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     }
 
     @Override
-    public Object setObjStatusId(Object obj) {
-        //先去数据库查询
-        queryService.statusIdExist(obj);
+    public Object setObjStatusId(Object obj, String status) {
+        //如果是新增 不用去查数据库
+        if (!status.equals("save")) {
+            //先去数据库查询
+            queryService.statusIdExist(obj);
+        }
         SystemLogStatus logStatus = serviceSaveSysStatusInfo();
-
         if (obj instanceof BasicPublicWarehouse) {
             //仓库
             BasicPublicWarehouse war = (BasicPublicWarehouse) obj;
@@ -95,12 +98,19 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
             BasicPublicCompany company = (BasicPublicCompany) obj;
             company.setStatusId(logStatus.getStatusId());
             return company;
+
         } else if (obj instanceof BasicPublicExchangeRate) {
+            //汇率
             BasicPublicExchangeRate rate = (BasicPublicExchangeRate) obj;
             rate.setStatusId(logStatus.getStatusId());
             return rate;
+        } else if (obj instanceof BasicPublicProduct) {
+            //产品信息
+            BasicPublicProduct product = (BasicPublicProduct) obj;
+            product.setStatusId(logStatus.getStatusId());
+            return product;
+
         }
-        //汇率
         return null;
     }
 }

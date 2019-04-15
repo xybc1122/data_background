@@ -1,9 +1,14 @@
 package com.dt.user.provider;
 
 import com.dt.user.dto.ProductDto;
+import com.dt.user.model.BasePublicModel.BasicPublicProduct;
+import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
-import org.apache.commons.lang3.StringUtils;
+import com.dt.user.toos.Constants;
+import com.dt.user.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
+
+import java.util.Map;
 
 public class BasicPublicProductProvider {
 
@@ -11,7 +16,7 @@ public class BasicPublicProductProvider {
     public String findProduct(ProductDto productDto) {
         SQL sql = new SQL();
         String Alias = "p";
-        sql.SELECT("p.`product_id`,p.`product_code`,p.`product_name`,p.`model`,\n" +
+        sql.SELECT("p.version,p.`product_id`,p.`product_code`,p.`product_name`,p.`model`,\n" +
                 " p.`qty_per_box`,p.`product_sku`,p.`products_id`,\n" +
                 " p.`length_cm`,p.`width_cm`,p.`height_cm`,\n" +
                 " p.`gw_kg`,p.`nw_kg`,p.`volume_m3`,p.`length_in`,\n" +
@@ -26,90 +31,110 @@ public class BasicPublicProductProvider {
         //状态数据查询
         ProviderSqlStore.saveStatus(productDto.getSystemLogStatus(), Alias, sql);
         //产品代码
-        if (StringUtils.isNotBlank(productDto.getProductCode())) {
-            sql.WHERE(Alias + ".product_code=#{productCode}");
-        }
-        //产品名称
-        if (StringUtils.isNotBlank(productDto.getProductName())) {
-            sql.WHERE(Alias + ".product_name=#{productName}");
-        }
-        //规格型号
-        if (StringUtils.isNotBlank(productDto.getModel())) {
-            sql.WHERE(Alias + ".model=#{model}");
-        }
-        //每箱数量
-        if (productDto.getQtyPerBox() != null) {
-            sql.WHERE(Alias + ".qty_per_box=#{qtyPerBox}");
-        }
-        //产品SKU
-        if (StringUtils.isNotBlank(productDto.getProductSku())) {
-            sql.WHERE(Alias + ".product_sku=#{productSku}");
-        }
-        //长度CM
-        if (productDto.getLengthCm() != null) {
-            sql.WHERE(Alias + ".length_cm=#{lengthCm}");
-        }
-        //宽度CM
-        if (productDto.getWidthCm() != null) {
-            sql.WHERE(Alias + ".width_cm=#{widthCm}");
-        }
-        //高度CM
-        if (productDto.getHeightCm() != null) {
-            sql.WHERE(Alias + ".height_cm=#{heightCm}");
-        }
-        //毛重KG
-        if (productDto.getGwKg() != null) {
-            sql.WHERE(Alias + ".gw_kg=#{gwKg}");
-        }
-        //净重
-        if (productDto.getNwKg() != null) {
-            sql.WHERE(Alias + ".nw_kg=#{nwKg}");
-        }
-        //体积m
-        if (productDto.getVolumeM3() != null) {
-            sql.WHERE(Alias + ".volume_m3=#{volumeM3}");
-        }
-        //长度英寸
-        if (productDto.getLengthIn() != null) {
-            sql.WHERE(Alias + ".length_in=#{lengthIn}");
-        }
-        //宽度英寸
-        if (productDto.getQtyPerBox() != null) {
-            sql.WHERE(Alias + ".width_in=#{widthIn}");
-        }
-        //高度英寸
-        if (productDto.getHeightIn() != null) {
-            sql.WHERE(Alias + ".height_in=#{heightIn}");
-        }
-        //体积立方英尺
-        if (productDto.getVolumeCuft() != null) {
-            sql.WHERE(Alias + ".volume_cuft=#{volumeCuft}");
-        }
+        AppendSqlStore.sqlWhere(productDto.getProductCode(), "product_code", sql, Constants.SELECT);
 
+        //产品名称
+        AppendSqlStore.sqlWhere(productDto.getProductName(), "product_name", sql, Constants.SELECT);
+        //规格型号
+        AppendSqlStore.sqlWhere(productDto.getModel(), "p.model", sql, Constants.SELECT);
+        //每箱数量
+        AppendSqlStore.sqlWhere(productDto.getQtyPerBox(), Alias + ".qty_per_box", sql, Constants.SELECT);
+        //产品SKU
+        AppendSqlStore.sqlWhere(productDto.getProductSku(), "product_sku", sql, Constants.SELECT);
+
+        //长度CM
+        AppendSqlStore.sqlWhere(productDto.getLengthCm(), Alias + ".length_cm", sql, Constants.SELECT);
+        //宽度CM
+        AppendSqlStore.sqlWhere(productDto.getWidthCm(), Alias + ".width_cm", sql, Constants.SELECT);
+        //高度CM
+        AppendSqlStore.sqlWhere(productDto.getHeightCm(), Alias + ".height_cm", sql, Constants.SELECT);
+        //毛重KG
+        AppendSqlStore.sqlWhere(productDto.getGwKg(), Alias + ".gw_kg", sql, Constants.SELECT);
+        //净重
+        AppendSqlStore.sqlWhere(productDto.getNwKg(), Alias + ".nw_kg", sql, Constants.SELECT);
+        //体积m
+        AppendSqlStore.sqlWhere(productDto.getVolumeM3(), Alias + ".volume_m3", sql, Constants.SELECT);
+        //长度英寸
+        AppendSqlStore.sqlWhere(productDto.getLengthIn(), Alias + ".length_in", sql, Constants.SELECT);
+        //宽度英寸
+        AppendSqlStore.sqlWhere(productDto.getQtyPerBox(), Alias + ".width_in", sql, Constants.SELECT);
+        //高度英寸
+        AppendSqlStore.sqlWhere(productDto.getHeightIn(), Alias + ".height_in", sql, Constants.SELECT);
+        //体积立方英尺
+        AppendSqlStore.sqlWhere(productDto.getVolumeCuft(), Alias + ".volume_cuft", sql, Constants.SELECT);
         //产地
-        if (StringUtils.isNotBlank(productDto.getMadeIn())) {
-            sql.WHERE(Alias + ".made_in=#{madeIn}");
-        }
+        AppendSqlStore.sqlWhere(productDto.getMadeIn(), "p.made_in", sql, Constants.SELECT);
+
         //计量 单位名称
-        if (StringUtils.isNotBlank(productDto.getUnitName())) {
-            sql.WHERE("u.unit_name=#{unitName}");
-        }
+        AppendSqlStore.sqlWhere(productDto.getUnitName(), "u.unit_name", sql, Constants.SELECT);
+
         //物料类型 名称
-        if (StringUtils.isNotBlank(productDto.getItemTypName())) {
-            sql.WHERE("it.item_typ_name=#{itemTypName}");
-        }
+        AppendSqlStore.sqlWhere(productDto.getItemTypName(), "it.item_typ_name", sql, Constants.SELECT);
         // 物料属性名称
-        if (StringUtils.isNotBlank(productDto.getItemAttributeName())) {
-            sql.WHERE("ia.item_attribute_name=#{itemAttributeName}");
-        }
+        AppendSqlStore.sqlWhere(productDto.getItemAttributeName(), "ia.item_attribute_name", sql, Constants.SELECT);
         // 类目名称
-        if (StringUtils.isNotBlank(productDto.getProductName())) {
-            sql.WHERE("ps.products_name=#{productsName}");
-        }
+        AppendSqlStore.sqlWhere(productDto.getProductName(), "ps.products_name", sql, Constants.SELECT);
         //  HS Code
-        if (StringUtils.isNotBlank(productDto.getHsCode())) {
-            sql.WHERE("hc.hs_code=#{hsCode}");
-        }
+        AppendSqlStore.sqlWhere(productDto.getHsCode(), "hc.hs_code", sql, Constants.SELECT);
+        sql.WHERE("del_or_not=0");
         return sql.toString();
     }
+
+
+    public String upProductPro(BasicPublicProduct product) {
+        SQL sql = new SQL();
+        sql.UPDATE("`basic_public_product`");
+        //产品代码
+        AppendSqlStore.sqlWhere(product.getProductCode(), "product_code", sql, Constants.UP);
+        //产品名称
+        AppendSqlStore.sqlWhere(product.getProductName(), "product_name", sql, Constants.UP);
+        //规格型号
+        AppendSqlStore.sqlWhere(product.getModel(), "model", sql, Constants.UP);
+        //每箱数量
+        AppendSqlStore.sqlWhere(product.getQtyPerBox(), "qty_per_box", sql, Constants.UP);
+        //物料类型ID
+        AppendSqlStore.sqlWhere(product.getItemTypId(), "item_typ_id", sql, Constants.UP);
+        //物料属性ID
+        AppendSqlStore.sqlWhere(product.getItemAttributeId(), "item_attribute_id", sql, Constants.UP);
+        //产品SKU
+        AppendSqlStore.sqlWhere(product.getProductSku(), "product_sku", sql, Constants.UP);
+        //类目ID
+        AppendSqlStore.sqlWhere(product.getProductsId(), "products_id", sql, Constants.UP);
+        //长度CM
+        AppendSqlStore.sqlWhere(product.getLengthCm(), "length_cm", sql, Constants.UP);
+        //宽度CM
+        AppendSqlStore.sqlWhere(product.getWidthCm(), "width_cm", sql, Constants.UP);
+        //高度CM
+        AppendSqlStore.sqlWhere(product.getHeightCm(), "height_cm", sql, Constants.UP);
+        //毛重KG
+        AppendSqlStore.sqlWhere(product.getGwKg(), "gw_kg", sql, Constants.UP);
+        //净重
+        AppendSqlStore.sqlWhere(product.getNwKg(), "nw_kg", sql, Constants.UP);
+        //体积m
+        AppendSqlStore.sqlWhere(product.getVolumeM3(), "volume_m3", sql, Constants.UP);
+        //长度英寸
+        AppendSqlStore.sqlWhere(product.getLengthIn(), "length_in", sql, Constants.UP);
+        //宽度英寸
+        AppendSqlStore.sqlWhere(product.getQtyPerBox(), "width_in", sql, Constants.UP);
+        //高度英寸
+        AppendSqlStore.sqlWhere(product.getHeightIn(), "height_in", sql, Constants.UP);
+        //体积立方英尺
+        AppendSqlStore.sqlWhere(product.getVolumeCuft(), "volume_cuft", sql, Constants.UP);
+        //产地
+        AppendSqlStore.sqlWhere(product.getMadeIn(), "made_in", sql, Constants.UP);
+        //  HS Code
+        AppendSqlStore.sqlWhere(product.getHsCodeId(), "hs_code_id", sql, Constants.UP);
+        Integer version = product.getVersion();
+        sql.SET("`version`=" + version + "+1");
+        sql.WHERE("`version`=" + version);
+        sql.WHERE("product_id=#{productId}");
+        return sql.toString();
+    }
+
+    public String delProduct(Map<String, Object> mapDel) {
+        String thisIds = mapDel.get("thisIds").toString();
+        return StrUtils.updateSql(thisIds,
+                "UPDATE `basic_public_product`\n" + "SET `del_or_not` = ", "1", null, "product_id");
+    }
+
 }

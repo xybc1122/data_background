@@ -2,7 +2,9 @@ package com.dt.user.provider;
 
 import com.dt.user.dto.ExchangeRateDto;
 import com.dt.user.model.BasePublicModel.BasicPublicExchangeRate;
+import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -21,9 +23,7 @@ public class BasicPublicExchangeRateProvider {
         //状态数据查询
         ProviderSqlStore.saveStatus(rateDto.getSystemLogStatus(), Alias, sql);
         //币别名称
-        if (StringUtils.isNotBlank(rateDto.getCurrencyName())) {
-            sql.WHERE("c.currency_name=#{currencyName}");
-        }
+        AppendSqlStore.sqlWhere(rateDto.getCurrencyName(), "c.currency_name", sql, Constants.SELECT);
         //兑人民币汇率
         if (rateDto.getToRmb() != null) {
             sql.WHERE(Alias + ".to_rmb=#{toRmb}");

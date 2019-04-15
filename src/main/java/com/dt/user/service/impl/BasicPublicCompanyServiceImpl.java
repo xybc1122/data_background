@@ -9,6 +9,8 @@ import com.dt.user.model.SystemLogStatus;
 import com.dt.user.service.BasePublicService.BasicPublicCompanyService;
 import com.dt.user.service.GeneralQueryService;
 import com.dt.user.service.SystemLogStatusService;
+import com.dt.user.toos.Constant;
+import com.dt.user.toos.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +37,7 @@ public class BasicPublicCompanyServiceImpl implements BasicPublicCompanyService 
     public ResponseBase serviceUpCompany(BasicPublicCompany company) {
         int result;
         if (company.getStatusId() == null) {
-            result = companyMapper.upCompany((BasicPublicCompany) logStatusService.setObjStatusId(company));
+            result = companyMapper.upCompany((BasicPublicCompany) logStatusService.setObjStatusId(company, Constants.UP));
         } else {
             result = companyMapper.upCompany(company);
         }
@@ -54,7 +56,7 @@ public class BasicPublicCompanyServiceImpl implements BasicPublicCompanyService 
     @Override
     public ResponseBase serviceSaveCompany(BasicPublicCompany company) {
         //新增公司数据
-        int result = companyMapper.saveCompany((BasicPublicCompany) logStatusService.setObjStatusId(company));
+        int result = companyMapper.saveCompany((BasicPublicCompany) logStatusService.setObjStatusId(company, Constants.SAVE));
         if (result != 0) {
             return JsonData.setResultSuccess("新增成功");
         }

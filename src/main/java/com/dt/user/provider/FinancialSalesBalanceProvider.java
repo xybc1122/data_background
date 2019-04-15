@@ -6,9 +6,11 @@ import com.dt.user.store.ProviderSqlStore;
 import com.dt.user.store.AppendSqlStore;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +26,7 @@ public class FinancialSalesBalanceProvider {
         }
         // sql前缀
         String prefix = "insert into " + db +
-                "(`date`,`shop_id`,`site_id`,`settlemen_id`," +
+                "(`date`,`shop_id`,`site_id`,`settlement_id`," +
                 "`payment_type_id`,`type`,`order_id`,`financial_sku`," +
                 "`sku_id`,`description`,`o_quantity`,`quantity`," +
                 "`refund_quantity`,`order_qty`,`adjustment_qty`,`marketplace`," +
@@ -47,7 +49,7 @@ public class FinancialSalesBalanceProvider {
             // 构建sql后缀
             sb.append("(").append(fsb.getDate()).append(",").append(fsb.getShopId()).append(",").append(fsb.getSiteId()).append(",");
             //#
-            StrUtils.appBuider(sb, fsb.getSettlemenId());
+            StrUtils.appBuider(sb, fsb.getSettlementId());
             sb.append(",");
             sb.append(fsb.getPaymentTypeId());
             //#
@@ -97,18 +99,18 @@ public class FinancialSalesBalanceProvider {
                     append(",").append(fsb.getStdFba()).append(",").append(fsb.getStdFbas()).append(",").append(fsb.getStdFbaOriginal()).
                     append(",").append(fsb.getLightningDealFee()).append(",").append(fsb.getFbaInventoryFee()).append(",");
             sb.append(fsb.getPointFee()).append(",").append(fsb.getLowValueGoods()).append(",");
-            sb.append(fsb.getNewOther()).append(fsb.getVat()).append(fsb.getSalesForTax()).append(fsb.getServiceFeeTax()).append(",");
+            sb.append(fsb.getNewOther()).append(",").append(fsb.getVat()).append(",").append(fsb.getSalesForTax()).append(",").append(fsb.getServiceFeeTax()).append(",");
             AppendSqlStore.set(sb, fsb);
         }
         // 构建完整sql
         return sb.toString().substring(0, sb.length() - 1);
     }
 
-    public String getFbsInfo(FinancialSalesBalance fbs) {
+    public String getFbsInfo(FinancialSalesBalance fbs) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         String table = AppendSqlStore.setSqlTable(fbs, "`financial_sales_amazon_balance`", "`sales_amazon_fba_balance`");
         SQL sql = new SQL();
-        sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
-                "`financial_sku`,`settlemen_id`,`date`, `payment_type_id`, `type`, `order_id`,\n" +
+        sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,pt.`payment_type_name`,\n" +
+                "`financial_sku`,`settlement_id`,`date`,`type`, `order_id`,\n" +
                 "`description`,`o_quantity`,`quantity`,\n" +
                 "`refund_quantity`,`order_qty`,`adjustment_qty`,\n" +
                 "`marketplace`, `fulfillment`, `city`,\n" +
@@ -121,203 +123,108 @@ public class FinancialSalesBalanceProvider {
                 "`transfer`,`adjustment`, `new_promotional_rebates`,\n" +
                 "`new_shipping_fba`, `std_product_sales`, `std_sales_original`, `std_sales_add`,\n" +
                 "`std_sales_minus`,`std_fba`,`std_fbas`,`std_fba_original`,`lightning_deal_fee`," +
-                "`fba_inventory_fee`," + ProviderSqlStore.statusV + "" +
+                "`fba_inventory_fee`,`new_other`,sab.`vat`,`sales_for_tax`,`service_fee_tax`," + ProviderSqlStore.statusV + "" +
                 "FROM " + table + " AS sab \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=sab.`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = sab.`site_id`");
+        sql.INNER_JOIN("`basic_sales_amazon_payment_type` AS pt ON pt.`payment_type_id` = sab.`payment_type_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = sab.`sku_id`");
         //结算号
-        if (StringUtils.isNotBlank(fbs.getSettlemenId())) {
-            sql.WHERE("POSITION('" + fbs.getSettlemenId() + "' IN `settlemen_id`)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getSettlementId(), "settlement_id", sql, Constants.SELECT);
         //付款类型
-        if (fbs.getPaymentTypeId() != null) {
-            sql.WHERE("`payment_type_id`=#{paymentTypeId}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getPaymentTypeId(), "payment_type_id", sql, Constants.SELECT);
         //类型
-        if (StringUtils.isNotBlank(fbs.getType())) {
-            sql.WHERE("POSITION('" + fbs.getType() + "' IN `type`)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getType(), "type", sql, Constants.SELECT);
         //订单号
-        if (StringUtils.isNotBlank(fbs.getOrderId())) {
-            sql.WHERE("POSITION('" + fbs.getOrderId() + "' IN `order_id`)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getOrderId(), "order_id", sql, Constants.SELECT);
         // 链表sku
-        if (StringUtils.isNotBlank(fbs.getSku())) {
-            sql.WHERE("POSITION('" + fbs.getSku() + "' IN ps.`sku`)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //自表sku
-        if (StringUtils.isNotBlank(fbs.getFinancialSku())) {
-            sql.WHERE("POSITION('" + fbs.getFinancialSku() + "' IN financial_sku)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getFinancialSku(), "financial_sku", sql, Constants.SELECT);
         //产品描述
-        if (StringUtils.isNotBlank(fbs.getDescription())) {
-            sql.WHERE("POSITION('" + fbs.getDescription() + "' IN description)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getDescription(), "description", sql, Constants.SELECT);
         //原始数量
-        if (fbs.getoQuantity() != null) {
-            sql.WHERE("`o_quantity`=#{oQuantity}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getoQuantity(), "o_quantity", sql, Constants.SELECT);
         //发货数量
-        if (fbs.getQuantity() != null) {
-            sql.WHERE("`quantity`=#{quantity}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getQuantity(), "quantity", sql, Constants.SELECT);
         //退货数量
-        if (fbs.getRefundQuantity() != null) {
-            sql.WHERE("`refund_quantity`=#{refundQuantity}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getRefundQuantity(), "refund_quantity", sql, Constants.SELECT);
         //订单数量
-        if (fbs.getOrderQty() != null) {
-            sql.WHERE("`order_qty`=#{orderQty}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getOrderQty(), "order_qty", sql, Constants.SELECT);
         //调整数量
-        if (fbs.getAdjustmentQty() != null) {
-            sql.WHERE("`adjustment_qty`=#{adjustmentQty}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getAdjustmentQty(), "adjustment_qty", sql, Constants.SELECT);
         //市场
-        if (StringUtils.isNotBlank(fbs.getMarketplace())) {
-            sql.WHERE("POSITION('" + fbs.getMarketplace() + "' IN marketplace)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getMarketplace(), "marketplace", sql, Constants.SELECT);
         //运输
-        if (StringUtils.isNotBlank(fbs.getFulfillment())) {
-            sql.WHERE("POSITION('" + fbs.getFulfillment() + "' IN fulfillment)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getFulfillment(), "fulfillment", sql, Constants.SELECT);
         //城市
-        if (StringUtils.isNotBlank(fbs.getCity())) {
-            sql.WHERE("POSITION('" + fbs.getCity() + "' IN city)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getCity(), "city", sql, Constants.SELECT);
         //州
-        if (StringUtils.isNotBlank(fbs.getState())) {
-            sql.WHERE("POSITION('" + fbs.getState() + "' IN state)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getState(), "state", sql, Constants.SELECT);
         //邮编
-        if (StringUtils.isNotBlank(fbs.getPostal())) {
-            sql.WHERE("POSITION('" + fbs.getPostal() + "' IN postal)");
-        }
+        AppendSqlStore.sqlWhere(fbs.getPostal(), "postal", sql, Constants.SELECT);
         //金额
-        if (fbs.getSales() != null) {
-            sql.WHERE("`sales`=#{sales}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getSales(), "sales", sql, Constants.SELECT);
         //销售单价
-        if (fbs.getSalePrice() != null) {
-            sql.WHERE("`sale_price`=#{salePrice}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getSalePrice(), "sale_price", sql, Constants.SELECT);
         //上期销售价
-        if (fbs.getPreSalePrice() != null) {
-            sql.WHERE("`pre_sale_price`=#{preSalePrice}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getPreSalePrice(), "pre_sale_price", sql, Constants.SELECT);
         //标准售价
-        if (fbs.getStdSalePrice() != null) {
-            sql.WHERE("`std_sale_price`=#{stdSalePrice}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getStdSalePrice(), "std_sale_price", sql, Constants.SELECT);
         //新运费
-        if (fbs.getNewShippingCredits() != null) {
-            sql.WHERE("`new_shipping_credits`=#{newShippingCredits}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getNewShippingCredits(), "new_shipping_credits", sql, Constants.SELECT);
         //运费
-        if (fbs.getShippingCredits() != null) {
-            sql.WHERE("`shipping_credits`=#{shippingCredits}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getShippingCredits(), "shipping_credits", sql, Constants.SELECT);
         //礼物卡
-        if (fbs.getGiftwrapCredits() != null) {
-            sql.WHERE("`giftwrap_credits`=#{giftwrapCredits}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getGiftwrapCredits(), "giftwrap_credits", sql, Constants.SELECT);
         //促销折扣
-        if (fbs.getPromotionalRebates() != null) {
-            sql.WHERE("`promotional_rebates`=#{promotionalRebates}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getPromotionalRebates(), "promotional_rebates", sql, Constants.SELECT);
         //销售税
-        if (fbs.getSalesTax() != null) {
-            sql.WHERE("`sales_tax`=#{salesTax}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getSalesTax(), "sales_tax", sql, Constants.SELECT);
         //市场服务税
-        if (fbs.getMarketplaceFacilitatorTax() != null) {
-            sql.WHERE("`marketplace_facilitator_tax`=#{marketplaceFacilitatorTax}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getMarketplaceFacilitatorTax(), "marketplace_facilitator_tax", sql, Constants.SELECT);
         //低价值商品(澳洲)
-        if (fbs.getLowValueGoods() != null) {
-            sql.WHERE("`low_value_goods`=#{lowValueGoods}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getLowValueGoods(), "low_value_goods", sql, Constants.SELECT);
         //积分费用(日本ポイントの費用)
-        if (fbs.getPointFee() != null) {
-            sql.WHERE("`point_fee`=#{pointFee}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getPointFee(), "point_fee", sql, Constants.SELECT);
         //销售费用
-        if (fbs.getSellingFees() != null) {
-            sql.WHERE("`selling_fees`=#{sellingFees}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getSellingFees(), "selling_fees", sql, Constants.SELECT);
         //FBA费用
-        if (fbs.getFbaFee() != null) {
-            sql.WHERE("`fba_fee`=#{fbaFee}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getFbaFee(), "fba_fee", sql, Constants.SELECT);
         //其他交易费
-        if (fbs.getOtherTransactionFees() != null) {
-            sql.WHERE("`other_transaction_fees`=#{otherTransactionFees}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getOtherTransactionFees(), "other_transaction_fees", sql, Constants.SELECT);
         //其他
-        if (fbs.getOther() != null) {
-            sql.WHERE("`other`=#{other}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getOther(), "other", sql, Constants.SELECT);
         //总计
-        if (fbs.getOther() != null) {
-            sql.WHERE("`total`=#{total}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getTotal(), "total", sql, Constants.SELECT);
         //广告费
-        if (fbs.getOther() != null) {
-            sql.WHERE("`service_fee`=#{serviceFee}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getOther(), "service_fee", sql, Constants.SELECT);
         //转账
-        if (fbs.getTransfer() != null) {
-            sql.WHERE("`transfer`=#{transfer}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getTransfer(), "transfer", sql, Constants.SELECT);
         //调整
-        if (fbs.getAdjustment() != null) {
-            sql.WHERE("`adjustment`=#{adjustment}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getAdjustment(), "adjustment", sql, Constants.SELECT);
         //新促销折扣
-        if (fbs.getNewPromotionalRebates() != null) {
-            sql.WHERE("`new_promotional_rebates`=#{newPromotionalRebates}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getNewPromotionalRebates(), "new_promotional_rebates", sql, Constants.SELECT);
         //运费_FBA
-        if (fbs.getNewShippingFba() != null) {
-            sql.WHERE("`new_shipping_fba`=#{newShippingFba}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getNewShippingFba(), "new_shipping_fba", sql, Constants.SELECT);
         //标准产品售价
-        if (fbs.getStdProductSales() != null) {
-            sql.WHERE("`std_product_sales`=#{stdProductSales}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getStdProductSales(), "std_product_sales", sql, Constants.SELECT);
         //原始标准售价
-        if (fbs.getStdSalesOriginal() != null) {
-            sql.WHERE("`std_sales_original`=#{stdSalesOriginal}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getStdSalesOriginal(), "std_sales_original", sql, Constants.SELECT);
         //标准售价增加
-        if (fbs.getStdSalesAdd() != null) {
-            sql.WHERE("`std_sales_add`=#{stdSalesAdd}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getStdSalesAdd(), "std_sales_add", sql, Constants.SELECT);
         //标准售价降低
-        if (fbs.getStdSalesAdd() != null) {
-            sql.WHERE("`std_sales_minus`=#{stdSalesMinus}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getStdSalesAdd(), "std_sales_minus", sql, Constants.SELECT);
         //标准FBA
-        if (fbs.getStdFba() != null) {
-            sql.WHERE("`std_fba`=#{stdFba}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getStdFba(), "std_fba", sql, Constants.SELECT);
         //标准FBA费
-        if (fbs.getStdFba() != null) {
-            sql.WHERE("`std_fbas`=#{stdFbas}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getStdFbas(), "std_fbas", sql, Constants.SELECT);
         //原始标准FBA费
-        if (fbs.getStdFbaOriginal() != null) {
-            sql.WHERE("`std_fba_original`=#{stdFbaOriginal}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getStdFbaOriginal(), "std_fba_original", sql, Constants.SELECT);
         //秒杀费
-        if (fbs.getLightningDealFee() != null) {
-            sql.WHERE("`lightning_deal_fee`=#{lightningDealFee}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getLightningDealFee(), "lightning_deal_fee", sql, Constants.SELECT);
         //FBA仓储费
-        if (fbs.getFbaInventoryFee() != null) {
-            sql.WHERE("`fba_inventory_fee`=#{fbaInventoryFee}");
-        }
+        AppendSqlStore.sqlWhere(fbs.getFbaInventoryFee(), "fba_inventory_fee", sql, Constants.SELECT);
         ProviderSqlStore.saveUploadStatus(sql, fbs);
         return sql.toString();
     }

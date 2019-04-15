@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public class FinancialSalesBalance extends ParentUploadInfo {
 
     private Long balanceId;
-    private String settlemenId;
+    private String settlementId;
     private Long paymentTypeId;
     private String financialSku;
     private String type;
@@ -57,6 +57,10 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     private BigDecimal vat;
     private BigDecimal salesForTax;
     private BigDecimal serviceFeeTax;
+    //付款类型
+    private String paymentTypeName;
+
+
     /**
      * 积分费用(日本ポイントの費用)
      */
@@ -74,7 +78,13 @@ public class FinancialSalesBalance extends ParentUploadInfo {
         super(shopId, siteId, createDate, createUser, recordingId);
         this.paymentTypeId = paymentTypeId;
     }
+    public String getPaymentTypeName() {
+        return paymentTypeName;
+    }
 
+    public void setPaymentTypeName(String paymentTypeName) {
+        this.paymentTypeName = paymentTypeName;
+    }
     public BigDecimal getNewOther() {
         return newOther;
     }
@@ -123,12 +133,12 @@ public class FinancialSalesBalance extends ParentUploadInfo {
         this.balanceId = balanceId;
     }
 
-    public String getSettlemenId() {
-        return settlemenId;
+    public String getSettlementId() {
+        return settlementId;
     }
 
-    public void setSettlemenId(String settlemenId) {
-        this.settlemenId = settlemenId;
+    public void setSettlementId(String settlementId) {
+        this.settlementId = settlementId;
     }
 
     public Long getPaymentTypeId() {

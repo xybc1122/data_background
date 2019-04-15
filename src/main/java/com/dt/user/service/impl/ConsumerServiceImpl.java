@@ -1164,6 +1164,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 number = busService.addSalesAmazonAdBusList(sfbList);
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "数据库存入异常", null);
         }
@@ -1253,7 +1254,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         if (csvHeadList.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose())
             DateUtils.setDate(fsb, seId, csvReader.get(j));
         else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
-            fsb.setSettlemenId(StrUtils.repString(csvReader.get(j)));
+            fsb.setSettlementId(StrUtils.repString(csvReader.get(j)));
         } else if (csvHeadList.get(j).equals(importHead.get(2).getImportTemplet()) && importHead.get(2).getOpenClose()) {
             String type = StrUtils.repString(csvReader.get(j));
             if (StringUtils.isEmpty(type)) {
@@ -1301,6 +1302,10 @@ public class ConsumerServiceImpl implements ConsumerService {
             fsb.setOther(StrUtils.replaceDecimal(csvReader.get(j)));
         } else if (csvHeadList.get(j).equals(importHead.get(22).getImportTemplet()) && importHead.get(22).getOpenClose()) {
             fsb.setTotal(StrUtils.replaceDecimal(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(23).getImportTemplet()) && importHead.get(23).getOpenClose()) {
+            fsb.setLowValueGoods(StrUtils.replaceDecimal(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(24).getImportTemplet()) && importHead.get(23).getOpenClose()) {
+            fsb.setPointFee(StrUtils.replaceDecimal(csvReader.get(j)));
         }
         //这里最后执行
         if ((j + 1) == csvReader.getColumnCount()) {

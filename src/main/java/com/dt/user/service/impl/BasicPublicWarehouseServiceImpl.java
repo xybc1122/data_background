@@ -5,11 +5,10 @@ import com.dt.user.config.ResponseBase;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicWarehouseMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
 import com.dt.user.model.ParentTree;
-import com.dt.user.model.SystemLogStatus;
 import com.dt.user.service.BasePublicService.BasicPublicWarehouseService;
-import com.dt.user.service.GeneralQueryService;
 import com.dt.user.service.SystemLogStatusService;
 import com.dt.user.store.TreeStructureStore;
+import com.dt.user.toos.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +35,7 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
         //如果前端传来的是null
         if (war.getStatusId() == null) {
             //更新信息
-            result = warehouseMapper.upWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war));
+            result = warehouseMapper.upWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war,Constants.UP));
         } else {
             //如果有statusId 直接更新
             result = warehouseMapper.upWarehouses(war);
@@ -48,14 +47,14 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
     @Override
     @Transactional
     public ResponseBase serviceDelWarehouses(Map<String, String> warMp) {
-        int result = warehouseMapper.delWarehouses(warMp.get("warIds"));
+        int result = warehouseMapper.delWarehouses(warMp.get("thisIds"));
         return logStatusService.msgCodeDel(result, warMp);
     }
 
     @Override
     public ResponseBase serviceSaveWarehouses(BasicPublicWarehouse war) {
         //新增仓库数据
-        int result = warehouseMapper.saveWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war));
+        int result = warehouseMapper.saveWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war, Constants.SAVE));
         if (result != 0) {
             return JsonData.setResultSuccess("新增成功");
         }

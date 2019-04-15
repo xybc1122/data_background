@@ -3,6 +3,7 @@ package com.dt.user.provider;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaShipNoticeEntry;
 import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
+import com.dt.user.toos.Constants;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
@@ -32,7 +33,7 @@ public class SalesAmazonFbaShipNoticeEntryProvider {
             sql.WHERE("quantity=#{quantity}");
         }
         //箱号
-        AppendSqlStore.sqlWhere(entry.getPackages(), "`packages`", sql);
+        AppendSqlStore.sqlWhere(entry.getPackages(), "`packages`", sql, Constants.SELECT);
         //长度CM
         if (entry.getLengthCm() != null) {
             sql.WHERE("length_cm=#{lengthCm}");

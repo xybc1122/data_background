@@ -1,6 +1,8 @@
 package com.dt.user.store;
 
 import com.dt.user.model.ParentUploadInfo;
+import com.dt.user.toos.Constant;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -30,13 +32,25 @@ public class AppendSqlStore {
     /**
      * 封装 where IN查询条件
      *
-     * @param k
-     * @param v
+     * @param k   实体的字段
+     * @param v   数据库的字段
      * @param sql
      */
-    public static void sqlWhere(String k, String v, SQL sql) {
-        if (StringUtils.isNotBlank(k)) {
-            sql.WHERE("POSITION('" + k + "' IN " + v + ")");
+    public static void sqlWhere(Object k, String v, SQL sql, String status) {
+        if (k != null) {
+            if (status.equals(Constants.SELECT)) {
+                if (k instanceof String) {
+                    sql.WHERE("POSITION('" + k + "' IN " + v + ")");
+                } else {
+                    sql.WHERE(v + "=" + k);
+                }
+            } else if (status.equals(Constants.UP)) {
+                if (k instanceof String) {
+                    sql.SET(v + "=" + "'" + k + "'");
+                } else {
+                    sql.SET(v + "=" + k);
+                }
+            }
         }
     }
 

@@ -15,10 +15,10 @@ public interface GeneralQueryMapper {
 
     /**
      * 通用查询 statusId
-     * @param thisId  数据库表的ID
+     * @param sqlId  数据库表的ID
      * @param paramId 要查询的ID
      * @param table   要查询的表
      */
     @SelectProvider(type = GeneralQueryProvider.class, method = "findGeneralQueryPro")
-    Long getStatusId(@Param("thisId") String thisId, @Param("paramId") Long paramId, @Param("table") String table);
+    Long getStatusId(@Param("sqlId") String sqlId, @Param("paramId") Long paramId, @Param("table") String table);
 }

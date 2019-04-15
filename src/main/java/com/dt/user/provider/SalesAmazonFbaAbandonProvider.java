@@ -3,6 +3,8 @@ package com.dt.user.provider;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaAbandon;
 import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
+import com.dt.user.toos.Constant;
+import com.dt.user.toos.Constants;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
@@ -25,21 +27,21 @@ public class SalesAmazonFbaAbandonProvider {
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = ad.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = ad.`sku_id`");
         // sku
-        AppendSqlStore.sqlWhere(abandon.getSku(), "ps.`sku`", sql);
+        AppendSqlStore.sqlWhere(abandon.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //FBA号
-        AppendSqlStore.sqlWhere(abandon.getFbaShipmentId(), "`fba_shipment_id`", sql);
+        AppendSqlStore.sqlWhere(abandon.getFbaShipmentId(), "`fba_shipment_id`", sql, Constants.SELECT);
         // FBA SKU
-        AppendSqlStore.sqlWhere(abandon.getAbandonSku(), "`abandon_sku`", sql);
+        AppendSqlStore.sqlWhere(abandon.getAbandonSku(), "`abandon_sku`", sql, Constants.SELECT);
         //fn_sku
-        AppendSqlStore.sqlWhere(abandon.getFnSku(), "`fn_sku`", sql);
+        AppendSqlStore.sqlWhere(abandon.getFnSku(), "`fn_sku`", sql, Constants.SELECT);
         //产品名称
-        AppendSqlStore.sqlWhere(abandon.getProductName(), "`product_name`", sql);
+        AppendSqlStore.sqlWhere(abandon.getProductName(), "`product_name`", sql, Constants.SELECT);
         //接收数量
         if (abandon.getQuantity() != null) {
             sql.WHERE("quantity=#{quantity}");
         }
         //亚马逊仓库代码
-        AppendSqlStore.sqlWhere(abandon.getFc(), "`fc`", sql);
+        AppendSqlStore.sqlWhere(abandon.getFc(), "`fc`", sql, Constants.SELECT);
         //亚马逊仓库ID
         if (abandon.getAwId() != null) {
             sql.WHERE("aw_id=#{awId}");

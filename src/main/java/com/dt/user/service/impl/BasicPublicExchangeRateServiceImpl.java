@@ -7,6 +7,7 @@ import com.dt.user.mapper.BasePublicMapper.BasicPublicExchangeRateMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicExchangeRate;
 import com.dt.user.service.BasePublicService.BasicPublicExchangeRateService;
 import com.dt.user.service.SystemLogStatusService;
+import com.dt.user.toos.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ public class BasicPublicExchangeRateServiceImpl implements BasicPublicExchangeRa
     public ResponseBase serviceUpRate(BasicPublicExchangeRate rate) {
         int result;
         if (rate.getStatusId() == null) {
-            result = rateMapper.upRate((BasicPublicExchangeRate) logStatusService.setObjStatusId(rate));
+            result = rateMapper.upRate((BasicPublicExchangeRate) logStatusService.setObjStatusId(rate, Constants.UP));
         } else {
             result = rateMapper.upRate(rate);
         }
@@ -49,7 +50,7 @@ public class BasicPublicExchangeRateServiceImpl implements BasicPublicExchangeRa
     @Override
     public ResponseBase serviceSaveRate(BasicPublicExchangeRate rate) {
         //新增公司数据
-        int result = rateMapper.saveRate((BasicPublicExchangeRate) logStatusService.setObjStatusId(rate));
+        int result = rateMapper.saveRate((BasicPublicExchangeRate) logStatusService.setObjStatusId(rate, Constants.SAVE));
         if (result != 0) {
             return JsonData.setResultSuccess("新增成功");
         }

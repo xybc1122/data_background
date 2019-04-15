@@ -86,6 +86,8 @@ public class FsbStore {
                 && fsb.getOther().compareTo(BigDecimal.ZERO) != 0
                 && fsb.getOtherTransactionFees().compareTo(BigDecimal.ZERO) != 0) {
             fsb.setServiceFeeTax(fsb.getOther());
+        } else {
+            fsb.setServiceFeeTax(new BigDecimal(0));
         }
     }
 

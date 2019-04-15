@@ -119,7 +119,9 @@ public interface Constants {
      */
     int BUSINESS_ID = 108;
 
-    String IMPORT_SQL = "正在导入数据库..........";
+    String SAVE = "save";
+    String UP = "up";
+    String SELECT = "select";
 
 
 }

@@ -3,6 +3,7 @@ package com.dt.user.provider;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaTradeReport;
 import com.dt.user.store.AppendSqlStore;
 import com.dt.user.store.ProviderSqlStore;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -122,41 +123,41 @@ public class SalesAmazonFbaTradeReportProvider {
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = tr.`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = tr.`sku_id`");
         // sku
-        AppendSqlStore.sqlWhere(report.getSku(), "ps.`sku`", sql);
+        AppendSqlStore.sqlWhere(report.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //亚马逊订单号
-        AppendSqlStore.sqlWhere(report.getAmazonOrderId(), "amazon_order_id", sql);
+        AppendSqlStore.sqlWhere(report.getAmazonOrderId(), "amazon_order_id", sql, Constants.SELECT);
         //店铺订单号
-        AppendSqlStore.sqlWhere(report.getMerchantOrderId(), "merchant_order_id", sql);
+        AppendSqlStore.sqlWhere(report.getMerchantOrderId(), "merchant_order_id", sql, Constants.SELECT);
         //最近更新日期
         if (report.getLastUpdatedDates() != null && (report.getLastUpdatedDates().size() > 0)) {
             sql.WHERE("last_updated_date  " + report.getLastUpdatedDates().get(0) + " AND " + report.getLastUpdatedDates().get(1) + "");
         }
         //订单状态
-        AppendSqlStore.sqlWhere(report.getOrderStatus(), "order_status", sql);
+        AppendSqlStore.sqlWhere(report.getOrderStatus(), "order_status", sql, Constants.SELECT);
         //发货方式
-        AppendSqlStore.sqlWhere(report.getFulfillmentChannel(), "fulfillment_channel", sql);
+        AppendSqlStore.sqlWhere(report.getFulfillmentChannel(), "fulfillment_channel", sql, Constants.SELECT);
         //销售渠道
-        AppendSqlStore.sqlWhere(report.getSalesChannel(), "sales_channel", sql);
+        AppendSqlStore.sqlWhere(report.getSalesChannel(), "sales_channel", sql, Constants.SELECT);
         //订单渠道
-        AppendSqlStore.sqlWhere(report.getOrderChannel(), "order_channel", sql);
+        AppendSqlStore.sqlWhere(report.getOrderChannel(), "order_channel", sql, Constants.SELECT);
         //URL
-        AppendSqlStore.sqlWhere(report.getUrl(), "tr.`url`", sql);
+        AppendSqlStore.sqlWhere(report.getUrl(), "tr.`url`", sql, Constants.SELECT);
         //运输服务等级
-        AppendSqlStore.sqlWhere(report.getShipServiceLevel(), "ship_service_level", sql);
+        AppendSqlStore.sqlWhere(report.getShipServiceLevel(), "ship_service_level", sql, Constants.SELECT);
         //产品名称
-        AppendSqlStore.sqlWhere(report.getProductName(), "product_name", sql);
+        AppendSqlStore.sqlWhere(report.getProductName(), "product_name", sql, Constants.SELECT);
         //SKU
-        AppendSqlStore.sqlWhere(report.getTradeSku(), "trade_sku", sql);
+        AppendSqlStore.sqlWhere(report.getTradeSku(), "trade_sku", sql, Constants.SELECT);
         //子ASIN
-        AppendSqlStore.sqlWhere(report.getAsin(), "asin", sql);
+        AppendSqlStore.sqlWhere(report.getAsin(), "asin", sql, Constants.SELECT);
         //商品状态
-        AppendSqlStore.sqlWhere(report.getItemStatus(), "item_status", sql);
+        AppendSqlStore.sqlWhere(report.getItemStatus(), "item_status", sql, Constants.SELECT);
         //数量
         if (report.getQuantity() != null) {
             sql.WHERE("quantity=#{quantity}");
         }
         //币别
-        AppendSqlStore.sqlWhere(report.getCurrency(), "currency", sql);
+        AppendSqlStore.sqlWhere(report.getCurrency(), "currency", sql, Constants.SELECT);
         //商品价格
         if (report.getItemPrice() != null) {
             sql.WHERE("item_price=#{itemPrice}");
@@ -190,25 +191,25 @@ public class SalesAmazonFbaTradeReportProvider {
             sql.WHERE("ship_promotion_discount=#{shipPromotionDiscount}");
         }
         //城市
-        AppendSqlStore.sqlWhere(report.getShipCity(), "ship_city", sql);
+        AppendSqlStore.sqlWhere(report.getShipCity(), "ship_city", sql, Constants.SELECT);
         //州
-        AppendSqlStore.sqlWhere(report.getShipState(), "ship_state", sql);
+        AppendSqlStore.sqlWhere(report.getShipState(), "ship_state", sql, Constants.SELECT);
         //邮编
-        AppendSqlStore.sqlWhere(report.getShipPostalCode(), "ship_postal_code", sql);
+        AppendSqlStore.sqlWhere(report.getShipPostalCode(), "ship_postal_code", sql, Constants.SELECT);
         //国家
-        AppendSqlStore.sqlWhere(report.getShipCountry(), "ship_country", sql);
+        AppendSqlStore.sqlWhere(report.getShipCountry(), "ship_country", sql, Constants.SELECT);
         //折扣码
-        AppendSqlStore.sqlWhere(report.getPromotionIds(), "promotion_ids", sql);
+        AppendSqlStore.sqlWhere(report.getPromotionIds(), "promotion_ids", sql, Constants.SELECT);
         //是否商业订单
-        AppendSqlStore.sqlWhere(report.getIsBusinessOrder(), "is_business_order", sql);
+        AppendSqlStore.sqlWhere(report.getIsBusinessOrder(), "is_business_order", sql, Constants.SELECT);
         //采购订单编号
-        AppendSqlStore.sqlWhere(report.getPurchaseOrderNumber(), "purchase_order_number", sql);
+        AppendSqlStore.sqlWhere(report.getPurchaseOrderNumber(), "purchase_order_number", sql, Constants.SELECT);
         //价格类型
-        AppendSqlStore.sqlWhere(report.getPriceDesignation(), "price_designation", sql);
+        AppendSqlStore.sqlWhere(report.getPriceDesignation(), "price_designation", sql, Constants.SELECT);
         //是否退换货订单
-        AppendSqlStore.sqlWhere(report.getIsReplacementOrder(), "is_replacement_order", sql);
+        AppendSqlStore.sqlWhere(report.getIsReplacementOrder(), "is_replacement_order", sql, Constants.SELECT);
         //原始订单号
-        AppendSqlStore.sqlWhere(report.getOriginalOrderId(), "original_order_id", sql);
+        AppendSqlStore.sqlWhere(report.getOriginalOrderId(), "original_order_id", sql, Constants.SELECT);
         ProviderSqlStore.saveUploadStatus(sql, report);
         return sql.toString();
     }

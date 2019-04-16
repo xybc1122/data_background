@@ -9,6 +9,7 @@ import com.dt.user.service.BasePublicService.BasicPublicWarehouseService;
 import com.dt.user.service.SystemLogStatusService;
 import com.dt.user.store.TreeStructureStore;
 import com.dt.user.toos.Constants;
+import com.dt.user.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,10 +56,7 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
     public ResponseBase serviceSaveWarehouses(BasicPublicWarehouse war) {
         //新增仓库数据
         int result = warehouseMapper.saveWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war, Constants.SAVE));
-        if (result != 0) {
-            return JsonData.setResultSuccess("新增成功");
-        }
-        return JsonData.setResultError("新增失败");
+        return JsonUtils.saveMsg(result);
     }
 
 }

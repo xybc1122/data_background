@@ -10,7 +10,7 @@ import java.util.List;
  * 用户实体类
  */
 @JsonIgnoreProperties(value = {"handler"})
-public class UserInfo extends ParentSysTemLog implements Serializable {
+public class UserInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     /**
      * 用户id
@@ -72,11 +72,8 @@ public class UserInfo extends ParentSysTemLog implements Serializable {
     private String menuName;
 
     //是否删除标示
-    private Integer delUser;
-    //删除的时间
-    private Long delDate;
-    //恢复时记录的时间
-    private Long restoreDate;
+    private Integer delOrNot;
+
 
     //首次登陆是否修改密码
     private Boolean isFirstLogin;
@@ -92,6 +89,15 @@ public class UserInfo extends ParentSysTemLog implements Serializable {
      * 计算机名
      */
     private String computerName;
+
+    private String remark;
+    private Long createDate;
+    private String createUser;
+    private Long modifyDate;
+    private Long auditDate;
+    private String modifyUser;
+    private String auditUser;
+
 
     public Long getUid() {
         return uid;
@@ -221,28 +227,12 @@ public class UserInfo extends ParentSysTemLog implements Serializable {
         this.menuName = menuName;
     }
 
-    public Integer getDelUser() {
-        return delUser;
+    public Integer getDelOrNot() {
+        return delOrNot;
     }
 
-    public void setDelUser(Integer delUser) {
-        this.delUser = delUser;
-    }
-
-    public Long getDelDate() {
-        return delDate;
-    }
-
-    public void setDelDate(Long delDate) {
-        this.delDate = delDate;
-    }
-
-    public Long getRestoreDate() {
-        return restoreDate;
-    }
-
-    public void setRestoreDate(Long restoreDate) {
-        this.restoreDate = restoreDate;
+    public void setDelOrNot(Integer delOrNot) {
+        this.delOrNot = delOrNot;
     }
 
     public Boolean getFirstLogin() {
@@ -277,4 +267,59 @@ public class UserInfo extends ParentSysTemLog implements Serializable {
         this.computerName = computerName;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Long getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public Long getModifyDate() {
+        return modifyDate;
+    }
+
+    public void setModifyDate(Long modifyDate) {
+        this.modifyDate = modifyDate;
+    }
+
+    public String getModifyUser() {
+        return modifyUser;
+    }
+
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser;
+    }
+
+    public Long getAuditDate() {
+        return auditDate;
+    }
+
+    public void setAuditDate(Long auditDate) {
+        this.auditDate = auditDate;
+    }
+
+    public String getAuditUser() {
+        return auditUser;
+    }
+
+    public void setAuditUser(String auditUser) {
+        this.auditUser = auditUser;
+    }
 }

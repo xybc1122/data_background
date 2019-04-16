@@ -23,7 +23,7 @@ public interface SystemLogStatusService {
     /**
      * 新增状态信息
      */
-    SystemLogStatus serviceSaveSysStatusInfo();
+    SystemLogStatus serviceSaveSysStatusInfo(SystemLogStatus status);
 
 
     /**

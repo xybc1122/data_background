@@ -72,7 +72,7 @@ public class LoginInterceoter implements HandlerInterceptor {
                     sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "账号已被锁定,请联系管理员"));
                     return false;
                 }
-                if (user.getDelUser() == 1) {
+                if (user.getDelOrNot() == 1) {
                     sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "账号凭着已过期/或删除 请联系管理员"));
                     return false;
                 }

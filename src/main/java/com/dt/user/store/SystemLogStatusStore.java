@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Date;
 
 /**
+ * SystemLogStatus 表 通用设置
+ *
  * @ClassName SystemLogStatusStore
  * Description TODO
  * @Author 陈恩惠

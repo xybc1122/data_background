@@ -22,8 +22,8 @@ public interface SystemLogStatusMapper {
      * 新增状态信息
      */
     @Insert("INSERT INTO `system_log_status`\n" +
-            "(`remark`,`status`,`create_date`,`create_user`,`modify_date`, `modify_user`,`audit_date`, `audit_user`)" +
-            "VALUES (#{remark},#{status},#{createDate},#{createUser},#{modifyDate},#{modifyUser},#{auditDate}, #{auditUser})")
+            "(`remark`,`create_date`,`create_user`,`modify_date`,`modify_user`,`audit_date`,`audit_user`)" +
+            "VALUES (#{remark},#{createDate},#{createUser},#{modifyDate},#{modifyUser},#{auditDate},#{auditUser})")
     @Options(useGeneratedKeys = true, keyProperty = "statusId", keyColumn = "status_id")
     int saveSysStatusInfo(SystemLogStatus logStatus);
 

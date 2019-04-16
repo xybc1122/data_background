@@ -188,6 +188,18 @@ public class ConsumerServiceImpl implements ConsumerService {
         }
     }
 
+    /**
+     * @param br
+     * @param shopId
+     * @param uid
+     * @param recordingId
+     * @param lineHead
+     * @param menuId
+     * @param aId
+     * @param timeData
+     * @param txtHead     是切割好的表头
+     * @return
+     */
     private ResponseBase saveTxt(BufferedReader br, Integer shopId, Long uid, Long
             recordingId, String lineHead, Integer menuId, Integer aId, RealTimeData timeData, List<String> txtHead) {
         // 开始时间
@@ -201,10 +213,11 @@ public class ConsumerServiceImpl implements ConsumerService {
         List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(null, menuId, aId, shopId);
         //通过uid 查找账号
         String userName = userService.serviceGetName(uid);
-        //设置第一行头信息List
+        //设置第一行头信息List 设置的是字符串
         List<String> txtHeadList = UploadStore.setLineHeadList(lineHead);
         String line;
         int index = 0;
+        int k = 0;
         Map<String, Integer> intMap = new HashMap<>();
         //获得 ctx 对象
         ChannelHandlerContext ctx = chatService.getCtx(uid);
@@ -222,6 +235,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         safTradList = ArrUtils.listT(tList);
                         SalesAmazonFbaTradeReport sftPort = setTraPort(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
+                            k = i;
                             sftPort = saveTradeReport(i, sftPort, newLine, shopId, txtHead, isImportHead);
                             if (sftPort == null) {
                                 //先拿到这一行信息 newLine
@@ -238,6 +252,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         safRefundList = ArrUtils.listT(tList);
                         SalesAmazonFbaRefund sfRefund = setRefund(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
+                            k = i;
                             sfRefund = saveAmazonFbaRefund(i, sfRefund, newLine, shopId, aId, txtHead, isImportHead);
                             if (sfRefund == null) {
                                 //先拿到这一行信息 newLine
@@ -254,6 +269,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         sfReceivesList = ArrUtils.listT(tList);
                         SalesAmazonFbaReceivestock sfReceives = setReceives(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
+                            k = i;
                             sfReceives = saveReceiveStock(i, sfReceives, newLine, txtHead, shopId, isImportHead);
                             if (sfReceives == null) {
                                 //先拿到这一行信息 newLine
@@ -270,6 +286,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         safEndList = ArrUtils.listT(tList);
                         SalesAmazonFbaInventoryEnd sfEnd = setEnd(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
+                            k = i;
                             sfEnd = salesEnd(i, sfEnd, newLine, txtHead, isImportHead);
                             if (sfEnd == null) {
                                 //先拿到这一行信息 newLine
@@ -287,8 +304,11 @@ public class ConsumerServiceImpl implements ConsumerService {
                 sendRealTimeData(ctx, intMap, timeData, index);
             }
         } catch (Exception e) {
+            if (e instanceof NullPointerException) {
+                return setErrorInfo(recordingId, "====>参数空指针异常" + e.getMessage(), null);
+            }
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
-            return setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage(), null);
+            return setErrorInfo(recordingId, "出错字段" + txtHead.get(k) + "下" + (numberCount.get() + 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int countTrad = 0;
         try {
@@ -699,6 +719,9 @@ public class ConsumerServiceImpl implements ConsumerService {
                 sendRealTimeData(ctx, intMap, timeData, index);
             }
         } catch (Exception e) {
+            if (e instanceof NullPointerException) {
+                return setErrorInfo(recordingId, "====>参数空指针异常" + e.getMessage(), null);
+            }
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "出错字段" + xlsListHead.get(k) + "下" + (numberCount.get() + 1) + "行信息错误,错误原因," + e.getMessage(), null);
         }
@@ -1076,7 +1099,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             //创建对象设置文件总数
             RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
             ResponseBase responseCsv = saveCsv(csvReader, row, shopId, siteId, uid, pId, recordingId, tbId, businessTime, newCsvHeadList, timeData);
-            return saveUserUploadInfo(responseCsv, recordingId, fileName, csvHeadList, 2, saveFilePath, uuIdName);
+            return saveUserUploadInfo(responseCsv, recordingId, fileName, newCsvHeadList, 2, saveFilePath, uuIdName);
         } finally {
             if (csvReader != null) {
                 csvReader.close();
@@ -1109,6 +1132,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         Map<String, Integer> intMap = new HashMap<>();
         //获得 ctx 对象
         ChannelHandlerContext ctx = chatService.getCtx(uid);
+        int k = 0;
         try {
             while (csvReader.readRecord()) {
                 if (index >= row) {
@@ -1121,6 +1145,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         fsbList = ArrUtils.listT(tList);
                         FinancialSalesBalance fb = setFsb(sId, seId, userName, pId.longValue(), recordingId);
                         for (int j = 0; j < csvReader.getColumnCount(); j++) {
+                            k = j;
                             fb = saveFinance(fb, csvReader, sId, seId, csvHeadList, isImportHead, j);
                             if (fb == null) {
                                 break;
@@ -1135,6 +1160,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         sfbList = ArrUtils.listT(tList);
                         SalesAmazonFbaBusinessreport sfb = setBusPort(sId, seId, userName, recordingId);
                         for (int j = 0; j < csvReader.getColumnCount(); j++) {
+                            k = j;
                             sfb = saveBusiness(sfb, csvReader, sId, seId, Long.parseLong(businessTime), csvHeadList, isImportHead, j);
                             if (sfb == null) {
                                 break;
@@ -1149,8 +1175,11 @@ public class ConsumerServiceImpl implements ConsumerService {
                 sendRealTimeData(ctx, intMap, timeData, index);
             }
         } catch (Exception e) {
+            if (e instanceof NullPointerException) {
+                return setErrorInfo(recordingId, "====>参数空指针异常" + e.getMessage(), null);
+            }
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
-            return setErrorInfo(recordingId, (numberCount.get() - 1) + "行信息错误,错误原因," + e.getMessage(), null);
+            return setErrorInfo(recordingId, "出错字段" + csvHeadList.get(k) + "下" + (numberCount.get() + row) + "行信息错误,错误原因," + e.getMessage(), null);
         }
         int number = 0;
         try {
@@ -1164,7 +1193,6 @@ public class ConsumerServiceImpl implements ConsumerService {
                 number = busService.addSalesAmazonAdBusList(sfbList);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "数据库存入异常", null);
         }
@@ -1175,63 +1203,38 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     /**
-     * 美国 业务存入对象
+     * 业务报告存入对象
      */
     public SalesAmazonFbaBusinessreport saveBusiness(SalesAmazonFbaBusinessreport sfb, CsvReader csvReader, Integer
             sId, Integer seId, Long businessTime, List<String> csvHeadList, List<BasicSalesAmazonCsvTxtXslHeader> importHead, int j) throws IOException {
         sfb.setDate(businessTime);
-        if (seId == 1 || seId == 4 || seId == 5 || seId == 6
-                || seId == 7 || seId == 8 || seId == 9) {
-            //(Parent) ASIN == (Parent) ASIN
-            if (csvHeadList.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose())
-                sfb.setfAsin(StrUtils.repString(csvReader.get(j)));
-            else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
-                sfb.setsAsin(StrUtils.repString(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(2).getImportTemplet()) && importHead.get(2).getOpenClose()) {
-                sfb.setpName(StrUtils.repString(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(3).getImportTemplet()) && importHead.get(3).getOpenClose()) {
-                sfb.setSessionsVisit(StrUtils.replaceInteger(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(4).getImportTemplet()) && importHead.get(4).getOpenClose()) {
-                sfb.setSessionsPer(StrUtils.repDouble(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(5).getImportTemplet()) && importHead.get(5).getOpenClose()) {
-                sfb.setPageViews(StrUtils.replaceInteger(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(6).getImportTemplet()) && importHead.get(6).getOpenClose()) {
-                sfb.setBuyBoxPer(StrUtils.repDouble(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(7).getImportTemplet()) && importHead.get(7).getOpenClose()) {
-                sfb.setOrder(StrUtils.replaceInteger(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(8).getImportTemplet()) && importHead.get(8).getOpenClose()) {
-                sfb.setOrderB2B(StrUtils.replaceInteger(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(9).getImportTemplet()) && importHead.get(9).getOpenClose()) {
-                sfb.setSales(StrUtils.repDecimal(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(10).getImportTemplet()) && importHead.get(10).getOpenClose()) {
-                sfb.setSalesB2B(StrUtils.repDecimal(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(11).getImportTemplet()) && importHead.get(11).getOpenClose()) {
-                sfb.setOrderItems(StrUtils.replaceInteger(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(12).getImportTemplet()) && importHead.get(12).getOpenClose()) {
-                sfb.setOrderItemsB2B(StrUtils.replaceInteger(csvReader.get(j)));
-            }
-        } else {
-            if (csvHeadList.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose())
-                sfb.setfAsin(StrUtils.repString(csvReader.get(j)));
-            else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
-                sfb.setsAsin(StrUtils.repString(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(2).getImportTemplet()) && importHead.get(2).getOpenClose()) {
-                sfb.setpName(StrUtils.repString(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(3).getImportTemplet()) && importHead.get(3).getOpenClose()) {
-                sfb.setSessionsVisit(StrUtils.replaceInteger(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(4).getImportTemplet()) && importHead.get(4).getOpenClose()) {
-                sfb.setSessionsPer(StrUtils.repDouble(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(5).getImportTemplet()) && importHead.get(5).getOpenClose()) {
-                sfb.setPageViews(StrUtils.replaceInteger(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(6).getImportTemplet()) && importHead.get(6).getOpenClose()) {
-                sfb.setBuyBoxPer(StrUtils.repDouble(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(7).getImportTemplet()) && importHead.get(7).getOpenClose()) {
-                sfb.setOrder(StrUtils.replaceInteger(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(8).getImportTemplet()) && importHead.get(8).getOpenClose()) {
-                sfb.setSales(StrUtils.repDecimal(csvReader.get(j)));
-            } else if (csvHeadList.get(j).equals(importHead.get(9).getImportTemplet()) && importHead.get(9).getOpenClose()) {
-                sfb.setOrderItems(StrUtils.replaceInteger(csvReader.get(j)));
-            }
+        //(Parent) ASIN == (Parent) ASIN
+        if (csvHeadList.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose())
+            sfb.setfAsin(StrUtils.repString(csvReader.get(j)));
+        else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
+            sfb.setsAsin(StrUtils.repString(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(2).getImportTemplet()) && importHead.get(2).getOpenClose()) {
+            sfb.setpName(StrUtils.repString(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(3).getImportTemplet()) && importHead.get(3).getOpenClose()) {
+            sfb.setSessionsVisit(StrUtils.replaceInteger(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(4).getImportTemplet()) && importHead.get(4).getOpenClose()) {
+            sfb.setSessionsPer(StrUtils.repDecimal(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(5).getImportTemplet()) && importHead.get(5).getOpenClose()) {
+            sfb.setPageViews(StrUtils.replaceInteger(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(6).getImportTemplet()) && importHead.get(6).getOpenClose()) {
+            sfb.setBuyBoxPer(StrUtils.repDecimal(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(7).getImportTemplet()) && importHead.get(7).getOpenClose()) {
+            sfb.setOrder(StrUtils.replaceInteger(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(8).getImportTemplet()) && importHead.get(8).getOpenClose()) {
+            sfb.setOrderB2B(StrUtils.replaceInteger(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(9).getImportTemplet()) && importHead.get(9).getOpenClose()) {
+            sfb.setSales(StrUtils.repDecimal(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(10).getImportTemplet()) && importHead.get(10).getOpenClose()) {
+            sfb.setSalesB2B(StrUtils.repDecimal(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(11).getImportTemplet()) && importHead.get(11).getOpenClose()) {
+            sfb.setOrderItems(StrUtils.replaceInteger(csvReader.get(j)));
+        } else if (csvHeadList.get(j).equals(importHead.get(12).getImportTemplet()) && importHead.get(12).getOpenClose()) {
+            sfb.setOrderItemsB2B(StrUtils.replaceInteger(csvReader.get(j)));
         }
         if ((j + 1) == csvReader.getColumnCount()) {
             Long skuId = skuService.getAsinSkuId(sId, seId, sfb.getsAsin());
@@ -1307,20 +1310,21 @@ public class ConsumerServiceImpl implements ConsumerService {
         } else if (csvHeadList.get(j).equals(importHead.get(24).getImportTemplet()) && importHead.get(23).getOpenClose()) {
             fsb.setPointFee(StrUtils.replaceDecimal(csvReader.get(j)));
         }
+
         //这里最后执行
         if ((j + 1) == csvReader.getColumnCount()) {
-            //通过typeName设置信息
-            FsbStore.setInfo(fsb.getType(), fsb);
-            //设置广告税
-            FsbStore.setAdTax(fsb);
-            //计算
-            FsbStore.calculation(fsb);
             Long skuId = skuService.selSkuId(sId, seId, fsb.getFinancialSku());
             String result = skuList(skuId, csvReader, fsb.getFinancialSku());
             if (StringUtils.isEmpty(result)) {
                 return null;
             }
             fsb.setSkuId(skuId);
+            //通过typeName设置信息
+            FsbStore.setInfo(fsb.getType(), fsb);
+            //设置广告税
+            FsbStore.setAdTax(fsb);
+            //计算
+            FsbStore.calculation(fsb);
         }
         return fsb;
     }
@@ -1336,11 +1340,11 @@ public class ConsumerServiceImpl implements ConsumerService {
         //不为空  判断skuID
         if (StringUtils.isNotEmpty(sku)) {
             String result = exportCsvType(csvReader, skuId);
+            //如果sku是空的  直接返回设置NULL
             if (StringUtils.isEmpty(result)) {
                 return null;
             }
         }
-        //如果sku是空的  直接返回设置NULL
         return "success";
     }
 
@@ -1370,7 +1374,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             ThreadLocalUtils.inCreateNumberInteger(sumErrorSku);
             List<String> skuListNo = new ArrayList<>();
             for (int i = 0; i < csvReader.getColumnCount(); i++) {
-                skuListNo.add(csvReader.get(i).replace(",", "."));
+                skuListNo.add(csvReader.get(i));
             }
             noSkuList.get().add(skuListNo);
             noSkuList.set(noSkuList.get());

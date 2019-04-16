@@ -2,6 +2,7 @@ package com.dt.user.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.dt.user.config.JsonData;
+import com.dt.user.config.ResponseBase;
 import com.dt.user.netty.ChatType;
 
 import java.util.List;
@@ -53,5 +54,18 @@ public class JsonUtils {
     public static String getJsonTypeError(String msg, ChatType type) {
 
         return JSONObject.toJSONString(JsonData.setResultTypeError(msg, type.toString()));
+    }
+
+    /**
+     * 新增消息
+     *
+     * @param result
+     * @return
+     */
+    public static ResponseBase saveMsg(int result) {
+        if (result != 0) {
+            return JsonData.setResultSuccess("新增成功");
+        }
+        return JsonData.setResultError("新增失败");
     }
 }

@@ -37,7 +37,7 @@ public class AppendSqlStore {
      * @param sql
      */
     public static void sqlWhere(Object k, String v, SQL sql, String status) {
-        if (k != null) {
+        if (k != null && k != "") {
             if (status.equals(Constants.SELECT)) {
                 if (k instanceof String) {
                     sql.WHERE("POSITION('" + k + "' IN " + v + ")");

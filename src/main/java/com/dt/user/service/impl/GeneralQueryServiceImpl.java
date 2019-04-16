@@ -5,10 +5,8 @@ import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
 import com.dt.user.mapper.GeneralQueryMapper;
-import com.dt.user.model.BasePublicModel.BasicPublicCompany;
-import com.dt.user.model.BasePublicModel.BasicPublicExchangeRate;
-import com.dt.user.model.BasePublicModel.BasicPublicProduct;
-import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
+import com.dt.user.model.BasePublicModel.*;
+import com.dt.user.service.BasePublicService.BasicPublicProductsService;
 import com.dt.user.service.GeneralQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,8 @@ public class GeneralQueryServiceImpl implements GeneralQueryService {
 
     @Autowired
     private GeneralQueryMapper queryMapper;
-
+    @Autowired
+    private BasicPublicProductsService productsService;
 
     @Override
     public void statusIdExist(Object obj) {
@@ -34,11 +33,6 @@ public class GeneralQueryServiceImpl implements GeneralQueryService {
         if (statusIdSql != null) {
             throw new LsException("statusId参数为空");
         }
-    }
-
-    @Override
-    public ResponseBase selType(String topType, Integer menuId) {
-        return JsonData.setResultSuccess(topType);
     }
 
 
@@ -61,6 +55,9 @@ public class GeneralQueryServiceImpl implements GeneralQueryService {
         } else if (obj instanceof BasicPublicProduct) {
             BasicPublicProduct product = (BasicPublicProduct) obj;
             return queryMapper.getStatusId("product_id", product.getProductId().longValue(), "basic_public_product");
+        } else if (obj instanceof BasicPublicProducts) {
+            BasicPublicProducts products = (BasicPublicProducts) obj;
+            return queryMapper.getStatusId("products_id", products.getTreeId().longValue(), "basic_public_products");
         }
         return null;
     }

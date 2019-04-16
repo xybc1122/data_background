@@ -4,6 +4,7 @@ package com.dt.user.controller;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.customize.PermissionCheck;
+import com.dt.user.interceoter.LoginInterceoter;
 import com.dt.user.model.*;
 import com.dt.user.service.*;
 import com.dt.user.toos.Constants;
@@ -38,11 +39,12 @@ public class UploadController {
      */
     @PostMapping("/downloadCommonFile")
     @PermissionCheck("download")
-    public ResponseBase downloadFile(HttpServletRequest
-                                             request, HttpServletResponse response, @RequestBody Map<String, Object> fileMap) {
+    public void downloadFile(HttpServletRequest
+                                     request, HttpServletResponse response, @RequestBody Map<String, Object> fileMap) {
         String filePath = (String) fileMap.get("filePath");
         FileUtils.downloadFile(filePath, response, request);
-        return JsonData.setResultSuccess("下载成功");
+        //下载有问题 会报错
+        LoginInterceoter.sendJsonMessage(response, JsonData.setResultSuccess("下载成功"));
     }
 
     /**

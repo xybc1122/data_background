@@ -18,22 +18,22 @@ public class UserRoleProvider {
         List<UserRole> urList = (List<UserRole>) urMap.get("userRoleList");
         StringBuilder sb = new StringBuilder();
         sb.append("insert into system_user_role_user(u_id,r_id)values");
-        for (int i = 0; i < urList.size(); i++) {
-            ur = urList.get(i);
+        for (UserRole anUrList : urList) {
+            ur = anUrList;
             //一个员工添加多个角色
             if (null != ur.getrIds()) {
-                List<Integer> rIds = urList.get(i).getrIds();
-                for (int j = 0; j < rIds.size(); j++) {
-                    Long rId = rIds.get(j).longValue();
-                    sb.append("(" + ur.getuId() + "," + rId + "),");
+                List<Integer> rIds = anUrList.getrIds();
+                for (Integer rId1 : rIds) {
+                    long rId = rId1.longValue();
+                    sb.append("(").append(ur.getuId()).append(",").append(rId).append("),");
                 }
             }
             //一个角色添加多个员工
             if (null != ur.getuIds()) {
-                List<Integer> uIds = urList.get(i).getuIds();
-                for (int j = 0; j < uIds.size(); j++) {
-                    Long uId = uIds.get(j).longValue();
-                    sb.append("(" + uId + "," + ur.getrId() + "),");
+                List<Integer> uIds = anUrList.getuIds();
+                for (Integer uId1 : uIds) {
+                    long uId = uId1.longValue();
+                    sb.append("(").append(uId).append(",").append(ur.getrId()).append("),");
                 }
             }
         }

@@ -48,9 +48,6 @@ public class UserServiceImpl extends JsonData implements UserService {
     @Autowired
     private UserRoleService userRoleService;
 
-    @Autowired
-    private SystemLogStatusService logStatusService;
-
     @Override
     public String serviceGetName(Long uId) {
         return userMapper.getName(uId);
@@ -81,7 +78,7 @@ public class UserServiceImpl extends JsonData implements UserService {
             if (user.getAccountStatus() == 1) {
                 return JsonData.setResultError("账号已被锁定,请联系管理员");
             }
-            if (user.getDelUser() == 1) {
+            if (user.getDelOrNot() == 1) {
                 return JsonData.setResultError("账号凭着已过期/或删除 请联系管理员");
             }
             userMapper.upUserLandingTime(user.getUid(), new Date().getTime());
@@ -202,7 +199,7 @@ public class UserServiceImpl extends JsonData implements UserService {
 
 
     /**
-     * 处理用户新增
+     * 创建新增用户
      *
      * @param userMap
      * @return
@@ -219,12 +216,17 @@ public class UserServiceImpl extends JsonData implements UserService {
         Boolean checkedPwdAlways = (Boolean) userMap.get("pwdAlways");
         Integer staffValue = (Integer) userMap.get("staffValue");
         List<Integer> rolesId = (List<Integer>) userMap.get("rolesId");
+        //备注
+        String remark = (String) userMap.get("remark");
         if (StringUtils.isBlank(userName) || StringUtils.isBlank(pwd) || checkedUpPwd == null
                 || checkedUserAlways == null || checkedPwdAlways == null || staffValue == null || rolesId == null) {
             return JsonData.setResultError("新增失败");
         }
         //这里前端会传空字符串 或者 Long类型数据 要判断
         UserInfo userInfo = new UserInfo();
+        userInfo.setRemark(remark);
+        userInfo.setCreateDate(new Date().getTime());
+        userInfo.setCreateUser(ReqUtils.getUserName());
         //首次登陆是否修改密码
         if (checkedUpPwd) {
             userInfo.setFirstLogin(true);
@@ -250,8 +252,6 @@ public class UserServiceImpl extends JsonData implements UserService {
             Integer pwdValidityPeriod = (Integer) userMap.get("pwdValidityPeriod");
             userInfo.setPwdValidityPeriod(DateUtils.getRearDate(pwdValidityPeriod));
         }
-        SystemLogStatus logStatus = logStatusService.serviceSaveSysStatusInfo();
-        userInfo.setStatusId(logStatus.getStatusId());
         //新增用户
         userMapper.saveUserInfo(userInfo);
         Long uid = userInfo.getUid();

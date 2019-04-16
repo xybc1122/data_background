@@ -67,7 +67,7 @@ public interface Constants {
     /**
      * 法国日期转换
      */
-    String FRANCE_TIME = "dd MM. yyyy HH:mm:ss";
+    String FRANCE_TIME = "dd MM yyyy HH:mm:ss";
 
     /**
      * 意大利日期转换

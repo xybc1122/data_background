@@ -31,6 +31,15 @@ public class UserDto extends UserInfo {
      * 创建时间范围查询变量
      */
     private List<Long> createDates;
+    /**
+     * 修改日期范围查询变量
+     */
+    private List<Long> modifyDates;
+
+    /**
+     * 审核时间范围查询变量
+     */
+    private List<Long> auditDates;
 
     public List<Long> getCreateDates() {
         return createDates;
@@ -102,5 +111,21 @@ public class UserDto extends UserInfo {
 
     public void setRememberMe(boolean rememberMe) {
         this.rememberMe = rememberMe;
+    }
+
+    public List<Long> getModifyDates() {
+        return modifyDates;
+    }
+
+    public void setModifyDates(List<Long> modifyDates) {
+        this.modifyDates = modifyDates;
+    }
+
+    public List<Long> getAuditDates() {
+        return auditDates;
+    }
+
+    public void setAuditDates(List<Long> auditDates) {
+        this.auditDates = auditDates;
     }
 }

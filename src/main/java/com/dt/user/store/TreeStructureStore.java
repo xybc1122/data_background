@@ -14,7 +14,11 @@ import java.util.List;
  **/
 public class TreeStructureStore {
 
-
+    /**
+     * 树形数据转换
+     * @param result
+     * @return
+     */
     public static List<ParentTree> getTree(List<ParentTree> result) {
         //一级目录
         List<ParentTree> firstArrList = new ArrayList<>();

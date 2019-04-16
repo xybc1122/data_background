@@ -2,14 +2,11 @@ package com.dt.user.provider;
 
 
 import com.dt.user.dto.UserDto;
-import com.dt.user.store.ProviderSqlStore;
 import com.dt.user.utils.MD5Util;
 import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 public class UserProvider {
@@ -18,14 +15,14 @@ public class UserProvider {
     public String findUsers(UserDto userDto) {
         SQL sql = new SQL();
         String Alias = "u";
-        sql.SELECT("u.status_id,u.uid,u.name,u.computer_name,u.user_name,u.account_status,u.landing_time,u.version," +
-                "GROUP_CONCAT(r.`r_name`)as rName,GROUP_CONCAT(r.`rid`)as rid,s.mobile_phone,u.user_expiration_date,u.pwd_validity_period");
+        sql.SELECT("u.uid,u.name,u.computer_name,u.user_name,u.account_status,u.landing_time,u.version," +
+                "GROUP_CONCAT(r.`r_name`)as rName,GROUP_CONCAT(r.`rid`)as rid," +
+                "s.mobile_phone,u.user_expiration_date,u.pwd_validity_period,u.create_date,u.create_user,u.modify_date," +
+                "u.modify_user,u.audit_date,u.audit_user");
         sql.FROM("system_user_info AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("system_user_role_user AS ur ON(ur.u_id=u.uid)");
         sql.LEFT_OUTER_JOIN("system_user_role AS r ON(r.rid=ur.r_id)");
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS s ON(u.uid=s.u_id)");
-        //状态数据查询
-        ProviderSqlStore.saveStatus(userDto.getSystemLogStatus(), Alias, sql);
         //用户账号
         if (StringUtils.isNotBlank(userDto.getUserName())) {
             sql.WHERE("POSITION('" + userDto.getUserName() + "' IN u.`user_name`)");
@@ -68,7 +65,35 @@ public class UserProvider {
         if (StringUtils.isNotBlank(userDto.getMobilePhone())) {
             sql.WHERE("POSITION('" + userDto.getMobilePhone() + "' IN s.mobile_phone)");
         }
-        sql.WHERE("del_user=0");
+        //备注
+        if (StringUtils.isNotBlank(userDto.getRemark())) {
+            sql.WHERE("u.remark=#{remark}");
+        }
+        //创建时间
+        if (userDto.getCreateDates() != null && (userDto.getCreateDates().size() > 0)) {
+            sql.WHERE("ls.create_date BETWEEN  " + userDto.getCreateDates().get(0) + " AND " + userDto.getCreateDates().get(1) + "");
+        }
+        //创建人
+        if (StringUtils.isNotBlank(userDto.getCreateUser())) {
+            sql.WHERE("u.create_user=#{createUser}");
+        }
+        //修改日期
+        if (userDto.getModifyDates() != null && (userDto.getModifyDates().size() > 0)) {
+            sql.WHERE("u.modify_date BETWEEN  " + userDto.getModifyDates().get(0) + " AND " + userDto.getModifyDates().get(1) + "");
+        }
+        //修改人
+        if (StringUtils.isNotBlank(userDto.getModifyUser())) {
+            sql.WHERE("u.modify_user=#{modifyUser}");
+        }
+        //审核时间
+        if (userDto.getAuditDates() != null && (userDto.getAuditDates().size() > 0)) {
+            sql.WHERE("u.audit_date BETWEEN  " + userDto.getAuditDates().get(0) + " AND " + userDto.getAuditDates().get(1) + "");
+        }
+        //审核人
+        if (StringUtils.isNotBlank(userDto.getAuditUser())) {
+            sql.WHERE("u.audit_user=#{auditUser}");
+        }
+        sql.WHERE("u.del_or_not=0");
         sql.GROUP_BY("u.uid");
         return sql.toString();
     }
@@ -142,25 +167,14 @@ public class UserProvider {
     public String delUserInfo(Map<String, Object> mapDel) {
         String uidIds = mapDel.get("uidIds").toString();
         return StrUtils.updateSql(uidIds,
-                "UPDATE `system_user_info`\n" + "SET `del_user` = ,", "1", "`del_date` = ", "uid");
+                "UPDATE `system_user_info`\n" + "SET `del_or_not` = ", "1", "`modify_date` = ", "uid");
 
     }
 
     public String reUserInfo(Map<String, Object> mapDel) {
         String uidIds = mapDel.get("uidIds").toString();
-        String[] newIds = uidIds.split(",");
-        List<String> ids = java.util.Arrays.asList(newIds);
-        StringBuilder sql = new StringBuilder();
-        sql.append("UPDATE `system_user_info`\n" +
-                "SET `del_user` = 0" +
-                ",`del_date` = " + new Date().getTime() + "\n" +
-                "WHERE uid in (");
-        for (String id : ids) {
-            if (ids.indexOf(id) > 0)
-                sql.append(",");
-            sql.append("'").append(id).append("'");
-        }
-        sql.append(")");
-        return sql.toString();
+        return StrUtils.updateSql(uidIds,
+                "UPDATE `system_user_info`\n" + "SET `del_or_not` = ", "0", "`modify_date` = ", "uid");
+
     }
 }

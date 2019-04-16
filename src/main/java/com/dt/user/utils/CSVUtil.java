@@ -98,7 +98,7 @@ public class CSVUtil {
         CsvWriter csvWriter = null;
         try {
             // 创建CSV写对象
-            csvWriter = new CsvWriter(filePath + uuidName, ',', Charset.forName("GBK"));
+            csvWriter = new CsvWriter(filePath + uuidName, ',', Charset.forName("UTF-8"));
             String[] headers = new String[headerList.size()];
             headers = headerList.toArray(headers);
             // 先写表头

@@ -6,11 +6,10 @@ import com.dt.user.model.BasePublicModel.BasicPublicProducts;
 import com.dt.user.model.ParentTree;
 import com.dt.user.service.BasePublicService.BasicPublicProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/pro")
@@ -27,5 +26,20 @@ public class BasicPublicProductsController {
     public ResponseBase findByListProducts() {
         List<ParentTree> basicPublicSiteList = publicProductsService.serviceFindByProductsInfo();
         return JsonData.setResultSuccess(basicPublicSiteList);
+    }
+
+    @PostMapping("/upProducts")
+    public ResponseBase upProductInfo(@RequestBody BasicPublicProducts products) {
+        return publicProductsService.serviceUpProducts(products);
+    }
+
+    @PostMapping("/delProducts")
+    public ResponseBase delProductInfo(@RequestBody Map<String, String> delMap) {
+        return publicProductsService.serviceDelProducts(delMap);
+    }
+
+    @PostMapping("/saveProducts")
+    public ResponseBase saveProductInfo(@RequestBody BasicPublicProducts products) {
+        return publicProductsService.serviceSaveProducts(products);
     }
 }

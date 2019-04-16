@@ -11,6 +11,7 @@ import com.dt.user.service.GeneralQueryService;
 import com.dt.user.service.SystemLogStatusService;
 import com.dt.user.toos.Constant;
 import com.dt.user.toos.Constants;
+import com.dt.user.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,9 +58,6 @@ public class BasicPublicCompanyServiceImpl implements BasicPublicCompanyService 
     public ResponseBase serviceSaveCompany(BasicPublicCompany company) {
         //新增公司数据
         int result = companyMapper.saveCompany((BasicPublicCompany) logStatusService.setObjStatusId(company, Constants.SAVE));
-        if (result != 0) {
-            return JsonData.setResultSuccess("新增成功");
-        }
-        return JsonData.setResultError("新增失败");
+        return JsonUtils.saveMsg(result);
     }
 }

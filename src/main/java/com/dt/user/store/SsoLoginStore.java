@@ -9,13 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * local login store
- *
- * @author xuxueli 2018-04-02 20:03:11
  */
 @Component
 public class SsoLoginStore {
     /**
-     * 删除 token
+     * 删除 token,Cookie
      *
      * @param request
      * @param response

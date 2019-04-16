@@ -12,7 +12,9 @@ import org.apache.ibatis.jdbc.SQL;
  * @Date 2019/3/19 9:58
  **/
 public class ProviderSqlStore {
-    //通用设置sql状态
+    /**
+     * 通用设置sql状态
+     */
     public static String statusV = "`remark`,`status`,`create_date`,`create_user`," +
             "`modify_date`,`modify_user`,`audit_date`,`audit_user` \n";
 

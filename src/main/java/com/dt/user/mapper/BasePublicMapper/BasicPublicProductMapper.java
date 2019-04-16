@@ -9,6 +9,8 @@ import org.apache.ibatis.mapping.FetchType;
 import java.util.List;
 
 public interface BasicPublicProductMapper {
+
+
     /**
      * 查询产品物料信息
      */
@@ -34,7 +36,7 @@ public interface BasicPublicProductMapper {
     /**
      * 批量删除数据/更新
      */
-    @UpdateProvider(type = BasicPublicProductProvider.class, method = "delProduct")
+    @UpdateProvider(type = BasicPublicProductProvider.class, method = "delProductPro")
     int delProduct(@Param("thisIds") String thisIds);
 
     /**

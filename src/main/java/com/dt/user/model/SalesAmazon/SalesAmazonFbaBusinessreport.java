@@ -14,9 +14,9 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
     private String sAsin;
     private String pName;
     private Integer sessionsVisit;
-    private Double sessionsPer;
+    private BigDecimal sessionsPer;
     private Integer pageViews;
-    private Double buyBoxPer;
+    private BigDecimal buyBoxPer;
     private Integer order;
     private Integer orderB2B;
     private BigDecimal sales;
@@ -31,6 +31,22 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
 
     public SalesAmazonFbaBusinessreport(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
         super(shopId, siteId, createDate, createUser, recordingId);
+    }
+
+    public BigDecimal getSessionsPer() {
+        return sessionsPer;
+    }
+
+    public void setSessionsPer(BigDecimal sessionsPer) {
+        this.sessionsPer = sessionsPer;
+    }
+
+    public BigDecimal getBuyBoxPer() {
+        return buyBoxPer;
+    }
+
+    public void setBuyBoxPer(BigDecimal buyBoxPer) {
+        this.buyBoxPer = buyBoxPer;
     }
 
     public String getBusSku() {
@@ -81,14 +97,6 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
         this.sessionsVisit = sessionsVisit;
     }
 
-    public Double getSessionsPer() {
-        return sessionsPer;
-    }
-
-    public void setSessionsPer(Double sessionsPer) {
-        this.sessionsPer = sessionsPer;
-    }
-
     public Integer getPageViews() {
         return pageViews;
     }
@@ -97,13 +105,7 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
         this.pageViews = pageViews;
     }
 
-    public Double getBuyBoxPer() {
-        return buyBoxPer;
-    }
 
-    public void setBuyBoxPer(Double buyBoxPer) {
-        this.buyBoxPer = buyBoxPer;
-    }
 
     public Integer getOrder() {
         return order;

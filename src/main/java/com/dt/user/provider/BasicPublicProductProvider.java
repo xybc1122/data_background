@@ -31,12 +31,12 @@ public class BasicPublicProductProvider {
         //状态数据查询
         ProviderSqlStore.saveStatus(productDto.getSystemLogStatus(), Alias, sql);
         //产品代码
-        AppendSqlStore.sqlWhere(productDto.getProductCode(), "product_code", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getProductCode(), Alias + ".product_code", sql, Constants.SELECT);
 
         //产品名称
-        AppendSqlStore.sqlWhere(productDto.getProductName(), "product_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getProductName(), Alias + ".product_name", sql, Constants.SELECT);
         //规格型号
-        AppendSqlStore.sqlWhere(productDto.getModel(), "p.model", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getModel(), Alias + ".model", sql, Constants.SELECT);
         //每箱数量
         AppendSqlStore.sqlWhere(productDto.getQtyPerBox(), Alias + ".qty_per_box", sql, Constants.SELECT);
         //产品SKU
@@ -76,7 +76,7 @@ public class BasicPublicProductProvider {
         AppendSqlStore.sqlWhere(productDto.getProductName(), "ps.products_name", sql, Constants.SELECT);
         //  HS Code
         AppendSqlStore.sqlWhere(productDto.getHsCode(), "hc.hs_code", sql, Constants.SELECT);
-        sql.WHERE("del_or_not=0");
+        sql.WHERE(Alias + ".del_or_not=0");
         return sql.toString();
     }
 
@@ -131,7 +131,7 @@ public class BasicPublicProductProvider {
         return sql.toString();
     }
 
-    public String delProduct(Map<String, Object> mapDel) {
+    public String delProductPro(Map<String, Object> mapDel) {
         String thisIds = mapDel.get("thisIds").toString();
         return StrUtils.updateSql(thisIds,
                 "UPDATE `basic_public_product`\n" + "SET `del_or_not` = ", "1", null, "product_id");

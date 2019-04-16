@@ -4,10 +4,7 @@ import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
 import com.dt.user.mapper.SystemLogStatusMapper;
-import com.dt.user.model.BasePublicModel.BasicPublicCompany;
-import com.dt.user.model.BasePublicModel.BasicPublicExchangeRate;
-import com.dt.user.model.BasePublicModel.BasicPublicProduct;
-import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
+import com.dt.user.model.BasePublicModel.*;
 import com.dt.user.model.SystemLogStatus;
 import com.dt.user.service.GeneralQueryService;
 import com.dt.user.service.SystemLogStatusService;
@@ -39,14 +36,12 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     }
 
     @Override
-    public SystemLogStatus serviceSaveSysStatusInfo() {
-        //新增 通用状态
-        SystemLogStatus logStatus = new SystemLogStatus();
+    public SystemLogStatus serviceSaveSysStatusInfo(SystemLogStatus status) {
         //设置创建时间
-        logStatus.setCreateDate(new Date().getTime());
-        logStatus.setCreateUser(ReqUtils.getUserName());
-        logStatusMapper.saveSysStatusInfo(logStatus);
-        return logStatus;
+        status.setCreateDate(new Date().getTime());
+        status.setCreateUser(ReqUtils.getUserName());
+        logStatusMapper.saveSysStatusInfo(status);
+        return status;
     }
 
     @Override
@@ -82,34 +77,44 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
 
     @Override
     public Object setObjStatusId(Object obj, String status) {
+        SystemLogStatus logStatus;
         //如果是新增 不用去查数据库
         if (!status.equals("save")) {
             //先去数据库查询
             queryService.statusIdExist(obj);
         }
-        SystemLogStatus logStatus = serviceSaveSysStatusInfo();
         if (obj instanceof BasicPublicWarehouse) {
             //仓库
             BasicPublicWarehouse war = (BasicPublicWarehouse) obj;
+            //新增状态
+            logStatus = serviceSaveSysStatusInfo(war.getSystemLogStatus());
             war.setStatusId(logStatus.getStatusId());
             return war;
         } else if (obj instanceof BasicPublicCompany) {
             //公司
             BasicPublicCompany company = (BasicPublicCompany) obj;
+            logStatus = serviceSaveSysStatusInfo(company.getSystemLogStatus());
             company.setStatusId(logStatus.getStatusId());
             return company;
 
         } else if (obj instanceof BasicPublicExchangeRate) {
             //汇率
             BasicPublicExchangeRate rate = (BasicPublicExchangeRate) obj;
+            logStatus = serviceSaveSysStatusInfo(rate.getSystemLogStatus());
             rate.setStatusId(logStatus.getStatusId());
             return rate;
         } else if (obj instanceof BasicPublicProduct) {
             //产品信息
             BasicPublicProduct product = (BasicPublicProduct) obj;
+            logStatus = serviceSaveSysStatusInfo(product.getSystemLogStatus());
             product.setStatusId(logStatus.getStatusId());
             return product;
-
+        } else if (obj instanceof BasicPublicProducts) {
+            //产品类目
+            BasicPublicProducts products = (BasicPublicProducts) obj;
+            logStatus = serviceSaveSysStatusInfo(products.getSystemLogStatus());
+            products.setStatusId(logStatus.getStatusId());
+            return products;
         }
         return null;
     }

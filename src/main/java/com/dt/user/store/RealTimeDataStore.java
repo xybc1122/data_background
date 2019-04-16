@@ -30,16 +30,9 @@ public class RealTimeDataStore {
     }
 
     /**
-     * 发送消息
-     */
-    public static void sendMsg(RealTimeData timeData, String msg) {
-        timeData.setMsg(msg);
-    }
-
-    /**
      * 设置消息
      */
-    public static void setCont(RealTimeData timeData, String filePath) {
+    public static void setMsg(RealTimeData timeData, String filePath) {
         timeData.setFileCount(filePath);
     }
 
@@ -48,7 +41,7 @@ public class RealTimeDataStore {
      */
     public static RealTimeData getTimeData(String filePath) {
         RealTimeData timeData = new RealTimeData();
-        setCont(timeData, filePath);
+        setMsg(timeData, filePath);
         return timeData;
     }
 }

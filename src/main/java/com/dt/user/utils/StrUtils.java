@@ -111,7 +111,7 @@ public class StrUtils {
                 replace("MXN", "")
                 .trim();
         if (l != -1) {
-            return Double.parseDouble(strNew) / 100;
+            return new BigDecimal(strNew).divide(new BigDecimal(100)).doubleValue();
         }
         return Double.parseDouble(strNew);
     }
@@ -151,6 +151,8 @@ public class StrUtils {
         int i = str.indexOf(".");
         int j = str.indexOf(",");
         int k = str.indexOf("?");
+        //会出现 不间断的空格
+        int s = str.indexOf("\u00A0");
         //如果都有 并且 j > i 等于德国的
         if (i != -1 && j != -1 && j > i) {
             strNew = str.
@@ -170,8 +172,19 @@ public class StrUtils {
                     replace("?", "").
                     replace(',', '.');
             return new BigDecimal(strNew);
+            //法国会出现不间断的空格
+        } else if (s != -1 && j != -1) {
+            strNew = str.
+                    replace("\u00A0", "").
+                    replace(',', '.');
+            return new BigDecimal(strNew);
+
+        } else if (j != -1) {
+            //如果单独是单独的 ,号
+            strNew = str.replace(',', '.');
+            return new BigDecimal(strNew);
         }
-        return new BigDecimal(str.replace(',', '.'));
+        return new BigDecimal(str);
     }
 
     /**
@@ -225,4 +238,8 @@ public class StrUtils {
         return sb;
     }
 
+    public static void main(String[] args) {
+        String s = "-14 786,59";
+        System.out.println(s.indexOf(" "));
+    }
 }

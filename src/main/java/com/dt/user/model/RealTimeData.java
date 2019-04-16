@@ -4,14 +4,13 @@ package com.dt.user.model;
 import com.dt.user.utils.FileUtils;
 
 /**
- * 定时请求的对象
+ * 定时请求的对象表
  */
 public class RealTimeData {
     private String fileName;
     //上传页面id
     private Long redId;
 
-//    private static volatile RealTimeData timing = null;
     /**
      * 总数
      */

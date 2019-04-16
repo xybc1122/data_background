@@ -91,43 +91,31 @@ public class DateUtils {
         }
         String newDate = null;
         Long time = null;
-        int janvIndex = date.indexOf("一月");
-        int fevrIndex = date.indexOf("二月");
-        int marsIndex = date.indexOf("三月");
-        int avrIndex = date.indexOf("四月");
-        int maiIndex = date.indexOf("五月");
-        int juinIndex = date.indexOf("六月");
-        int juilIndex = date.indexOf("七月");
-        int aoutIndex = date.indexOf("八月");
-        int septIndex = date.indexOf("九月");
-        int octIndex = date.indexOf("十月");
-        int novIndex = date.indexOf("十一月");
-        int dicIndex = date.indexOf("十二月");
-        if (janvIndex != -1) {
+        if (date.contains("一月")) {
             newDate = date.replace("一月", "01");
-        } else if (fevrIndex != -1) {
+        } else if (date.contains("二月")) {
             newDate = date.replace("二月", "02");
-        } else if (marsIndex != -1) {
+        } else if (date.contains("三月")) {
             newDate = date.replace("三月", "03");
-        } else if (avrIndex != -1) {
+        } else if (date.contains("四月")) {
             newDate = date.replace("四月", "04");
-        } else if (maiIndex != -1) {
+        } else if (date.contains("五月")) {
             newDate = date.replace("五月", "05");
-        } else if (juinIndex != -1) {
+        } else if (date.contains("六月")) {
             newDate = date.replace("六月", "06");
-        } else if (juilIndex != -1) {
+        } else if (date.contains("七月")) {
             newDate = date.replace("七月", "07");
-        } else if (aoutIndex != -1) {
+        } else if (date.contains("八月")) {
             newDate = date.replace("八月", "08");
-        } else if (septIndex != -1) {
+        } else if (date.contains("九月")) {
             newDate = date.replace("九月", "09");
-        } else if (octIndex != -1) {
+        } else if (date.contains("十月")) {
             newDate = date.replace("十月", "10");
         }
-        if (novIndex != -1) {
+        if (date.contains("十一月")) {
             newDate = date.replace("十一月", "11");
         }
-        if (dicIndex != -1) {
+        if (date.contains("十二月")) {
             newDate = date.replace("十二月", "12");
         }
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
@@ -152,41 +140,29 @@ public class DateUtils {
         }
         Long time = null;
         String newDate = null;
-        int genIndex = date.indexOf("gen");
-        int febIndex = date.indexOf("feb");
-        int marIndex = date.indexOf("mar");
-        int aprIndex = date.indexOf("apr");
-        int magIndex = date.indexOf("mag");
-        int giuIndex = date.indexOf("giu");
-        int lugIndex = date.indexOf("lug");
-        int agoIndex = date.indexOf("ago");
-        int setIndex = date.indexOf("set");
-        int ottIndex = date.indexOf("ott");
-        int novIndex = date.indexOf("nov");
-        int dicIndex = date.indexOf("dic");
-        if (genIndex != -1) {
+        if (date.contains("gen")) {
             newDate = date.replace("gen", "01");
-        } else if (febIndex != -1) {
+        } else if (date.contains("feb")) {
             newDate = date.replace("feb", "02");
-        } else if (marIndex != -1) {
+        } else if (date.contains("mar")) {
             newDate = date.replace("mar", "03");
-        } else if (aprIndex != -1) {
+        } else if (date.contains("apr")) {
             newDate = date.replace("apr", "04");
-        } else if (magIndex != -1) {
+        } else if (date.contains("mag")) {
             newDate = date.replace("mag", "05");
-        } else if (giuIndex != -1) {
+        } else if (date.contains("giu")) {
             newDate = date.replace("giu", "06");
-        } else if (lugIndex != -1) {
+        } else if (date.contains("lug")) {
             newDate = date.replace("lug", "07");
-        } else if (agoIndex != -1) {
+        } else if (date.contains("ago")) {
             newDate = date.replace("ago", "08");
-        } else if (setIndex != -1) {
+        } else if (date.contains("set")) {
             newDate = date.replace("set", "09");
-        } else if (ottIndex != -1) {
+        } else if (date.contains("ott")) {
             newDate = date.replace("ott", "10");
-        } else if (novIndex != -1) {
+        } else if (date.contains("nov")) {
             newDate = date.replace("nov", "11");
-        } else if (dicIndex != -1) {
+        } else if (date.contains("dic")) {
             newDate = date.replace("dic", "12");
         }
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
@@ -211,42 +187,30 @@ public class DateUtils {
         }
         Long time = null;
         String newDate = null;
-        int janvIndex = date.indexOf("janv");
-        int fevrIndex = date.indexOf("févr");
-        int marsIndex = date.indexOf("mars");
-        int avrIndex = date.indexOf("avr");
-        int maiIndex = date.indexOf("mai");
-        int juinIndex = date.indexOf("juin");
-        int juilIndex = date.indexOf("juil");
-        int aoutIndex = date.indexOf("août");
-        int septIndex = date.indexOf("sept");
-        int octIndex = date.indexOf("oct");
-        int novIndex = date.indexOf("nov");
-        int dicIndex = date.indexOf("déc");
-        if (janvIndex != -1) {
-            newDate = date.replace("janv", "01");
-        } else if (fevrIndex != -1) {
-            newDate = date.replace("févr", "02");
-        } else if (marsIndex != -1) {
+        if (date.contains("janv.")) {
+            newDate = date.replace("janv.", "01");
+        } else if (date.contains("févr.")) {
+            newDate = date.replace("févr.", "02");
+        } else if (date.contains("mars")) {
             newDate = date.replace("mars", "03");
-        } else if (avrIndex != -1) {
-            newDate = date.replace("mai", "04");
-        } else if (maiIndex != -1) {
-            newDate = date.replace("mag", "05");
-        } else if (juinIndex != -1) {
+        } else if (date.contains("avr.")) {
+            newDate = date.replace("avr.", "04");
+        } else if (date.contains("mai")) {
+            newDate = date.replace("mai", "05");
+        } else if (date.contains("juin")) {
             newDate = date.replace("juin", "06");
-        } else if (juilIndex != -1) {
-            newDate = date.replace("juil", "07");
-        } else if (aoutIndex != -1) {
+        } else if (date.contains("juil.")) {
+            newDate = date.replace("juil.", "07");
+        } else if (date.contains("août")) {
             newDate = date.replace("août", "08");
-        } else if (septIndex != -1) {
-            newDate = date.replace("sept", "09");
-        } else if (octIndex != -1) {
-            newDate = date.replace("oct", "10");
-        } else if (novIndex != -1) {
-            newDate = date.replace("nov", "11");
-        } else if (dicIndex != -1) {
-            newDate = date.replace("déc", "12");
+        } else if (date.contains("sept")) {
+            newDate = date.replace("sept.", "09");
+        } else if (date.contains("oct.")) {
+            newDate = date.replace("oct.", "10");
+        } else if (date.contains("nov.")) {
+            newDate = date.replace("nov.", "11");
+        } else if (date.contains("déc.")) {
+            newDate = date.replace("déc.", "12");
         }
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
         try {
@@ -258,8 +222,11 @@ public class DateUtils {
     }
 
     public static void main(String[] args) throws ParseException {
-        String stringDate = "18-十二月-2019";
-        System.out.println(getXlsStrTime(stringDate, "dd-MM-yyyy"));
+        String stringDate = "27 févr. 2019 23:17:33 UTC+00:00";
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss", Locale.ENGLISH);
+//        Long time = sdf.parse(stringDate).getTime();
+//        System.out.println(time);
+//        System.out.println(getXlsStrTime(stringDate, "dd-MM-yyyy"));
 //        System.out.println(DateUtils.getFranceTime(stringDate, Constants.FRANCE_TIME));
 
     }

@@ -23,7 +23,7 @@ public interface UserMapper {
      * @param uid
      * @return
      */
-    @Select("select account_Status ,del_user,is_first_login  from system_user_info where uid=#{uid}")
+    @Select("select account_Status ,del_or_not,is_first_login  from system_user_info where uid=#{uid}")
     UserInfo getUserStatus(@Param("uid") Long uid);
 
     /**
@@ -33,7 +33,7 @@ public interface UserMapper {
      * @return
      */
     @Select("select uid, user_name,pwd,status,user_expiration_date,pwd_validity_period," +
-            "account_Status,name,del_user,is_first_login  from system_user_info where user_name=#{userName}")
+            "account_Status,name,del_or_not,is_first_login  from system_user_info where user_name=#{userName}")
     UserInfo findByUser(@Param("userName") String userName);
 
     /**
@@ -46,14 +46,6 @@ public interface UserMapper {
      * 查找 账号管理信息
      */
     @SelectProvider(type = UserProvider.class, method = "findUsers")
-    @Results({
-            @Result(column = "status_id", property = "systemLogStatus",
-                    one = @One(
-                            select = "com.dt.user.mapper.SystemLogStatusMapper.findSysStatusInfo",
-                            fetchType = FetchType.EAGER
-                    )
-            )
-    })
     List<UserInfo> findByUsers(UserDto pageDto);
 
     /**
@@ -101,7 +93,7 @@ public interface UserMapper {
     /**
      * 查询被删除的用户信息
      */
-    @Select("select uid, user_name,del_date,name from system_user_info where del_user=1")
+    @Select("select uid, user_name,modify_date,name from system_user_info where del_or_not=1")
     List<UserInfo> findByDelUserInfo();
 
     /**
@@ -113,8 +105,8 @@ public interface UserMapper {
     /**
      * 新增一个用户
      */
-    @Insert("insert into system_user_info(user_name,pwd,user_expiration_date,pwd_validity_period,name,is_first_login,status_id) "
-            + "values(#{userName},#{pwd},#{userExpirationDate},#{pwdValidityPeriod},#{name},#{isFirstLogin},#{statusId})")
+    @Insert("insert into system_user_info(user_name,pwd,user_expiration_date,pwd_validity_period,name,is_first_login,remark,create_date,create_user) "
+            + "values(#{userName},#{pwd},#{userExpirationDate},#{pwdValidityPeriod},#{name},#{isFirstLogin},#{remark},#{createDate},#{createUser})")
     @Options(useGeneratedKeys = true, keyProperty = "uid", keyColumn = "uid")
     int saveUserInfo(UserInfo userInfo);
 

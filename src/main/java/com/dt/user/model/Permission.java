@@ -7,6 +7,7 @@ import java.util.Set;
  * Description TODO
  * @Author 陈恩惠
  * @Date 2019/3/14 15:08
+ * 角色 权限 返回对象表
  **/
 public class Permission {
 

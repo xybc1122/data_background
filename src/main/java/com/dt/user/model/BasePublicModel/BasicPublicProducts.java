@@ -8,4 +8,7 @@ import com.dt.user.model.ParentTree;
  */
 public class BasicPublicProducts extends ParentTree {
 
+
+
+
 }

@@ -40,7 +40,7 @@ public interface BasicPublicExchangeRateMapper {
      * 新增汇率数据
      */
     @Insert("INSERT INTO `basic_public_exchange_rate`\n" +
-            "(`currency_id`, `to_rmb`,`to_usd`,`status_id`)" +
+            "(`currency_id`,`to_rmb`,`to_usd`,`status_id`)" +
             "VALUES (#{currencyId}, #{toRmb},#{toUsd},\n" +
             "#{statusId});")
     int saveRate(BasicPublicExchangeRate rate);

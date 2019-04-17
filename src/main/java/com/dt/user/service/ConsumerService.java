@@ -48,10 +48,10 @@ public interface ConsumerService {
      * @param uid
      * @param pId
      * @param recordingId
-     * @param tbId
+     * @param mId
      * @param businessTime
      * @return
      */
     Future<ResponseBase> importCsv(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Integer
-            pId, Long recordingId, Integer tbId, String businessTime) throws Exception;
+            pId, Long recordingId, Integer mId, String businessTime) throws Exception;
 }

@@ -5,6 +5,8 @@ import com.dt.user.store.ProviderSqlStore;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.Map;
+
 public class BasicPublicSiteProvider {
 
     public String findSite(SiteDto siteDto) {
@@ -65,6 +67,22 @@ public class BasicPublicSiteProvider {
         }
         sql.GROUP_BY(Alias + ".`site_id`");
         return sql.toString();
+    }
+
+    public String getSiteId(Map<String, Object> sMap) {
+        sMap.get("siteMap");
+        return new SQL() {{
+            SELECT("site_id");
+            FROM("`basic_public_site`");
+            if (StringUtils.isNotBlank(sMap.get("url").toString())) {
+                WHERE("url=" + "'" + sMap.get("url").toString() + "'");
+            }
+            if (StringUtils.isNotBlank(sMap.get("country").toString())) {
+                WHERE("site_name_eng=" + "'" + sMap.get("country").toString() + "'");
+            }
+        }}.toString();
+
+
     }
 
 }

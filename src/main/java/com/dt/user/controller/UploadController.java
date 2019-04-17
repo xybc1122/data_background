@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -40,10 +41,9 @@ public class UploadController {
     @PostMapping("/downloadCommonFile")
     @PermissionCheck("download")
     public void downloadFile(HttpServletRequest
-                                     request, HttpServletResponse response, @RequestBody Map<String, Object> fileMap) {
+                                     request, HttpServletResponse response, @RequestBody Map<String, Object> fileMap) throws IOException {
         String filePath = (String) fileMap.get("filePath");
         FileUtils.downloadFile(filePath, response, request);
-        //下载有问题 会报错
         LoginInterceoter.sendJsonMessage(response, JsonData.setResultSuccess("下载成功"));
     }
 
@@ -131,13 +131,13 @@ public class UploadController {
                 String typeFile = userUpload.getName().substring(fileIndex + 1);
                 if (typeFile.equals("csv")) {
                     responseBase = consumerService.importCsv(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(),
-                            userUpload.getpId(), userUpload.getId(), userUpload.getTbId(), userUpload.getBusinessTime()).get();
+                            userUpload.getPayId(), userUpload.getId(), userUpload.getmId(), userUpload.getBusinessTime()).get();
                     responseBaseList.add(responseBase);
                 } else if (typeFile.equals("xlsx") || typeFile.equals("xls")) {
-                    responseBase = consumerService.importXls(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getTbId()).get();
+                    responseBase = consumerService.importXls(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getmId()).get();
                     responseBaseList.add(responseBase);
                 } else if (typeFile.equals("txt")) {
-                    responseBase = consumerService.importTxt(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getTbId(), userUpload.getAreaId()).get();
+                    responseBase = consumerService.importTxt(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getmId(), userUpload.getAreaId()).get();
                     responseBaseList.add(responseBase);
                 }
             }
@@ -159,7 +159,7 @@ public class UploadController {
     public UserUpload uploadOperating(Integer siteId, Integer shopId,
                                       String fileName, String saveFilePath,
                                       Long uId, Integer pId, Integer status,
-                                      String msg, Integer tbId, Integer aId, String businessTime, String uuId) {
+                                      String msg, Integer mId, Integer aId, String businessTime, String uuId) {
         UserUpload upload = new UserUpload();
         //存入打碎后的文件名称
         upload.setUuidName(uuId);
@@ -182,14 +182,14 @@ public class UploadController {
         //区域ID
         upload.setAreaId(aId);
         //付款类型ID
-        upload.setpId(pId);
+        upload.setPayId(pId);
         //上传状态
         upload.setStatus(status);
         //上传信息
         upload.setRemark(msg);
         //菜单信息
-        upload.setTbId(tbId);
-        //业务报告时间信息
+        upload.setmId(mId);
+        //记录需要手动输入时间信息 /比如业务报告
         if (StringUtils.isNotBlank(businessTime)) {
             upload.setBusinessTime(businessTime);
         }

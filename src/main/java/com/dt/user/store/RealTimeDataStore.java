@@ -13,6 +13,7 @@ public class RealTimeDataStore {
      * 设置百分比进度
      */
     public static int setSchedule(RealTimeData timeData, int index) {
+        System.out.println(index);
         timeData.setPercentage((int) ((index / timeData.getTotalNumber()) * 100));
         if (timeData.getPercentage() == 60) {
             //设置颜色

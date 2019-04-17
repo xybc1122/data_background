@@ -90,9 +90,13 @@ public interface Constants {
     String MEXICO_TIME = "dd/MM/yyyy HH:mm:ss";
 
     /**
-     * 订单/退货 日期转换
+     * 订单/退货 / FBA遗弃 // 长期仓储费 日期转换 通用日期
      */
-    String ORDER_RETURN = "yyyy-MM-dd'T'HH:mm:ss";
+    String GP_DATE = "yyyy-MM-dd'T'HH:mm:ss";
+    /**
+     * 月度报告时间转换
+     */
+    String MONTHLY_REPORT = "yyyy-MM";
 
     /**
      * 数据存入失败

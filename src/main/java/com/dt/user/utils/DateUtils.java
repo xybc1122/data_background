@@ -222,8 +222,9 @@ public class DateUtils {
     }
 
     public static void main(String[] args) throws ParseException {
-        String stringDate = "27 févr. 2019 23:17:33 UTC+00:00";
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss", Locale.ENGLISH);
+        String stringDate = "2018/11/1";
+        //   SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss", Locale.ENGLISH);
+        System.out.println(getTime(stringDate, "yyyy/MM/dd"));
 //        Long time = sdf.parse(stringDate).getTime();
 //        System.out.println(time);
 //        System.out.println(getXlsStrTime(stringDate, "dd-MM-yyyy"));

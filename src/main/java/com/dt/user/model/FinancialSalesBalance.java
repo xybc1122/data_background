@@ -9,6 +9,7 @@ public class FinancialSalesBalance extends ParentUploadInfo {
 
     private Long balanceId;
     private String settlementId;
+    //付款类型
     private Long paymentTypeId;
     private String financialSku;
     private String type;
@@ -78,6 +79,7 @@ public class FinancialSalesBalance extends ParentUploadInfo {
         super(shopId, siteId, createDate, createUser, recordingId);
         this.paymentTypeId = paymentTypeId;
     }
+
     public String getPaymentTypeName() {
         return paymentTypeName;
     }
@@ -85,6 +87,7 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     public void setPaymentTypeName(String paymentTypeName) {
         this.paymentTypeName = paymentTypeName;
     }
+
     public BigDecimal getNewOther() {
         return newOther;
     }

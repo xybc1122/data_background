@@ -55,14 +55,14 @@ public class UserUpload {
     private Integer siteId;
 
     /**
-     * payId
+     * payId 结算类型
      */
-    private Integer pId;
+    private Integer payId;
 
     /**
      * tbId 通过这ID获取是哪一个菜单的上传
      */
-    private Integer tbId;
+    private Integer mId;
 
     /**
      * 记录表ID
@@ -79,6 +79,10 @@ public class UserUpload {
      */
     private String businessTime;
     /**
+     * 财务结算类型
+     */
+    private String paymentTypeName;
+    /**
      * 当前页
      */
     private Integer currentPage;
@@ -87,6 +91,32 @@ public class UserUpload {
      * 显示的页数
      */
     private Integer pageSize;
+    private List<Long> createDates;
+    private List<Long> delDates;
+
+    public List<Long> getCreateDates() {
+        return createDates;
+    }
+
+    public void setCreateDates(List<Long> createDates) {
+        this.createDates = createDates;
+    }
+
+    public List<Long> getDelDates() {
+        return delDates;
+    }
+
+    public void setDelDates(List<Long> delDates) {
+        this.delDates = delDates;
+    }
+
+    public String getPaymentTypeName() {
+        return paymentTypeName;
+    }
+
+    public void setPaymentTypeName(String paymentTypeName) {
+        this.paymentTypeName = paymentTypeName;
+    }
 
     public Integer getCurrentPage() {
         return currentPage;
@@ -136,12 +166,12 @@ public class UserUpload {
         this.areaId = areaId;
     }
 
-    public Integer getpId() {
-        return pId;
+    public Integer getPayId() {
+        return payId;
     }
 
-    public void setpId(Integer pId) {
-        this.pId = pId;
+    public void setPayId(Integer payId) {
+        this.payId = payId;
     }
 
     public Long getId() {
@@ -223,12 +253,13 @@ public class UserUpload {
     public void setStatus(Integer status) {
         this.status = status;
     }
-    public Integer getTbId() {
-        return tbId;
+
+    public Integer getmId() {
+        return mId;
     }
 
-    public void setTbId(Integer tbId) {
-        this.tbId = tbId;
+    public void setmId(Integer mId) {
+        this.mId = mId;
     }
 
     public Long getRecordingId() {

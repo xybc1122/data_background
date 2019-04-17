@@ -1,17 +1,17 @@
 package com.dt.user.service.impl;
 
-import com.dt.user.config.BaseRedisService;
+
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.mapper.RoleMenuMapper;
 import com.dt.user.model.RoleMenu;
+import com.dt.user.service.RedisService;
 import com.dt.user.service.RoleMenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
     @Autowired
     private RoleMenuMapper roleMenuMapper;
     @Autowired
-    private BaseRedisService redisService;
+    private RedisService redisService;
 
     @Override
     public List<String> gerRoleMenus(Long rid) {

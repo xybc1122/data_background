@@ -22,10 +22,18 @@ public interface BasicPublicSiteService {
     List<BasicPublicSite> getShopIdTakeSiteList(Long sId);
 
 
-
     /**
      * 洲 业务
      * 通过url 去查询site ID
      */
-    Integer getSiteId(String url);
+    Integer serviceGetUrlSiteId(String url);
+
+    /**
+     * 洲 业务
+     * 通过country 国家名 去查询site ID
+     *
+     * @param country
+     * @return
+     */
+    Integer serviceGetCSiteId(String country);
 }

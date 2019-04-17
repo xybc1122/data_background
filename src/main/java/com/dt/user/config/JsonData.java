@@ -1,5 +1,6 @@
 package com.dt.user.config;
 
+import com.dt.user.service.RedisService;
 import com.dt.user.toos.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class JsonData {
     // redis封装
     @Autowired
-    protected BaseRedisService redisService;
+    protected RedisService redisService;
 
     // 返回错误 ，可以传msg
     public static ResponseBase setResultError(String msg) {

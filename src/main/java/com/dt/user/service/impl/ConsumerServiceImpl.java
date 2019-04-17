@@ -9,6 +9,7 @@ import com.dt.user.mapper.BasePublicMapper.BasicPublicAmazonTypeMapper;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonWarehouse;
 import com.dt.user.model.FinancialSalesBalance;
+import com.dt.user.model.ParentUploadInfo;
 import com.dt.user.model.RealTimeData;
 import com.dt.user.model.SalesAmazon.*;
 import com.dt.user.model.UserUpload;
@@ -54,8 +55,10 @@ public class ConsumerServiceImpl implements ConsumerService {
 
     @Autowired
     private SalesAmazonFbaBusinessreportService busService;
+
     @Autowired
     private FinancialSalesBalanceService fsbService;
+
     @Autowired
     private SalesAmazonAdCprService cprService;
 
@@ -90,10 +93,16 @@ public class ConsumerServiceImpl implements ConsumerService {
     private SalesAmazonFbaRefundService refundService;
 
     @Autowired
-    private SalesAmazonFbaReceivestockService receivestockService;
+    private SalesAmazonFbaReceivestockService receiveStockService;
 
     @Autowired
     private SalesAmazonFbaInventoryEndService endService;
+    @Autowired
+    private SalesAmazonFbaMonthWarehouseFeeService mWarService;
+    @Autowired
+    private SalesAmazonFbaLongWarehousefeeServcie lWservice;
+
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -208,6 +217,8 @@ public class ConsumerServiceImpl implements ConsumerService {
         List<SalesAmazonFbaRefund> safRefundList = null;
         List<SalesAmazonFbaTradeReport> safTradList = null;
         List<SalesAmazonFbaInventoryEnd> safEndList = null;
+        List<SalesAmazonFbaMonthWarehouseFee> mWarList = null;
+        List<SalesAmazonFbaLongWarehousefee> lwList = null;
         List<?> tList = new ArrayList<>();
         //获得数据库是否存入的信息
         List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(null, menuId, aId, shopId);
@@ -236,10 +247,8 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaTradeReport sftPort = setTraPort(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            sftPort = saveTradeReport(i, sftPort, newLine, shopId, txtHead, isImportHead);
-                            if (sftPort == null) {
-                                //先拿到这一行信息 newLine
-                                exportTxtType(txtHeadList, line);
+                            sftPort = setTradeReport(i, sftPort, newLine, shopId, txtHead, isImportHead);
+                            if (isObjNull(sftPort, txtHeadList, line) == -1) {
                                 break;
                             }
                         }
@@ -253,10 +262,8 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaRefund sfRefund = setRefund(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            sfRefund = saveAmazonFbaRefund(i, sfRefund, newLine, shopId, aId, txtHead, isImportHead);
-                            if (sfRefund == null) {
-                                //先拿到这一行信息 newLine
-                                exportTxtType(txtHeadList, line);
+                            sfRefund = setAmazonFbaRefund(i, sfRefund, newLine, shopId, aId, txtHead, isImportHead);
+                            if (isObjNull(sfRefund, txtHeadList, line) == -1) {
                                 break;
                             }
                         }
@@ -270,10 +277,8 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaReceivestock sfReceives = setReceives(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            sfReceives = saveReceiveStock(i, sfReceives, newLine, txtHead, shopId, isImportHead);
-                            if (sfReceives == null) {
-                                //先拿到这一行信息 newLine
-                                exportTxtType(txtHeadList, line);
+                            sfReceives = setReceiveStock(i, sfReceives, newLine, txtHead, shopId, isImportHead);
+                            if (isObjNull(sfReceives, txtHeadList, line) == -1) {
                                 break;
                             }
                         }
@@ -287,10 +292,8 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaInventoryEnd sfEnd = setEnd(shopId, userName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            sfEnd = salesEnd(i, sfEnd, newLine, txtHead, isImportHead);
-                            if (sfEnd == null) {
-                                //先拿到这一行信息 newLine
-                                exportTxtType(txtHeadList, line);
+                            sfEnd = setSalesEnd(i, sfEnd, newLine, txtHead, isImportHead);
+                            if (isObjNull(sfEnd, txtHeadList, line) == -1) {
                                 break;
                             }
                         }
@@ -298,10 +301,40 @@ public class ConsumerServiceImpl implements ConsumerService {
                             safEndList.add(sfEnd);
                         }
                         break;
+                    //月度仓储费用
+                    case 269:
+                        mWarList = ArrUtils.listT(tList);
+                        SalesAmazonFbaMonthWarehouseFee mWar = setMWar(shopId, userName, recordingId);
+                        for (int i = 0; i < newLine.length; i++) {
+                            k = i;
+                            mWar = setMonthWarehouseFee(i, mWar, newLine, txtHead, isImportHead);
+                            if (isObjNull(mWar, txtHeadList, line) == -1) {
+                                break;
+                            }
+                        }
+                        if (mWar != null) {
+                            mWarList.add(mWar);
+                        }
+                        break;
+                    //长期仓储费用
+                    case 270:
+                        lwList = ArrUtils.listT(tList);
+                        SalesAmazonFbaLongWarehousefee lWar = setLWar(shopId, userName, recordingId);
+                        for (int i = 0; i < newLine.length; i++) {
+                            k = i;
+                            lWar = setLongWarehouseFee(i, lWar, newLine, txtHead, isImportHead);
+                            if (isObjNull(lWar, txtHeadList, line) == -1) {
+                                break;
+                            }
+                        }
+                        if (lWar != null) {
+                            lwList.add(lWar);
+                        }
+                        break;
                 }
                 index++;
                 //设置进度 传输
-                sendRealTimeData(ctx, intMap, timeData, index);
+                sendRealTimeData(ctx, intMap, timeData, index + 1);
             }
         } catch (Exception e) {
             if (e instanceof NullPointerException) {
@@ -317,9 +350,13 @@ public class ConsumerServiceImpl implements ConsumerService {
             } else if (safRefundList != null && safRefundList.size() > 0) {
                 countTrad = refundService.AddSalesAmazonAdRefundList(safRefundList);
             } else if (sfReceivesList != null && sfReceivesList.size() > 0) {
-                countTrad = receivestockService.addSalesAmazonAdReceivestockList(sfReceivesList);
+                countTrad = receiveStockService.addSalesAmazonAdReceivestockList(sfReceivesList);
             } else if (safEndList != null && safEndList.size() > 0) {
                 countTrad = endService.addSalesAmazonAdInventoryEndList(safEndList);
+            } else if (mWarList != null && mWarList.size() > 0) {
+                countTrad = mWarService.serviceSaveAmazonMonthWar(mWarList);
+            } else if (lwList != null && lwList.size() > 0) {
+                countTrad = lWservice.serviceSetAmazonLongWar(lwList);
             }
         } catch (Exception e) {
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
@@ -332,92 +369,224 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     /**
+     * 设置
+     *
+     * @param i
+     * @param lWar
+     * @param j
+     * @param txtHeadList
+     * @param isImportHead
+     * @return
+     */
+    private SalesAmazonFbaLongWarehousefee setLongWarehouseFee(int i, SalesAmazonFbaLongWarehousefee lWar, String[] j,
+                                                               List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
+        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
+            lWar.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
+        else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
+            lWar.setLwSku(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
+            lWar.setFnSku(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose()) {
+            lWar.setAsin(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose()) {
+            lWar.setProductName(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(5).getImportTemplet()) && isImportHead.get(5).getOpenClose()) {
+            lWar.setQtyChargedSixMoLongTermStorageFee(StrUtils.repInteger(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(6).getImportTemplet()) && isImportHead.get(6).getOpenClose()) {
+            lWar.setPerUnitVolume(StrUtils.repDecimal(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(7).getImportTemplet()) && isImportHead.get(7).getOpenClose()) {
+            lWar.setCurrency(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(8).getImportTemplet()) && isImportHead.get(8).getOpenClose()) {
+            lWar.setTwelveMoLongTermsStorageFee(StrUtils.repDecimal(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(9).getImportTemplet()) && isImportHead.get(9).getOpenClose()) {
+            lWar.setQtyChargedSixMoLongTermStorageFee(StrUtils.repInteger(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(10).getImportTemplet()) && isImportHead.get(10).getOpenClose()) {
+            lWar.setSixMoLongTermsStorageFee(StrUtils.repDecimal(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(11).getImportTemplet()) && isImportHead.get(11).getOpenClose()) {
+            lWar.setVolumeUnit(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(12).getImportTemplet()) && isImportHead.get(12).getOpenClose()) {
+           //这里通过文件里的公司名 去查找站点ID
+            String siteName = StrUtils.repString(j[i]);
+            Integer seId = siteService.serviceGetCSiteId(siteName);
+            if (seId == null) return null;
+            lWar.setCountry(siteName);
+            lWar.setSiteId(seId);
+        } else if (txtHeadList.get(i).equals(isImportHead.get(13).getImportTemplet()) && isImportHead.get(13).getOpenClose()) {
+            lWar.setEnrolledInSmallAndLight(StrUtils.repString(j[i]));
+        }
+        if (i + 1 == j.length) {
+            String result = setThisId(lWar.getShopId(), lWar.getSiteId(), lWar.getAsin(), lWar);
+            if (result == null) {
+                return null;
+            }
+        }
+        return lWar;
+    }
+
+    /**
+     * 设置月度报告实体
+     *
+     * @param i
+     * @param mWar
+     * @param j
+     * @param txtHeadList
+     * @param isImportHead
+     * @return
+     */
+    private SalesAmazonFbaMonthWarehouseFee setMonthWarehouseFee(int i, SalesAmazonFbaMonthWarehouseFee mWar, String[] j,
+                                                                 List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
+        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
+            mWar.setAsin(StrUtils.repString(j[i]));
+        else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
+            mWar.setFnSku(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
+            mWar.setProductName(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose()) {
+            String fc = StrUtils.repString(j[i]);
+            BasicSalesAmazonWarehouse warehouse = warehouseService.getWarehouse(fc);
+            if (warehouse == null) return null;
+            mWar.setFc(fc);
+            mWar.setAwId(warehouse.getAmazonWarehouseId());
+            mWar.setSiteId(warehouse.getSiteId());
+        } else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose()) {
+            mWar.setCountryCode(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(5).getImportTemplet()) && isImportHead.get(5).getOpenClose()) {
+            mWar.setLongestSide(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(6).getImportTemplet()) && isImportHead.get(6).getOpenClose()) {
+            mWar.setMedianSide(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(7).getImportTemplet()) && isImportHead.get(7).getOpenClose()) {
+            mWar.setShortestSide(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(8).getImportTemplet()) && isImportHead.get(8).getOpenClose()) {
+            mWar.setMeasurementUnits(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(9).getImportTemplet()) && isImportHead.get(9).getOpenClose()) {
+            mWar.setWeight(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(10).getImportTemplet()) && isImportHead.get(10).getOpenClose()) {
+            mWar.setWeightUnits(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(11).getImportTemplet()) && isImportHead.get(11).getOpenClose()) {
+            mWar.setItemVolume(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(12).getImportTemplet()) && isImportHead.get(12).getOpenClose()) {
+            mWar.setVolumeUnits(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(13).getImportTemplet()) && isImportHead.get(13).getOpenClose()) {
+            mWar.setProductSizeTier(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(14).getImportTemplet()) && isImportHead.get(14).getOpenClose()) {
+            mWar.setAverageQuantityOnHand(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(15).getImportTemplet()) && isImportHead.get(15).getOpenClose()) {
+            mWar.setAverageQuantityPendingRemoval(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(16).getImportTemplet()) && isImportHead.get(16).getOpenClose()) {
+            mWar.setEstimatedTotalItemVolume(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(17).getImportTemplet()) && isImportHead.get(17).getOpenClose()) {
+            mWar.setMonthOfCharge(DateUtils.getTime(j[i], Constants.MONTHLY_REPORT));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(18).getImportTemplet()) && isImportHead.get(18).getOpenClose()) {
+            mWar.setStorageRate(StrUtils.repDouble(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(19).getImportTemplet()) && isImportHead.get(19).getOpenClose()) {
+            mWar.setCurrency(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(20).getImportTemplet()) && isImportHead.get(20).getOpenClose()) {
+            mWar.setEstimatedMonthlyStorageFee(StrUtils.repDouble(j[i]));
+        }
+        if (i + 1 == j.length) {
+            String result = setThisId(mWar.getShopId(), mWar.getSiteId(), mWar.getAsin(), mWar);
+            if (result == null) {
+                return null;
+            }
+        }
+        return mWar;
+    }
+
+    /**
+     * 设置继承ParentUploadInfo的SKUID
+     *
+     * @param i    循环下标
+     * @param j    一行最大的长度
+     * @param sId  店铺ID
+     * @param seId 站点ID
+     * @param Asin
+     * @return
+     */
+    private String setThisId(int sId, int seId, String Asin, ParentUploadInfo p) {
+        Long skuId = skuService.getAsinSkuId(sId, seId, Asin);
+        if (skuId != null) {
+            p.setSkuId(skuId);
+            return "ok";
+        }
+        return null;
+    }
+
+    /**
      * 期末库存信息存入
      *
-     * @param sft
+     * @param ie
      * @param j
      * @return
      * @throws IOException
      */
-    public SalesAmazonFbaInventoryEnd salesEnd(int i, SalesAmazonFbaInventoryEnd sft, String[] j,
-                                               List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
+    private SalesAmazonFbaInventoryEnd setSalesEnd(int i, SalesAmazonFbaInventoryEnd ie, String[] j,
+                                                   List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
 
         if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
-            sft.setDate(DateUtils.getTime(j[i], Constants.ORDER_RETURN));
+            ie.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
-            sft.setFnSku(StrUtils.repString(j[i]));
+            ie.setFnSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
-            sft.setInvSku(StrUtils.repString(j[i]));
+            ie.setInvSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose()) {
-            sft.setProductName(StrUtils.repString(j[i]));
+            ie.setProductName(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose()) {
-            sft.setQuantity(StrUtils.replaceInteger(j[i]));
+            ie.setQuantity(StrUtils.replaceInteger(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(5).getImportTemplet()) && isImportHead.get(5).getOpenClose()) {
             String fc = StrUtils.repString(j[i]);
-            if (StringUtils.isEmpty(fc)) {
-                return null;
-            }
-            sft.setFc(fc);
             BasicSalesAmazonWarehouse warehouse = warehouseService.getWarehouse(fc);
-            if (warehouse == null || warehouse.getSiteId() == null || warehouse.getAmazonWarehouseId() == null) {
-                return null;
-            }
-            sft.setSiteId(warehouse.getSiteId());
-            sft.setAwId(warehouse.getAmazonWarehouseId());
-
+            if (warehouse == null) return null;
+            ie.setFc(fc);
+            ie.setSiteId(warehouse.getSiteId());
+            ie.setAwId(warehouse.getAmazonWarehouseId());
         } else if (txtHeadList.get(i).equals(isImportHead.get(6).getImportTemplet()) && isImportHead.get(6).getOpenClose()) {
-            sft.setDisposition(StrUtils.repString(j[i]));
+            ie.setDisposition(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(7).getImportTemplet()) && isImportHead.get(7).getOpenClose()) {
-            sft.setCountry(StrUtils.repString(j[i]));
+            ie.setCountry(StrUtils.repString(j[i]));
         }
-        return sft;
+        return ie;
     }
 
     /**
      * 接收订单信息存入
      *
-     * @param sft
+     * @param fr
      * @param j
      * @return
      * @throws IOException
      */
-    public SalesAmazonFbaReceivestock saveReceiveStock(int i, SalesAmazonFbaReceivestock sft, String[] j,
+    private SalesAmazonFbaReceivestock setReceiveStock(int i, SalesAmazonFbaReceivestock fr, String[] j,
                                                        List<String> txtHeadList, Integer shopId, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
         if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
-            sft.setDate(DateUtils.getTime(j[i], Constants.ORDER_RETURN));
+            fr.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
-            sft.setFnSku(StrUtils.repString(j[i]));
+            fr.setFnSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
             String recSku = StrUtils.repString(j[i]);
             if (StringUtils.isEmpty(recSku)) {
                 return null;
             }
-            sft.setRecSku(recSku);
+            fr.setRecSku(recSku);
         } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose()) {
-            sft.setProductName(StrUtils.repString(j[i]));
+            fr.setProductName(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose()) {
-            sft.setQuantity(StrUtils.replaceInteger(j[i]));
+            fr.setQuantity(StrUtils.replaceInteger(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(5).getImportTemplet()) && isImportHead.get(5).getOpenClose()) {
-            sft.setFbaShipmentId(StrUtils.repString(j[i]));
+            fr.setFbaShipmentId(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(6).getImportTemplet()) && isImportHead.get(6).getOpenClose()) {
             String fc = StrUtils.repString(j[i]);
-            if (StringUtils.isEmpty(fc)) {
-                return null;
-            }
-            sft.setFc(fc);
             BasicSalesAmazonWarehouse warehouse = warehouseService.getWarehouse(fc);
-            if (warehouse == null || warehouse.getSiteId() == null || warehouse.getAmazonWarehouseId() == null) {
-                return null;
-            }
-            sft.setAwId(warehouse.getAmazonWarehouseId());
-            sft.setSiteId(warehouse.getSiteId());
+            if (warehouse == null) return null;
+            fr.setFc(fc);
+            fr.setAwId(warehouse.getAmazonWarehouseId());
+            fr.setSiteId(warehouse.getSiteId());
             //设置skuId
-            boolean isFlg = skuEqSku(sft.getRecSku(), shopId, sft.getSiteId(), sft);
+            boolean isFlg = skuEqSku(fr.getRecSku(), shopId, fr.getSiteId(), fr);
             if (!isFlg) {
                 return null;
             }
         }
-        return sft;
+        return fr;
     }
 
     /**
@@ -428,10 +597,10 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      * @throws IOException
      */
-    public SalesAmazonFbaRefund saveAmazonFbaRefund(int i, SalesAmazonFbaRefund sft, String[] j, Integer sId, Integer aId,
+    private SalesAmazonFbaRefund setAmazonFbaRefund(int i, SalesAmazonFbaRefund sft, String[] j, Integer sId, Integer aId,
                                                     List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
         if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
-            sft.setDate(DateUtils.getTime(j[i], Constants.ORDER_RETURN));
+            sft.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
             String oId = StrUtils.repString(j[i]);
             if (StringUtils.isEmpty(oId)) {
@@ -495,7 +664,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      * @throws IOException
      */
-    public SalesAmazonFbaTradeReport saveTradeReport(int i, SalesAmazonFbaTradeReport sft, String[] j,
+    private SalesAmazonFbaTradeReport setTradeReport(int i, SalesAmazonFbaTradeReport sft, String[] j,
                                                      Integer sId, List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
         //下标对应  并且 是开启导入状态
 
@@ -504,9 +673,9 @@ public class ConsumerServiceImpl implements ConsumerService {
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose())
             sft.setMerchantOrderId(StrUtils.repString(j[i]));
         else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose())
-            sft.setDate(DateUtils.getTime(j[i], Constants.ORDER_RETURN));
+            sft.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
         else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose())
-            sft.setLastUpdatedDate(DateUtils.getTime(j[i], Constants.ORDER_RETURN));
+            sft.setLastUpdatedDate(DateUtils.getTime(j[i], Constants.GP_DATE));
         else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose())
             sft.setOrderStatus(StrUtils.repString(j[i]));
         else if (txtHeadList.get(i).equals(isImportHead.get(5).getImportTemplet()) && isImportHead.get(5).getOpenClose()) {
@@ -515,7 +684,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             String siteUrl = StrUtils.repString(j[i]);
             sft.setSalesChannel(siteUrl);
             //查询 获得site Id
-            Integer siteId = siteService.getSiteId(siteUrl);
+            Integer siteId = siteService.serviceGetUrlSiteId(siteUrl);
             if (siteId == null) {
                 return null;
             }
@@ -590,7 +759,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
 
-    public ResponseBase threadXls(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Long
+    private ResponseBase threadXls(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Long
             recordingId, Integer menuId) throws Exception {
         String filePath = saveFilePath + uuIdName;
         //判断文件类型 fileType()
@@ -631,7 +800,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param sheet
      * @return
      */
-    public ResponseBase saveXls(Integer shopId, Integer siteId, Long uid, Long
+    private ResponseBase saveXls(Integer shopId, Integer siteId, Long uid, Long
             recordingId, int totalNumber, List<String> sqlHead, Integer menuId, Sheet sheet, List<String> xlsListHead) {
         // 开始时间
         Long begin = new Date().getTime();
@@ -716,7 +885,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     hlList.add(adHl);
                 }
                 index++;
-                sendRealTimeData(ctx, intMap, timeData, index);
+                sendRealTimeData(ctx, intMap, timeData, index + 1);
             }
         } catch (Exception e) {
             if (e instanceof NullPointerException) {
@@ -1049,9 +1218,9 @@ public class ConsumerServiceImpl implements ConsumerService {
     @Override
     @Transactional
     @Async("executor")
-    public Future<ResponseBase> importCsv(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Integer pId, Long recordingId, Integer tbId, String businessTime) throws Exception {
+    public Future<ResponseBase> importCsv(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Integer pId, Long recordingId, Integer mId, String businessTime) throws Exception {
         future = new AsyncResult<>(threadCsv(uuIdName, saveFilePath, fileName, siteId, shopId, uid,
-                pId, recordingId, tbId, businessTime));
+                pId, recordingId, mId, businessTime));
         return future;
     }
 
@@ -1172,7 +1341,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                 }
                 index++;
-                sendRealTimeData(ctx, intMap, timeData, index);
+                sendRealTimeData(ctx, intMap, timeData, index + row);
             }
         } catch (Exception e) {
             if (e instanceof NullPointerException) {
@@ -1246,6 +1415,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         }
         return sfb;
     }
+
 
     /**
      * csv 财务存入对象
@@ -1455,8 +1625,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     /**
-     * /**
-     * 封装通用更新方法
+     * 封装recordInfo通用更新方法
      */
     private ResponseBase upUserUpload(int status, Long id, String fileName, String msg, String saveFilePath, String uuIdName) {
         UserUpload upload;
@@ -1518,20 +1687,20 @@ public class ConsumerServiceImpl implements ConsumerService {
      * 封装通用获得头信息对比
      *
      * @param seId
-     * @param tbId
+     * @param mId
      * @return
      */
-    public List<String> getHeadInfo(Integer seId, int tbId, Integer areaId, Integer shopId) {
-        //85 tbId 跟 104 tbId头信息一致
-        if (tbId == Constants.FINANCE_ID_YY) {
+    public List<String> getHeadInfo(Integer seId, int mId, Integer areaId, Integer shopId) {
+        //85  mId 跟 104 mId头信息一致
+        if (mId == Constants.FINANCE_ID_YY) {
             return headService.headerList(seId, Constants.FINANCE_ID, areaId, shopId);
         }
-        return headService.headerList(seId, tbId, areaId, shopId);
+        return headService.headerList(seId, mId, areaId, shopId);
     }
 
 
     /**
-     * 获得skuId
+     * 获得skuId 订单信息表 通过 sku
      *
      * @param sku
      * @param sId
@@ -1546,6 +1715,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         if (skuId == null) {
             return false;
         }
+        //接收订单信息
         if (obj instanceof SalesAmazonFbaReceivestock) {
             SalesAmazonFbaReceivestock receive = (SalesAmazonFbaReceivestock) obj;
             receive.setSkuId(skuId);
@@ -1555,7 +1725,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     /**
-     * 洲业务 sku asin  业务对比获得sku
+     * 洲业务 sku asin  业务对比获得sku 特殊需求
      *
      * @param sku
      * @param asin
@@ -1589,6 +1759,23 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
     /**
+     * 判断传入的对象是否是null
+     *
+     * @param obj
+     * @param txtHeadList
+     * @param line
+     * @return
+     */
+    public int isObjNull(Object obj, List<String> txtHeadList, String line) {
+        if (obj == null) {
+            //先拿到这一行信息 newLine
+            exportTxtType(txtHeadList, line);
+            return -1;
+        }
+        return 1;
+    }
+
+    /**
      * 通用设置Txt 没有sku/导出文件
      *
      * @return
@@ -1610,6 +1797,20 @@ public class ConsumerServiceImpl implements ConsumerService {
 //##########################################################通用方法
 
 //###############设置表头
+
+    /**
+     * 长期仓储费通用存储
+     */
+    public SalesAmazonFbaLongWarehousefee setLWar(Integer sId, String userName, Long recordingId) {
+        return new SalesAmazonFbaLongWarehousefee(sId, new Date().getTime(), userName, recordingId);
+    }
+
+    /**
+     * 月度仓储费通用存储
+     */
+    public SalesAmazonFbaMonthWarehouseFee setMWar(Integer sId, String userName, Long recordingId) {
+        return new SalesAmazonFbaMonthWarehouseFee(sId, new Date().getTime(), userName, recordingId);
+    }
 
     /**
      * 期末库存通用对象

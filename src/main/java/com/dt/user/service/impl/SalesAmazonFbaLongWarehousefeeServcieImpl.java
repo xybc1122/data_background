@@ -1,8 +1,12 @@
 package com.dt.user.service.impl;
 
+import com.dt.user.mapper.SalesAmazonMapper.SalesAmazonFbaLongWarehousefeeMapper;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaLongWarehousefee;
 import com.dt.user.service.SalesAmazonService.SalesAmazonFbaLongWarehousefeeServcie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @ClassName SalesAmazonFbaLongWarehousefeeServcieImpl
@@ -15,7 +19,11 @@ public class SalesAmazonFbaLongWarehousefeeServcieImpl implements SalesAmazonFba
 
 
     @Autowired
-    private SalesAmazonFbaLongWarehousefeeServcie warehousefeeServcie;
+    private SalesAmazonFbaLongWarehousefeeMapper longWarehousefeeMapper;
 
 
+    @Override
+    public int serviceSetAmazonLongWar(List<SalesAmazonFbaLongWarehousefee> longWarList) {
+        return longWarehousefeeMapper.saveAmazonLongWar(longWarList);
+    }
 }

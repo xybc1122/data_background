@@ -1,6 +1,5 @@
 package com.dt.user.service.impl;
 
-import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.ExchangeRateDto;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicExchangeRateMapper;

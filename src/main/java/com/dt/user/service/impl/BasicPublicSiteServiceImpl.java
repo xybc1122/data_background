@@ -4,6 +4,7 @@ import com.dt.user.dto.SiteDto;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicSiteMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicSite;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +14,28 @@ import java.util.List;
 public class BasicPublicSiteServiceImpl implements BasicPublicSiteService {
 
     @Autowired
-    private BasicPublicSiteMapper basicPublicSiteMapper;
+    private BasicPublicSiteMapper siteMapper;
 
     @Override
     public List<SiteDto> findBySiteList(SiteDto siteDto) {
-        return basicPublicSiteMapper.findBySiteList(siteDto);
+        return siteMapper.findBySiteList(siteDto);
     }
 
     @Override
     public List<BasicPublicSite> getShopIdTakeSiteList(Long sId) {
-        return basicPublicSiteMapper.getShopIdTakeSiteList(sId);
+        return siteMapper.getShopIdTakeSiteList(sId);
     }
 
     @Override
-    public Integer getSiteId(String url) {
-        return basicPublicSiteMapper.getSiteId(url);
+    public Integer serviceGetUrlSiteId(String url) {
+        return siteMapper.getUrlSiteId(url);
+    }
+
+    @Override
+    public Integer serviceGetCSiteId(String country) {
+        if (StringUtils.isBlank(country)) {
+            return null;
+        }
+        return siteMapper.getCountrySiteId(country);
     }
 }

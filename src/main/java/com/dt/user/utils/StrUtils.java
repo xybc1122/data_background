@@ -188,42 +188,67 @@ public class StrUtils {
     }
 
     /**
-     * 返回Integer 类型
+     * 返回Integer 类型 财务导入跟Xls导入用到
      *
-     * @param number
+     * @param str
      * @return
      */
-    public static Integer replaceInteger(String number) {
-        if (StringUtils.isBlank(number)) {
+    public static Integer replaceInteger(String str) {
+        if (StringUtils.isBlank(str)) {
             return null;
         }
-        int j = number.indexOf(",");
+        int j = str.indexOf(",");
         if (j == -1) {
-            return Integer.parseInt(number);
+            return Integer.parseInt(str);
         }
-        String newNumber = number.
+        String newStr = str.
                 replace(",", "");
-        return Integer.parseInt(newNumber);
+        return Integer.parseInt(newStr);
     }
 
     /**
-     * 返回Long 类型
+     * 返回Long 类型 这工具 转换时间  财务导入跟Xls导入用到
      *
-     * @param number
+     * @param str
      * @return
      */
-    public static Long replaceLong(String number) {
+    public static Long replaceLong(String str) {
         Long l;
-        if (StringUtils.isBlank(number)) {
+        if (StringUtils.isBlank(str)) {
             return null;
         }
         try {
             //如果有报错有catch
-            l = Long.parseLong(number);
+            l = Long.parseLong(str);
         } catch (Exception e) {
-            return DateUtils.getXlsStrTime(number, "yyyy-MM-dd");
+            return DateUtils.getXlsStrTime(str, "yyyy-MM-dd");
         }
         return l;
+    }
+
+    /**
+     * 返回Integer 类型 基本
+     * @param str
+     * @return
+     */
+    public static Integer repInteger(String str) {
+        if (StringUtils.isBlank(str)) {
+            return null;
+        }
+        return Integer.parseInt(str);
+    }
+    /**
+     * 返回Long 类型 基本
+     *
+     * @param str
+     * @return
+     */
+    public static Long repLong(String str) {
+
+        if (StringUtils.isBlank(str)) {
+            return null;
+        }
+        return Long.parseLong(str);
     }
 
     /**
@@ -233,7 +258,7 @@ public class StrUtils {
         if (StringUtils.isEmpty(str)) {
             sb.append(str);
         } else {
-            sb.append("'" + str + "'");
+            sb.append("'").append(str).append("'");
         }
         return sb;
     }

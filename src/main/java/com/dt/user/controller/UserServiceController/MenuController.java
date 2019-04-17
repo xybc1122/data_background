@@ -1,11 +1,11 @@
 package com.dt.user.controller.UserServiceController;
 
 import com.dt.user.config.JsonData;
-import com.dt.user.config.BaseRedisService;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.Menu;
 import com.dt.user.model.UserInfo;
 import com.dt.user.service.MenuService;
+import com.dt.user.service.RedisService;
 import com.dt.user.utils.CookieUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +25,7 @@ public class MenuController {
     private MenuService menuService;
 
     @Autowired
-    private BaseRedisService redisService;
+    private RedisService redisService;
 
     /**
      * 校验token  菜单是否已更新

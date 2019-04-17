@@ -1,16 +1,12 @@
 package com.dt.user.controller.UserServiceController;
 
-import com.dt.user.config.BaseRedisService;
+
 import com.dt.user.customize.PermissionCheck;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.UserDto;
-import com.dt.user.model.SystemLogStatus;
 import com.dt.user.model.UserInfo;
-import com.dt.user.model.UserRole;
-import com.dt.user.service.HrArchivesEmployeeService;
-import com.dt.user.service.SystemLogStatusService;
-import com.dt.user.service.UserRoleService;
+import com.dt.user.service.RedisService;
 import com.dt.user.service.UserService;
 import com.dt.user.store.SsoLoginStore;
 import com.dt.user.toos.Constants;
@@ -19,7 +15,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +31,7 @@ public class UserController {
 
 
     @Autowired
-    private BaseRedisService redisService;
+    private RedisService redisService;
 
 
     /**

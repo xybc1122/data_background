@@ -44,6 +44,19 @@ public interface BasicPublicSiteMapper {
      */
     @Select("SELECT `site_id` FROM `basic_public_site`" +
             "WHERE url=#{url}")
-    Integer getSiteId(@Param("url") String url);
+    Integer getUrlSiteId(@Param("url") String url);
+
+
+    /**
+     * 洲 业务
+     * 通过country 国家名 去查询site ID
+     *
+     * @param country
+     * @return
+     */
+    @Select("SELECT `site_id` FROM `basic_public_site`" +
+            "WHERE site_name_eng=#{country}")
+    Integer getCountrySiteId(@Param("country") String country);
+
 
 }

@@ -1,6 +1,5 @@
 package com.dt.user.store;
 
-import com.dt.user.config.BaseRedisService;
 import com.dt.user.config.JsonData;
 import com.dt.user.netty.ChatServiceImpl;
 import com.dt.user.netty.ChatType;

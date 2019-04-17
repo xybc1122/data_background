@@ -1,20 +1,40 @@
 package com.dt.user.model.SalesAmazon;
 
+
 import com.dt.user.model.ParentUploadInfo;
 
-/**
- * 长期仓储费
- */
+import java.math.BigDecimal;
+
 public class SalesAmazonFbaLongWarehousefee extends ParentUploadInfo {
 
     private Long lwId;
-    private String fbaShipmentId;
     private String lwSku;
     private String fnSku;
+    private String asin;
+    private String condition;
+    private Integer qtyChargedTwelveMoLongTermStorageFee;
+    private BigDecimal perUnitVolume;
+    private String currency;
+    private BigDecimal twelveMoLongTermsStorageFee;
+    private Integer qtyChargedSixMoLongTermStorageFee;
+    private BigDecimal sixMoLongTermsStorageFee;
+    private String volumeUnit;
+    private String country;
+    private String enrolledInSmallAndLight;
     private String productName;
-    private Long quantity;
-    private String fc;
-    private Long awId;
+
+
+    public SalesAmazonFbaLongWarehousefee(Integer shopId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, null, createDate, createUser, recordingId);
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public Long getLwId() {
         return lwId;
@@ -22,14 +42,6 @@ public class SalesAmazonFbaLongWarehousefee extends ParentUploadInfo {
 
     public void setLwId(Long lwId) {
         this.lwId = lwId;
-    }
-
-    public String getFbaShipmentId() {
-        return fbaShipmentId;
-    }
-
-    public void setFbaShipmentId(String fbaShipmentId) {
-        this.fbaShipmentId = fbaShipmentId;
     }
 
     public String getLwSku() {
@@ -48,35 +60,91 @@ public class SalesAmazonFbaLongWarehousefee extends ParentUploadInfo {
         this.fnSku = fnSku;
     }
 
-    public String getProductName() {
-        return productName;
+    public String getAsin() {
+        return asin;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setAsin(String asin) {
+        this.asin = asin;
     }
 
-    public Long getQuantity() {
-        return quantity;
+    public String getCondition() {
+        return condition;
     }
 
-    public void setQuantity(Long quantity) {
-        this.quantity = quantity;
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 
-    public String getFc() {
-        return fc;
+    public Integer getQtyChargedTwelveMoLongTermStorageFee() {
+        return qtyChargedTwelveMoLongTermStorageFee;
     }
 
-    public void setFc(String fc) {
-        this.fc = fc;
+    public void setQtyChargedTwelveMoLongTermStorageFee(Integer qtyChargedTwelveMoLongTermStorageFee) {
+        this.qtyChargedTwelveMoLongTermStorageFee = qtyChargedTwelveMoLongTermStorageFee;
     }
 
-    public Long getAwId() {
-        return awId;
+    public BigDecimal getPerUnitVolume() {
+        return perUnitVolume;
     }
 
-    public void setAwId(Long awId) {
-        this.awId = awId;
+    public void setPerUnitVolume(BigDecimal perUnitVolume) {
+        this.perUnitVolume = perUnitVolume;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public BigDecimal getTwelveMoLongTermsStorageFee() {
+        return twelveMoLongTermsStorageFee;
+    }
+
+    public void setTwelveMoLongTermsStorageFee(BigDecimal twelveMoLongTermsStorageFee) {
+        this.twelveMoLongTermsStorageFee = twelveMoLongTermsStorageFee;
+    }
+
+    public Integer getQtyChargedSixMoLongTermStorageFee() {
+        return qtyChargedSixMoLongTermStorageFee;
+    }
+
+    public void setQtyChargedSixMoLongTermStorageFee(Integer qtyChargedSixMoLongTermStorageFee) {
+        this.qtyChargedSixMoLongTermStorageFee = qtyChargedSixMoLongTermStorageFee;
+    }
+
+    public BigDecimal getSixMoLongTermsStorageFee() {
+        return sixMoLongTermsStorageFee;
+    }
+
+    public void setSixMoLongTermsStorageFee(BigDecimal sixMoLongTermsStorageFee) {
+        this.sixMoLongTermsStorageFee = sixMoLongTermsStorageFee;
+    }
+
+    public String getVolumeUnit() {
+        return volumeUnit;
+    }
+
+    public void setVolumeUnit(String volumeUnit) {
+        this.volumeUnit = volumeUnit;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getEnrolledInSmallAndLight() {
+        return enrolledInSmallAndLight;
+    }
+
+    public void setEnrolledInSmallAndLight(String enrolledInSmallAndLight) {
+        this.enrolledInSmallAndLight = enrolledInSmallAndLight;
     }
 }

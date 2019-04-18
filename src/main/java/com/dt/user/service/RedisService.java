@@ -3,11 +3,10 @@ package com.dt.user.service;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -19,7 +18,7 @@ public class RedisService {
     private StringRedisTemplate stringRedisTemplate;
     @Autowired
     private RedisTemplate redisTemplate;
-
+//
 //    private static double size = Math.pow(2, 32);
 //    /**
 //     * 写入缓存
@@ -273,7 +272,7 @@ public class RedisService {
 //     *
 //     * @param key
 //     */
-//    public Set<ZSetOperations.TypedTuple<Object>> zRankWithScore(String key, long start,long end) {
+//    public Set<ZSetOperations.TypedTuple<Object>> zRankWithScore(String key, long start, long end) {
 //        ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
 //        Set<ZSetOperations.TypedTuple<Object>> ret = zset.rangeWithScores(key,start,end);
 //        return ret;

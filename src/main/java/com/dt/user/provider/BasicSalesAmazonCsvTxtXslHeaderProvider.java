@@ -100,8 +100,12 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
             if (seId != null) {
                 WHERE("site_id=" + seId);
             }
-            WHERE("shop_id=" + shopId);
-            WHERE("menu_id=" + menuId);
+            if (shopId != null) {
+                WHERE("shop_id=" + shopId);
+            }
+            if (menuId != null) {
+                WHERE("menu_id=" + menuId);
+            }
             //查询是否导入的字段
             WHERE("is_import= 1");
             ORDER_BY("sort asc");

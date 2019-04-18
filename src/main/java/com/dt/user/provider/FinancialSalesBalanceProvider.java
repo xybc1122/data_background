@@ -132,7 +132,7 @@ public class FinancialSalesBalanceProvider {
         //结算号
         AppendSqlStore.sqlWhere(fbs.getSettlementId(), "settlement_id", sql, Constants.SELECT);
         //付款类型
-        AppendSqlStore.sqlWhere(fbs.getPaymentTypeId(), "payment_type_id", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getPaymentTypeName(), "pt.`payment_type_name`", sql, Constants.SELECT);
         //类型
         AppendSqlStore.sqlWhere(fbs.getType(), "type", sql, Constants.SELECT);
         //订单号

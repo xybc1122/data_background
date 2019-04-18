@@ -15,7 +15,7 @@ public interface SalesAmazonAHlMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonAdHlProvider.class, method = "addAmazonAdHl")
-    int AddSalesAmazonAdHlList(@Param("hlList") List<SalesAmazonAdHl> hlList);
+    int setSalesAmazonAdHlList(@Param("hlList") List<SalesAmazonAdHl> hlList);
 
     /**
      * 查询Hl 数据

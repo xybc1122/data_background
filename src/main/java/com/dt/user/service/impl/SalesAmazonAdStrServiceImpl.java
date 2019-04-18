@@ -14,8 +14,8 @@ public class SalesAmazonAdStrServiceImpl implements SalesAmazonAdStrService {
     private SalesAmazonAdStrMapper strMapper;
 
     @Override
-    public int AddSalesAmazonAdStrList(List<SalesAmazonAdStr> strList) {
-        return strMapper.AddSalesAmazonAdStrList(strList);
+    public int saveSalesAmazonAdStrList(List<SalesAmazonAdStr> strList) {
+        return strMapper.setSalesAmazonAdStrList(strList);
     }
 
     @Override

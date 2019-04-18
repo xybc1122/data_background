@@ -86,10 +86,6 @@ public class ProviderSqlStore {
         if (p.getDates() != null && (p.getDates().size() > 0)) {
             sql.WHERE("date  " + p.getDates().get(0) + " AND " + p.getDates().get(1) + "");
         }
-        //有效日期
-        if (p.getEffectiveDates() != null && (p.getEffectiveDates().size() > 0)) {
-            sql.WHERE("effective_date BETWEEN  " + p.getEffectiveDates().get(0) + " AND " + p.getEffectiveDates().get(1) + "");
-        }
         //备注
         if (StringUtils.isNotBlank(p.getRemark())) {
             sql.WHERE("remark=#{remark}");

@@ -66,11 +66,6 @@ public class ParentUploadInfo {
      * 审核时间范围查询变量
      */
     private List<Long> auditDates;
-
-    /**
-     * 有效如期范围查询
-     */
-    private List<Long> effectiveDates;
     /**
      * 文件表已有时间
      */
@@ -263,14 +258,6 @@ public class ParentUploadInfo {
 
     public void setAuditDates(List<Long> auditDates) {
         this.auditDates = auditDates;
-    }
-
-    public List<Long> getEffectiveDates() {
-        return effectiveDates;
-    }
-
-    public void setEffectiveDates(List<Long> effectiveDates) {
-        this.effectiveDates = effectiveDates;
     }
 
     public List<Long> getDates() {

@@ -14,8 +14,8 @@ public class SalesAmazonAdOarServiceImpl implements SalesAmazonAdOarService {
     private SalesAmazonAdOarMapper oarMapper;
 
     @Override
-    public int AddSalesAmazonAdOarList(List<SalesAmazonAdOar> oarList) {
-        return oarMapper.AddSalesAmazonAdOarList(oarList);
+    public int saveSalesAmazonAdOarList(List<SalesAmazonAdOar> oarList) {
+        return oarMapper.setSalesAmazonAdOarList(oarList);
     }
 
     @Override

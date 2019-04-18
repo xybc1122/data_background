@@ -11,7 +11,7 @@ public interface SalesAmazonAdOarService {
      *
      * @return
      */
-    int AddSalesAmazonAdOarList(List<SalesAmazonAdOar> oarList);
+    int saveSalesAmazonAdOarList(List<SalesAmazonAdOar> oarList);
 
     /**
      * 查询oar 数据

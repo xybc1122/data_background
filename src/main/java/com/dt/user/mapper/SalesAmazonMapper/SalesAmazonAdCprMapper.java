@@ -16,7 +16,7 @@ public interface SalesAmazonAdCprMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonAdCprProvider.class, method = "addAmazonAdCpr")
-    int AddSalesAmazonAdCprList(@Param("cprList") List<SalesAmazonAdCpr> cprList);
+    int setSalesAmazonAdCprList(@Param("cprList") List<SalesAmazonAdCpr> cprList);
 
     /**
      * 查询cpr 数据

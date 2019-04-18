@@ -11,15 +11,15 @@ import java.util.List;
 @Service
 public class SalesAmazonAdCprServiceImpl implements SalesAmazonAdCprService {
     @Autowired
-    private SalesAmazonAdCprMapper salesAmazonAdCprMapper;
+    private SalesAmazonAdCprMapper adCprMapper;
 
     @Override
-    public int AddSalesAmazonAdCprList(List<SalesAmazonAdCpr> cprList) {
-        return salesAmazonAdCprMapper.AddSalesAmazonAdCprList(cprList);
+    public int saveSalesAmazonAdCprList(List<SalesAmazonAdCpr> cprList) {
+        return adCprMapper.setSalesAmazonAdCprList(cprList);
     }
 
     @Override
     public List<SalesAmazonAdCpr> serviceFindByListCpr(SalesAmazonAdCpr cpr) {
-        return salesAmazonAdCprMapper.findByListCpr(cpr);
+        return adCprMapper.findByListCpr(cpr);
     }
 }

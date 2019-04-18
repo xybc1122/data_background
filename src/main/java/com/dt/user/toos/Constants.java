@@ -1,6 +1,7 @@
 package com.dt.user.toos;
 
 public interface Constants {
+
     /**
      * token
      */

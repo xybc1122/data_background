@@ -15,7 +15,7 @@ public interface SalesAmazonAdOarMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonAdOarProvider.class, method = "addAmazonAdOar")
-    int AddSalesAmazonAdOarList(@Param("oarList") List<SalesAmazonAdOar> oarList);
+    int setSalesAmazonAdOarList(@Param("oarList") List<SalesAmazonAdOar> oarList);
 
     /**
      * 查询oar 数据

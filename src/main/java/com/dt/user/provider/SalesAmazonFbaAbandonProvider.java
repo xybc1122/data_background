@@ -25,7 +25,6 @@ public class SalesAmazonFbaAbandonProvider {
                 "FROM sales_amazon_fba_abandon AS ad \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=ad.`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = ad.`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = ad.`sku_id`");
         // sku
         AppendSqlStore.sqlWhere(abandon.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //FBA号

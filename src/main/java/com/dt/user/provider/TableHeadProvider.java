@@ -83,6 +83,9 @@ public class TableHeadProvider {
             if (tableHead.getReference() != null) {
                 SET("is_reference=#{reference}");
             }
+            int version = tableHead.getVersion();
+            SET("version=" + version + "+1");
+            WHERE("version=" + version);
             WHERE("id=#{id}");
         }}.toString();
     }
@@ -112,6 +115,9 @@ public class TableHeadProvider {
                 }
                 SET("top_order=" + "'" + sb.toString().substring(0, sb.length() - 1) + "'");
             }
+//            int version = (int) mapHead.get("version");
+//            SET("version=" + version + "+1");
+//            WHERE("version=" + version);
             WHERE("id=" + id);
         }}.toString();
 

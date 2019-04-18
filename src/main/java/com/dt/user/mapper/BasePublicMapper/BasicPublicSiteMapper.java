@@ -27,8 +27,7 @@ public interface BasicPublicSiteMapper {
      * 通过店铺id查询站点信息
      */
     @Select("SELECT\n" +
-            "  se.`site_id`,\n" +
-            "  se.`site_name`\n" +
+            "se.`site_id`,se.`site_name`,se.site_short_name_eng\n" +
             "FROM `basic_public_site` AS se\n" +
             "LEFT JOIN `basic_public_shop_site` AS ss ON ss.`site_id`=se.`site_id`\n" +
             "LEFT JOIN `basic_public_shop` AS s ON s.`shop_id`=ss.`shop_id`\n" +
@@ -51,12 +50,10 @@ public interface BasicPublicSiteMapper {
      * 洲 业务
      * 通过country 国家名 去查询site ID
      *
-     * @param country
      * @return
      */
-    @Select("SELECT `site_id` FROM `basic_public_site`" +
-            "WHERE site_name_eng=#{country}")
-    Integer getCountrySiteId(@Param("country") String country);
+    @SelectProvider(type = BasicPublicSiteProvider.class, method = "getSId")
+    Integer getSId(@Param("country") String country, @Param("sName") String sName);
 
 
 }

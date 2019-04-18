@@ -11,7 +11,7 @@ public interface SalesAmazonAHlService {
      *
      * @return
      */
-    int AddSalesAmazonAdHlList(List<SalesAmazonAdHl> hlList);
+    int saveSalesAmazonAdHlList(List<SalesAmazonAdHl> hlList);
 
     /**
      * 查询HL数据

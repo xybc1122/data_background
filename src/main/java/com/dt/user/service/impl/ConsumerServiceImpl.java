@@ -5,7 +5,6 @@ import com.csvreader.CsvReader;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
-import com.dt.user.mapper.BasePublicMapper.BasicPublicAmazonTypeMapper;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonWarehouse;
 import com.dt.user.model.FinancialSalesBalance;
@@ -15,12 +14,10 @@ import com.dt.user.model.SalesAmazon.*;
 import com.dt.user.model.UserUpload;
 import com.dt.user.netty.ChatServiceImpl;
 import com.dt.user.netty.ChatType;
-import com.dt.user.service.BasePublicService.BasicPublicSiteService;
-import com.dt.user.service.BasePublicService.BasicPublicSkuService;
-import com.dt.user.service.BasePublicService.BasicSalesAmazonCsvTxtXslHeaderService;
-import com.dt.user.service.BasePublicService.BasicSalesAmazonWarehouseService;
+import com.dt.user.service.BasePublicService.*;
 import com.dt.user.service.ConsumerService;
 import com.dt.user.service.FinancialImportService.FinancialSalesBalanceService;
+import com.dt.user.service.RedisService;
 import com.dt.user.service.SalesAmazonService.*;
 import com.dt.user.service.UserService;
 import com.dt.user.service.UserUploadService;
@@ -36,6 +33,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -73,12 +71,15 @@ public class ConsumerServiceImpl implements ConsumerService {
 
 
     @Autowired
-    private BasicPublicAmazonTypeMapper typeMapper;
+    private BasicPublicAmazonTypeService AmazontypeService;
     @Autowired
     private BasicSalesAmazonWarehouseService warehouseService;
 
     @Autowired
     private BasicPublicSiteService siteService;
+
+    @Autowired
+    private BasicPublicShopService shopService;
 
     @Autowired
     private BasicPublicSkuService skuService;
@@ -100,8 +101,9 @@ public class ConsumerServiceImpl implements ConsumerService {
     @Autowired
     private SalesAmazonFbaMonthWarehouseFeeService mWarService;
     @Autowired
-    private SalesAmazonFbaLongWarehousefeeServcie lWservice;
-
+    private SalesAmazonFbaLongWarehousefeeServcie lWService;
+    @Autowired
+    private SalesAmazonFbaHandlingFeeService hLFeeService;
 
     @Autowired
     private UserService userService;
@@ -132,7 +134,8 @@ public class ConsumerServiceImpl implements ConsumerService {
      * 实时数据Set集合
      */
     private ThreadLocal<Set<RealTimeData>> timeDataSet = new ThreadLocal<>();
-
+    @Autowired
+    private RedisService redisService;
 
     @Autowired
     private ChatServiceImpl chatService;
@@ -356,9 +359,10 @@ public class ConsumerServiceImpl implements ConsumerService {
             } else if (mWarList != null && mWarList.size() > 0) {
                 countTrad = mWarService.serviceSaveAmazonMonthWar(mWarList);
             } else if (lwList != null && lwList.size() > 0) {
-                countTrad = lWservice.serviceSetAmazonLongWar(lwList);
+                countTrad = lWService.serviceSetAmazonLongWar(lwList);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "数据库存入异常", null);
         }
@@ -405,9 +409,11 @@ public class ConsumerServiceImpl implements ConsumerService {
         } else if (txtHeadList.get(i).equals(isImportHead.get(11).getImportTemplet()) && isImportHead.get(11).getOpenClose()) {
             lWar.setVolumeUnit(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(12).getImportTemplet()) && isImportHead.get(12).getOpenClose()) {
-           //这里通过文件里的公司名 去查找站点ID
+            //这里通过文件里的公司名 去查找站点ID
             String siteName = StrUtils.repString(j[i]);
-            Integer seId = siteService.serviceGetCSiteId(siteName);
+            if (StringUtils.isBlank(siteName)) return null;
+            //这里的是通过country 所以第二个参数是null
+            Integer seId = siteService.serviceGetSiteId(siteName, null);
             if (seId == null) return null;
             lWar.setCountry(siteName);
             lWar.setSiteId(seId);
@@ -810,6 +816,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         List<SalesAmazonAdStr> strList = null;
         List<SalesAmazonAdOar> oarList = null;
         List<SalesAmazonAdHl> hlList = null;
+        List<SalesAmazonFbaHandlingFee> hFeesList = null;
         List<?> tList = new ArrayList<>();
         int index = 0;
         int lastRowNum = sheet.getLastRowNum(); // 获取总行数
@@ -883,6 +890,21 @@ public class ConsumerServiceImpl implements ConsumerService {
                         adHl = setHlPojo(j, adHl, cell, isImportHead, xlsListHead);
                     }
                     hlList.add(adHl);
+                } else if (menuId == 271) {
+                    hFeesList = ArrUtils.listT(tList);
+                    SalesAmazonFbaHandlingFee hLFee = setHLFee(userName, recordingId);
+                    for (int j = 0; j < totalNumber; j++) {
+                        k = j;
+                        cell = row.getCell(j);
+                        hLFee = setHLFee(j, hLFee, cell, isImportHead, xlsListHead, totalNumber);
+                        if (hLFee == null) {
+                            skuSetting(row, totalNumber, sqlHead);
+                            break;
+                        }
+                    }
+                    if (hLFee != null) {
+                        hFeesList.add(hLFee);
+                    }
                 }
                 index++;
                 sendRealTimeData(ctx, intMap, timeData, index + 1);
@@ -898,15 +920,18 @@ public class ConsumerServiceImpl implements ConsumerService {
         chatService.sendMessage(ctx, JsonUtils.getJsonTypeSuccess("存入数据中", ChatType.PROGRESS_BAR));
         try {
             if (cprList != null && cprList.size() > 0) {
-                saveCount = cprService.AddSalesAmazonAdCprList(cprList);
+                saveCount = cprService.saveSalesAmazonAdCprList(cprList);
             } else if (strList != null && strList.size() > 0) {
-                saveCount = strService.AddSalesAmazonAdStrList(strList);
+                saveCount = strService.saveSalesAmazonAdStrList(strList);
             } else if (oarList != null && oarList.size() > 0) {
-                saveCount = oarService.AddSalesAmazonAdOarList(oarList);
+                saveCount = oarService.saveSalesAmazonAdOarList(oarList);
             } else if (hlList != null && hlList.size() > 0) {
-                saveCount = hlService.AddSalesAmazonAdHlList(hlList);
+                saveCount = hlService.saveSalesAmazonAdHlList(hlList);
+            } else if (hFeesList != null && hFeesList.size() > 0) {
+                saveCount = hLFeeService.serviceSaveAmazonHandLFee(hFeesList);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "数据库存入异常", null);
         }
@@ -985,7 +1010,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             saCpr.setSameSkuUnitsSales(bigDecimal(cell));
         else if (xlsListHead.get(j).equals(importHead.get(15).getImportTemplet()) && importHead.get(15).getOpenClose())
             saCpr.setOtherSkuUnitsSales(bigDecimal(cell));
-        if (findBySkuId(j, totalNumber, saCpr) == null) return null;
+        if (findAndSetSkuId(j, totalNumber, saCpr) == null) return null;
 
         return saCpr;
     }
@@ -1074,19 +1099,19 @@ public class ConsumerServiceImpl implements ConsumerService {
         else if (xlsListHead.get(j).equals(importHead.get(10).getImportTemplet()) && importHead.get(10).getOpenClose()) {
             adOar.setOtherAsinUnitsOrderedSales(bigDecimal(cell));
         }
-        if (findBySkuId(j, totalNumber, adOar) == null) return null;
+        if (findAndSetSkuId(j, totalNumber, adOar) == null) return null;
         return adOar;
     }
 
     /**
-     * 封装查询
+     * 封装查询 设置skuId
      *
      * @param j
      * @param totalNumber
      * @param obj
      * @return
      */
-    public String findBySkuId(int j, int totalNumber, Object obj) {
+    public String findAndSetSkuId(int j, int totalNumber, Object obj) {
         Long skuId;
         if ((j + 1) == totalNumber) {
             if (obj instanceof SalesAmazonAdOar) {
@@ -1106,6 +1131,43 @@ public class ConsumerServiceImpl implements ConsumerService {
             }
         }
         return "ok";
+    }
+
+    /**
+     * set 订单处理费用
+     */
+    public SalesAmazonFbaHandlingFee setHLFee(int j, SalesAmazonFbaHandlingFee lFee, Cell cell, List<BasicSalesAmazonCsvTxtXslHeader> importHead,
+                                              List<String> xlsListHead, Integer totalNumber) {
+        Integer sId;
+        Integer seId;
+        Long skuId;
+        if (xlsListHead.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose()) {
+            String shopName = str(cell);
+            sId = shopService.getSId(shopName);
+            if (sId == null) return null;
+            lFee.setShopId(sId);
+        } else if (xlsListHead.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
+            String siteName = str(cell);
+            if (StringUtils.isBlank(siteName)) return null;
+            seId = siteService.serviceGetSiteId(null, siteName);
+            if (seId == null) return null;
+            lFee.setSiteId(seId);
+        } else if (xlsListHead.get(j).equals(importHead.get(2).getImportTemplet()) && importHead.get(2).getOpenClose()) {
+            String skuName = str(cell);
+            skuId = skuService.selSkuId(lFee.getShopId(), lFee.getSiteId(), skuName);
+            if (skuId == null) return null;
+            lFee.setSkuId(skuId);
+        } else if (xlsListHead.get(j).equals(importHead.get(3).getImportTemplet()) && importHead.get(3).getOpenClose())
+            lFee.setEffectiveDate(lon(cell));
+        else if (xlsListHead.get(j).equals(importHead.get(4).getImportTemplet()) && importHead.get(4).getOpenClose())
+            lFee.setStdFbaHdFee(bigDecimal(cell));
+        else if (xlsListHead.get(j).equals(importHead.get(5).getImportTemplet()) && importHead.get(5).getOpenClose())
+            lFee.setRemark(str(cell));
+        if ((j + 1) == totalNumber) {
+            //查询数据校验
+            if (hLFeeService.serviceGetExists(lFee) == null) return null;
+        }
+        return lFee;
     }
 
     /**
@@ -1149,18 +1211,19 @@ public class ConsumerServiceImpl implements ConsumerService {
      *
      * @return
      */
-    public String str(Object obj) {
+    @Nullable
+    private String str(Object obj) {
         String strObj;
         if (obj instanceof Cell) {
             Cell cell = (Cell) obj;
-            strObj = StrUtils.repString(XlsUtils.getCellValue(cell).trim());
-            if (strObj.equals("-1")) {
+            String cV = XlsUtils.getCellValue(cell);
+            if (cV.equals("-1")) {
                 return null;
             }
+            strObj = StrUtils.repString(cV.trim());
             return strObj;
         }
         return null;
-
     }
 
     /**
@@ -1169,12 +1232,14 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param cell
      * @return
      */
-    public Long lon(Cell cell) {
+    @Nullable
+    private Long lon(Cell cell) {
         Long lonCell;
-        lonCell = StrUtils.replaceLong(XlsUtils.getCellValue(cell).trim());
-        if (lonCell == -1L) {
+        String cV = XlsUtils.getCellValue(cell);
+        if (cV.equals("-1")) {
             return null;
         }
+        lonCell = StrUtils.replaceLong(cV.trim());
         return lonCell;
     }
 
@@ -1184,12 +1249,14 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param cell
      * @return
      */
-    public Double dou(Cell cell) {
+    @Nullable
+    private Double dou(Cell cell) {
         Double DouCell;
-        DouCell = StrUtils.repDouble(XlsUtils.getCellValue(cell).trim());
-        if (DouCell == -1.0) {
+        String cV = XlsUtils.getCellValue(cell);
+        if (cV.equals("-1")) {
             return null;
         }
+        DouCell = StrUtils.repDouble(cV.trim());
         return DouCell;
     }
 
@@ -1199,8 +1266,26 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param cell
      * @return
      */
-    public BigDecimal bigDecimal(Cell cell) {
-        return StrUtils.repDecimal(XlsUtils.getCellValue(cell).trim());
+    private BigDecimal bigDecimal(Cell cell) {
+        String cV = XlsUtils.getCellValue(cell);
+        if (cV.equals("-1")) {
+            return null;
+        }
+        return StrUtils.repDecimal(cV.trim());
+    }
+
+    /**
+     * 封装 int 类型转换
+     *
+     * @param cell
+     * @return
+     */
+    private Integer integer(Cell cell) {
+        String cV = XlsUtils.getCellValue(cell);
+        if (cV.equals("-1")) {
+            return null;
+        }
+        return Integer.parseInt(cV.trim());
     }
 
     /**
@@ -1347,6 +1432,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             if (e instanceof NullPointerException) {
                 return setErrorInfo(recordingId, "====>参数空指针异常" + e.getMessage(), null);
             }
+            e.printStackTrace();
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
             return setErrorInfo(recordingId, "出错字段" + csvHeadList.get(k) + "下" + (numberCount.get() + row) + "行信息错误,错误原因," + e.getMessage(), null);
         }
@@ -1483,7 +1569,12 @@ public class ConsumerServiceImpl implements ConsumerService {
 
         //这里最后执行
         if ((j + 1) == csvReader.getColumnCount()) {
-            Long skuId = skuService.selSkuId(sId, seId, fsb.getFinancialSku());
+            Long skuId;
+            if (fsb.getFinancialSku() == null) {
+                skuId = 0L;
+            } else {
+                skuId = skuService.selSkuId(sId, seId, fsb.getFinancialSku());
+            }
             String result = skuList(skuId, csvReader, fsb.getFinancialSku());
             if (StringUtils.isEmpty(result)) {
                 return null;
@@ -1578,8 +1669,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     public String orderTypeName(String type, Integer seId, CsvReader csvReader) throws IOException {
-        String typeName = typeMapper.getTypeName(seId, type);
-        //如果数据库查询出来为空
+        String typeName = AmazontypeService.getTypeName(seId, type);
         if (StringUtils.isEmpty(typeName)) {
             return exportCsvType(csvReader, -1L);
         }
@@ -1797,6 +1887,13 @@ public class ConsumerServiceImpl implements ConsumerService {
 //##########################################################通用方法
 
 //###############设置表头
+
+    /**
+     * 订单处理费 通用存储
+     */
+    public SalesAmazonFbaHandlingFee setHLFee(String userName, Long recordingId) {
+        return new SalesAmazonFbaHandlingFee(new Date().getTime(), userName, recordingId);
+    }
 
     /**
      * 长期仓储费通用存储

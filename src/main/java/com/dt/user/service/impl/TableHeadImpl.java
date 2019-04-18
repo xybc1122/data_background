@@ -102,7 +102,11 @@ public class TableHeadImpl implements TableHeadService {
                 if (StringUtils.isBlank(h.getTopOrder())) {
                     h.setIndex(0);
                 } else {
-                    h.setIndex(Integer.parseInt(h.getTopOrder()));
+                    try {
+                        h.setIndex(Integer.parseInt(h.getTopOrder()));
+                    } catch (Exception e) {
+                        throw new LsException("menuId长度跟 topOrder不一致 请检查");
+                    }
                 }
             }
         }

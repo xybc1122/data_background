@@ -19,4 +19,12 @@ public interface BasicPublicShopService {
      * @return
      */
     List<BasicPublicShop> getByListShopName();
+
+
+    /**
+     * 查询店铺ID
+     *
+     * @return
+     */
+    Integer getSId(String shopName);
 }

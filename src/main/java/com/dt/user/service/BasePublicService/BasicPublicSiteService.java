@@ -30,10 +30,10 @@ public interface BasicPublicSiteService {
 
     /**
      * 洲 业务
-     * 通过country 国家名 去查询site ID
+     * 通过country /sName 国家名 去查询site ID
      *
      * @param country
      * @return
      */
-    Integer serviceGetCSiteId(String country);
+    Integer serviceGetSiteId(String country, String sName);
 }

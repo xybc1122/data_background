@@ -13,7 +13,7 @@ public interface SalesAmazonAdCprService {
      * @param cprList
      * @return
      */
-    int AddSalesAmazonAdCprList(List<SalesAmazonAdCpr> cprList);
+    int saveSalesAmazonAdCprList(List<SalesAmazonAdCpr> cprList);
 
     /**
      * 查询cpr数据

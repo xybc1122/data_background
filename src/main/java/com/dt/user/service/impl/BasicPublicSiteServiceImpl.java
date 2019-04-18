@@ -32,10 +32,7 @@ public class BasicPublicSiteServiceImpl implements BasicPublicSiteService {
     }
 
     @Override
-    public Integer serviceGetCSiteId(String country) {
-        if (StringUtils.isBlank(country)) {
-            return null;
-        }
-        return siteMapper.getCountrySiteId(country);
+    public Integer serviceGetSiteId(String country, String sName) {
+        return siteMapper.getSId(country, sName);
     }
 }

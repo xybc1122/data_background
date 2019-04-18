@@ -2,7 +2,9 @@ package com.dt.user.provider;
 
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaMonthWarehouseFee;
 import com.dt.user.store.AppendSqlStore;
+import com.dt.user.store.ProviderSqlStore;
 import com.dt.user.utils.StrUtils;
+import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 import java.util.Map;
@@ -59,5 +61,23 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
             AppendSqlStore.set(sb, mWar);
         }
         return sb.toString().substring(0, sb.length() - 1);
+    }
+
+    public String getMWarInfo(SalesAmazonFbaMonthWarehouseFee mWar) {
+        SQL sql = new SQL();
+        sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
+                "`w_id`,`date`,`asin`,`fn_sku`,`product_name`,`fc`, `country_code`,\n" +
+                "`longest_side`,`median_side`,`shortest_side`,\n" +
+                "`measurement_units`, `weight`,`weight_units`,\n" +
+                "`item_volume`,`volume_units`,`product_size_tier`,`average_quantity_on_hand`,\n" +
+                "`average_quantity_pending_removal`,`estimated_total_item_volume`, `month_of_charge`,\n" +
+                "`storage_rate`, `currency`, `estimated_monthly_storage_fee`," +
+                "" + ProviderSqlStore.statusV + "" +
+                "FROM sales_amazon_fba_month_warehousefee AS mAr");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=mAr.`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = mAr.`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = mAr.`sku_id`");
+        ProviderSqlStore.saveUploadStatus(sql, mWar);
+        return sql.toString();
     }
 }

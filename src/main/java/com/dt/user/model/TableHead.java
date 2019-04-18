@@ -58,6 +58,14 @@ public class TableHead implements Serializable {
     private Integer index;
 
     private List<TableHead> headList;
+    /**
+     * 版本
+     */
+    private int version;
+
+    public int getVersion() {
+        return version;
+    }
 
 
     public Boolean getFixed() {

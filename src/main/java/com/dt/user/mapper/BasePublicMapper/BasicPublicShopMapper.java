@@ -31,8 +31,17 @@ public interface BasicPublicShopMapper {
 
     /**
      * 查询店铺名字
+     *
      * @return
      */
-    @Select("SELECT `shop_id`,`shop_name` from `basic_public_shop`")
+    @Select("SELECT `shop_id`,`shop_name`,`shop_short_code` from `basic_public_shop`")
     List<BasicPublicShop> getByListShopName();
+
+    /**
+     * 查询店铺ID
+     *
+     * @return
+     */
+    @Select("SELECT `shop_id` from `basic_public_shop` where shop_name=#{shopName}")
+    Integer getSId(@Param("shopName") String shopName);
 }

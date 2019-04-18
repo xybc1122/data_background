@@ -16,7 +16,7 @@ public interface TableHeadMapper {
      *
      * @return
      */
-    @Select("SELECT t.id as h_id ,t.menu_id,t.id,t.head_name,t.`top_type`,t.top_order,t.is_fixed ,t.input_type FROM `system_user_table_head` AS t\n" +
+    @Select("SELECT t.id as h_id ,t.menu_id,t.id,t.head_name,t.`top_type`,t.top_order,t.is_fixed ,t.input_type ,t.version FROM `system_user_table_head` AS t\n" +
             "LEFT JOIN `system_user_menu_field` AS mf ON mf.field_id= t.`id`\n" +
             "WHERE  mf.m_id = #{mId}")
     @Results({
@@ -51,7 +51,7 @@ public interface TableHeadMapper {
     /**
      * 查询所有表头信息 然后service 层通过mid来区别对应的表头信息
      */
-    @Select("SELECT`id`,`head_name`,`menu_id`,top_order,top_type FROM `system_user_table_head`")
+    @Select("SELECT`id`,`head_name`,`menu_id`,top_order,top_type ,version FROM `system_user_table_head`")
     List<TableHead> findByHeadList();
 
     /**

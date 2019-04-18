@@ -69,20 +69,19 @@ public class BasicPublicSiteProvider {
         return sql.toString();
     }
 
-    public String getSiteId(Map<String, Object> sMap) {
-        sMap.get("siteMap");
+    public String getSId(Map<String, String> sMap) {
+        String country = sMap.get("country");
+        String sName = sMap.get("sName");
         return new SQL() {{
-            SELECT("site_id");
+            SELECT("`site_id`");
             FROM("`basic_public_site`");
-            if (StringUtils.isNotBlank(sMap.get("url").toString())) {
-                WHERE("url=" + "'" + sMap.get("url").toString() + "'");
+            if (StringUtils.isNotBlank(country)) {
+                WHERE("site_name_eng=" + "'" + country + "'");
             }
-            if (StringUtils.isNotBlank(sMap.get("country").toString())) {
-                WHERE("site_name_eng=" + "'" + sMap.get("country").toString() + "'");
+            if (StringUtils.isNotBlank(sName)) {
+                WHERE("site_name=" + "'" + sName + "'");
             }
+
         }}.toString();
-
-
     }
-
 }

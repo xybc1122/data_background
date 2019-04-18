@@ -11,7 +11,7 @@ public interface SalesAmazonAdStrService {
      * @param strList
      * @return
      */
-    int AddSalesAmazonAdStrList(List<SalesAmazonAdStr> strList);
+    int saveSalesAmazonAdStrList(List<SalesAmazonAdStr> strList);
 
     /**
      * 查询str 数据

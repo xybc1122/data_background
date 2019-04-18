@@ -14,7 +14,7 @@ public interface SalesAmazonAdStrMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonAdStrProvider.class, method = "addAmazonAdStr")
-    int AddSalesAmazonAdStrList(@Param("strList") List<SalesAmazonAdStr> strList);
+    int setSalesAmazonAdStrList(@Param("strList") List<SalesAmazonAdStr> strList);
 
 
     /**

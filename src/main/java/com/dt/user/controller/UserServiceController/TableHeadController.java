@@ -130,7 +130,7 @@ public class TableHeadController {
      * 查看数据库是否有名字
      */
     @GetMapping("/isHeadName")
-    public ResponseBase getIsHeadName(@RequestParam(name = "headName",required=false) String headName) {
+    public ResponseBase getIsHeadName(@RequestParam(name = "headName", required = false) String headName) {
         String result = tableHeadService.isHeadName(headName);
         if (result != null) {
             return JsonData.setResultError("已存在");
@@ -142,11 +142,25 @@ public class TableHeadController {
      * 查看数据库是否有topType
      */
     @GetMapping("/isTopType")
-    public ResponseBase getIsTopType(@RequestParam(name = "topType",required=false) String topType) {
+    public ResponseBase getIsTopType(@RequestParam(name = "topType", required = false) String topType) {
         String result = tableHeadService.isTopType(topType);
         if (result != null) {
             return JsonData.setResultError("已存在");
         }
         return JsonData.setResultSuccess("不存在");
+    }
+
+    /**
+     * 更新表头信息
+     *
+     * @return
+     */
+    @PostMapping("/upHeadInfo")
+    public ResponseBase upHeadInfo(@RequestBody TableHead tableHead) {
+        int result = tableHeadService.serviceUpHead(tableHead);
+        if (result > 0) {
+            return JsonData.setResultSuccess("修改成功");
+        }
+        return JsonData.setResultError("修改失败");
     }
 }

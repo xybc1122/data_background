@@ -28,7 +28,7 @@ public class ChatServiceImpl implements ChatService {
         Integer uId = (Integer) object.get("uId");
         Constant.onLineUserMap.put(uId.longValue(), ctx);
         System.out.println("绑定用户" + uId + "----" + ctx.channel());
-        sendMessage(ctx, JsonUtils.getJsonTypeSuccess("绑定用户" + uId + "----" + ctx.channel(), ChatType.REGISTER));
+        sendMessage(ctx, JsonUtils.getJsonTypeSuccess("连接成功", ChatType.REGISTER));
         LOGGER.info(MessageFormat.format("userId为 {0} 的用户登记到在线用户表，当前在线人数为：{1}"
                 , uId, Constant.onLineUserMap.size()));
     }

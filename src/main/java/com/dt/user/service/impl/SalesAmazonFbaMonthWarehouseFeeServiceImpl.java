@@ -5,6 +5,7 @@ import com.dt.user.model.SalesAmazon.SalesAmazonFbaMonthWarehouseFee;
 import com.dt.user.service.SalesAmazonService.SalesAmazonFbaMonthWarehouseFeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -22,5 +23,10 @@ public class SalesAmazonFbaMonthWarehouseFeeServiceImpl implements SalesAmazonFb
     @Override
     public int serviceSaveAmazonMonthWar(List<SalesAmazonFbaMonthWarehouseFee> mWarList) {
         return feeMapper.saveAmazonMonthWar(mWarList);
+    }
+
+    @Override
+    public List<SalesAmazonFbaMonthWarehouseFee> serviceFindByListMWar(SalesAmazonFbaMonthWarehouseFee mWar) {
+        return feeMapper.findByListMWar(mWar);
     }
 }

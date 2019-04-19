@@ -1,6 +1,6 @@
 package com.dt.user.service.SalesAmazonService;
 
-import com.dt.user.model.SalesAmazon.SalesAmazonFbaLongWarehousefee;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaLongWarehouseFee;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ import java.util.List;
 public interface SalesAmazonFbaLongWarehousefeeServcie {
 
 
-    int serviceSetAmazonLongWar(List<SalesAmazonFbaLongWarehousefee> longWarList);
+    int serviceSetAmazonLongWar(List<SalesAmazonFbaLongWarehouseFee> longWarList);
 }

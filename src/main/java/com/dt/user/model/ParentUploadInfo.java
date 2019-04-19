@@ -50,6 +50,10 @@ public class ParentUploadInfo {
     private String modifyUser;
     private Long auditDate;
     private String auditUser;
+    /**
+     * 前端查询封装对象
+     */
+    private List<JavaSqlName> nameList;
 
 
     /**
@@ -82,6 +86,14 @@ public class ParentUploadInfo {
         this.shopId = shopId;
         this.siteId = siteId;
 
+    }
+
+    public List<JavaSqlName> getNameList() {
+        return nameList;
+    }
+
+    public void setNameList(List<JavaSqlName> nameList) {
+        this.nameList = nameList;
     }
 
     public Integer getSqlMode() {

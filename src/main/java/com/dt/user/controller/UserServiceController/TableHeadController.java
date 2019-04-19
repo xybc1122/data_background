@@ -27,7 +27,7 @@ public class TableHeadController {
      */
     @PostMapping("/saveReference")
     public ResponseBase saveReferenceHead(@RequestBody TableHead tableHead) {
-        return tableHeadService.setHead(tableHead);
+        return tableHeadService.ReHead(tableHead);
     }
 
     /**
@@ -50,8 +50,8 @@ public class TableHeadController {
      * @return
      */
     @GetMapping("/reference")
-    public ResponseBase IsReference() {
-        List<TableHead> headList = tableHeadService.getIsReference();
+    public ResponseBase IsReference(@RequestParam("menuId") String menuId) {
+        List<TableHead> headList = tableHeadService.getIsReference(menuId);
         return JsonData.setResultSuccess(headList);
 
     }

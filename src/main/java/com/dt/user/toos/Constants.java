@@ -6,6 +6,9 @@ public interface Constants {
      * token
      */
     String TOKEN = "token";
+
+
+    String MODEL = "model";
     /**
      * 文件上传存放地址
      */
@@ -91,7 +94,7 @@ public interface Constants {
     String MEXICO_TIME = "dd/MM/yyyy HH:mm:ss";
 
     /**
-     * 订单/退货 / FBA遗弃 // 长期仓储费 日期转换 通用日期
+     * 订单/退货 / FBA遗弃 // 长期仓储费 //FBA遗弃 日期转换 通用日期
      */
     String GP_DATE = "yyyy-MM-dd'T'HH:mm:ss";
     /**

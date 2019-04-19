@@ -35,7 +35,6 @@ public interface BasicPublicSiteMapper {
     List<BasicPublicSite> getShopIdTakeSiteList(@Param("sId") Long sId);
 
     /**
-     * 洲 业务
      * 通过url 去查询site ID
      *
      * @param url
@@ -47,7 +46,16 @@ public interface BasicPublicSiteMapper {
 
 
     /**
-     * 洲 业务
+     * 通过币别 currency 去查询site ID
+     *
+     * @param currency
+     * @return
+     */
+    @Select("SELECT `site_id` FROM `basic_public_site`" +
+            "WHERE currency=#{currency} limit 0,1")
+    Integer getCurrencySiteId(@Param("currency") String currency);
+
+    /**
      * 通过country 国家名 去查询site ID
      *
      * @return

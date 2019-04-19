@@ -20,6 +20,11 @@ public class SalesAmazonFbaAbandonServiceImpl implements SalesAmazonFbaAbandonSe
     private SalesAmazonFbaAbandonMapper abandonMapper;
 
     @Override
+    public int serviceSetSalesAmazonAbandonList(List<SalesAmazonFbaAbandon> abandonList) {
+        return abandonMapper.setSalesAmazonAbandonList(abandonList);
+    }
+
+    @Override
     public List<SalesAmazonFbaAbandon> serviceFindByListAbandon(SalesAmazonFbaAbandon abandon) {
         return abandonMapper.findByListAbandon(abandon);
     }

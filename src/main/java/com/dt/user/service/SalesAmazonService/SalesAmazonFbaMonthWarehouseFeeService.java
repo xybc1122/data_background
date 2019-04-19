@@ -18,4 +18,10 @@ public interface SalesAmazonFbaMonthWarehouseFeeService {
      * @return
      */
     int serviceSaveAmazonMonthWar(List<SalesAmazonFbaMonthWarehouseFee> mWarList);
+
+
+    /**
+     * 查询月度仓库费用数据
+     */
+    List<SalesAmazonFbaMonthWarehouseFee> serviceFindByListMWar(SalesAmazonFbaMonthWarehouseFee mWar);
 }

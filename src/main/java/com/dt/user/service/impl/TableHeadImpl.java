@@ -27,7 +27,7 @@ public class TableHeadImpl implements TableHeadService {
 
     @Override
     @Transactional
-    public ResponseBase setHead(TableHead tableHead) {
+    public ResponseBase ReHead(TableHead tableHead) {
         try {
             if (tableHead.getHeadList() != null && tableHead.getHeadList().size() > 0) {
                 for (TableHead t : tableHead.getHeadList()) {
@@ -52,8 +52,33 @@ public class TableHeadImpl implements TableHeadService {
     }
 
     @Override
-    public List<TableHead> getIsReference() {
-        return tableHeadMapper.getIsReference();
+    public List<TableHead> getIsReference(String menuId) {
+        //数据库
+        List<TableHead> hList = tableHeadMapper.getIsReference();
+        for (int j = 0; j < hList.size(); j++) {
+            String hMId = hList.get(j).getMenuId();
+            //判断是否有, 如果有 进行切割
+            int index = hMId.indexOf(",");
+            //如果不是-1 说明有 进行切割
+            if (index != -1) {
+                String[] hMIdArr = hMId.split(",");
+                for (String strMid : hMIdArr) {
+                    if (strMid.equals(menuId)) {
+                        hList.remove(j);
+                        //这里是为了删除一个元素后 下标又重新下降一位
+                        --j;
+                        break;
+                    }
+                }
+            } else {
+                if (hMId.equals(menuId)) {
+                    hList.remove(j);
+                    --j;
+                    break;
+                }
+            }
+        }
+        return hList;
     }
 
     @Override

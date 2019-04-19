@@ -28,6 +28,6 @@ public interface SalesAmazonFbaMonthWarehouseFeeMapper {
      * 查询月度仓库费用数据
      */
     @SelectProvider(type = SalesAmazonFbaMonthWarehouseFeeProvider.class, method = "getMWarInfo")
-    List<SalesAmazonFbaMonthWarehouseFee> findByListmWar(SalesAmazonFbaMonthWarehouseFee mWar);
+    List<SalesAmazonFbaMonthWarehouseFee> findByListMWar(SalesAmazonFbaMonthWarehouseFee mWar);
 
 }

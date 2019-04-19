@@ -36,4 +36,13 @@ public interface BasicPublicSiteService {
      * @return
      */
     Integer serviceGetSiteId(String country, String sName);
+
+
+    /**
+     * 通过币别 currency 去查询site ID
+     *
+     * @param currency
+     * @return
+     */
+    Integer getCurrencySiteId(String currency);
 }

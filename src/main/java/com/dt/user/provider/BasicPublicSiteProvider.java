@@ -81,7 +81,6 @@ public class BasicPublicSiteProvider {
             if (StringUtils.isNotBlank(sName)) {
                 WHERE("site_name=" + "'" + sName + "'");
             }
-
         }}.toString();
     }
 }

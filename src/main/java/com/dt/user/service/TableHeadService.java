@@ -14,7 +14,7 @@ public interface TableHeadService {
      *
      * @param tableHead
      */
-    ResponseBase setHead(TableHead tableHead);
+    ResponseBase ReHead(TableHead tableHead);
 
 
     /**
@@ -37,7 +37,7 @@ public interface TableHeadService {
     /**
      * 查询引用表头信息
      */
-    List<TableHead> getIsReference();
+    List<TableHead> getIsReference(String menuIds);
 
     List<TableHead> findByMenuIdHeadList(Long menuId);
 

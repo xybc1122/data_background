@@ -1,7 +1,9 @@
 package com.dt.user.controller.SalesAmazonController;
 
 import com.dt.user.config.ResponseBase;
+import com.dt.user.model.JavaSqlName;
 import com.dt.user.model.SalesAmazon.*;
+import com.dt.user.service.JavaSqlNameService;
 import com.dt.user.service.SalesAmazonService.*;
 import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @ClassName SalesAmazonFbaController
@@ -19,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/fba")
 public class SalesAmazonFbaController {
+    @Autowired
+    private JavaSqlNameService nameService;
 
     @Autowired
     private SalesAmazonFbaBusinessreportService busService;
@@ -34,6 +40,10 @@ public class SalesAmazonFbaController {
     private SalesAmazonFbaAbandonService abandonService;
     @Autowired
     private SalesAmazonFbaShipNoticeEntryService entryService;
+
+    @Autowired
+    private SalesAmazonFbaMonthWarehouseFeeService mWarService;
+
 
     /**
      * 查询业务报告信息
@@ -116,4 +126,19 @@ public class SalesAmazonFbaController {
         PageInfoUtils.setPage(entry.getPageSize(), entry.getCurrentPage());
         return PageInfoUtils.returnPage(entryService.serviceFindByListAbandon(entry), entry.getCurrentPage());
     }
+
+    /**
+     * 查询月度仓库费
+     *
+     * @return
+     */
+    @PostMapping("/getMWarInfo")
+    public ResponseBase getMWarInfo(@RequestBody SalesAmazonFbaMonthWarehouseFee fee) {
+        //这里放入缓存
+        List<JavaSqlName> info = nameService.get("monthWarehouseFee");
+        fee.setNameList(info);
+        PageInfoUtils.setPage(fee.getPageSize(), fee.getCurrentPage());
+        return PageInfoUtils.returnPage(mWarService.serviceFindByListMWar(fee), fee.getCurrentPage());
+    }
+
 }

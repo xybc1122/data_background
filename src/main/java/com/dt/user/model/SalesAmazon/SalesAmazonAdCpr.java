@@ -2,6 +2,7 @@ package com.dt.user.model.SalesAmazon;
 
 import com.dt.user.model.ParentUploadInfo;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 
 /**
@@ -27,6 +28,8 @@ public class SalesAmazonAdCpr extends ParentUploadInfo {
     private String adGroupName;
     private String campaignName;
     private String targeting;
+
+
 
     public SalesAmazonAdCpr() {
 

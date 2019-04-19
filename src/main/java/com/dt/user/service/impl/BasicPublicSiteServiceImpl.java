@@ -35,4 +35,9 @@ public class BasicPublicSiteServiceImpl implements BasicPublicSiteService {
     public Integer serviceGetSiteId(String country, String sName) {
         return siteMapper.getSId(country, sName);
     }
+
+    @Override
+    public Integer getCurrencySiteId(String currency) {
+        return siteMapper.getCurrencySiteId(currency);
+    }
 }

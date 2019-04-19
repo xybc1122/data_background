@@ -5,7 +5,7 @@ import com.dt.user.model.ParentUploadInfo;
 
 import java.math.BigDecimal;
 
-public class SalesAmazonFbaLongWarehousefee extends ParentUploadInfo {
+public class SalesAmazonFbaLongWarehouseFee extends ParentUploadInfo {
 
     private Long lwId;
     private String lwSku;
@@ -23,8 +23,11 @@ public class SalesAmazonFbaLongWarehousefee extends ParentUploadInfo {
     private String enrolledInSmallAndLight;
     private String productName;
 
+    public SalesAmazonFbaLongWarehouseFee(){
 
-    public SalesAmazonFbaLongWarehousefee(Integer shopId, Long createDate, String createUser, Long recordingId) {
+    }
+
+    public SalesAmazonFbaLongWarehouseFee(Integer shopId, Long createDate, String createUser, Long recordingId) {
         super(shopId, null, createDate, createUser, recordingId);
     }
 

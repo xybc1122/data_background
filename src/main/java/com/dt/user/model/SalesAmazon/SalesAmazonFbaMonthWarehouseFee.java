@@ -8,215 +8,232 @@ import com.dt.user.model.ParentUploadInfo;
  */
 public class SalesAmazonFbaMonthWarehouseFee extends ParentUploadInfo {
 
-  private Long wId;
-  private String asin;
-  private String fnSku;
-  private String productName;
-  private String fc;
-  private Integer awId;
-  private String countryCode;
-  private Double longestSide;
-  private Double medianSide;
-  private Double shortestSide;
-  private String measurementUnits;
-  private Double weight;
-  private String weightUnits;
-  private Double itemVolume;
-  private String volumeUnits;
-  private String productSizeTier;
-  private Double averageQuantityOnHand;
-  private Double averageQuantityPendingRemoval;
-  private Double estimatedTotalItemVolume;
-  private Long monthOfCharge;
-  private Double storageRate;
-  private String currency;
-  private Double estimatedMonthlyStorageFee;
+    private Long wId;
+    private String asin;
+    private String fnSku;
+    private String productName;
+    private String fc;
+    private Integer awId;
+    private String countryCode;
+    private Double longestSide;
+    private Double medianSide;
+    private Double shortestSide;
+    private String measurementUnits;
+    private Double weight;
+    private String weightUnits;
+    private Double itemVolume;
+    private String volumeUnits;
+    private String productSizeTier;
+    private Double averageQuantityOnHand;
+    private Double averageQuantityPendingRemoval;
+    private Double estimatedTotalItemVolume;
+    private Long monthOfCharge;
+    private Double storageRate;
+    private String currency;
+    private Double estimatedMonthlyStorageFee;
+    /**
+     * 亚马逊仓库code
+     */
+    private String warehouseCode;
 
 
-  public SalesAmazonFbaMonthWarehouseFee(Integer shopId, Long createDate, String createUser, Long recordingId) {
-    super(shopId, null, createDate, createUser, recordingId);
-  }
-  public Long getwId() {
-    return wId;
-  }
+    public SalesAmazonFbaMonthWarehouseFee(){
 
-  public void setwId(Long wId) {
-    this.wId = wId;
-  }
+    }
 
-  public String getAsin() {
-    return asin;
-  }
+    public SalesAmazonFbaMonthWarehouseFee(Integer shopId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, null, createDate, createUser, recordingId);
+    }
 
-  public void setAsin(String asin) {
-    this.asin = asin;
-  }
+    public String getWarehouseCode() {
+        return warehouseCode;
+    }
 
-  public String getFnSku() {
-    return fnSku;
-  }
+    public void setWarehouseCode(String warehouseCode) {
+        this.warehouseCode = warehouseCode;
+    }
 
-  public void setFnSku(String fnSku) {
-    this.fnSku = fnSku;
-  }
+    public Long getwId() {
+        return wId;
+    }
 
-  public String getProductName() {
-    return productName;
-  }
+    public void setwId(Long wId) {
+        this.wId = wId;
+    }
 
-  public void setProductName(String productName) {
-    this.productName = productName;
-  }
+    public String getAsin() {
+        return asin;
+    }
 
-  public String getFc() {
-    return fc;
-  }
+    public void setAsin(String asin) {
+        this.asin = asin;
+    }
 
-  public void setFc(String fc) {
-    this.fc = fc;
-  }
+    public String getFnSku() {
+        return fnSku;
+    }
 
-  public Integer getAwId() {
-    return awId;
-  }
+    public void setFnSku(String fnSku) {
+        this.fnSku = fnSku;
+    }
 
-  public void setAwId(Integer awId) {
-    this.awId = awId;
-  }
+    public String getProductName() {
+        return productName;
+    }
 
-  public String getCountryCode() {
-    return countryCode;
-  }
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
-  public void setCountryCode(String countryCode) {
-    this.countryCode = countryCode;
-  }
+    public String getFc() {
+        return fc;
+    }
 
-  public Double getLongestSide() {
-    return longestSide;
-  }
+    public void setFc(String fc) {
+        this.fc = fc;
+    }
 
-  public void setLongestSide(Double longestSide) {
-    this.longestSide = longestSide;
-  }
+    public Integer getAwId() {
+        return awId;
+    }
 
-  public Double getMedianSide() {
-    return medianSide;
-  }
+    public void setAwId(Integer awId) {
+        this.awId = awId;
+    }
 
-  public void setMedianSide(Double medianSide) {
-    this.medianSide = medianSide;
-  }
+    public String getCountryCode() {
+        return countryCode;
+    }
 
-  public Double getShortestSide() {
-    return shortestSide;
-  }
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 
-  public void setShortestSide(Double shortestSide) {
-    this.shortestSide = shortestSide;
-  }
+    public Double getLongestSide() {
+        return longestSide;
+    }
 
-  public String getMeasurementUnits() {
-    return measurementUnits;
-  }
+    public void setLongestSide(Double longestSide) {
+        this.longestSide = longestSide;
+    }
 
-  public void setMeasurementUnits(String measurementUnits) {
-    this.measurementUnits = measurementUnits;
-  }
+    public Double getMedianSide() {
+        return medianSide;
+    }
 
-  public Double getWeight() {
-    return weight;
-  }
+    public void setMedianSide(Double medianSide) {
+        this.medianSide = medianSide;
+    }
 
-  public void setWeight(Double weight) {
-    this.weight = weight;
-  }
+    public Double getShortestSide() {
+        return shortestSide;
+    }
 
-  public String getWeightUnits() {
-    return weightUnits;
-  }
+    public void setShortestSide(Double shortestSide) {
+        this.shortestSide = shortestSide;
+    }
 
-  public void setWeightUnits(String weightUnits) {
-    this.weightUnits = weightUnits;
-  }
+    public String getMeasurementUnits() {
+        return measurementUnits;
+    }
 
-  public Double getItemVolume() {
-    return itemVolume;
-  }
+    public void setMeasurementUnits(String measurementUnits) {
+        this.measurementUnits = measurementUnits;
+    }
 
-  public void setItemVolume(Double itemVolume) {
-    this.itemVolume = itemVolume;
-  }
+    public Double getWeight() {
+        return weight;
+    }
 
-  public String getVolumeUnits() {
-    return volumeUnits;
-  }
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
 
-  public void setVolumeUnits(String volumeUnits) {
-    this.volumeUnits = volumeUnits;
-  }
+    public String getWeightUnits() {
+        return weightUnits;
+    }
 
-  public String getProductSizeTier() {
-    return productSizeTier;
-  }
+    public void setWeightUnits(String weightUnits) {
+        this.weightUnits = weightUnits;
+    }
 
-  public void setProductSizeTier(String productSizeTier) {
-    this.productSizeTier = productSizeTier;
-  }
+    public Double getItemVolume() {
+        return itemVolume;
+    }
 
-  public Double getAverageQuantityOnHand() {
-    return averageQuantityOnHand;
-  }
+    public void setItemVolume(Double itemVolume) {
+        this.itemVolume = itemVolume;
+    }
 
-  public void setAverageQuantityOnHand(Double averageQuantityOnHand) {
-    this.averageQuantityOnHand = averageQuantityOnHand;
-  }
+    public String getVolumeUnits() {
+        return volumeUnits;
+    }
 
-  public Double getAverageQuantityPendingRemoval() {
-    return averageQuantityPendingRemoval;
-  }
+    public void setVolumeUnits(String volumeUnits) {
+        this.volumeUnits = volumeUnits;
+    }
 
-  public void setAverageQuantityPendingRemoval(Double averageQuantityPendingRemoval) {
-    this.averageQuantityPendingRemoval = averageQuantityPendingRemoval;
-  }
+    public String getProductSizeTier() {
+        return productSizeTier;
+    }
 
-  public Double getEstimatedTotalItemVolume() {
-    return estimatedTotalItemVolume;
-  }
+    public void setProductSizeTier(String productSizeTier) {
+        this.productSizeTier = productSizeTier;
+    }
 
-  public void setEstimatedTotalItemVolume(Double estimatedTotalItemVolume) {
-    this.estimatedTotalItemVolume = estimatedTotalItemVolume;
-  }
+    public Double getAverageQuantityOnHand() {
+        return averageQuantityOnHand;
+    }
 
-  public Long getMonthOfCharge() {
-    return monthOfCharge;
-  }
+    public void setAverageQuantityOnHand(Double averageQuantityOnHand) {
+        this.averageQuantityOnHand = averageQuantityOnHand;
+    }
 
-  public void setMonthOfCharge(Long monthOfCharge) {
-    this.monthOfCharge = monthOfCharge;
-  }
+    public Double getAverageQuantityPendingRemoval() {
+        return averageQuantityPendingRemoval;
+    }
 
-  public Double getStorageRate() {
-    return storageRate;
-  }
+    public void setAverageQuantityPendingRemoval(Double averageQuantityPendingRemoval) {
+        this.averageQuantityPendingRemoval = averageQuantityPendingRemoval;
+    }
 
-  public void setStorageRate(Double storageRate) {
-    this.storageRate = storageRate;
-  }
+    public Double getEstimatedTotalItemVolume() {
+        return estimatedTotalItemVolume;
+    }
 
-  public String getCurrency() {
-    return currency;
-  }
+    public void setEstimatedTotalItemVolume(Double estimatedTotalItemVolume) {
+        this.estimatedTotalItemVolume = estimatedTotalItemVolume;
+    }
 
-  public void setCurrency(String currency) {
-    this.currency = currency;
-  }
+    public Long getMonthOfCharge() {
+        return monthOfCharge;
+    }
 
-  public Double getEstimatedMonthlyStorageFee() {
-    return estimatedMonthlyStorageFee;
-  }
+    public void setMonthOfCharge(Long monthOfCharge) {
+        this.monthOfCharge = monthOfCharge;
+    }
 
-  public void setEstimatedMonthlyStorageFee(Double estimatedMonthlyStorageFee) {
-    this.estimatedMonthlyStorageFee = estimatedMonthlyStorageFee;
-  }
+    public Double getStorageRate() {
+        return storageRate;
+    }
+
+    public void setStorageRate(Double storageRate) {
+        this.storageRate = storageRate;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public Double getEstimatedMonthlyStorageFee() {
+        return estimatedMonthlyStorageFee;
+    }
+
+    public void setEstimatedMonthlyStorageFee(Double estimatedMonthlyStorageFee) {
+        this.estimatedMonthlyStorageFee = estimatedMonthlyStorageFee;
+    }
 }

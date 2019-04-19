@@ -1,9 +1,7 @@
 package com.dt.user.mapper.SalesAmazonMapper;
 
-import com.dt.user.model.SalesAmazon.SalesAmazonFbaLongWarehousefee;
-import com.dt.user.model.SalesAmazon.SalesAmazonFbaMonthWarehouseFee;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaLongWarehouseFee;
 import com.dt.user.provider.SalesAmazonFbaLongWarehousefeeProvider;
-import com.dt.user.provider.SalesAmazonFbaMonthWarehouseFeeProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,7 +22,7 @@ public interface SalesAmazonFbaLongWarehousefeeMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonFbaLongWarehousefeeProvider.class, method = "saveAmazonLongWarList")
-    int saveAmazonLongWar(@Param("longWarList") List<SalesAmazonFbaLongWarehousefee> longWarList);
+    int saveAmazonLongWar(@Param("longWarList") List<SalesAmazonFbaLongWarehouseFee> longWarList);
 
 
 }

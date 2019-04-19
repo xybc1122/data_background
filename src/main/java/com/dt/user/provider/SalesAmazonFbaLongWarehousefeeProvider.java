@@ -1,7 +1,6 @@
 package com.dt.user.provider;
 
-import com.dt.user.model.SalesAmazon.SalesAmazonFbaLongWarehousefee;
-import com.dt.user.model.SalesAmazon.SalesAmazonFbaMonthWarehouseFee;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaLongWarehouseFee;
 import com.dt.user.store.AppendSqlStore;
 import com.dt.user.utils.StrUtils;
 
@@ -18,7 +17,7 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
 
 
     public String saveAmazonLongWarList(Map<String, Object> mapStr) {
-        List<SalesAmazonFbaLongWarehousefee> longWarList = (List<SalesAmazonFbaLongWarehousefee>) mapStr.get("longWarList");
+        List<SalesAmazonFbaLongWarehouseFee> longWarList = (List<SalesAmazonFbaLongWarehouseFee>) mapStr.get("longWarList");
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO `sales_amazon_fba_long_warehousefee`\n" +
                 "(`date`,`shop_id`,`site_id`, `sku_id`,`lw_sku`,\n" +
@@ -27,7 +26,7 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
                 "`qty_charged_six_mo_long_term_storage_fee`,\n" +
                 "`six_mo_long_terms_storage_fee`,`volume_unit`, `country`," +
                 "`enrolled_in_small_and_light`,`product_name`,`create_date`,`create_user`,`recording_id`) values");
-        for (SalesAmazonFbaLongWarehousefee l : longWarList) {
+        for (SalesAmazonFbaLongWarehouseFee l : longWarList) {
             sb.append("(").append(l.getDate()).append(",").
                     append(l.getShopId()).append(",").append(l.getSiteId()).append(",").append(l.getSkuId());
             sb.append(",");

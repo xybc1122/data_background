@@ -2,6 +2,8 @@ package com.dt.user.mapper.SalesAmazonMapper;
 
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaAbandon;
 import com.dt.user.provider.SalesAmazonFbaAbandonProvider;
+import org.apache.ibatis.annotations.InsertProvider;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
@@ -20,6 +22,15 @@ public interface SalesAmazonFbaAbandonMapper {
      */
     @SelectProvider(type = SalesAmazonFbaAbandonProvider.class, method = "getAbandonInfo")
     List<SalesAmazonFbaAbandon> findByListAbandon(SalesAmazonFbaAbandon abandon);
+
+
+    /**
+     * 存入广告FBA遗弃数据
+     *
+     * @return
+     */
+    @InsertProvider(type = SalesAmazonFbaAbandonProvider.class, method = "setAbandon")
+    int setSalesAmazonAbandonList(@Param("abandonList") List<SalesAmazonFbaAbandon> abandonList);
 
 
 }

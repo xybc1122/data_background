@@ -101,63 +101,63 @@ public class SalesAmazonFbaFeedbackSqlProvider {
             UPDATE("sales_amazon_fba_feedback");
 
             if (record.getFeeId() != null) {
-                SET("id = #{record.id,jdbcType=BIGINT}");
+                SET("fee_id = #{feeId,jdbcType=BIGINT}");
             }
 
             if (record.getDate() != null) {
-                SET("date = #{record.date,jdbcType=BIGINT}");
+                SET("date = #{date,jdbcType=BIGINT}");
             }
 
             if (record.getShopId() != null) {
-                SET("shop_id = #{record.shopId,jdbcType=INTEGER}");
+                SET("shop_id = #{shopId,jdbcType=INTEGER}");
             }
 
             if (record.getSiteId() != null) {
-                SET("site_id = #{record.siteId,jdbcType=INTEGER}");
+                SET("site_id = #{siteId,jdbcType=INTEGER}");
             }
 
             if (record.getAdd() != null) {
-                SET("add = #{record.add,jdbcType=INTEGER}");
+                SET("add = #{add,jdbcType=INTEGER}");
             }
 
             if (record.getMove() != null) {
-                SET("move = #{record.move,jdbcType=INTEGER}");
+                SET("move = #{move,jdbcType=INTEGER}");
             }
 
             if (record.getRemark() != null) {
-                SET("remark = #{record.remark,jdbcType=VARCHAR}");
+                SET("remark = #{remark,jdbcType=VARCHAR}");
             }
 
             if (record.getStatus() != null) {
-                SET("status = #{record.status,jdbcType=INTEGER}");
+                SET("status = #{status,jdbcType=INTEGER}");
             }
 
             if (record.getCreateDate() != null) {
-                SET("create_date = #{record.createDate,jdbcType=BIGINT}");
+                SET("create_date = #{createDate,jdbcType=BIGINT}");
             }
 
             if (record.getCreateUser() != null) {
-                SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
+                SET("create_user = #{createUser,jdbcType=VARCHAR}");
             }
 
             if (record.getModifyDate() != null) {
-                SET("modify_date = #{record.modifyDate,jdbcType=BIGINT}");
+                SET("modify_date = #{modifyDate,jdbcType=BIGINT}");
             }
 
             if (record.getModifyUser() != null) {
-                SET("modify_user = #{record.modifyUser,jdbcType=VARCHAR}");
+                SET("modify_user = #{modifyUser,jdbcType=VARCHAR}");
             }
 
             if (record.getAuditDate() != null) {
-                SET("audit_date = #{record.auditDate,jdbcType=BIGINT}");
+                SET("audit_date = #{auditDate,jdbcType=BIGINT}");
             }
 
             if (record.getAuditUser() != null) {
-                SET("audit_user = #{record.auditUser,jdbcType=VARCHAR}");
+                SET("audit_user = #{auditUser,jdbcType=VARCHAR}");
             }
 
             if (record.getRecordingId() != null) {
-                SET("recording_id = #{record.recordingId,jdbcType=BIGINT}");
+                SET("recording_id = #{recordingId,jdbcType=BIGINT}");
             }
         }}.toString();
     }

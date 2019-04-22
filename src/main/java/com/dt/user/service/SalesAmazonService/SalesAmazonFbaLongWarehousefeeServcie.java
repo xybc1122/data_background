@@ -12,6 +12,20 @@ import java.util.List;
  **/
 public interface SalesAmazonFbaLongWarehousefeeServcie {
 
-
+    /**
+     * 新增数据
+     *
+     * @param longWarList
+     * @return
+     */
     int serviceSetAmazonLongWar(List<SalesAmazonFbaLongWarehouseFee> longWarList);
+
+
+    /**
+     * 查询场地仓库费
+     *
+     * @param fee
+     * @return
+     */
+    List<SalesAmazonFbaLongWarehouseFee> serviceSelectByLongWarehouse(SalesAmazonFbaLongWarehouseFee fee);
 }

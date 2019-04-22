@@ -1,13 +1,10 @@
 package com.dt.user;
 
 
-import com.dt.user.mapper.BasePublicMapper.BasicPublicCountryMapper;
-import com.dt.user.model.BasePublicModel.BasicPublicCountry;
 import com.dt.user.model.JavaSqlName;
-import com.dt.user.model.SalesAmazon.SalesAmazonFbaMonthWarehouseFee;
-import com.dt.user.service.BasePublicService.BasicPublicProductsService;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaAbandon;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaFeedback;
 import com.dt.user.service.JavaSqlNameService;
-import com.dt.user.service.impl.JavaSqlNameServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +17,20 @@ import java.lang.reflect.Field;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class MapperTest {
-   @Autowired
-   private JavaSqlNameService service;
+    @Autowired
+    private JavaSqlNameService service;
+
 
     @Test
     public void add() {
-        SalesAmazonFbaMonthWarehouseFee fee = new SalesAmazonFbaMonthWarehouseFee();
-        Field[] field = fee.getClass().getDeclaredFields();
+        SalesAmazonFbaFeedback f = new SalesAmazonFbaFeedback();
+        Field[] field = f.getClass().getDeclaredFields();
         for (Field s : field) {
             s.setAccessible(true);
             JavaSqlName b = new JavaSqlName();
             b.setjName(s.getName());
-            b.setModel("monthWarehouseFee");
+            b.setModel("feedback");
             service.serviceSet(b);
         }
     }
-
 }

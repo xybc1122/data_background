@@ -37,18 +37,19 @@ public class AppendSqlStore {
      * @param sql
      */
     public static void sqlWhere(Object k, String v, SQL sql, String status) {
+        String c = "`" + v + "`";
         if (k != null && k != "") {
             if (status.equals(Constants.SELECT)) {
                 if (k instanceof String) {
-                    sql.WHERE("POSITION('" + k + "' IN " + v + ")");
+                    sql.WHERE("POSITION('" + k + "' IN " + c + ")");
                 } else {
-                    sql.WHERE(v + "=" + k);
+                    sql.WHERE(c + "=" + k);
                 }
             } else if (status.equals(Constants.UP)) {
                 if (k instanceof String) {
-                    sql.SET(v + "=" + "'" + k + "'");
+                    sql.SET(c + "=" + "'" + k + "'");
                 } else {
-                    sql.SET(v + "=" + k);
+                    sql.SET(c + "=" + k);
                 }
             }
         }

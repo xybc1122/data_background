@@ -25,6 +25,9 @@ public class FieldStore {
      * @throws IllegalAccessException
      */
     public static void query(Field[] fields, List<JavaSqlName> info, Object v, SQL sql) throws IllegalAccessException {
+        if (v == null) {
+            return;
+        }
         for (Field rfModel : fields) {
             rfModel.setAccessible(true);
             for (JavaSqlName javaSqlName : info) {

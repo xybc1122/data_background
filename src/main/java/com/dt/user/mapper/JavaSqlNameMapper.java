@@ -16,7 +16,7 @@ import java.util.List;
 public interface JavaSqlNameMapper {
 
 
-    @Insert("INSERT INTO`java_sql_name`(`sqlName`, `jName`,`model`)" +
+    @Insert("INSERT INTO`java_sql_name`(`sql_name`, `j_name`,`model`)" +
             "VALUES (#{sqlName},#{jName},#{model})")
     int set(JavaSqlName javaSqlName);
 
@@ -26,7 +26,7 @@ public interface JavaSqlNameMapper {
      * @param model
      * @return
      */
-    @Select("SELECT`js_id`,`sqlName`,`jName`,`model`,`sign`\n" +
+    @Select("SELECT`js_id`,`sql_name`,`j_name`,`model`,`sign`\n" +
             "FROM `java_sql_name` WHERE model =#{model} AND `sign` =1")
     List<JavaSqlName> get(@Param("model") String model);
 

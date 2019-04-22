@@ -2,9 +2,8 @@ package com.dt.user.mapper.SalesAmazonMapper;
 
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaAbandon;
 import com.dt.user.provider.SalesAmazonFbaAbandonProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 

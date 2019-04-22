@@ -6,6 +6,9 @@ import com.dt.user.model.ParentUploadInfo;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * 订单处理费
+ */
 public class SalesAmazonFbaHandlingFee extends ParentUploadInfo {
 
     private Long hdId;
@@ -15,6 +18,9 @@ public class SalesAmazonFbaHandlingFee extends ParentUploadInfo {
      * 有效如期范围查询
      */
     private List<Long> effectiveDates;
+
+    public SalesAmazonFbaHandlingFee() {
+    }
 
 
     public SalesAmazonFbaHandlingFee(Long createDate, String createUser, Long recordingId) {

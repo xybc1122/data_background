@@ -2,8 +2,8 @@ package com.dt.user.mapper.SalesAmazonMapper;
 
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaLongWarehouseFee;
 import com.dt.user.provider.SalesAmazonFbaLongWarehousefeeProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 
@@ -24,5 +24,13 @@ public interface SalesAmazonFbaLongWarehousefeeMapper {
     @InsertProvider(type = SalesAmazonFbaLongWarehousefeeProvider.class, method = "saveAmazonLongWarList")
     int saveAmazonLongWar(@Param("longWarList") List<SalesAmazonFbaLongWarehouseFee> longWarList);
 
+    /**
+     * 查询场地仓库费
+     *
+     * @param fee
+     * @return
+     */
+    @SelectProvider(type = SalesAmazonFbaLongWarehousefeeProvider.class, method = "selectByLongWarehouseFee")
+    List<SalesAmazonFbaLongWarehouseFee> selectByLongWarehouse(SalesAmazonFbaLongWarehouseFee fee);
 
 }

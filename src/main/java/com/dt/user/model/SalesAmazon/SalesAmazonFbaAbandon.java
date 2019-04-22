@@ -29,6 +29,10 @@ public class SalesAmazonFbaAbandon extends ParentUploadInfo {
     private BigDecimal removalFee;
     private String currency;
 
+    public SalesAmazonFbaAbandon() {
+
+
+    }
     public SalesAmazonFbaAbandon(Integer sId, Long createDate, String createUser, Long recordingId, Integer aId) {
         super(sId, null, createDate, createUser, recordingId);
         this.areaId = aId;

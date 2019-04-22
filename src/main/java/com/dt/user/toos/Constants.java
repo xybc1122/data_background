@@ -8,7 +8,7 @@ public interface Constants {
     String TOKEN = "token";
 
 
-    String MODEL = "model";
+    String MODEL = "model:";
     /**
      * 文件上传存放地址
      */

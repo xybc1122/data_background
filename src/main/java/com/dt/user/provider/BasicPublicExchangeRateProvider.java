@@ -32,7 +32,7 @@ public class BasicPublicExchangeRateProvider {
         if (rateDto.getToUsd() != null) {
             sql.WHERE(Alias + ".to_usd=#{toUsd}");
         }
-        sql.WHERE("del_or_not=0");
+        sql.WHERE("r.del_or_not=0");
         return sql.toString();
     }
 

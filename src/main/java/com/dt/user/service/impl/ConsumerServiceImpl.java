@@ -433,18 +433,24 @@ public class ConsumerServiceImpl implements ConsumerService {
         } else if (txtHeadList.get(i).equals(isImportHead.get(13).getImportTemplet()) && isImportHead.get(13).getOpenClose()) {
             ab.setRemovalFee(StrUtils.repDecimal(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(14).getImportTemplet()) && isImportHead.get(14).getOpenClose()) {
+            //币别
             String currency = StrUtils.repString(j[i]);
             //这里判断不为null的
             if (StringUtils.isNotBlank(currency)) {
-
+                //通过币别去查找站点ID
+                Integer seId = siteService.getCurrencySiteId(currency);
+                if (seId == null) {
+                    return null;
+                }
+            } else {
+                //如果是null 的直接存了
+                ab.setCurrency(StrUtils.repString(j[i]));
             }
-            ab.setCurrency(StrUtils.repString(j[i]));
-            if (i + 1 == j.length) {
-//            String result = setThisId(lWar.getShopId(), lWar.getSiteId(), lWar.getAsin(), lWar);
-//            if (result == null) {
-//                return null;
-//            }
-            }
+        }
+        if (i + 1 == j.length) {
+            Long skuId = skuService.selSkuId(ab.getShopId(), ab.getSiteId(), ab.getAbandonSku());
+            if (skuId == null) return null;
+            ab.setSkuId(skuId);
         }
         return ab;
     }
@@ -473,20 +479,23 @@ public class ConsumerServiceImpl implements ConsumerService {
         } else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose()) {
             lWar.setProductName(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(5).getImportTemplet()) && isImportHead.get(5).getOpenClose()) {
-            lWar.setQtyChargedSixMoLongTermStorageFee(StrUtils.repInteger(j[i]));
+            lWar.setCondition(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(6).getImportTemplet()) && isImportHead.get(6).getOpenClose()) {
-            lWar.setPerUnitVolume(StrUtils.repDecimal(j[i]));
-        } else if (txtHeadList.get(i).equals(isImportHead.get(7).getImportTemplet()) && isImportHead.get(7).getOpenClose()) {
-            lWar.setCurrency(StrUtils.repString(j[i]));
-        } else if (txtHeadList.get(i).equals(isImportHead.get(8).getImportTemplet()) && isImportHead.get(8).getOpenClose()) {
-            lWar.setTwelveMoLongTermsStorageFee(StrUtils.repDecimal(j[i]));
-        } else if (txtHeadList.get(i).equals(isImportHead.get(9).getImportTemplet()) && isImportHead.get(9).getOpenClose()) {
             lWar.setQtyChargedSixMoLongTermStorageFee(StrUtils.repInteger(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(7).getImportTemplet()) && isImportHead.get(7).getOpenClose()) {
+            lWar.setPerUnitVolume(StrUtils.repDecimal(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(8).getImportTemplet()) && isImportHead.get(8).getOpenClose()) {
+            lWar.setCurrency(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(9).getImportTemplet()) && isImportHead.get(9).getOpenClose()) {
+            lWar.setTwelveMoLongTermsStorageFee(StrUtils.repDecimal(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(10).getImportTemplet()) && isImportHead.get(10).getOpenClose()) {
-            lWar.setSixMoLongTermsStorageFee(StrUtils.repDecimal(j[i]));
+            lWar.setQtyChargedSixMoLongTermStorageFee(StrUtils.repInteger(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(11).getImportTemplet()) && isImportHead.get(11).getOpenClose()) {
-            lWar.setVolumeUnit(StrUtils.repString(j[i]));
+            lWar.setSixMoLongTermsStorageFee(StrUtils.repDecimal(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(12).getImportTemplet()) && isImportHead.get(12).getOpenClose()) {
+            lWar.setVolumeUnit(StrUtils.repString(j[i]));
+        } else if (txtHeadList.get(i).equals(isImportHead.get(13).getImportTemplet()) && isImportHead.get(13).getOpenClose()) {
+            lWar.setCountry(StrUtils.repString(j[i]));
             //这里通过文件里的公司名 去查找站点ID
             String siteName = StrUtils.repString(j[i]);
             if (StringUtils.isBlank(siteName)) return null;
@@ -495,9 +504,10 @@ public class ConsumerServiceImpl implements ConsumerService {
             if (seId == null) return null;
             lWar.setCountry(siteName);
             lWar.setSiteId(seId);
-        } else if (txtHeadList.get(i).equals(isImportHead.get(13).getImportTemplet()) && isImportHead.get(13).getOpenClose()) {
+        } else if (txtHeadList.get(i).equals(isImportHead.get(14).getImportTemplet()) && isImportHead.get(14).getOpenClose()) {
             lWar.setEnrolledInSmallAndLight(StrUtils.repString(j[i]));
         }
+
         if (i + 1 == j.length) {
             String result = setThisId(lWar.getShopId(), lWar.getSiteId(), lWar.getAsin(), lWar);
             if (result == null) {
@@ -584,7 +594,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param j    一行最大的长度
      * @param sId  店铺ID
      * @param seId 站点ID
-     * @param Asin
+     * @param Asin Asin
      * @return
      */
     private String setThisId(int sId, int seId, String Asin, ParentUploadInfo p) {
@@ -846,8 +856,9 @@ public class ConsumerServiceImpl implements ConsumerService {
     }
 
 
-    private ResponseBase threadXls(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer
-            shopId, Long uid, Long
+    private ResponseBase threadXls(String uuIdName, String saveFilePath, String fileName, Integer
+            siteId, Integer
+                                           shopId, Long uid, Long
                                            recordingId, Integer menuId) throws Exception {
         String filePath = saveFilePath + uuIdName;
         //判断文件类型 fileType()
@@ -963,6 +974,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     if (adOar != null) {
                         oarList.add(adOar);
                     }
+                    //HL
                 } else if (menuId == 125) {
                     hlList = ArrUtils.listT(tList);
                     SalesAmazonAdHl adHl = setHl(shopId, siteId, userName, recordingId);
@@ -972,13 +984,14 @@ public class ConsumerServiceImpl implements ConsumerService {
                         adHl = setHlPojo(j, adHl, cell, isImportHead, xlsListHead);
                     }
                     hlList.add(adHl);
+                    //订单处理费
                 } else if (menuId == 271) {
                     hFeesList = ArrUtils.listT(tList);
                     SalesAmazonFbaHandlingFee hLFee = setHLFee(userName, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
                         cell = row.getCell(j);
-                        hLFee = setHLFee(j, hLFee, cell, isImportHead, xlsListHead, totalNumber);
+                        hLFee = setHLFeeInfo(j, hLFee, cell, isImportHead, xlsListHead, totalNumber);
                         if (hLFee == null) {
                             skuSetting(row, totalNumber, sqlHead);
                             break;
@@ -1221,9 +1234,9 @@ public class ConsumerServiceImpl implements ConsumerService {
     /**
      * set 订单处理费用
      */
-    public SalesAmazonFbaHandlingFee setHLFee(int j, SalesAmazonFbaHandlingFee lFee, Cell
+    public SalesAmazonFbaHandlingFee setHLFeeInfo(int j, SalesAmazonFbaHandlingFee lFee, Cell
             cell, List<BasicSalesAmazonCsvTxtXslHeader> importHead,
-                                              List<String> xlsListHead, Integer totalNumber) {
+                                                  List<String> xlsListHead, Integer totalNumber) {
         Integer sId;
         Integer seId;
         Long skuId;
@@ -1407,8 +1420,9 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param shopId
      * @return
      */
-    public ResponseBase threadCsv(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer
-            shopId, Long uid, Integer
+    public ResponseBase threadCsv(String uuIdName, String saveFilePath, String fileName, Integer
+            siteId, Integer
+                                          shopId, Long uid, Integer
                                           pId, Long recordingId, Integer tbId, String businessTime) throws Exception {
 
         List<String> csvHeadList;
@@ -1461,8 +1475,9 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param uid
      * @return
      */
-    public ResponseBase saveCsv(CsvReader csvReader, int row, Integer sId, Integer seId, Long uid, Integer pId, Long
-            recordingId, Integer menuId, String businessTime, List<String> csvHeadList, RealTimeData timeData) {
+    public ResponseBase saveCsv(CsvReader csvReader, int row, Integer sId, Integer seId, Long uid, Integer
+            pId, Long
+                                        recordingId, Integer menuId, String businessTime, List<String> csvHeadList, RealTimeData timeData) {
         List<FinancialSalesBalance> fsbList = null;
         List<SalesAmazonFbaBusinessreport> sfbList = null;
         // 开始时间
@@ -1550,8 +1565,9 @@ public class ConsumerServiceImpl implements ConsumerService {
     /**
      * 业务报告存入对象
      */
-    public SalesAmazonFbaBusinessreport saveBusiness(SalesAmazonFbaBusinessreport sfb, CsvReader csvReader, Integer
-            sId, Integer seId, Long
+    public SalesAmazonFbaBusinessreport saveBusiness(SalesAmazonFbaBusinessreport sfb, CsvReader
+            csvReader, Integer
+                                                             sId, Integer seId, Long
                                                              businessTime, List<String> csvHeadList, List<BasicSalesAmazonCsvTxtXslHeader> importHead, int j) throws
             IOException {
         sfb.setDate(businessTime);
@@ -1598,8 +1614,9 @@ public class ConsumerServiceImpl implements ConsumerService {
     /**
      * csv 财务存入对象
      */
-    public FinancialSalesBalance saveFinance(FinancialSalesBalance fsb, CsvReader csvReader, Integer sId, Integer
-            seId,
+    public FinancialSalesBalance saveFinance(FinancialSalesBalance fsb, CsvReader csvReader, Integer
+            sId, Integer
+                                                     seId,
                                              List<String> csvHeadList, List<BasicSalesAmazonCsvTxtXslHeader> importHead, int j) throws
             IOException {
         //设置时间类型转换
@@ -1839,8 +1856,9 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param status
      * @param msg
      */
-    private UserUpload recordInfo(Integer status, String msg, Long id, String fileName, String saveFilePath, String
-            uuIdName) {
+    private UserUpload recordInfo(Integer status, String msg, Long id, String fileName, String
+            saveFilePath, String
+                                          uuIdName) {
         UserUpload upload = new UserUpload(id, new Date().getTime());
         if (status == 2) {
             upload.setUuidName(uuIdName);
@@ -2099,7 +2117,8 @@ public class ConsumerServiceImpl implements ConsumerService {
         return JsonData.setResultError(msg + data);
     }
 
-    public void sendRealTimeData(ChannelHandlerContext ctx, Map<String, Integer> intMap, RealTimeData timeData,
+    public void sendRealTimeData(ChannelHandlerContext ctx, Map<String, Integer> intMap, RealTimeData
+            timeData,
                                  int index) {
         if (ctx != null) {
             //设置进度

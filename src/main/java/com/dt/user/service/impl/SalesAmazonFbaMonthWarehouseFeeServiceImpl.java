@@ -27,6 +27,6 @@ public class SalesAmazonFbaMonthWarehouseFeeServiceImpl implements SalesAmazonFb
 
     @Override
     public List<SalesAmazonFbaMonthWarehouseFee> serviceFindByListMWar(SalesAmazonFbaMonthWarehouseFee mWar) {
-        return feeMapper.findByListMWar(mWar);
+     return feeMapper.findByListMWar(mWar);
     }
 }

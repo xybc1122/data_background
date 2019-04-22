@@ -44,7 +44,12 @@ public class SalesAmazonFbaController {
     @Autowired
     private SalesAmazonFbaMonthWarehouseFeeService mWarService;
 
-
+    @Autowired
+    private SalesAmazonFbaLongWarehousefeeServcie lWarService;
+    @Autowired
+    private SalesAmazonFbaHandlingFeeService hlingFeeService;
+    @Autowired
+    private SalesAmazonFbaFeedbackService feedbackService;
     /**
      * 查询业务报告信息
      *
@@ -111,6 +116,9 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getAbandonInfo")
     public ResponseBase getAbandonInfo(@RequestBody SalesAmazonFbaAbandon abandon) {
+        //这里放入缓存
+        List<JavaSqlName> info = nameService.get("abandon");
+        abandon.setNameList(info);
         PageInfoUtils.setPage(abandon.getPageSize(), abandon.getCurrentPage());
         return PageInfoUtils.returnPage(abandonService.serviceFindByListAbandon(abandon), abandon.getCurrentPage());
     }
@@ -133,12 +141,53 @@ public class SalesAmazonFbaController {
      * @return
      */
     @PostMapping("/getMWarInfo")
-    public ResponseBase getMWarInfo(@RequestBody SalesAmazonFbaMonthWarehouseFee fee) {
+    public ResponseBase getMWarInfo(@RequestBody SalesAmazonFbaMonthWarehouseFee mFee) {
         //这里放入缓存
         List<JavaSqlName> info = nameService.get("monthWarehouseFee");
-        fee.setNameList(info);
-        PageInfoUtils.setPage(fee.getPageSize(), fee.getCurrentPage());
-        return PageInfoUtils.returnPage(mWarService.serviceFindByListMWar(fee), fee.getCurrentPage());
+        mFee.setNameList(info);
+        PageInfoUtils.setPage(mFee.getPageSize(), mFee.getCurrentPage());
+        return PageInfoUtils.returnPage(mWarService.serviceFindByListMWar(mFee), mFee.getCurrentPage());
     }
 
+    /**
+     * 查询长期仓库费
+     *
+     * @return
+     */
+    @PostMapping("/getLWarInfo")
+    public ResponseBase getLWarInfo(@RequestBody SalesAmazonFbaLongWarehouseFee lFee) {
+        //这里放入缓存
+        List<JavaSqlName> info = nameService.get("longWarehouseFee");
+        lFee.setNameList(info);
+        PageInfoUtils.setPage(lFee.getPageSize(), lFee.getCurrentPage());
+        return PageInfoUtils.returnPage(lWarService.serviceSelectByLongWarehouse(lFee), lFee.getCurrentPage());
+    }
+
+    /**
+     * 查询订单处理费
+     *
+     * @return
+     */
+    @PostMapping("/getHlFee")
+    public ResponseBase getHlFee(@RequestBody SalesAmazonFbaHandlingFee hlFee) {
+        //这里放入缓存
+        List<JavaSqlName> info = nameService.get("handlingFee");
+        hlFee.setNameList(info);
+        PageInfoUtils.setPage(hlFee.getPageSize(), hlFee.getCurrentPage());
+        return PageInfoUtils.returnPage(hlingFeeService.serviceSelectByHandLFee(hlFee), hlFee.getCurrentPage());
+    }
+
+    /**
+     * 查询Feedback
+     *
+     * @return
+     */
+    @PostMapping("/getFeedback")
+    public ResponseBase getFeedback(@RequestBody SalesAmazonFbaFeedback feedback) {
+        //这里放入缓存
+        List<JavaSqlName> info = nameService.get("feedback");
+        feedback.setNameList(info);
+        PageInfoUtils.setPage(feedback.getPageSize(), feedback.getCurrentPage());
+        return PageInfoUtils.returnPage(feedbackService.serviceSelectByFeedback(feedback), feedback.getCurrentPage());
+    }
 }

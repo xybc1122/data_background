@@ -19,11 +19,16 @@ public class SalesAmazonFbaLongWarehousefeeServcieImpl implements SalesAmazonFba
 
 
     @Autowired
-    private SalesAmazonFbaLongWarehousefeeMapper longWarehousefeeMapper;
+    private SalesAmazonFbaLongWarehousefeeMapper lWarMapper;
 
 
     @Override
     public int serviceSetAmazonLongWar(List<SalesAmazonFbaLongWarehouseFee> longWarList) {
-        return longWarehousefeeMapper.saveAmazonLongWar(longWarList);
+        return lWarMapper.saveAmazonLongWar(longWarList);
+    }
+
+    @Override
+    public List<SalesAmazonFbaLongWarehouseFee> serviceSelectByLongWarehouse(SalesAmazonFbaLongWarehouseFee fee) {
+        return lWarMapper.selectByLongWarehouse(fee);
     }
 }

@@ -115,8 +115,8 @@ public class FsbStore {
      * @param balance
      */
     public static BigDecimal forTaxResult(FinancialSalesBalance balance) {
-        return balance.getTotal().subtract(balance.getShippingCredits().add(balance.getGiftwrapCredits()).add(balance.getGiftwrapCredits()).
-                add(balance.getPromotionalRebates()).add(balance.getPromotionalRebates()).add(balance.getSalesTax()).add(balance.getMarketplaceFacilitatorTax()).
+        return balance.getTotal().subtract(balance.getShippingCredits().add(balance.getGiftwrapCredits()).
+                add(balance.getPromotionalRebates()).add(balance.getSalesTax()).add(balance.getMarketplaceFacilitatorTax()).
                 add(balance.getSellingFees()).add(balance.getFbaFee()).add(balance.getOtherTransactionFees()).add(balance.getOther()).
                 add(balance.getPointFee()).add(balance.getLowValueGoods()));
     }

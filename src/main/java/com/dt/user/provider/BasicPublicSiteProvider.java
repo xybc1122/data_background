@@ -76,7 +76,7 @@ public class BasicPublicSiteProvider {
             SELECT("`site_id`");
             FROM("`basic_public_site`");
             if (StringUtils.isNotBlank(country)) {
-                WHERE("site_name_eng=" + "'" + country + "'");
+                WHERE("site_short_name_eng=" + "'" + country + "'");
             }
             if (StringUtils.isNotBlank(sName)) {
                 WHERE("site_name=" + "'" + sName + "'");

@@ -32,4 +32,9 @@ public class SalesAmazonFbaHandlingFeeServiceImpl implements SalesAmazonFbaHandl
         }
         return null;
     }
+
+    @Override
+    public List<SalesAmazonFbaHandlingFee> serviceSelectByHandLFee(SalesAmazonFbaHandlingFee hFee) {
+        return hFMapper.selectByHandLFee(hFee);
+    }
 }

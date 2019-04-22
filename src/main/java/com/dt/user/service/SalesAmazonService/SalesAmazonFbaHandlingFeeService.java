@@ -24,4 +24,11 @@ public interface SalesAmazonFbaHandlingFeeService {
      * 查询是否有文件在里面
      */
     String serviceGetExists(SalesAmazonFbaHandlingFee fee);
+
+    /**
+     * 查询订单处理费
+     * @param hFee
+     * @return
+     */
+    List<SalesAmazonFbaHandlingFee> serviceSelectByHandLFee(SalesAmazonFbaHandlingFee hFee);
 }

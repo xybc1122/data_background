@@ -1,14 +1,13 @@
 package com.dt.user.provider;
 
-import com.dt.user.model.SalesAmazon.SalesAmazonAdStr;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaAbandon;
 import com.dt.user.store.AppendSqlStore;
+import com.dt.user.store.FieldStore;
 import com.dt.user.store.ProviderSqlStore;
-import com.dt.user.toos.Constant;
-import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -57,25 +56,25 @@ public class SalesAmazonFbaAbandonProvider {
     }
 
 
-    public String getAbandonInfo(SalesAmazonFbaAbandon abandon) {
+    public String getAbandonInfo(SalesAmazonFbaAbandon abandon) throws IllegalAccessException {
         SQL sql = new SQL();
-        sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
-                " `a_id`,`fba_shipment_id`,`abandon_sku`,\n" +
-                "  `fn_sku`, `product_name`, `quantity`, `fc`,\n" +
-                "  `aw_id`," + ProviderSqlStore.statusV + "" +
-                "FROM sales_amazon_fba_abandon AS ad \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=ad.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = ad.`site_id`");
-        // sku
-        AppendSqlStore.sqlWhere(abandon.getSku(), "ps.`sku`", sql, Constants.SELECT);
-
-        // FBA SKU
-        AppendSqlStore.sqlWhere(abandon.getAbandonSku(), "`abandon_sku`", sql, Constants.SELECT);
-        //fn_sku
-        AppendSqlStore.sqlWhere(abandon.getFnSku(), "`fn_sku`", sql, Constants.SELECT);
-
+        String Alias = "don";
+        sql.SELECT("s.`shop_name`, cs.`site_name`,\n" +
+                "`fba_id`,`date`,`order_id`,`order_type`,`order_status`,\n" +
+                "`last_updated_date`, `abandon_sku`,`fn_sku`,\n" +
+                "`disposition`,`requested_quantity`, `cancelled_quantity`,`disposed_quantity`,\n" +
+                "`shipped_quantity`,`in_process_quantity`,`removal_fee`,`currency`\n" +
+                "" + ProviderSqlStore.statusV + "" +
+                "FROM `sales_amazon_fba_abandon` AS " + Alias + "");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + Alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + Alias + ".`site_id`");
+        //更新日期
+        if (abandon.getLastUpdatedDates() != null && (abandon.getLastUpdatedDates().size() > 0)) {
+            sql.WHERE("date  " + abandon.getLastUpdatedDates().get(0) + " AND " + abandon.getLastUpdatedDates().get(1) + "");
+        }
+        Field[] fields = abandon.getClass().getDeclaredFields();
+        FieldStore.query(fields, abandon.getNameList(), abandon, sql);
         ProviderSqlStore.saveUploadStatus(sql, abandon);
         return sql.toString();
     }
-
 }

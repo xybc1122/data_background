@@ -1,11 +1,15 @@
 package com.dt.user.service.impl;
 
+import com.dt.user.config.ResponseBase;
 import com.dt.user.mapper.SalesAmazonMapper.SalesAmazonFbaFeedbackMapper;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaFeedback;
 import com.dt.user.service.SalesAmazonService.SalesAmazonFbaFeedbackService;
+import com.dt.user.utils.JsonUtils;
+import com.dt.user.utils.ReqUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,5 +26,13 @@ public class SalesAmazonFbaFeedbackServiceImpl implements SalesAmazonFbaFeedback
     @Override
     public List<SalesAmazonFbaFeedback> serviceSelectByFeedback(SalesAmazonFbaFeedback record) {
         return backMapper.selectByFeedback(record);
+    }
+
+    @Override
+    public ResponseBase serviceInsert(SalesAmazonFbaFeedback feedback) {
+        feedback.setCreateDate(new Date().getTime());
+        feedback.setCreateUser(ReqUtils.getUserName());
+        int result = backMapper.insertFeedback(feedback);
+        return JsonUtils.saveMsg(result);
     }
 }

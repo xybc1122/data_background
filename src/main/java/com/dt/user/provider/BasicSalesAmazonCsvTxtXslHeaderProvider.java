@@ -11,30 +11,30 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
 
     public String getTemplate(BasicSalesAmazonCsvTxtXslHeader header) {
         SQL sql = new SQL();
-        String Alias = "h";
+        String alias = "h";
         sql.SELECT(" h.status_id,h.`id`,h.`import_templet`,h.`is_import`,h.`open_close`,h.`sort`,\n" +
                 "  m.`m_name`,si.`site_name`,s.`shop_name`\n" +
-                "from `basic_sales_amazon_csv_txt_xsl_header` as " + Alias + "");
+                "from `basic_sales_amazon_csv_txt_xsl_header` as " + alias + "");
         sql.LEFT_OUTER_JOIN("`system_user_menu` AS m ON m.`menu_id`=h.`menu_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id` = h.`site_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id` = h.`shop_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(header.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.saveStatus(header.getSystemLogStatus(), alias, sql);
         //对应表头字段
         if (StringUtils.isNotBlank(header.getImportTemplet())) {
-            sql.WHERE(Alias + ".import_templet=#{importTemplet}");
+            sql.WHERE(alias + ".import_templet=#{importTemplet}");
         }
         //后台开关控制导入字段数据
         if (header.getOpenClose() != null) {
-            sql.WHERE(Alias + ".open_close=#{openClose}");
+            sql.WHERE(alias + ".open_close=#{openClose}");
         }
         //排序
         if (header.getSort() != null) {
-            sql.WHERE(Alias + ".sort=#{sort}");
+            sql.WHERE(alias + ".sort=#{sort}");
         }
         //是否导入(0不导入;1导入;2禁用)
         if (header.getIsImport() != null) {
-            sql.WHERE(Alias + ".is_import=#{isImport}");
+            sql.WHERE(alias + ".is_import=#{isImport}");
         }
         //菜单名称
         if (StringUtils.isNotBlank(header.getmName())) {

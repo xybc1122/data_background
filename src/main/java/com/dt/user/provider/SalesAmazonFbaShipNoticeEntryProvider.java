@@ -17,17 +17,17 @@ public class SalesAmazonFbaShipNoticeEntryProvider {
 
     public String getEntryInfo(SalesAmazonFbaShipNoticeEntry entry) {
         SQL sql = new SQL();
+        String alias = "ne";
         sql.SELECT("ps.`sku`,\n" +
                 "`e_id`,`quantity`,`packages`,\n" +
                 "`length_cm`,`width_cm`,`height_cm`, `gw_kg`,\n" +
                 "`nw_kg`, `volume_m3`,`se_quantity`,`re_quantity`,`re_date`,\n" +
                 "`close_date`,`close_user`" + ProviderSqlStore.statusV + "" +
-                "FROM `sales_amazon_fba_ship_notice_entry` AS ne \n");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = ne.`sku_id`");
-        sql.INNER_JOIN("`sales_amazon_fba_ship_notice` AS sn ON sn.`ship_notice_id` = ne.`ship_notice_id`");
+                "FROM `sales_amazon_fba_ship_notice_entry` AS " + alias + " \n");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.INNER_JOIN("`sales_amazon_fba_ship_notice` AS sn ON sn.`ship_notice_id` = " + alias + ".`ship_notice_id`");
         // sku
-//        AppendSqlStore.sqlWhere(abandon.getSku(), "ps.`sku`", sql);
-
+        AppendSqlStore.sqlWhere(entry.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //应发数量
         if (entry.getQuantity() != null) {
             sql.WHERE("quantity=#{quantity}");
@@ -67,7 +67,7 @@ public class SalesAmazonFbaShipNoticeEntryProvider {
             sql.WHERE("re_date  " + entry.getReDates().get(0) + " " +
                     "AND " + entry.getReDates().get(1) + "");
         }
-        ProviderSqlStore.saveUploadStatus(sql, entry);
+        ProviderSqlStore.saveUploadStatus(sql, entry, alias);
         return sql.toString();
     }
 

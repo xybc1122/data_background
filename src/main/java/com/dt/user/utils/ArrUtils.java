@@ -57,8 +57,8 @@ public class ArrUtils {
             return false;
         }
         for (int i = 0; i < oneList.size(); i++) {
-            // System.out.println(twoList.get(i).trim());
-            if (!(oneList.get(i)).equals(twoList.get(i).trim())) {
+            System.out.println(twoList.get(i).trim());
+            if (!(oneList.get(i)).equals(StrUtils.specialUnicode(twoList.get(i).trim()))) {
                 return false;
             }
         }
@@ -88,7 +88,7 @@ public class ArrUtils {
         String[] strNewTopOrder = new String[strMid.length];
         for (int j = 0; j < strNewTopOrder.length; j++) {
             //把 strTopOrder 赋值给strNewTopOrder
-          //  System.out.println(strTopOrder.length);
+            //  System.out.println(strTopOrder.length);
             if (strTopOrder.length > j) {
                 strNewTopOrder[j] = strTopOrder[j];
             } else {

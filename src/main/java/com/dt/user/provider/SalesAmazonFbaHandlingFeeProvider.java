@@ -57,7 +57,7 @@ public class SalesAmazonFbaHandlingFeeProvider {
         }
         Field[] fields = lFee.getClass().getDeclaredFields();
         FieldStore.query(fields, lFee.getNameList(), lFee, sql);
-        ProviderSqlStore.saveUploadStatus(sql, lFee);
+        ProviderSqlStore.saveUploadStatus(sql, lFee,Alias);
         return sql.toString();
     }
 

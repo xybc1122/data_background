@@ -15,8 +15,8 @@ public class SalesAmazonFbaTradeReportServiceImpl implements SalesAmazonFbaTrade
     private SalesAmazonFbaTradeReportMapper tradeReportMapper;
 
     @Override
-    public int AddSalesAmazonAdTrdList(List<SalesAmazonFbaTradeReport> trdList) {
-        return tradeReportMapper.AddSalesAmazonAdTrdList(trdList);
+    public int serviceAddSalesAmazonAdTrdList(List<SalesAmazonFbaTradeReport> trdList) {
+        return tradeReportMapper.addSalesAmazonAdTrdList(trdList);
     }
 
     @Override

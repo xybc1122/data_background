@@ -29,7 +29,6 @@ public class BasicSalesPublicStarlevelController {
     public ResponseBase findByListStarLevel(@RequestParam("pageSize") Integer pageSize,
                                             @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicSalesPublicStarlevel> starlevelList = starlevelService.serviceFindByListStarlevel();
-        return PageInfoUtils.returnPage(starlevelList, currentPage);
+        return PageInfoUtils.returnPage(starlevelService.serviceFindByListStarlevel(), currentPage);
     }
 }

@@ -19,7 +19,7 @@ public interface SalesAmazonFbaRefundMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonFbaRefundProvider.class, method = "addRefund")
-    int AddSalesAmazonAdRefundList(@Param("refundList") List<SalesAmazonFbaRefund> refundList);
+    int addSalesAmazonAdRefundList(@Param("refundList") List<SalesAmazonFbaRefund> refundList);
 
 
     /**

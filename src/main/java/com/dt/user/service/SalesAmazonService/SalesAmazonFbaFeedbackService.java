@@ -1,5 +1,6 @@
 package com.dt.user.service.SalesAmazonService;
 
+import com.dt.user.config.ResponseBase;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaFeedback;
 
 import java.util.List;
@@ -21,5 +22,11 @@ public interface SalesAmazonFbaFeedbackService {
      */
     List<SalesAmazonFbaFeedback> serviceSelectByFeedback(SalesAmazonFbaFeedback record);
 
-
+    /**
+     * 插入数据
+     *
+     * @param feedback
+     * @return
+     */
+    ResponseBase serviceInsert(SalesAmazonFbaFeedback feedback);
 }

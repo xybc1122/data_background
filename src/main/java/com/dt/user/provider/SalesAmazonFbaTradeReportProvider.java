@@ -106,6 +106,7 @@ public class SalesAmazonFbaTradeReportProvider {
 
     public String getRePortInfo(SalesAmazonFbaTradeReport report) {
         SQL sql = new SQL();
+        String alias = "tr";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`trade_id`, `amazon_order_id`,`merchant_order_id`,`date`,\n" +
                 "`last_updated_date`,`order_status`,`fulfillment_channel`,\n" +
@@ -118,10 +119,10 @@ public class SalesAmazonFbaTradeReportProvider {
                 "`ship_postal_code`,`ship_country`,`promotion_ids`,\n" +
                 "`is_business_order`,`purchase_order_number`,`price_designation`,\n" +
                 "`is_replacement_order`, `original_order_id`," + ProviderSqlStore.statusV + "" +
-                "FROM sales_amazon_fba_trade_report AS tr \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=tr.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = tr.`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = tr.`sku_id`");
+                "FROM sales_amazon_fba_trade_report AS " + alias + " \n");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         // sku
         AppendSqlStore.sqlWhere(report.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //亚马逊订单号
@@ -210,7 +211,7 @@ public class SalesAmazonFbaTradeReportProvider {
         AppendSqlStore.sqlWhere(report.getIsReplacementOrder(), "is_replacement_order", sql, Constants.SELECT);
         //原始订单号
         AppendSqlStore.sqlWhere(report.getOriginalOrderId(), "original_order_id", sql, Constants.SELECT);
-        ProviderSqlStore.saveUploadStatus(sql, report);
+        ProviderSqlStore.saveUploadStatus(sql, report, alias);
         return sql.toString();
     }
 }

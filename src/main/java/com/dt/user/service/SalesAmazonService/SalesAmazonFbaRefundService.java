@@ -13,7 +13,7 @@ public interface SalesAmazonFbaRefundService {
      *
      * @return
      */
-    int AddSalesAmazonAdRefundList(List<SalesAmazonFbaRefund> refundList);
+    int serviceAddSalesAmazonAdRefundList(List<SalesAmazonFbaRefund> refundList);
 
     /**
      * 查询退货报告数据

@@ -367,9 +367,9 @@ public class ConsumerServiceImpl implements ConsumerService {
         int countTrad = 0;
         try {
             if (safTradList != null && safTradList.size() > 0) {
-                countTrad = tradeReportService.AddSalesAmazonAdTrdList(safTradList);
+                countTrad = tradeReportService.serviceAddSalesAmazonAdTrdList(safTradList);
             } else if (safRefundList != null && safRefundList.size() > 0) {
-                countTrad = refundService.AddSalesAmazonAdRefundList(safRefundList);
+                countTrad = refundService.serviceAddSalesAmazonAdRefundList(safRefundList);
             } else if (sfReceivesList != null && sfReceivesList.size() > 0) {
                 countTrad = receiveStockService.addSalesAmazonAdReceivestockList(sfReceivesList);
             } else if (safEndList != null && safEndList.size() > 0) {
@@ -389,7 +389,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         if (countTrad != 0) {
             return printCount(begin, count.get(), index, ctx);
         }
-        return JsonData.setResultError("存入数据失败,请检查信息/文件中所有行的shuId 无效");
+        return JsonData.setResultError("存入数据失败,所有数据都不匹配");
     }
 
     /**
@@ -698,13 +698,13 @@ public class ConsumerServiceImpl implements ConsumerService {
         if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
             sft.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
-            String oId = StrUtils.repString(j[i]);
-            if (StringUtils.isEmpty(oId)) {
+            String orderId = StrUtils.repString(j[i]);
+            if (StringUtils.isEmpty(orderId)) {
                 return null;
             }
-            sft.setOrderId(oId);
+            sft.setOrderId(orderId);
             //查询 获得site Id
-            SalesAmazonFbaTradeReport serviceReport = tradeReportService.getReport(sId, oId);
+            SalesAmazonFbaTradeReport serviceReport = tradeReportService.getReport(sId, orderId);
             if (serviceReport == null) {
                 return null;
             }
@@ -735,17 +735,9 @@ public class ConsumerServiceImpl implements ConsumerService {
         } else if (txtHeadList.get(i).equals(isImportHead.get(9).getImportTemplet()) && isImportHead.get(9).getOpenClose()) {
             sft.setReason(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(10).getImportTemplet()) && isImportHead.get(10).getOpenClose()) {
-            if (aId == 4 && sft.getSiteId() == 9) {
-                sft.setLicensePlateNumber(StrUtils.repString(j[i]));
-            } else {
-                sft.setRefundStatus(StrUtils.repString(j[i]));
-            }
+            sft.setRefundStatus(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(11).getImportTemplet()) && isImportHead.get(11).getOpenClose()) {
-            if (aId == 4 && sft.getSiteId() == 9) {
-                sft.setCustomerRemarks(StrUtils.repString(j[i]));
-            } else {
-                sft.setLicensePlateNumber(StrUtils.repString(j[i]));
-            }
+            sft.setLicensePlateNumber(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(12).getImportTemplet()) && isImportHead.get(12).getOpenClose()) {
             sft.setCustomerRemarks(StrUtils.repString(j[i]));
         }
@@ -1033,7 +1025,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         if (saveCount > 0) {
             return printCount(begin, count.get(), index, ctx);
         }
-        return JsonData.setResultError("存入数据失败,请检查信息/文件中所有行的shuId 无效");
+        return JsonData.setResultError("存入数据失败,所有数据都不匹配");
     }
 
     /**
@@ -1559,7 +1551,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         if (number != 0) {
             return printCount(begin, count.get(), index, ctx);
         }
-        return JsonData.setResultError("存入数据失败,请检查信息/文件中所有行的shuId 无效");
+        return JsonData.setResultError("存入数据失败,所有数据都不匹配");
     }
 
     /**

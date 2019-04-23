@@ -1,6 +1,7 @@
 package com.dt.user.controller.SalesAmazonController;
 
 import com.dt.user.config.ResponseBase;
+import com.dt.user.dto.ReviewDto;
 import com.dt.user.model.JavaSqlName;
 import com.dt.user.model.SalesAmazon.*;
 import com.dt.user.service.JavaSqlNameService;
@@ -50,6 +51,10 @@ public class SalesAmazonFbaController {
     private SalesAmazonFbaHandlingFeeService hlingFeeService;
     @Autowired
     private SalesAmazonFbaFeedbackService feedbackService;
+
+    @Autowired
+    private SalesAmazonFbaReviewService reviewService;
+
     /**
      * 查询业务报告信息
      *
@@ -161,6 +166,7 @@ public class SalesAmazonFbaController {
         lFee.setNameList(info);
         PageInfoUtils.setPage(lFee.getPageSize(), lFee.getCurrentPage());
         return PageInfoUtils.returnPage(lWarService.serviceSelectByLongWarehouse(lFee), lFee.getCurrentPage());
+
     }
 
     /**
@@ -189,5 +195,39 @@ public class SalesAmazonFbaController {
         feedback.setNameList(info);
         PageInfoUtils.setPage(feedback.getPageSize(), feedback.getCurrentPage());
         return PageInfoUtils.returnPage(feedbackService.serviceSelectByFeedback(feedback), feedback.getCurrentPage());
+    }
+
+    /**
+     * 新增Feedback
+     *
+     * @return
+     */
+    @PostMapping("/saveFeedback")
+    public ResponseBase saveFeedback(@RequestBody SalesAmazonFbaFeedback feedback) {
+        return feedbackService.serviceInsert(feedback);
+    }
+
+    /**
+     * 查询review
+     *
+     * @return
+     */
+    @PostMapping("/getReview")
+    public ResponseBase getReview(@RequestBody ReviewDto reviewDto) {
+        //这里放入缓存
+        List<JavaSqlName> info = nameService.get("review");
+        reviewDto.setNameList(info);
+        PageInfoUtils.setPage(reviewDto.getPageSize(), reviewDto.getCurrentPage());
+        return PageInfoUtils.returnPage(reviewService.serviceSelectByReview(reviewDto), reviewDto.getCurrentPage());
+    }
+
+    /**
+     * 新增Review
+     *
+     * @return
+     */
+    @PostMapping("/saveReview")
+    public ResponseBase getReview(@RequestBody SalesAmazonFbaReview review) {
+        return reviewService.serviceInsertReview(review);
     }
 }

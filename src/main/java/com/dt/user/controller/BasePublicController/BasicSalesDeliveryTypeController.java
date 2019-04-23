@@ -30,8 +30,7 @@ public class BasicSalesDeliveryTypeController {
     public ResponseBase findByListDelivery(@RequestParam("pageSize") Integer pageSize,
                                            @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicSalesDeliveryType> deliveryTypeList = deliveryTypeService.serviceFindByListDeliveryType();
-        return PageInfoUtils.returnPage(deliveryTypeList, currentPage);
+        return PageInfoUtils.returnPage(deliveryTypeService.serviceFindByListDeliveryType(), currentPage);
     }
 
 

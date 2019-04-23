@@ -34,14 +34,15 @@ public class SalesAmazonAdHlProvider {
 
     public String getHlInfo(SalesAmazonAdHl hl) {
         SQL sql = new SQL();
+        String alias = "hl";
         sql.SELECT("s.`shop_name`, cs.`site_name`,\n" +
                 "`hl_id`,`date`,`campaign_name`,`impressions`,\n" +
                 "`clicks`, `ctr`,`cpc`,`spend`,\n" +
                 "`acos`,`roas`, `total_sales`,`total_orders`,`total_units`,\n" +
                 "`conversion_rate`," + ProviderSqlStore.statusV + "" +
-                "FROM `sales_amazon_ad_hl` AS hl");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=hl.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = hl.`site_id`");
+                "FROM `sales_amazon_ad_hl` AS " + alias);
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         //广告活动
         if (StringUtils.isNotBlank(hl.getCampaignName())) {
             sql.WHERE("POSITION('" + hl.getCampaignName() + "' IN `campaign_name`)");
@@ -90,7 +91,7 @@ public class SalesAmazonAdHlProvider {
         if (hl.getConversionRate() != null) {
             sql.WHERE("conversion_rate=#{conversionRate}");
         }
-        ProviderSqlStore.saveUploadStatus(sql, hl);
+        ProviderSqlStore.saveUploadStatus(sql, hl, alias);
         return sql.toString();
     }
 

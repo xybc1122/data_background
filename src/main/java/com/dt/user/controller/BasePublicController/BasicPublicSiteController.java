@@ -28,8 +28,7 @@ public class BasicPublicSiteController {
     @PostMapping("/findByListSite")
     public ResponseBase findByListSite(@RequestBody SiteDto siteDto) {
         PageInfoUtils.setPage(siteDto.getPageSize(), siteDto.getCurrentPage());
-        List<SiteDto> basicPublicSiteList = basicPublicSiteService.findBySiteList(siteDto);
-        return PageInfoUtils.returnPage(basicPublicSiteList, siteDto.getCurrentPage());
+        return PageInfoUtils.returnPage(basicPublicSiteService.findBySiteList(siteDto), siteDto.getCurrentPage());
     }
 
     /**

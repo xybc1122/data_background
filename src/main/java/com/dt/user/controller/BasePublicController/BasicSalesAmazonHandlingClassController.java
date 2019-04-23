@@ -32,11 +32,9 @@ public class BasicSalesAmazonHandlingClassController {
      * @return
      */
     @PostMapping("/findByListHandling")
-    public ResponseBase findByListHandling(@RequestBody BasicSalesAmazonHandlingClass handlingClass) {
-        PageInfoUtils.setPage(handlingClass.getPageSize(), handlingClass.getCurrentPage());
-        List<BasicSalesAmazonHandlingClass> handlingClassList = classService.serviceFindByListClass(handlingClass);
-        return PageInfoUtils.returnPage(handlingClassList, handlingClass.getCurrentPage());
+    public ResponseBase findByListHandling(@RequestBody BasicSalesAmazonHandlingClass hClass) {
+        PageInfoUtils.setPage(hClass.getPageSize(), hClass.getCurrentPage());
+        List<BasicSalesAmazonHandlingClass> handlingClassList = classService.serviceFindByListClass(hClass);
+        return PageInfoUtils.returnPage(handlingClassList, hClass.getCurrentPage());
     }
-
-
 }

@@ -21,7 +21,7 @@ public interface SalesAmazonFbaTradeReportMapper {
      * @return
      */
     @InsertProvider(type = SalesAmazonFbaTradeReportProvider.class, method = "addInfo")
-    int AddSalesAmazonAdTrdList(@Param("trdList") List<SalesAmazonFbaTradeReport> trdList);
+    int addSalesAmazonAdTrdList(@Param("trdList") List<SalesAmazonFbaTradeReport> trdList);
 
 
     /**

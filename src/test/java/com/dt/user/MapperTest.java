@@ -1,9 +1,9 @@
 package com.dt.user;
 
 
+import com.dt.user.mapper.SystemMapper.SystemFinalProcessingMapper;
 import com.dt.user.model.JavaSqlName;
-import com.dt.user.model.SalesAmazon.SalesAmazonFbaAbandon;
-import com.dt.user.model.SalesAmazon.SalesAmazonFbaFeedback;
+import com.dt.user.model.SalesAmazon.SalesAmazonFbaReview;
 import com.dt.user.service.JavaSqlNameService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,18 +19,25 @@ import java.lang.reflect.Field;
 public class MapperTest {
     @Autowired
     private JavaSqlNameService service;
-
+    @Autowired
+    private SystemFinalProcessingMapper pMapper;
 
     @Test
     public void add() {
-        SalesAmazonFbaFeedback f = new SalesAmazonFbaFeedback();
+
+        SalesAmazonFbaReview f = new SalesAmazonFbaReview();
         Field[] field = f.getClass().getDeclaredFields();
         for (Field s : field) {
             s.setAccessible(true);
             JavaSqlName b = new JavaSqlName();
             b.setjName(s.getName());
-            b.setModel("feedback");
+            b.setModel("review");
             service.serviceSet(b);
         }
+    }
+
+    @Test
+    public void selectByExample() {
+
     }
 }

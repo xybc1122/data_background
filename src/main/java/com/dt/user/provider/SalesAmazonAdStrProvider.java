@@ -52,15 +52,16 @@ public class SalesAmazonAdStrProvider {
 
     public String getStrInfo(SalesAmazonAdStr str) {
         SQL sql = new SQL();
+        String alias = "str";
         sql.SELECT("s.`shop_name`, cs.`site_name`,\n" +
                 "`str_id`,`date`, `campaign_name`, `ad_group_name`,`targeting`,\n" +
                 "`match_type`, `customer_search_term`, `impressions`,`clicks`, `total_spend`,`sales`,\n" +
                 "`roas`,`orders_placed`,`total_units`,`advertised_sku_units_ordered`,\n" +
                 "`other_sku_units_ordered`,`advertised_sku_units_sales`,`other_sku_units_sales`," +
                 "" + ProviderSqlStore.statusV + "" +
-                "FROM `sales_amazon_ad_str` AS str");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=str.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = str.`site_id`");
+                "FROM `sales_amazon_ad_str` AS " + alias);
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
 
         //店铺名称
         if (StringUtils.isNotBlank(str.getShopName())) {
@@ -134,7 +135,7 @@ public class SalesAmazonAdStrProvider {
         if (str.getOtherSkuUnitsSales() != null) {
             sql.WHERE("other_sku_units_sales=#{otherSkuUnitsSales}");
         }
-        ProviderSqlStore.saveUploadStatus(sql, str);
+        ProviderSqlStore.saveUploadStatus(sql, str, alias);
         return sql.toString();
     }
 }

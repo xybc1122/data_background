@@ -42,28 +42,25 @@ public class MenuServiceImpl implements MenuService {
     }
 
 
-
-
-
-
-
-    public List<Menu> getMenuList(List<Menu> rootMenu) {
+    private List<Menu> getMenuList(List<Menu> rootMenu) {
         List<Menu> menuList = new ArrayList<>();
         List<Menu> childMenuList = new ArrayList<>();
         //先找到所有一级菜单
-        for (int i = 0; i < rootMenu.size(); i++) {
-            //如果==0代表父菜单
-            if (rootMenu.get(i).getParentId() != null) {
-                if (rootMenu.get(i).getParentId() == 0) {
-                    menuList.add(rootMenu.get(i));
-                } else {
-                    childMenuList.add(rootMenu.get(i));
+        if (rootMenu != null && rootMenu.size() > 0) {
+            for (Menu aRootMenu : rootMenu) {
+                //如果==0代表父菜单
+                if (aRootMenu.getParentId() != null) {
+                    if (aRootMenu.getParentId() == 0) {
+                        menuList.add(aRootMenu);
+                    } else {
+                        childMenuList.add(aRootMenu);
+                    }
                 }
             }
-        }
-        // 为一级菜单设置子菜单 getChild是递归调用的
-        for (Menu menu : menuList) {
-            menu.setChildMenus(getChild(menu.getMenuId(), childMenuList));
+            // 为一级菜单设置子菜单 getChild是递归调用的
+            for (Menu menu : menuList) {
+                menu.setChildMenus(getChild(menu.getMenuId(), childMenuList));
+            }
         }
         return menuList;
     }
@@ -72,11 +69,13 @@ public class MenuServiceImpl implements MenuService {
     private List<Menu> getChild(Long menuId, List<Menu> childMenuList) {
         // 子菜单
         List<Menu> childList = new ArrayList<>();
-        for (Menu menu : childMenuList) {
-            // 遍历所有节点，将子菜单getParentId与传过来的父menuId比较
-            if (menu.getParentId().equals(menuId)) {
-                //如果是true 就添加到父菜单下面
-                childList.add(menu);
+        if (childMenuList != null && childMenuList.size() > 0) {
+            for (Menu menu : childMenuList) {
+                // 遍历所有节点，将子菜单getParentId与传过来的父menuId比较
+                if (menu.getParentId().equals(menuId)) {
+                    //如果是true 就添加到父菜单下面
+                    childList.add(menu);
+                }
             }
         }
         // 把子菜单的子菜单再循环一遍
@@ -86,7 +85,8 @@ public class MenuServiceImpl implements MenuService {
                 // 递归
                 childMenu.setChildMenus(getChild(childMenu.getMenuId(), childMenuList));
             }
-        } // 递归退出条件
+        }
+        // 递归退出条件
         if (childList.size() == 0) {
             return null;
         }

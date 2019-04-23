@@ -12,8 +12,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-import static org.apache.ibatis.jdbc.SqlBuilder.*;
-
 /**
  * @ClassName SalesAmazonFbaLongWarehousefeeProvider
  * Description TODO
@@ -64,7 +62,6 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
 
 
     public String selectByLongWarehouseFee(SalesAmazonFbaLongWarehouseFee wFee) throws IllegalAccessException {
-        BEGIN();
         SQL sql = new SQL();
         String Alias = "lWar";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
@@ -81,7 +78,7 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
             sql.WHERE("POSITION('" + wFee.getSku() + "' IN ps.`sku`)");
         Field[] fields = wFee.getClass().getDeclaredFields();
         FieldStore.query(fields, wFee.getNameList(), wFee, sql);
-        ProviderSqlStore.saveUploadStatus(sql, wFee);
+        ProviderSqlStore.saveUploadStatus(sql, wFee,Alias);
         return sql.toString();
     }
 

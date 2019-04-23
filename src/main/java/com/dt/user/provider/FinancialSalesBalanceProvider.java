@@ -109,6 +109,7 @@ public class FinancialSalesBalanceProvider {
     public String getFbsInfo(FinancialSalesBalance fbs) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         String table = AppendSqlStore.setSqlTable(fbs, "`financial_sales_amazon_balance`", "`sales_amazon_fba_balance`");
         SQL sql = new SQL();
+        String alias = "sab";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,pt.`payment_type_name`,\n" +
                 "`financial_sku`,`settlement_id`,`date`,`type`, `order_id`,\n" +
                 "`description`,`o_quantity`,`quantity`,\n" +
@@ -124,11 +125,11 @@ public class FinancialSalesBalanceProvider {
                 "`new_shipping_fba`, `std_product_sales`, `std_sales_original`, `std_sales_add`,\n" +
                 "`std_sales_minus`,`std_fba`,`std_fbas`,`std_fba_original`,`lightning_deal_fee`," +
                 "`fba_inventory_fee`,`new_other`,sab.`vat`,`sales_for_tax`,`service_fee_tax`," + ProviderSqlStore.statusV + "" +
-                "FROM " + table + " AS sab \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=sab.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = sab.`site_id`");
-        sql.INNER_JOIN("`basic_sales_amazon_payment_type` AS pt ON pt.`payment_type_id` = sab.`payment_type_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = sab.`sku_id`");
+                "FROM " + table + " AS " + alias + " \n");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_sales_amazon_payment_type` AS pt ON pt.`payment_type_id` = " + alias + ".`payment_type_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         //结算号
         AppendSqlStore.sqlWhere(fbs.getSettlementId(), "settlement_id", sql, Constants.SELECT);
         //付款类型
@@ -225,7 +226,7 @@ public class FinancialSalesBalanceProvider {
         AppendSqlStore.sqlWhere(fbs.getLightningDealFee(), "lightning_deal_fee", sql, Constants.SELECT);
         //FBA仓储费
         AppendSqlStore.sqlWhere(fbs.getFbaInventoryFee(), "fba_inventory_fee", sql, Constants.SELECT);
-        ProviderSqlStore.saveUploadStatus(sql, fbs);
+        ProviderSqlStore.saveUploadStatus(sql, fbs, alias);
         return sql.toString();
     }
 

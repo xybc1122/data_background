@@ -35,7 +35,6 @@ public class BasicPublicProvinceRelationController {
     @PostMapping("/findByListRelation")
     public ResponseBase findByListShop(@RequestBody BasicPublicProvinceRelation relation) {
         PageInfoUtils.setPage(relation.getPageSize(), relation.getCurrentPage());
-        List<BasicPublicProvinceRelation> relationList = relationService.serviceFindByRelationList(relation);
-        return PageInfoUtils.returnPage(relationList, relation.getCurrentPage());
+        return PageInfoUtils.returnPage(relationService.serviceFindByRelationList(relation), relation.getCurrentPage());
     }
 }

@@ -26,8 +26,7 @@ public class BasicPublicCompanyController {
     @PostMapping("/findByListCompany")
     public ResponseBase findByListCompany(@RequestBody CompanyDto companyDto) {
         PageInfoUtils.setPage(companyDto.getPageSize(), companyDto.getCurrentPage());
-        List<CompanyDto> basicPublicCompanyList = companyService.findByListCompany();
-        return PageInfoUtils.returnPage(basicPublicCompanyList, companyDto.getCurrentPage());
+        return PageInfoUtils.returnPage(companyService.findByListCompany(), companyDto.getCurrentPage());
     }
 
     @PostMapping("/upCompany")

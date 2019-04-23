@@ -24,13 +24,13 @@ import java.util.List;
 public class BasicPublicSurTaxrateController {
 
     @Autowired
-    private BasicPublicVatSurTaxrateService surTaxrateService;
+    private BasicPublicVatSurTaxrateService sTRService;
 
 
     @PostMapping("/findByListSur")
-    public ResponseBase findByListSur(@RequestBody BasicPublicVatSurTaxrate vatSurTaxrate) {
-        PageInfoUtils.setPage(vatSurTaxrate.getPageSize(), vatSurTaxrate.getCurrentPage());
-        List<BasicPublicVatSurTaxrate> surTaxrateList = surTaxrateService.serviceFindByListSurTaxrate(vatSurTaxrate);
-        return PageInfoUtils.returnPage(surTaxrateList, vatSurTaxrate.getCurrentPage());
+    public ResponseBase findByListSur(@RequestBody BasicPublicVatSurTaxrate taxRate) {
+        PageInfoUtils.setPage(taxRate.getPageSize(), taxRate.getCurrentPage());
+        List<BasicPublicVatSurTaxrate> taxRateList = sTRService.serviceFindByListSurTaxrate(taxRate);
+        return PageInfoUtils.returnPage(taxRateList, taxRate.getCurrentPage());
     }
 }

@@ -1,7 +1,6 @@
 package com.dt.user.mapper.SalesAmazonMapper;
 
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaFeedback;
-import com.dt.user.model.SalesAmazon.Example.SalesAmazonFbaFeedbackExample;
 
 import java.util.List;
 
@@ -25,31 +24,22 @@ public interface SalesAmazonFbaFeedbackMapper {
     int deleteByExample(SalesAmazonFbaFeedback feedback);
 
     /**
-     * 插入
+     * 新增数据
      *
-     * @param record
+     * @param feedback
      * @return
      */
     @Insert({
-            "insert into sales_amazon_fba_feedback (date, shop_id, ",
-            "site_id, add, move, ",
-            "remark, status, ",
-            "create_date, create_user, ",
-            "modify_date, modify_user, ",
-            "audit_date, audit_user, ",
-            "recording_id, version, ",
-            "del_or_not)",
+            "insert into sales_amazon_fba_feedback (`date`, `shop_id`, ",
+            "`site_id`, `add`, `move`,",
+            "`remark`,`create_date`,`create_user`,`status`)",
             "values (#{date,jdbcType=BIGINT}, #{shopId,jdbcType=INTEGER}, ",
             "#{siteId,jdbcType=INTEGER}, #{add,jdbcType=INTEGER}, #{move,jdbcType=INTEGER}, ",
-            "#{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, ",
-            "#{createDate,jdbcType=BIGINT}, #{createUser,jdbcType=VARCHAR}, ",
-            "#{modifyDate,jdbcType=BIGINT}, #{modifyUser,jdbcType=VARCHAR}, ",
-            "#{auditDate,jdbcType=BIGINT}, #{auditUser,jdbcType=VARCHAR}, ",
-            "#{recordingId,jdbcType=BIGINT}, #{version,jdbcType=INTEGER}, ",
-            "#{delOrNot,jdbcType=BIT})"
+            "#{remark,jdbcType=VARCHAR},#{createDate,jdbcType=BIGINT}, #{createUser,jdbcType=VARCHAR}," +
+                    "#{status,jdbcType=INTEGER})"
     })
     @Options(useGeneratedKeys = true, keyColumn = "id")
-    int insert(SalesAmazonFbaFeedback record);
+    int insertFeedback(SalesAmazonFbaFeedback feedback);
 
     /**
      * 条件判断插入

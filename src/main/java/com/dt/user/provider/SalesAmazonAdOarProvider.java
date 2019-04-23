@@ -47,6 +47,7 @@ public class SalesAmazonAdOarProvider {
     public String getOarInfo(SalesAmazonAdOar oar) {
         String table = AppendSqlStore.setSqlTable(oar, "`sales_amazon_ad_oar`", "`sales_amazon_ad_oar_wk`");
         SQL sql = new SQL();
+        String alias = "oar";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 " `oar_id`,`date`,\n" +
                 "`campaign_name`,`ad_group_name`,`advertised_sku`,\n" +
@@ -55,10 +56,10 @@ public class SalesAmazonAdOarProvider {
                 "`other_asin_units`,`other_asin_units_ordered`,\n" +
                 "`other_asin_units_ordered_sales`," +
                 "" + ProviderSqlStore.statusV + "" +
-                "FROM " + table + " AS oar");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=oar.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = oar.`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = oar.`sku_id`");
+                "FROM " + table + " AS " + alias + "");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         // sku
         if (StringUtils.isNotBlank(oar.getSku())) {
             sql.WHERE("POSITION('" + oar.getSku() + "' IN ps.`sku`)");
@@ -103,7 +104,7 @@ public class SalesAmazonAdOarProvider {
         if (StringUtils.isNotBlank(oar.getTargeting())) {
             sql.WHERE("POSITION('" + oar.getTargeting() + "' IN `targeting`)");
         }
-        ProviderSqlStore.saveUploadStatus(sql, oar);
+        ProviderSqlStore.saveUploadStatus(sql, oar,alias);
         return sql.toString();
     }
 

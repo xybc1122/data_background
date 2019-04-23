@@ -1,6 +1,5 @@
 package com.dt.user.utils;
 
-import com.dt.user.model.FinancialSalesBalance;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -228,6 +227,7 @@ public class StrUtils {
 
     /**
      * 返回Integer 类型 基本
+     *
      * @param str
      * @return
      */
@@ -237,6 +237,7 @@ public class StrUtils {
         }
         return Integer.parseInt(str);
     }
+
     /**
      * 返回Long 类型 基本
      *
@@ -261,6 +262,21 @@ public class StrUtils {
             sb.append("'").append(str).append("'");
         }
         return sb;
+    }
+
+    /**
+     * 去除 ﻿"\uFEFF"
+     *
+     * @param str
+     * @return
+     */
+    public static String specialUnicode(String str) {
+        if (str.startsWith("\uFEFF")) {
+            str = str.replace("\uFEFF", "");
+        } else if (str.endsWith("\uFEFF")) {
+            str = str.replace("\uFEFF", "");
+        }
+        return str;
     }
 
     public static void main(String[] args) {

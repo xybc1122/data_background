@@ -73,7 +73,7 @@ public class ProviderSqlStore {
      * @param sql
      * @param p
      */
-    public static void saveUploadStatus(SQL sql, ParentUploadInfo p) {
+    public static void saveUploadStatus(SQL sql, ParentUploadInfo p, String alias) {
         //店铺名称
         if (StringUtils.isNotBlank(p.getShopName())) {
             sql.WHERE("POSITION('" + p.getShopName() + "' IN s.`shop_name`)");
@@ -118,6 +118,6 @@ public class ProviderSqlStore {
         if (StringUtils.isNotBlank(p.getAuditUser())) {
             sql.WHERE("audit_user=#{auditUser}");
         }
-
+        sql.WHERE(alias + ".del_or_not=0");
     }
 }

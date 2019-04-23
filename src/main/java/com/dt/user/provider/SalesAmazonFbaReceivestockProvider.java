@@ -43,13 +43,14 @@ public class SalesAmazonFbaReceivestockProvider {
 
     public String getRecInfo(SalesAmazonFbaReceivestock rec) {
         SQL sql = new SQL();
+        String alias = "rec";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`rec_id`, `date`,`fba_shipment_id`,`rec_sku`,\n" +
                 "  `fn_sku`,`product_name`,`quantity`,`fc`,`aw_id`," + ProviderSqlStore.statusV + "" +
-                "FROM sales_amazon_fba_receivestock AS rec \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=rec.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = rec.`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = rec.`sku_id`");
+                "FROM sales_amazon_fba_receivestock AS " + alias + " \n");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         // sku
         AppendSqlStore.sqlWhere(rec.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //FBA号
@@ -70,7 +71,7 @@ public class SalesAmazonFbaReceivestockProvider {
         if (rec.getAwId() != null) {
             sql.WHERE("aw_id=#{awId}");
         }
-        ProviderSqlStore.saveUploadStatus(sql, rec);
+        ProviderSqlStore.saveUploadStatus(sql, rec, alias);
         return sql.toString();
     }
 }

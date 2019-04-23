@@ -1,6 +1,6 @@
 package plugins;
 
-import org.apache.commons.io.IOUtils;
+
 import org.junit.Test;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.api.ProgressCallback;
@@ -11,7 +11,6 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -154,41 +153,41 @@ public class Generator {
         }
         return sqlString;
          */
-        BufferedReader reader = new BufferedReader( new FileReader(sqlProviderFile));
-        List<String> lines = IOUtils.readLines(reader);
-        reader.close();
-        String limitString = "        String sqlString = SQL();\n" +
-                "        if (example != null && example.getLimit() != null) {\n" +
-                "            sqlString += \" limit \" + example.getLimit();\n" +
-                "        }\n" +
-                "        if (example != null && example.getOffset() != null) {\n" +
-                "            sqlString += \" offset \" + example.getOffset();\n" +
-                "        }\n" +
-                "        return sqlString;";
-        ArrayList<String> newLines = new ArrayList<String>();
+//        BufferedReader reader = new BufferedReader( new FileReader(sqlProviderFile));
+//        List<String> lines = IOUtils.readLines(reader);
+//        reader.close();
+//        String limitString = "        String sqlString = SQL();\n" +
+//                "        if (example != null && example.getLimit() != null) {\n" +
+//                "            sqlString += \" limit \" + example.getLimit();\n" +
+//                "        }\n" +
+//                "        if (example != null && example.getOffset() != null) {\n" +
+//                "            sqlString += \" offset \" + example.getOffset();\n" +
+//                "        }\n" +
+//                "        return sqlString;";
+//        ArrayList<String> newLines = new ArrayList<String>();
 
-        
-        for (int i=0; i< lines.size();++i) {
-            String line = lines.get(i);
-            newLines.add(line );
-            if(line.replaceAll(" ", "") .equalsIgnoreCase("ORDER_BY(example.getOrderByClause());")) {
-                // 添加下一行大括号和空白行
-                ++i;
-                newLines.add(lines.get(i));
-                ++i;
-                newLines.add(lines.get(i));
-                
-                ++i; // 跳过 return SQL();
-                newLines.addAll(Arrays.asList( limitString.split("\n")));
-            }
-        }
+//
+//        for (int i=0; i< lines.size();++i) {
+//            String line = lines.get(i);
+//            newLines.add(line );
+//            if(line.replaceAll(" ", "") .equalsIgnoreCase("ORDER_BY(example.getOrderByClause());")) {
+//                // 添加下一行大括号和空白行
+//                ++i;
+//                newLines.add(lines.get(i));
+//                ++i;
+//                newLines.add(lines.get(i));
+//
+//                ++i; // 跳过 return SQL();
+//                newLines.addAll(Arrays.asList( limitString.split("\n")));
+//            }
+//        }
         
 //        for (String line : newLines) {
 //            System.out.println(line);
 //        }
-        FileOutputStream writer = new FileOutputStream(sqlProviderFile);
-        IOUtils.writeLines(newLines, "\n",writer,"UTF-8");
-        writer.close();
+//        FileOutputStream writer = new FileOutputStream(sqlProviderFile);
+//        IOUtils.writeLines(newLines, "\n",writer,"UTF-8");
+//        writer.close();
     }
     
     public static void main(String[] args) throws Exception {

@@ -14,8 +14,8 @@ public class SalesAmazonFbaRefundServiceImpl implements SalesAmazonFbaRefundServ
     private SalesAmazonFbaRefundMapper refundMapper;
 
     @Override
-    public int AddSalesAmazonAdRefundList(List<SalesAmazonFbaRefund> refundList) {
-        return refundMapper.AddSalesAmazonAdRefundList(refundList);
+    public int serviceAddSalesAmazonAdRefundList(List<SalesAmazonFbaRefund> refundList) {
+        return refundMapper.addSalesAmazonAdRefundList(refundList);
     }
 
     @Override

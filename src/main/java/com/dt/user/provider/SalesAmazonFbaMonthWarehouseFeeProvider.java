@@ -68,7 +68,7 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
 
     public String getMWarInfo(SalesAmazonFbaMonthWarehouseFee mWar) throws IllegalAccessException {
         SQL sql = new SQL();
-        String Alias = "mWar";
+        String alias = "mWar";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,aw.`warehouse_code`,\n" +
                 "`w_id`,`date`,`asin`,`fn_sku`,`product_name`,`fc`, `country_code`,\n" +
                 "`longest_side`,`median_side`,`shortest_side`,\n" +
@@ -77,18 +77,18 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
                 "`average_quantity_pending_removal`,`estimated_total_item_volume`, `month_of_charge`,\n" +
                 "`storage_rate`, mWar.`currency`, `estimated_monthly_storage_fee`," +
                 "" + ProviderSqlStore.statusV + "" +
-                "FROM sales_amazon_fba_month_warehousefee AS " + Alias + "");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + Alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + Alias + ".`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + Alias + ".`sku_id`");
-        sql.INNER_JOIN("`basic_sales_amazon_warehouse` AS aw ON aw.`amazon_warehouse_id` = " + Alias + ".`aw_id`");
+                "FROM sales_amazon_fba_month_warehousefee AS " + alias + "");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.INNER_JOIN("`basic_sales_amazon_warehouse` AS aw ON aw.`amazon_warehouse_id` = " + alias + ".`aw_id`");
         if (StringUtils.isNotBlank(mWar.getWarehouseCode()))
             sql.WHERE("POSITION('" + mWar.getWarehouseCode() + "' IN aw.`warehouse_code`)");
         if (StringUtils.isNotBlank(mWar.getSku()))
             sql.WHERE("POSITION('" + mWar.getSku() + "' IN ps.`sku`)");
         Field[] fields = mWar.getClass().getDeclaredFields();
         FieldStore.query(fields, mWar.getNameList(), mWar, sql);
-        ProviderSqlStore.saveUploadStatus(sql, mWar);
+        ProviderSqlStore.saveUploadStatus(sql, mWar,alias);
         return sql.toString();
     }
 }

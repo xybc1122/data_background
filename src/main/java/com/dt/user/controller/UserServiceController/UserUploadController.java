@@ -32,7 +32,6 @@ public class UserUploadController {
         PageInfoUtils.setPage(upload.getPageSize(), upload.getCurrentPage());
         upload.setUid(ReqUtils.getUid());
         return PageInfoUtils.returnPage(userUploadService.getUserUploadInfo(upload), upload.getCurrentPage());
-
     }
 
     /**

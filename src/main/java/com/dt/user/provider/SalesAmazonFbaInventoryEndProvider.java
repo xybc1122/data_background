@@ -41,16 +41,17 @@ public class SalesAmazonFbaInventoryEndProvider {
 
     public String getEndInfo(SalesAmazonFbaInventoryEnd inv) {
         SQL sql = new SQL();
+        String alias = "re";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`ref_id`, `purchase_date`,\n" +
                 "`order_id`, `ref_sku`, re.`s_asin`,`fn_sku`,\n" +
                 "`p_name`, `quantity`, `fc`, `aw_id`,\n" +
                 "`detailed_disposition`,`reason`,`refund_status`,\n" +
                 "`license_plate_number`,`customer_remarks`," + ProviderSqlStore.statusV + "" +
-                "FROM sales_amazon_fba_refund AS re \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=re.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = re.`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = re.`sku_id`");
+                "FROM sales_amazon_fba_refund AS " + alias + " \n");
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         // sku
         AppendSqlStore.sqlWhere(inv.getSku(), "ps.`sku`", sql, Constants.SELECT);
         // inv_sku
@@ -73,7 +74,7 @@ public class SalesAmazonFbaInventoryEndProvider {
         AppendSqlStore.sqlWhere(inv.getDisposition(), "`disposition`", sql, Constants.SELECT);
         //未知
         AppendSqlStore.sqlWhere(inv.getCountry(), "`country`", sql, Constants.SELECT);
-        ProviderSqlStore.saveUploadStatus(sql, inv);
+        ProviderSqlStore.saveUploadStatus(sql, inv, alias);
         return sql.toString();
     }
 }

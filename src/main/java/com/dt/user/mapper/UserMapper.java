@@ -32,8 +32,9 @@ public interface UserMapper {
      * @param userName
      * @return
      */
-    @Select("select uid, user_name,pwd,status,user_expiration_date,pwd_validity_period," +
-            "account_Status,name,del_or_not,is_first_login  from system_user_info where user_name=#{userName}")
+    @Select("SELECT uid, user_name,pwd,STATUS,user_expiration_date,pwd_validity_period,\n" +
+            "account_Status,`name`,u.del_or_not,is_first_login,GROUP_CONCAT(DISTINCT ur.r_id ) AS rId  FROM system_user_info AS u\n" +
+            "INNER JOIN `system_user_role_user` AS ur ON ur.u_id = u.uid where user_name=#{userName}")
     UserInfo findByUser(@Param("userName") String userName);
 
     /**

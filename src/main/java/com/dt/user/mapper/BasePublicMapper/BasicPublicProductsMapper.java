@@ -1,7 +1,7 @@
 package com.dt.user.mapper.BasePublicMapper;
 
 import com.dt.user.model.BasePublicModel.BasicPublicProducts;
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 import com.dt.user.provider.BasicPublicProductsProvider;
 import org.apache.ibatis.annotations.*;
 

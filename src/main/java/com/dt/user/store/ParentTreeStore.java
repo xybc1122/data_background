@@ -1,8 +1,7 @@
 package com.dt.user.store;
 
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 import com.dt.user.toos.Constants;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 /**

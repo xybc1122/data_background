@@ -132,13 +132,13 @@ public class UploadController {
                 String typeFile = userUpload.getName().substring(fileIndex + 1);
                 if (typeFile.equals("csv")) {
                     responseBase = consumerService.importCsv(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(),
-                            userUpload.getPayId(), userUpload.getId(), userUpload.getmId(), userUpload.getBusinessTime()).get();
+                            userUpload.getPayId(), userUpload.getId(), userUpload.getMid(), userUpload.getBusinessTime()).get();
                     responseBaseList.add(responseBase);
                 } else if (typeFile.equals("xlsx") || typeFile.equals("xls")) {
-                    responseBase = consumerService.importXls(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getmId()).get();
+                    responseBase = consumerService.importXls(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getMid()).get();
                     responseBaseList.add(responseBase);
                 } else if (typeFile.equals("txt")) {
-                    responseBase = consumerService.importTxt(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getmId(), userUpload.getAreaId()).get();
+                    responseBase = consumerService.importTxt(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getMid(), userUpload.getAreaId()).get();
                     responseBaseList.add(responseBase);
                 }
             }
@@ -189,7 +189,7 @@ public class UploadController {
         //上传信息
         upload.setRemark(msg);
         //菜单信息
-        upload.setmId(mId);
+        upload.setMid(mId);
         //记录需要手动输入时间信息 /比如业务报告
         if (StringUtils.isNotBlank(businessTime)) {
             upload.setBusinessTime(businessTime);

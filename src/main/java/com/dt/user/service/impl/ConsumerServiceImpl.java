@@ -8,7 +8,7 @@ import com.dt.user.exception.LsException;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.user.model.BasePublicModel.BasicSalesAmazonWarehouse;
 import com.dt.user.model.FinancialSalesBalance;
-import com.dt.user.model.ParentUploadInfo;
+import com.dt.user.model.Parent.ParentUploadInfo;
 import com.dt.user.model.RealTimeData;
 import com.dt.user.model.SalesAmazon.*;
 import com.dt.user.model.UserUpload;

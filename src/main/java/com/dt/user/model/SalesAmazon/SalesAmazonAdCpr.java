@@ -1,8 +1,7 @@
 package com.dt.user.model.SalesAmazon;
 
-import com.dt.user.model.ParentUploadInfo;
+import com.dt.user.model.Parent.ParentUploadInfo;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 
 /**

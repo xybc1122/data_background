@@ -1,47 +1,65 @@
 package com.dt.user.model;
 
+import com.dt.user.model.Parent.ConfTableParent;
+
 import java.util.List;
 
 /**
  * 用户关联角色实体类
  */
-public class UserRole {
+public class UserRole extends ConfTableParent {
     /**
      * user_info  id
      */
-    private Long uId;
+    private Long uid;
     /**
      * user IDs
      */
-    private List<Integer> uIds;
+    private List<Integer> userIds;
     /**
      * role id
      */
-    private Long rId;
+    private Long rid;
 
     /**
      * role ids
      */
-    private List<Integer> rIds;
+    private List<Integer> roleIds;
     /**
      * id
      */
     private Long id;
 
-    public Long getuId() {
-        return uId;
+    public Long getUid() {
+        return uid;
     }
 
-    public void setuId(Long uId) {
-        this.uId = uId;
+    public void setUid(Long uid) {
+        this.uid = uid;
     }
 
-    public Long getrId() {
-        return rId;
+    public List<Integer> getUserIds() {
+        return userIds;
     }
 
-    public void setrId(Long rId) {
-        this.rId = rId;
+    public void setUserIds(List<Integer> userIds) {
+        this.userIds = userIds;
+    }
+
+    public Long getRid() {
+        return rid;
+    }
+
+    public void setRid(Long rid) {
+        this.rid = rid;
+    }
+
+    public List<Integer> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Integer> roleIds) {
+        this.roleIds = roleIds;
     }
 
     public Long getId() {
@@ -50,21 +68,5 @@ public class UserRole {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public List<Integer> getrIds() {
-        return rIds;
-    }
-
-    public void setrIds(List<Integer> rIds) {
-        this.rIds = rIds;
-    }
-
-    public List<Integer> getuIds() {
-        return uIds;
-    }
-
-    public void setuIds(List<Integer> uIds) {
-        this.uIds = uIds;
     }
 }

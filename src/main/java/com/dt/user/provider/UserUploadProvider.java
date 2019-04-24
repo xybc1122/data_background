@@ -23,8 +23,8 @@ public class UserUploadProvider {
             if (upload.getAreaId() != null) {
                 WHERE("area_id=#{areaId}");
             }
-            if (upload.getmId() != null) {
-                WHERE("m_id=#{mId}");
+            if (upload.getMid() != null) {
+                WHERE("m_id=#{mid}");
             }
             if (upload.getPayId() != null) {
                 WHERE("pay_id=#{payId}");

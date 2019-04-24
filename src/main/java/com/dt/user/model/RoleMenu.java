@@ -5,42 +5,41 @@ import java.io.Serializable;
 /**
  * menu跟role关联实体类
  */
-public class RoleMenu  implements Serializable {
-  /**
-   * menuID
-   */
-  private Long mId;
-  /**
-   * roleID
-   */
-  private Long rId;
-  /**
-   * id
-   */
-  private Long id;
+public class RoleMenu implements Serializable {
+    /**
+     * menuID
+     */
+    private Long mid;
+    /**
+     * roleID
+     */
+    private Long rid;
+    /**
+     * id
+     */
+    private Long id;
 
+    public Long getMid() {
+        return mid;
+    }
 
-  public Long getmId() {
-    return mId;
-  }
+    public void setMid(Long mid) {
+        this.mid = mid;
+    }
 
-  public void setmId(Long mId) {
-    this.mId = mId;
-  }
+    public Long getRid() {
+        return rid;
+    }
 
-  public Long getrId() {
-    return rId;
-  }
+    public void setRid(Long rid) {
+        this.rid = rid;
+    }
 
-  public void setrId(Long rId) {
-    this.rId = rId;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

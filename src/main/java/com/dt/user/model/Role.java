@@ -2,7 +2,6 @@ package com.dt.user.model;
 
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 角色表
@@ -28,19 +27,19 @@ public class Role implements Serializable {
     /**
      * 创建用户id
      */
-    private Long createIdUser;
+    private String createUser;
     /**
      * 创建时间
      */
-    private Date createDate;
+    private Long createDate;
     /**
      * 修改时间
      */
-    private Date upDate;
+    private Long upDate;
     /**
      * 修改用户id
      */
-    private Long upIdUser;
+    private String upUser;
 
     public Long getRid() {
         return rid;
@@ -74,35 +73,35 @@ public class Role implements Serializable {
         this.remark = remark;
     }
 
-    public Long getCreateIdUser() {
-        return createIdUser;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setCreateIdUser(Long createIdUser) {
-        this.createIdUser = createIdUser;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
-    public Date getCreateDate() {
+    public Long getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(Long createDate) {
         this.createDate = createDate;
     }
 
-    public Date getUpDate() {
+    public Long getUpDate() {
         return upDate;
     }
 
-    public void setUpDate(Date upDate) {
+    public void setUpDate(Long upDate) {
         this.upDate = upDate;
     }
 
-    public Long getUpIdUser() {
-        return upIdUser;
+    public String getUpUser() {
+        return upUser;
     }
 
-    public void setUpIdUser(Long upIdUser) {
-        this.upIdUser = upIdUser;
+    public void setUpUser(String upUser) {
+        this.upUser = upUser;
     }
 }

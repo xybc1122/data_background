@@ -1,8 +1,12 @@
-package com.dt.user.model;
+package com.dt.user.model.Parent;
+
+import com.dt.user.model.JavaSqlName;
 
 import java.util.List;
 
 /**
+ * 上传文件父类
+ *
  * @ClassName ParentUploadInfo
  * Description TODO
  * @Author 陈恩惠
@@ -39,6 +43,8 @@ public class ParentUploadInfo {
     private String sku;
     private Integer shopId;
     private Integer siteId;
+
+
     private Long date;
     //记录表ID
     private Long recordingId;

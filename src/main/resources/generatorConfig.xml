@@ -37,7 +37,7 @@
 		</javaClientGenerator>
 
 
-		<table tableName="`sales_amazon_fba_review`">
+		<table tableName="`basic_hr_employment_type`">
 			<generatedKey column="id" sqlStatement="JDBC"/>
 		</table>
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class TbHeadMenu implements Serializable {
 
   private Long id;
-  private Long mId;
+  private Long mid;
   private Long thId;
 
   public Long getId() {
@@ -16,12 +16,12 @@ public class TbHeadMenu implements Serializable {
     this.id = id;
   }
 
-  public Long getmId() {
-    return mId;
+  public Long getMid() {
+    return mid;
   }
 
-  public void setmId(Long mId) {
-    this.mId = mId;
+  public void setMid(Long mid) {
+    this.mid = mid;
   }
 
   public Long getThId() {

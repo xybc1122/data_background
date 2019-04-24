@@ -48,7 +48,7 @@ public class MenuProvider {
             sb.append("(");
             StrUtils.appBuider(sb, m.getmName());
             sb.append(",");
-            sb.append(m.getParentId() + ",");
+            sb.append(m.getParentId()).append(",");
             StrUtils.appBuider(sb, m.getUrl());
             sb.append(",");
             StrUtils.appBuider(sb, m.getIcon());
@@ -56,8 +56,7 @@ public class MenuProvider {
             sb.append(m.getMenuOrder());
             sb.append("),");
         }
-        String sql = sb.toString().substring(0, sb.length() - 1);
-        return sql;
+        return sb.toString().substring(0, sb.length() - 1);
     }
 
     /**

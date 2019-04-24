@@ -4,6 +4,7 @@ import com.dt.user.dto.ShopDto;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicShopMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicShop;
 import com.dt.user.service.BasePublicService.BasicPublicShopService;
+import com.dt.user.utils.ReqUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class BasicPublicShopServiceImpl implements BasicPublicShopService {
 
     @Override
     public List<BasicPublicShop> getByListShopName() {
-        return shopMapper.getByListShopName();
+        return shopMapper.getByListShopName(ReqUtils.getRoleId());
     }
 
     @Override

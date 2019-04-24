@@ -38,7 +38,7 @@ public class RoleMenuServiceImpl implements RoleMenuService {
             //前端传来的数据
             List<String> resultMenuIds = Arrays.asList(menuIds.split(","));
             RoleMenu roleMenu = new RoleMenu();
-            roleMenu.setrId(Long.parseLong(rid));
+            roleMenu.setRid(Long.parseLong(rid));
             roleMenuMapper.delRoleMenu(roleMenu);
             if (resultMenuIds.size() != 0) {
                 //新增菜单

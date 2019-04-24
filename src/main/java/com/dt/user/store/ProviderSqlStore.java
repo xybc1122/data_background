@@ -1,6 +1,6 @@
 package com.dt.user.store;
 
-import com.dt.user.model.ParentUploadInfo;
+import com.dt.user.model.Parent.ParentUploadInfo;
 import com.dt.user.model.SystemLogStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;

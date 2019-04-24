@@ -1,5 +1,5 @@
 package com.dt.user.model.BasePublicModel;
-import com.dt.user.model.ParentSysTemLog;
+import com.dt.user.model.Parent.ParentSysTemLog;
 
 /**
  * 运输性质

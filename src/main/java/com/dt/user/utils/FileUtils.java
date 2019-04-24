@@ -1,5 +1,7 @@
 package com.dt.user.utils;
 
+import com.dt.user.config.JsonData;
+import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -116,25 +118,40 @@ public class FileUtils {
     /**
      * 下载文件
      */
-    public static void downloadFile(String path, HttpServletResponse response, HttpServletRequest request) {
+    public static ResponseBase downloadFile(String path, HttpServletResponse response, HttpServletRequest request) {
         try (InputStream fis = new BufferedInputStream(new FileInputStream(path));
              OutputStream toClient = new BufferedOutputStream(response.getOutputStream())
         ) {
-            // path是指欲下载的文件的路径。
             File downloadFile = new File(path);
+            if (!downloadFile.exists()) {
+                return JsonData.setResultError("您要下载的资源已被删除");
+            }
             // 取得文件名。
             String fileName = downloadFile.getName();
-            fileName = URLEncoder.encode(fileName, "utf-8");
+            String userAgent = request.getHeader("user-agent").toLowerCase();
+            if (userAgent.contains("msie") || userAgent.contains("like gecko")) {
+                // win10 ie edge 浏览器 和其他系统的ie
+                fileName = URLEncoder.encode(fileName, "UTF-8");
+            } else {
+                // fe
+                fileName = new String(fileName.getBytes("utf-8"), "iso-8859-1");
+            }
+            long currentLen = 0;// 已读取文件大小
+            long totleLen = downloadFile.length();// 总文件大小
+            double percent = 0.0; //下载进度
+
             // 取得文件的后缀名。
 //           String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
             byte[] buffer = new byte[fis.available()];
             fis.read(buffer);
+
             // 清空response
             response.reset();
             // 设置response的Header
             // System.out.println("Download DocFile's ORGIN----" + request.getHeader("Origin"));
+            response.setHeader("Content-Length", "" + downloadFile.length());
             response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
-            response.addHeader("Content-Disposition", "attachment;filename=\"" + fileName + "\"");
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName + "");
             response.addHeader("Content-Length", "" + downloadFile.length());
             response.setContentType("application/octet-stream");
             toClient.write(buffer);
@@ -142,5 +159,6 @@ public class FileUtils {
         } catch (IOException ex) {
             throw new LsException("文件下载传出异常");
         }
+        return null;
     }
 }

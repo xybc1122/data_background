@@ -28,7 +28,7 @@ public class BasicPublicProvinceRelationController {
 
 
     /**
-     * 获得店铺信息
+     * 获得省州关联表信息
      *
      * @return
      */

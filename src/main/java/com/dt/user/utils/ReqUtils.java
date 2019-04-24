@@ -53,13 +53,33 @@ public class ReqUtils {
     }
 
     /**
+     * 获得用户角色ID
+     *
+     * @return
+     */
+    public static String getRoleId() {
+        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
+                .getRequestAttributes();
+        if (requestAttributes != null) {
+            HttpServletRequest request = requestAttributes.getRequest();
+            String rId = (String) request.getAttribute("rId");
+            if (StringUtils.isNotBlank(rId)) {
+                return rId;
+            }
+        }
+        return null;
+    }
+
+    /**
      * 设置request
+     *
      * @param request
      * @param uId
      * @param uName
      */
-    public static void set(HttpServletRequest request, Integer uId, String uName) {
+    public static void set(HttpServletRequest request, Integer uId, String uName,String rId) {
         request.setAttribute("uId", uId);
         request.setAttribute("uName", uName);
+        request.setAttribute("rId", rId);
     }
 }

@@ -1,8 +1,12 @@
-package com.dt.user.model;
+package com.dt.user.model.Parent;
+
+import com.dt.user.model.SystemLogStatus;
 
 import java.util.List;
 
 /**
+ * 树形结构父类
+ *
  * @ClassName ParentTree
  * Description TODO
  * @Author 陈恩惠

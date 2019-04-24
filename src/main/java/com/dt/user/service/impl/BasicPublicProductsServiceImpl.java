@@ -3,7 +3,7 @@ package com.dt.user.service.impl;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicProductsMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicProducts;
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 import com.dt.user.service.BasePublicService.BasicPublicProductsService;
 import com.dt.user.service.SystemLogStatusService;
 import com.dt.user.store.TreeStructureStore;

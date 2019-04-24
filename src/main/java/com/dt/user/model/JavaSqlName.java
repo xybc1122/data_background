@@ -1,6 +1,8 @@
 package com.dt.user.model;
 
-
+/**
+ * 全局查询对象
+ */
 public class JavaSqlName {
 
     private Integer jsId;

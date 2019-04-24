@@ -2,9 +2,7 @@ package com.dt.user.service.BasePublicService;
 
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
-import com.dt.user.model.ParentTree;
-import com.dt.user.provider.WarehouseInfoProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import com.dt.user.model.Parent.ParentTree;
 
 import java.util.List;
 import java.util.Map;

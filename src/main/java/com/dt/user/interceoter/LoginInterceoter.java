@@ -49,6 +49,7 @@ public class LoginInterceoter implements HandlerInterceptor {
             if (claims != null) {
                 Integer uId = (Integer) claims.get("id");
                 String uName = (String) claims.get("name");
+                String rId = (String) claims.get("rId");
                 //查询redis中的token
                 String vRedis = redisService.getStringKey(uName + "token");
                 //如果是null 说明 token 已经过期
@@ -78,7 +79,7 @@ public class LoginInterceoter implements HandlerInterceptor {
                 }
                 //首次登陆修改密码接口
                 if (request.getRequestURI().equals("/api/v1/user/upPwd")) {
-                    ReqUtils.set(request, uId, uName);
+                    ReqUtils.set(request, uId, uName,rId);
                     return true;
                 }
                 //首次登陆 需要修改密码
@@ -86,7 +87,7 @@ public class LoginInterceoter implements HandlerInterceptor {
                     sendJsonMessage(response, JsonData.setResultError(Constants.FIRST_CODE, "首次登陆修改密码"));
                     return false;
                 }
-                ReqUtils.set(request, uId, uName);
+                ReqUtils.set(request, uId, uName,rId);
                 return true;
             }
             sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "令牌错误 请重新登陆"));

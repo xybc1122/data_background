@@ -1,10 +1,7 @@
 package com.dt.user.mapper.BasePublicMapper;
 
-import com.dt.user.model.BasePublicModel.BasicLogisticsmgtTransportFreightLevel;
-import com.dt.user.model.BasePublicModel.BasicPublicWarehouse;
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 import org.apache.ibatis.annotations.*;
-import org.apache.ibatis.mapping.FetchType;
 
 import java.util.List;
 

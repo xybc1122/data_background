@@ -1,7 +1,7 @@
 package com.dt.user.store;
 
 
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,7 +2,7 @@ package com.dt.user.service.BasePublicService;
 
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.BasePublicModel.BasicPublicProducts;
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 
 import java.util.List;
 import java.util.Map;

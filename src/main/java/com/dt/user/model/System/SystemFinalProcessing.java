@@ -1,4 +1,4 @@
-package com.dt.user.model.SystemFinal;
+package com.dt.user.model.System;
 
 public class SystemFinalProcessing {
     private Integer finalProcessingId;

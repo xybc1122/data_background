@@ -1,6 +1,6 @@
 package com.dt.user.service.BasePublicService;
 
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 
 import java.util.List;
 

@@ -30,8 +30,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<UserInfo> findByRoleInfo(UserDto pageDto) {
-        return rolesMapper.findByRoleInfo(pageDto);
+    public List<RoleDto> findByRoleInfo(RoleDto roleDto) {
+        return rolesMapper.findByRoleInfo(roleDto);
     }
 
     @Override

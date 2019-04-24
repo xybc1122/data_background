@@ -1,5 +1,7 @@
 package com.dt.user.model;
 
+import com.dt.user.model.Parent.ParentUploadInfo;
+
 import java.math.BigDecimal;
 
 /**

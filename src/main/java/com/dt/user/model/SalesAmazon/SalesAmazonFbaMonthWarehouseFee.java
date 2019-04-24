@@ -1,7 +1,7 @@
 package com.dt.user.model.SalesAmazon;
 
 
-import com.dt.user.model.ParentUploadInfo;
+import com.dt.user.model.Parent.ParentUploadInfo;
 
 /**
  * 月度仓储费

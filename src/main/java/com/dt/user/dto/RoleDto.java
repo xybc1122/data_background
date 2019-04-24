@@ -8,11 +8,58 @@ import com.dt.user.model.Role;
  * @Author 陈恩惠
  * @Date 2019/3/19 15:21
  **/
-public class RoleDto  extends Role {
+public class RoleDto extends Role {
 
     private Integer currentPage;
 
     private Integer pageSize;
+
+    private String userName;
+    /**
+     * 店铺名称
+     */
+    private String shopName;
+    /**
+     * 店铺 id 集合
+     */
+    private String sIds;
+
+    /**
+     * 用户ids
+     */
+    private String uIds;
+
+    public String getuIds() {
+        return uIds;
+    }
+
+    public void setuIds(String uIds) {
+        this.uIds = uIds;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getsIds() {
+        return sIds;
+    }
+
+    public void setsIds(String sIds) {
+        this.sIds = sIds;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Integer getCurrentPage() {
         return currentPage;

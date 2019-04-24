@@ -5,6 +5,7 @@ import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
 import com.dt.user.mapper.SystemLogStatusMapper;
 import com.dt.user.model.BasePublicModel.*;
+import com.dt.user.model.System.SystemShopRole;
 import com.dt.user.model.SystemLogStatus;
 import com.dt.user.service.GeneralQueryService;
 import com.dt.user.service.SystemLogStatusService;

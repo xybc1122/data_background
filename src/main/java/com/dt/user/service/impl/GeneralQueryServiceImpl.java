@@ -6,6 +6,7 @@ import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
 import com.dt.user.mapper.GeneralQueryMapper;
 import com.dt.user.model.BasePublicModel.*;
+import com.dt.user.model.System.SystemShopRole;
 import com.dt.user.service.BasePublicService.BasicPublicProductsService;
 import com.dt.user.service.GeneralQueryService;
 import org.springframework.beans.factory.annotation.Autowired;

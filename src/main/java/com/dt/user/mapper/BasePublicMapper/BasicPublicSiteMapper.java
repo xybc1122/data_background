@@ -30,9 +30,8 @@ public interface BasicPublicSiteMapper {
             "se.`site_id`,se.`site_name`,se.site_short_name_eng\n" +
             "FROM `basic_public_site` AS se\n" +
             "LEFT JOIN `basic_public_shop_site` AS ss ON ss.`site_id`=se.`site_id`\n" +
-            "LEFT JOIN `basic_public_shop` AS s ON s.`shop_id`=ss.`shop_id`\n" +
-            "WHERE s.`shop_id`=#{sId}")
-    List<BasicPublicSite> getShopIdTakeSiteList(@Param("sId") Long sId);
+            "WHERE ss.`shop_id`=#{sId} AND  ss.r_id in (#{rId})")
+    List<BasicPublicSite> getShopIdTakeSiteList(@Param("sId") Long sId, @Param("rId") String rId);
 
     /**
      * 通过url 去查询site ID

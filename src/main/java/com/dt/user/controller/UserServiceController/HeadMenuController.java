@@ -31,7 +31,7 @@ public class HeadMenuController {
         List<Integer> thIds = (List<Integer>) mhMap.get("thIds");
         TbHeadMenu tbHeadMenu = new TbHeadMenu();
         for (int i = 0; i < thIds.size(); i++) {
-            tbHeadMenu.setmId(Long.parseLong(mId));
+            tbHeadMenu.setMid(Long.parseLong(mId));
             tbHeadMenu.setThId(thIds.get(i).longValue());
             headMenuMapperService.addHeadMenu(tbHeadMenu);
         }
@@ -50,7 +50,7 @@ public class HeadMenuController {
         List<Integer> thIds = (List<Integer>) mhMap.get("thIds");
         TbHeadMenu tbHeadMenu = new TbHeadMenu();
         for (int i = 0; i < thIds.size(); i++) {
-            tbHeadMenu.setmId(Long.parseLong(mId));
+            tbHeadMenu.setMid(Long.parseLong(mId));
             tbHeadMenu.setThId(thIds.get(i).longValue());
                 headMenuMapperService.delHeadMenu(tbHeadMenu);
         }

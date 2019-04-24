@@ -62,7 +62,7 @@ public class UserUpload {
     /**
      * tbId 通过这ID获取是哪一个菜单的上传
      */
-    private Integer mId;
+    private Integer mid;
 
     /**
      * 记录表ID
@@ -254,12 +254,12 @@ public class UserUpload {
         this.status = status;
     }
 
-    public Integer getmId() {
-        return mId;
+    public Integer getMid() {
+        return mid;
     }
 
-    public void setmId(Integer mId) {
-        this.mId = mId;
+    public void setMid(Integer mid) {
+        this.mid = mid;
     }
 
     public Long getRecordingId() {

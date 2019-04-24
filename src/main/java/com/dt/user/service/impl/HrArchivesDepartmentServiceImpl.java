@@ -1,7 +1,7 @@
 package com.dt.user.service.impl;
 
 import com.dt.user.mapper.HrArchivesDepartmentMapper;
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 import com.dt.user.service.HrArchivesDepartmentService;
 import com.dt.user.store.TreeStructureStore;
 import org.springframework.beans.factory.annotation.Autowired;

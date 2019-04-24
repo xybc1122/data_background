@@ -1,8 +1,6 @@
 package com.dt.user.service;
 
 
-
-
 import com.dt.user.dto.RoleDto;
 import com.dt.user.dto.UserDto;
 import com.dt.user.model.Role;
@@ -19,9 +17,10 @@ public interface RoleService {
 
     /**
      * 查询一个角色下的所有用户跟 菜单
+     *
      * @return
      */
-    List<UserInfo> findByRoleInfo(UserDto pageDto);
+    List<RoleDto> findByRoleInfo(RoleDto roleDto);
 
 
     /**

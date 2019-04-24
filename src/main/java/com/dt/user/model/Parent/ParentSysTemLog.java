@@ -1,6 +1,11 @@
-package com.dt.user.model;
+package com.dt.user.model.Parent;
 
 
+import com.dt.user.model.SystemLogStatus;
+
+/**
+ * 其余一些有statusId类的父类
+ */
 public class ParentSysTemLog {
     /**
      * 当前页

@@ -34,8 +34,9 @@ public interface BasicPublicShopMapper {
      *
      * @return
      */
-    @Select("SELECT `shop_id`,`shop_name`,`shop_short_code` from `basic_public_shop`")
-    List<BasicPublicShop> getByListShopName();
+    @Select("SELECT `shop_id`,`shop_name`,`shop_short_code` from `basic_public_shop` AS s \n" +
+            "INNER JOIN `system_shop_role` AS pr ON pr.s_id= s.shop_id WHERE r_id in (#{rId})")
+    List<BasicPublicShop> getByListShopName(@Param("rId") String rId);
 
     /**
      * 查询店铺ID

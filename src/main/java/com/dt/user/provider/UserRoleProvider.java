@@ -21,19 +21,19 @@ public class UserRoleProvider {
         for (UserRole anUrList : urList) {
             ur = anUrList;
             //一个员工添加多个角色
-            if (null != ur.getrIds()) {
-                List<Integer> rIds = anUrList.getrIds();
+            if (null != ur.getRoleIds()) {
+                List<Integer> rIds = anUrList.getRoleIds();
                 for (Integer rId1 : rIds) {
                     long rId = rId1.longValue();
-                    sb.append("(").append(ur.getuId()).append(",").append(rId).append("),");
+                    sb.append("(").append(ur.getUid()).append(",").append(rId).append("),");
                 }
             }
             //一个角色添加多个员工
-            if (null != ur.getuIds()) {
-                List<Integer> uIds = anUrList.getuIds();
+            if (null != ur.getUserIds()) {
+                List<Integer> uIds = anUrList.getUserIds();
                 for (Integer uId1 : uIds) {
                     long uId = uId1.longValue();
-                    sb.append("(").append(uId).append(",").append(ur.getrId()).append("),");
+                    sb.append("(").append(uId).append(",").append(ur.getRid()).append("),");
                 }
             }
         }

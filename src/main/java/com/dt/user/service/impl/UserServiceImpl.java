@@ -261,8 +261,8 @@ public class UserServiceImpl extends JsonData implements UserService {
         //新增角色信息
         List<UserRole> urList = new ArrayList<>();
         UserRole userRole = new UserRole();
-        userRole.setuId(uid);
-        userRole.setrIds(rolesId);
+        userRole.setUid(uid);
+        userRole.setRoleIds(rolesId);
         urList.add(userRole);
         userRoleService.addUserRole(urList);
         return JsonData.setResultSuccess("新增成功");

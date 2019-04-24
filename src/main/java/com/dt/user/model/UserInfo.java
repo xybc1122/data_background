@@ -61,7 +61,7 @@ public class UserInfo implements Serializable {
     private String rName;
 
     //多个角色id 拼接  已,号隔开
-    private String rId;
+    private String rid;
     //登陆时间
     private Long landingTime;
 
@@ -77,10 +77,6 @@ public class UserInfo implements Serializable {
 
     //首次登陆是否修改密码
     private Boolean isFirstLogin;
-    /**
-     * 用户ids
-     */
-    private String uIds;
 
     //菜单type 分别 是菜单还是快捷按钮
 
@@ -195,12 +191,12 @@ public class UserInfo implements Serializable {
         this.rName = rName;
     }
 
-    public String getrId() {
-        return rId;
+    public String getRid() {
+        return rid;
     }
 
-    public void setrId(String rId) {
-        this.rId = rId;
+    public void setRid(String rid) {
+        this.rid = rid;
     }
 
     public Long getLandingTime() {
@@ -243,13 +239,6 @@ public class UserInfo implements Serializable {
         isFirstLogin = firstLogin;
     }
 
-    public String getuIds() {
-        return uIds;
-    }
-
-    public void setuIds(String uIds) {
-        this.uIds = uIds;
-    }
 
     public Integer getType() {
         return type;

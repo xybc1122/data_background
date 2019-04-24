@@ -1,7 +1,7 @@
 package com.dt.user.service.impl;
 
 import com.dt.user.mapper.BasePublicMapper.BasicLogisticsmgtTransportAbnormalTypeMapper;
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 import com.dt.user.service.BasePublicService.BasicLogisticsmgtTransportAbnormalTypeService;
 import com.dt.user.store.TreeStructureStore;
 import org.springframework.beans.factory.annotation.Autowired;

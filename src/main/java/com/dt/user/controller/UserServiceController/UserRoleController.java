@@ -63,8 +63,8 @@ public class UserRoleController {
         if (addMap.get("rolesId") instanceof List) {
             List<Integer> rolesId = (List<Integer>) addMap.get("rolesId");
             Integer uid = (Integer) addMap.get("uid");
-            userRole.setuId(uid.longValue());
-            userRole.setrIds(rolesId);
+            userRole.setUid(uid.longValue());
+            userRole.setRoleIds(rolesId);
             urList.add(userRole);
             //新增角色信息
             roleService.addUserRole(urList);
@@ -73,8 +73,8 @@ public class UserRoleController {
             //如果是String 类型
             String rId = (String) addMap.get("rolesId");
             List<Integer> uid = (List<Integer>) addMap.get("uid");
-            userRole.setuIds(uid);
-            userRole.setrId(Long.parseLong(rId));
+            userRole.setUserIds(uid);
+            userRole.setRid(Long.parseLong(rId));
             urList.add(userRole);
             //新增角色信息
             roleService.addUserRole(urList);

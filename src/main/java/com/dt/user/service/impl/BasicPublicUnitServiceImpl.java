@@ -1,14 +1,12 @@
 package com.dt.user.service.impl;
 
 import com.dt.user.mapper.BasePublicMapper.BasicPublicUnitMapper;
-import com.dt.user.model.BasePublicModel.BasicPublicUnit;
-import com.dt.user.model.ParentTree;
+import com.dt.user.model.Parent.ParentTree;
 import com.dt.user.service.BasePublicService.BasicPublicUnitService;
 import com.dt.user.store.TreeStructureStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

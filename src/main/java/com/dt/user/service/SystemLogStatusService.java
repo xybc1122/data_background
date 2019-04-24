@@ -29,7 +29,7 @@ public interface SystemLogStatusService {
     /**
      * 更新状态信息
      */
-    int serviceUpSysStatusInfo(SystemLogStatus logStatus, Long statusId);
+    ResponseBase serviceUpSysStatusInfo(SystemLogStatus logStatus, Long statusId);
 
     /**
      * 删除数据 //更新
@@ -45,6 +45,8 @@ public interface SystemLogStatusService {
      * 封装删除状态返回
      */
     ResponseBase msgCodeDel(int result, Map<String, String> dataMap);
+
+    
 
     /**
      * obj 设置statusId

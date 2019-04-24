@@ -30,12 +30,7 @@ public class BasicPublicExchangeRateServiceImpl implements BasicPublicExchangeRa
     @Override
     @Transactional
     public ResponseBase serviceUpRate(BasicPublicExchangeRate rate) {
-        int result;
-        if (rate.getStatusId() == null) {
-            result = rateMapper.upRate((BasicPublicExchangeRate) logStatusService.setObjStatusId(rate, Constants.UP));
-        } else {
-            result = rateMapper.upRate(rate);
-        }
+        int result = rateMapper.upRate(rate);
         //通用更新消息
         return logStatusService.msgCodeUp(result, rate.getSystemLogStatus(), rate.getStatusId());
     }
@@ -50,7 +45,7 @@ public class BasicPublicExchangeRateServiceImpl implements BasicPublicExchangeRa
     @Override
     public ResponseBase serviceSaveRate(BasicPublicExchangeRate rate) {
         //新增公司数据
-        int result = rateMapper.saveRate((BasicPublicExchangeRate) logStatusService.setObjStatusId(rate, Constants.SAVE));
+        int result = rateMapper.saveRate((BasicPublicExchangeRate) logStatusService.setObjStatusId(rate));
         return JsonUtils.saveMsg(result);
     }
 }

@@ -46,8 +46,12 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     }
 
     @Override
-    public int serviceUpSysStatusInfo(SystemLogStatus logStatus, Long statusId) {
-        return logStatusMapper.upSysStatusInfo(SystemLogStatusStore.setModify(logStatus, ReqUtils.getUserName(), statusId));
+    public ResponseBase serviceUpSysStatusInfo(SystemLogStatus logStatus, Long statusId) {
+        int sysResult = logStatusMapper.upSysStatusInfo(SystemLogStatusStore.setModify(logStatus, ReqUtils.getUserName(), statusId));
+        if (sysResult <= 0) {
+            throw new LsException("状态更新失败");
+        }
+        return JsonData.setResultSuccess("更新成功");
     }
 
     @Override
@@ -59,10 +63,10 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     @Override
     public ResponseBase msgCodeUp(int result, SystemLogStatus logStatus, Long statusId) {
         if (result != 0) {
+            //删除缓存
+            redisService.delKey(Constants.STATUS_ID + statusId);
             //更新状态的修改信息
-            serviceUpSysStatusInfo(logStatus, statusId);
-            redisService.setString(Constants.STATUS_ID + statusId, statusId);
-            return JsonData.setResultSuccess("更新成功");
+            return serviceUpSysStatusInfo(logStatus, statusId);
         }
         return JsonData.setResultError("更新失败");
     }
@@ -76,6 +80,7 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
         }
         throw new LsException("删除失败");
     }
+
 
     @Override
     public Object setObjStatusId(Object obj) {

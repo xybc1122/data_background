@@ -7,7 +7,6 @@ import com.dt.user.model.Parent.ParentTree;
 import com.dt.user.service.BasePublicService.BasicPublicProductsService;
 import com.dt.user.service.SystemLogStatusService;
 import com.dt.user.store.TreeStructureStore;
-import com.dt.user.toos.Constants;
 import com.dt.user.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,15 +30,8 @@ public class BasicPublicProductsServiceImpl implements BasicPublicProductsServic
     @Override
     @Transactional
     public ResponseBase serviceUpProducts(BasicPublicProducts products) {
-        int result;
-        //如果前端传来的是null
-        if (products.getStatusId() == null) {
-            //更新信息
-            result = productsMapper.upProducts((BasicPublicProducts) logStatusService.setObjStatusId(products, Constants.UP));
-        } else {
             //如果有statusId 直接更新
-            result = productsMapper.upProducts(products);
-        }
+        int result = productsMapper.upProducts(products);
         //通用更新消息
         return logStatusService.msgCodeUp(result, products.getSystemLogStatus(), products.getStatusId());
     }
@@ -54,7 +46,7 @@ public class BasicPublicProductsServiceImpl implements BasicPublicProductsServic
     @Override
     public ResponseBase serviceSaveProducts(BasicPublicProducts products) {
         //新增仓库数据
-        int result = productsMapper.saveProducts((BasicPublicProducts) logStatusService.setObjStatusId(products, Constants.SAVE));
+        int result = productsMapper.saveProducts((BasicPublicProducts) logStatusService.setObjStatusId(products));
         return JsonUtils.saveMsg(result);
     }
 }

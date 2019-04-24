@@ -31,15 +31,8 @@ public class BasicPublicProductServiceImpl implements BasicPublicProductService 
     @Override
     @Transactional
     public ResponseBase serviceUpProduct(BasicPublicProduct product) {
-        int result;
-        //如果前端传来的是null
-        if (product.getStatusId() == null) {
-            //更新信息
-            result = productMapper.upProduct((BasicPublicProduct) logStatusService.setObjStatusId(product, Constants.UP));
-        } else {
-            //如果有statusId 直接更新
-            result = productMapper.upProduct(product);
-        }
+        //如果有statusId 直接更新
+        int result = productMapper.upProduct(product);
         //通用更新消息
         return logStatusService.msgCodeUp(result, product.getSystemLogStatus(), product.getStatusId());
     }
@@ -54,7 +47,7 @@ public class BasicPublicProductServiceImpl implements BasicPublicProductService 
     @Override
     public ResponseBase serviceSaveProduct(BasicPublicProduct product) {
         //新增仓库数据
-        int result = productMapper.saveProduct((BasicPublicProduct) logStatusService.setObjStatusId(product, Constants.SAVE));
+        int result = productMapper.saveProduct((BasicPublicProduct) logStatusService.setObjStatusId(product));
         if (result != 0) {
             return JsonData.setResultSuccess("新增成功");
         }

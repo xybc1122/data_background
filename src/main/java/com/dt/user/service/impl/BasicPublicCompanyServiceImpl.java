@@ -32,8 +32,7 @@ public class BasicPublicCompanyServiceImpl implements BasicPublicCompanyService 
     @Override
     @Transactional
     public ResponseBase serviceUpCompany(BasicPublicCompany company) {
-        if (company.getStatusId() == null) return JsonData.setResultSuccess("状态为空,更新失败");
-        int result = companyMapper.upCompany(company);
+               int result = companyMapper.upCompany(company);
         //通用更新消息
         return logStatusService.msgCodeUp(result, company.getSystemLogStatus(), company.getStatusId());
     }

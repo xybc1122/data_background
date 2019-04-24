@@ -31,15 +31,7 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
     @Override
     @Transactional
     public ResponseBase serviceUpWarehouses(BasicPublicWarehouse war) {
-        int result;
-        //如果前端传来的是null
-        if (war.getStatusId() == null) {
-            //更新信息
-            result = warehouseMapper.upWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war,Constants.UP));
-        } else {
-            //如果有statusId 直接更新
-            result = warehouseMapper.upWarehouses(war);
-        }
+        int result = warehouseMapper.upWarehouses(war);
         //通用更新消息
         return logStatusService.msgCodeUp(result, war.getSystemLogStatus(), war.getStatusId());
     }
@@ -54,7 +46,7 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
     @Override
     public ResponseBase serviceSaveWarehouses(BasicPublicWarehouse war) {
         //新增仓库数据
-        int result = warehouseMapper.saveWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war, Constants.SAVE));
+        int result = warehouseMapper.saveWarehouses((BasicPublicWarehouse) logStatusService.setObjStatusId(war));
         return JsonUtils.saveMsg(result);
     }
 

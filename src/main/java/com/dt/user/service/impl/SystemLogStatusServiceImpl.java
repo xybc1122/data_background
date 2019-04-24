@@ -5,13 +5,14 @@ import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
 import com.dt.user.mapper.SystemLogStatusMapper;
 import com.dt.user.model.BasePublicModel.*;
-import com.dt.user.model.System.SystemShopRole;
 import com.dt.user.model.SystemLogStatus;
-import com.dt.user.service.GeneralQueryService;
+import com.dt.user.service.RedisService;
 import com.dt.user.service.SystemLogStatusService;
 import com.dt.user.store.SystemLogStatusStore;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.ReqUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,8 +29,7 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     @Autowired
     private SystemLogStatusMapper logStatusMapper;
     @Autowired
-    private GeneralQueryService queryService;
-
+    private RedisService redisService;
 
     @Override
     public SystemLogStatus serviceFindSysStatusInfo(Long statusId) {
@@ -61,6 +61,7 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
         if (result != 0) {
             //更新状态的修改信息
             serviceUpSysStatusInfo(logStatus, statusId);
+            redisService.setString(Constants.STATUS_ID + statusId, statusId);
             return JsonData.setResultSuccess("更新成功");
         }
         return JsonData.setResultError("更新失败");
@@ -77,13 +78,8 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     }
 
     @Override
-    public Object setObjStatusId(Object obj, String status) {
+    public Object setObjStatusId(Object obj) {
         SystemLogStatus logStatus;
-        //如果是新增 不用去查数据库
-        if (!status.equals("save")) {
-            //先去数据库查询
-            queryService.statusIdExist(obj);
-        }
         if (obj instanceof BasicPublicWarehouse) {
             //仓库
             BasicPublicWarehouse war = (BasicPublicWarehouse) obj;

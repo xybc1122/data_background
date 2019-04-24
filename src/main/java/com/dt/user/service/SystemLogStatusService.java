@@ -52,5 +52,5 @@ public interface SystemLogStatusService {
      * @param obj
      * @return
      */
-    Object setObjStatusId(Object obj, String status);
+    Object setObjStatusId(Object obj);
 }

@@ -1,8 +1,5 @@
 package com.dt.user.service;
 
-
-import com.dt.user.config.ResponseBase;
-
 /**
  * @ClassName GeneralQueryService
  * Description TODO
@@ -15,6 +12,6 @@ public interface GeneralQueryService {
     /**
      * 封装判断 statusId服务  通过用查询 状态ID
      */
-    void statusIdExist(Object obj);
+    void statusIdExist(String key);
 
 }

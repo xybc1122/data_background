@@ -1,16 +1,13 @@
 package com.dt.user.service.impl;
 
+
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.CompanyDto;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicCompanyMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicCompany;
-import com.dt.user.model.SystemLogStatus;
 import com.dt.user.service.BasePublicService.BasicPublicCompanyService;
-import com.dt.user.service.GeneralQueryService;
 import com.dt.user.service.SystemLogStatusService;
-import com.dt.user.toos.Constant;
-import com.dt.user.toos.Constants;
 import com.dt.user.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +22,7 @@ public class BasicPublicCompanyServiceImpl implements BasicPublicCompanyService 
     private BasicPublicCompanyMapper companyMapper;
     @Autowired
     private SystemLogStatusService logStatusService;
-    @Autowired
-    private GeneralQueryService queryService;
+
 
     @Override
     public List<CompanyDto> findByListCompany() {
@@ -36,12 +32,8 @@ public class BasicPublicCompanyServiceImpl implements BasicPublicCompanyService 
     @Override
     @Transactional
     public ResponseBase serviceUpCompany(BasicPublicCompany company) {
-        int result;
-        if (company.getStatusId() == null) {
-            result = companyMapper.upCompany((BasicPublicCompany) logStatusService.setObjStatusId(company, Constants.UP));
-        } else {
-            result = companyMapper.upCompany(company);
-        }
+        if (company.getStatusId() == null) return JsonData.setResultSuccess("状态为空,更新失败");
+        int result = companyMapper.upCompany(company);
         //通用更新消息
         return logStatusService.msgCodeUp(result, company.getSystemLogStatus(), company.getStatusId());
     }
@@ -57,7 +49,7 @@ public class BasicPublicCompanyServiceImpl implements BasicPublicCompanyService 
     @Override
     public ResponseBase serviceSaveCompany(BasicPublicCompany company) {
         //新增公司数据
-        int result = companyMapper.saveCompany((BasicPublicCompany) logStatusService.setObjStatusId(company, Constants.SAVE));
+        int result = companyMapper.saveCompany((BasicPublicCompany) logStatusService.setObjStatusId(company));
         return JsonUtils.saveMsg(result);
     }
 }

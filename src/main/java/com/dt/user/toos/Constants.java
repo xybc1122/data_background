@@ -9,6 +9,8 @@ public interface Constants {
 
 
     String MODEL = "model:";
+
+    String STATUS_ID = "sId";
     /**
      * 文件上传存放地址
      */

@@ -1,21 +1,18 @@
 package com.dt.user.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.UserDto;
 import com.dt.user.exception.LsException;
-import com.dt.user.login.SsoWebLoginHelper;
+import com.dt.user.ssologin.SsoWebLoginHelper;
 import com.dt.user.mapper.UserMapper;
-import com.dt.user.model.SystemLogStatus;
 import com.dt.user.model.UserInfo;
 import com.dt.user.model.UserRole;
 import com.dt.user.netty.ChatType;
-import com.dt.user.service.HrArchivesEmployeeService;
-import com.dt.user.service.SystemLogStatusService;
-import com.dt.user.service.UserRoleService;
-import com.dt.user.service.UserService;
+import com.dt.user.service.*;
 import com.dt.user.store.ChatStore;
 import com.dt.user.toos.Constant;
 import com.dt.user.toos.Constants;
@@ -48,6 +45,9 @@ public class UserServiceImpl extends JsonData implements UserService {
     @Autowired
     private UserRoleService userRoleService;
 
+    @Autowired
+    private RedisService redisService;
+
     @Override
     public String serviceGetName(Long uId) {
         return userMapper.getName(uId);
@@ -55,7 +55,17 @@ public class UserServiceImpl extends JsonData implements UserService {
 
     @Override
     public UserInfo getUserStatus(Long uid) {
-        return userMapper.getUserStatus(uid);
+        String strRedis = redisService.getStringKey(Constants.USER + uid);
+        JSONObject userJson = JSONObject.parseObject(strRedis);
+        UserInfo redisUser = JSON.toJavaObject(userJson, UserInfo.class);
+        if (redisUser == null) {
+            UserInfo user = userMapper.getUserStatus(uid);
+            if (uid != null) {
+                redisService.setString(Constants.USER + uid, JSONObject.toJSONString(user));
+                return user;
+            }
+        }
+        return redisUser;
     }
 
     /**

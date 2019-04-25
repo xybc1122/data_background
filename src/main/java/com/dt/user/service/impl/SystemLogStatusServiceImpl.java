@@ -64,7 +64,7 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     public ResponseBase msgCodeUp(int result, SystemLogStatus logStatus, Long statusId) {
         if (result != 0) {
             //删除缓存
-            redisService.delKey(Constants.STATUS_ID + statusId);
+            // redisService.delKey(Constants.STATUS_ID + statusId);
             //更新状态的修改信息
             return serviceUpSysStatusInfo(logStatus, statusId);
         }

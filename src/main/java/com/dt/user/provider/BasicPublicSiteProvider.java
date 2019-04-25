@@ -69,6 +69,22 @@ public class BasicPublicSiteProvider {
         return sql.toString();
     }
 
+    public String selectSiteInfo(Map<String, Object> seMap) {
+        SQL sql = new SQL();
+        String rid = (String) seMap.get("rid");
+        Integer sid = (Integer) seMap.get("sid");
+        sql.SELECT(" se.`site_id`,se.`site_name`,se.site_short_name_eng \n" +
+                "FROM `basic_public_site` AS se");
+        sql.LEFT_OUTER_JOIN("`basic_public_shop_site` AS ss ON ss.`site_id`=se.`site_id`");
+        sql.WHERE("ss.`shop_id`=" + sid);
+        //如果不是空的
+        if (StringUtils.isNotBlank(rid)) {
+            sql.LEFT_OUTER_JOIN("`basic_public_shop_site_role` AS ssr ON ssr.`s_e_id`=ss.`s_se_id`");
+            sql.WHERE("ssr.`r_id`IN" + "('" + rid + "')");
+        }
+        return sql.toString();
+    }
+
     public String getSId(Map<String, String> sMap) {
         String country = sMap.get("country");
         String sName = sMap.get("sName");

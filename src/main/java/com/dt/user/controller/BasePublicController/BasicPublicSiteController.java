@@ -6,6 +6,7 @@ import com.dt.user.dto.SiteDto;
 import com.dt.user.model.BasePublicModel.BasicPublicSite;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
 import com.dt.user.utils.PageInfoUtils;
+import com.dt.user.utils.ReqUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.List;
 public class BasicPublicSiteController {
 
     @Autowired
-    private BasicPublicSiteService basicPublicSiteService;
+    private BasicPublicSiteService siteService;
 
     /**
      * 获得所有站点的信息
@@ -28,7 +29,7 @@ public class BasicPublicSiteController {
     @PostMapping("/findByListSite")
     public ResponseBase findByListSite(@RequestBody SiteDto siteDto) {
         PageInfoUtils.setPage(siteDto.getPageSize(), siteDto.getCurrentPage());
-        return PageInfoUtils.returnPage(basicPublicSiteService.findBySiteList(siteDto), siteDto.getCurrentPage());
+        return PageInfoUtils.returnPage(siteService.findBySiteList(siteDto), siteDto.getCurrentPage());
     }
 
     /**
@@ -37,8 +38,8 @@ public class BasicPublicSiteController {
      * @return
      */
     @GetMapping("/getByShopIdListSite")
-    public ResponseBase getByShopIdListSite(@RequestParam("sId") String sId) {
-        List<BasicPublicSite> shopIdSiteList = basicPublicSiteService.getShopIdTakeSiteList(Long.parseLong(sId));
+    public ResponseBase getByShopIdListSite(@RequestParam("sid") String sid) {
+        List<BasicPublicSite> shopIdSiteList = siteService.serviceSelectSiteInfo(Integer.parseInt(sid), ReqUtils.getRoleId());
         return JsonData.setResultSuccess(shopIdSiteList);
     }
 

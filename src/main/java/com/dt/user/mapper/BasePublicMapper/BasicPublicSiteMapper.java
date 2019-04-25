@@ -26,12 +26,8 @@ public interface BasicPublicSiteMapper {
     /**
      * 通过店铺id查询站点信息
      */
-    @Select("SELECT\n" +
-            "se.`site_id`,se.`site_name`,se.site_short_name_eng\n" +
-            "FROM `basic_public_site` AS se\n" +
-            "LEFT JOIN `basic_public_shop_site` AS ss ON ss.`site_id`=se.`site_id`\n" +
-            "WHERE ss.`shop_id`=#{sId} AND  ss.r_id in (#{rId})")
-    List<BasicPublicSite> getShopIdTakeSiteList(@Param("sId") Long sId, @Param("rId") String rId);
+    @SelectProvider(type = BasicPublicSiteProvider.class, method = "selectSiteInfo")
+    List<BasicPublicSite> selectSiteInfo(@Param("sid") Integer sid, @Param("rid") String rid);
 
     /**
      * 通过url 去查询site ID

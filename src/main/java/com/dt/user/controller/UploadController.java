@@ -4,7 +4,7 @@ package com.dt.user.controller;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.customize.PermissionCheck;
-import com.dt.user.interceoter.LoginInterceoter;
+import com.dt.user.interceoter.LoginInterCenter;
 import com.dt.user.model.*;
 import com.dt.user.service.*;
 import com.dt.user.toos.Constants;
@@ -45,7 +45,7 @@ public class UploadController {
                                      request, HttpServletResponse response, @RequestBody Map<String, Object> fileMap) throws IOException {
         String filePath = (String) fileMap.get("filePath");
         FileUtils.downloadFile(filePath, response, request);
-        LoginInterceoter.sendJsonMessage(response, JsonData.setResultSuccess("下载成功"));
+        LoginInterCenter.sendJsonMessage(response, JsonData.setResultSuccess("下载成功"));
     }
 
     /**

@@ -2,6 +2,7 @@ package com.dt.user.mapper.BasePublicMapper;
 
 import com.dt.user.dto.ShopDto;
 import com.dt.user.model.BasePublicModel.BasicPublicShop;
+import com.dt.user.provider.BasicPublicShopProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
@@ -30,16 +31,17 @@ public interface BasicPublicShopMapper {
     List<ShopDto> findByListShop();
 
     /**
-     * 查询店铺名字
+     * 通过角色ID查询店铺名字
      *
      * @return
      */
-    @Select("SELECT `shop_id`,`shop_name`,`shop_short_code` from `basic_public_shop` AS s \n" +
-            "INNER JOIN `system_shop_role` AS pr ON pr.s_id= s.shop_id WHERE r_id in (#{rId})")
-    List<BasicPublicShop> getByListShopName(@Param("rId") String rId);
+    @SelectProvider(type = BasicPublicShopProvider.class, method = "selectShopInfo")
+    List<BasicPublicShop> selectShopInfo(@Param("rId") String rId);
+
+
 
     /**
-     * 查询店铺ID
+     * 通过店铺名称查询店铺ID
      *
      * @return
      */

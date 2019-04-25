@@ -4,8 +4,6 @@ import com.dt.user.dto.SiteDto;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicSiteMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicSite;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
-import com.dt.user.utils.ReqUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +21,8 @@ public class BasicPublicSiteServiceImpl implements BasicPublicSiteService {
     }
 
     @Override
-    public List<BasicPublicSite> getShopIdTakeSiteList(Long sId) {
-        return siteMapper.getShopIdTakeSiteList(sId, ReqUtils.getRoleId());
+    public List<BasicPublicSite> serviceSelectSiteInfo(Integer sId, String rid) {
+        return siteMapper.selectSiteInfo(sId, rid);
     }
 
     @Override

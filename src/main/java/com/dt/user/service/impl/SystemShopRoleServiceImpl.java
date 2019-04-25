@@ -31,35 +31,39 @@ public class SystemShopRoleServiceImpl implements SystemShopRoleService {
     @Transactional
     public ResponseBase serviceInsertShopRole(Map<String, Object> sRMap) {
         String shopIds = (String) sRMap.get("sIds");
+        String delSid = (String) sRMap.get("delSid");
         Integer rId = (Integer) sRMap.get("rId");
-        if (StringUtils.isBlank(shopIds) || rId == null) {
-            return JsonData.setResultError("参数为空，请检查");
-        }
+        if (rId == null) return JsonData.setResultError("参数为空,请检查");
         try {
-            int index = shopIds.indexOf(",");
-            if (index != -1) {
-                String[] sIdsArr = shopIds.split(",");
-                for (String sId : sIdsArr) {
-                    set(Integer.parseInt(sId), rId);
+            //如果删除 不是null
+            if (StringUtils.isNotBlank(delSid)) roleMapper.deleteByShopRole(rId, delSid);
+            //删除角色下的所有关联
+            if (StringUtils.isNotBlank(shopIds)) {
+                int index = shopIds.indexOf(",");
+                if (index != -1) {
+                    String[] sIdsArr = shopIds.split(",");
+                    for (String sId : sIdsArr) {
+                        set(Integer.parseInt(sId), rId);
+                    }
+                    return JsonData.setResultSuccess("success");
                 }
-                return JsonData.setResultSuccess("success");
+                //如果只有一个参数 直接更新;
+                set(Integer.parseInt(shopIds), rId);
             }
-            //如果只有一个参数 直接更新;
-            set(Integer.parseInt(shopIds), rId);
-            return JsonData.setResultSuccess("success");
         } catch (Exception e) {
             return JsonData.setResultError("error");
         }
+        return JsonData.setResultSuccess("success");
     }
 
     /**
      * 设置参数
      *
-     * @param sId
-     * @param rId
+     * @param sid
+     * @param rid
      */
-    public void set(Integer sId, Integer rId) {
+    public void set(Integer sid, Integer rid) {
         //添加店铺ID  添加角色ID
-        roleMapper.insertShopRole(new SystemShopRole(rId, sId, new Date().getTime(), ReqUtils.getUserName()));
+        roleMapper.insertShopRole(new SystemShopRole(rid, sid, new Date().getTime(), ReqUtils.getUserName()));
     }
 }

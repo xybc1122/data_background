@@ -28,26 +28,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-
     @Autowired
     private RedisService redisService;
-
-
-    /**
-     * 获取用户管理信息的一些信息
-     *
-     * @param pageDto
-     * @return
-     * @PermissionCheck 自定义权限 需要show 才能查看
-     */
-    @PostMapping("/show")
-    @PermissionCheck("show")
-    public ResponseBase showUsers(@RequestBody UserDto pageDto) {
-        PageInfoUtils.setPage(pageDto.getPageSize(), pageDto.getCurrentPage());
-        List<UserInfo> listUser = userService.findByUsers(pageDto);
-        return PageInfoUtils.returnPage(listUser, pageDto.getCurrentPage());
-    }
 
 
     /**
@@ -60,44 +42,6 @@ public class UserController {
         return JsonData.setResultSuccess(userService.getByUsers());
     }
 
-    /**
-     * 更新用户信息
-     *
-     * @return
-     */
-    @PostMapping("/upUserInfo")
-    public ResponseBase userInfoUp(@RequestBody Map<String, Object> userMap) {
-        return userService.updateUserInfo(userMap);
-    }
-
-
-    /**
-     * 删除用户信息
-     *
-     * @return
-     */
-    @PostMapping("/delUserInfo")
-    public ResponseBase userInfoDel(@RequestBody Map<String, Object> delMap) {
-        int count = userService.delUserInfo(delMap.get("ids").toString());
-        if (count > 0) {
-            return JsonData.setResultSuccess(count);
-        }
-        return JsonData.setResultError("删除失败~");
-    }
-
-    /**
-     * 恢复用户信息
-     *
-     * @return
-     */
-    @PostMapping("/reUserInfo")
-    public ResponseBase userInfoRe(@RequestBody Map<String, Object> reMap) {
-        int count = userService.reUserInfo(reMap.get("ids").toString());
-        if (count > 0) {
-            return JsonData.setResultSuccess(count);
-        }
-        return JsonData.setResultError("恢复失败~");
-    }
 
     /**
      * 获得一个用户的信息
@@ -114,22 +58,6 @@ public class UserController {
         return JsonData.setResultSuccess(userInfo);
     }
 
-
-    /**
-     * 获得历史删除的用户信息
-     *
-     * @param pageDto 用户对象
-     * @return JSON 对象
-     */
-    @PostMapping("/getDelUser")
-    public ResponseBase getDelUser(@RequestBody UserDto pageDto) {
-        PageHelper.startPage(pageDto.getCurrentPage(), pageDto.getPageSize());
-        List<UserInfo> userDel = userService.findByDelUserInfo();
-        PageInfo<UserInfo> pageInfo = new PageInfo<>(userDel);
-        Integer currentPage = pageDto.getCurrentPage();
-        return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
-    }
-
     /**
      * 查询用户名字是否存在
      *
@@ -140,17 +68,6 @@ public class UserController {
     public ResponseBase getUserName(@RequestParam("userName") String userName) {
         UserInfo userInfoName = userService.getUserName(userName);
         return JsonData.setResultSuccess(userInfoName);
-    }
-
-    /**
-     * 新增用户
-     *
-     * @param userMap 前端传的数据
-     * @return JSON 对象
-     */
-    @PostMapping("/saveUserInfo")
-    public ResponseBase saveUserInfo(@RequestBody Map<String, Object> userMap) {
-        return userService.saveUserInfo(userMap);
     }
 
     /**

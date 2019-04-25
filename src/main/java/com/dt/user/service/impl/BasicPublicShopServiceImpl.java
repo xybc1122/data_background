@@ -23,8 +23,8 @@ public class BasicPublicShopServiceImpl implements BasicPublicShopService {
     }
 
     @Override
-    public List<BasicPublicShop> getByListShopName() {
-        return shopMapper.getByListShopName(ReqUtils.getRoleId());
+    public List<BasicPublicShop> getByListShopName(String rId) {
+        return shopMapper.selectShopInfo(rId);
     }
 
     @Override

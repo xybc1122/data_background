@@ -19,7 +19,7 @@ public interface BasicPublicSiteService {
     /**
      * 通过店铺id查询站点信息
      */
-    List<BasicPublicSite> getShopIdTakeSiteList(Long sId);
+    List<BasicPublicSite> serviceSelectSiteInfo(Integer sId, String rid);
 
 
     /**
@@ -45,4 +45,6 @@ public interface BasicPublicSiteService {
      * @return
      */
     Integer getCurrencySiteId(String currency);
+
+
 }

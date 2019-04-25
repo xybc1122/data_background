@@ -27,8 +27,7 @@ public class StrUtils {
         sb.append("\n").append("WHERE ").append(thisId).append(" in (");
         for (String id : idsList) {
             if (idsList.indexOf(id) > 0)
-                sb.append(",");
-            sb.append("'").append(id).append("'");
+                sb.append(",").append(id);
         }
         sb.append(")");
         return sb.toString();

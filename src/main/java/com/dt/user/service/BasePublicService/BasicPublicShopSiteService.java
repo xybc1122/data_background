@@ -19,4 +19,5 @@ public interface BasicPublicShopSiteService {
      * @return
      */
     ResponseBase serviceInsertShopSite(BasicPublicShopSite shopSite);
+
 }

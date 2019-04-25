@@ -10,15 +10,17 @@ public interface BasicPublicShopService {
 
     /**
      * 查询店铺所有相关信息
+     *
      * @return
      */
     List<ShopDto> findByListShop();
 
     /**
-     * 查询店铺名字
+     * 通过角色id 查询店铺名字
+     *
      * @return
      */
-    List<BasicPublicShop> getByListShopName();
+    List<BasicPublicShop> getByListShopName(String rId);
 
 
     /**

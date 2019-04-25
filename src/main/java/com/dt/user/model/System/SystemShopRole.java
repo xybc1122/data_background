@@ -13,10 +13,10 @@ public class SystemShopRole  extends ConfTableParent {
     private Integer rsId;
 
 
-    public SystemShopRole(Integer rid, Integer rsId, Long createDate, String createUser) {
+    public SystemShopRole(Integer rid, Integer sid, Long createDate, String createUser) {
         super(createDate,createUser);
         this.rid = rid;
-        this.rsId = rsId;
+        this.sid = sid;
     }
 
 

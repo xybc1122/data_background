@@ -22,12 +22,6 @@ public class SystemShopRoleSqlProvider {
         return SQL();
     }
 
-    public String deleteByExample(SystemShopRole example) {
-        BEGIN();
-        DELETE_FROM("system_shop_role");
-        return SQL();
-    }
-
     public String insertSelective(SystemShopRole record) {
         BEGIN();
         INSERT_INTO("system_shop_role");

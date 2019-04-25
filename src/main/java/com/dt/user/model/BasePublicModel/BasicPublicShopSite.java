@@ -6,9 +6,8 @@ package com.dt.user.model.BasePublicModel;
 public class BasicPublicShopSite {
     private Long shopId;
     private Long siteId;
-    private Long id;
+    private Long sSeId;
     private Integer rId;
-    private Long statusId;
 
     public Long getShopId() {
         return shopId;
@@ -26,12 +25,12 @@ public class BasicPublicShopSite {
         this.siteId = siteId;
     }
 
-    public Long getId() {
-        return id;
+    public Long getsSeId() {
+        return sSeId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setsSeId(Long sSeId) {
+        this.sSeId = sSeId;
     }
 
     public Integer getrId() {
@@ -42,14 +41,6 @@ public class BasicPublicShopSite {
         this.rId = rId;
     }
 
-    public Long getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -58,9 +49,7 @@ public class BasicPublicShopSite {
         sb.append("Hash = ").append(hashCode());
         sb.append(", shopId=").append(shopId);
         sb.append(", siteId=").append(siteId);
-        sb.append(", id=").append(id);
         sb.append(", rId=").append(rId);
-        sb.append(", statusId=").append(statusId);
         sb.append("]");
         return sb.toString();
     }

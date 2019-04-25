@@ -41,18 +41,6 @@ public interface BasicPublicShopSiteMapper {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     int insertSelective(BasicPublicShopSite record);
 
-    @SelectProvider(type = BasicPublicShopSiteSqlProvider.class, method = "selectByExample")
-    @Results({
-            @Result(column = "shop_id", property = "shopId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "site_id", property = "siteId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "id", property = "id", jdbcType = JdbcType.BIGINT),
-            @Result(column = "status", property = "status", jdbcType = JdbcType.INTEGER),
-            @Result(column = "version", property = "version", jdbcType = JdbcType.INTEGER),
-            @Result(column = "del_or_not", property = "delOrNot", jdbcType = JdbcType.BIT),
-            @Result(column = "r_id", property = "rId", jdbcType = JdbcType.INTEGER),
-            @Result(column = "status_id", property = "statusId", jdbcType = JdbcType.BIGINT)
-    })
-    List<BasicPublicShopSite> selectByExample(BasicPublicShopSite example);
 
     @UpdateProvider(type = BasicPublicShopSiteSqlProvider.class, method = "updateByExampleSelective")
     int updateByExampleSelective(@Param("record") BasicPublicShopSite record, @Param("example") BasicPublicShopSite example);

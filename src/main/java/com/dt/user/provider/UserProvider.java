@@ -167,7 +167,7 @@ public class UserProvider {
     public String delUserInfo(Map<String, Object> mapDel) {
         String uidIds = mapDel.get("uidIds").toString();
         return StrUtils.updateSql(uidIds,
-                "UPDATE `system_user_info`\n" + "SET `del_or_not` = ", "1", "`modify_date` = ", "uid");
+                "UPDATE `system_user_info`\n" + "SET `del_or_not` = ", "1", ",`modify_date` = ", "uid");
 
     }
 

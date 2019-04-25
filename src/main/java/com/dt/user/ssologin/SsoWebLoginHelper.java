@@ -1,4 +1,4 @@
-package com.dt.user.login;
+package com.dt.user.ssologin;
 
 import com.dt.user.exception.LsException;
 import com.dt.user.model.UserInfo;
@@ -15,7 +15,7 @@ public class SsoWebLoginHelper {
 
 
     /**
-     * client login
+     * client ssologin
      */
     public static void login(UserInfo user, String pwd) {
         if (!user.getPwd().equals(pwd)) {

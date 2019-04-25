@@ -21,7 +21,7 @@ import java.io.PrintWriter;
 /**
  * 监听器
  */
-public class LoginInterceoter implements HandlerInterceptor {
+public class LoginInterCenter implements HandlerInterceptor {
     private static Gson gson = new Gson();
 
     /**
@@ -36,7 +36,7 @@ public class LoginInterceoter implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //        System.out.println("监听器过滤");
-//        System.out.println(request.getRequestURI());
+        System.out.println(request.getRequestURL());
         UserService userService = ApplicationContextRegister.getBean(UserService.class);
         RedisService redisService = ApplicationContextRegister.getBean(RedisService.class);
         String token = request.getHeader("token");
@@ -51,7 +51,7 @@ public class LoginInterceoter implements HandlerInterceptor {
                 String uName = (String) claims.get("name");
                 String rId = (String) claims.get("rId");
                 //查询redis中的token
-                String vRedis = redisService.getStringKey(uName + "token");
+                String vRedis = redisService.getStringKey(uName + Constants.TOKEN);
                 //如果是null 说明 token 已经过期
                 if (StringUtils.isEmpty(vRedis)) {
                     sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "令牌失效，请重新登陆"));
@@ -79,15 +79,23 @@ public class LoginInterceoter implements HandlerInterceptor {
                 }
                 //首次登陆修改密码接口
                 if (request.getRequestURI().equals("/api/v1/user/upPwd")) {
-                    ReqUtils.set(request, uId, uName,rId);
+                    ReqUtils.set(request, uId, uName, rId);
                     return true;
+                }
+                //如果请求的是超级管理员配置接口
+                if (request.getRequestURI().contains("/api/v1/admin")) {
+                    String redisValue = redisService.getStringKey(Constants.ADMIN + uId);
+                    if (StringUtils.isBlank(redisValue)) {
+                        sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RES_CODE, "你不是超级管理员"));
+                        return false;
+                    }
                 }
                 //首次登陆 需要修改密码
                 if (user.getFirstLogin()) {
                     sendJsonMessage(response, JsonData.setResultError(Constants.FIRST_CODE, "首次登陆修改密码"));
                     return false;
                 }
-                ReqUtils.set(request, uId, uName,rId);
+                ReqUtils.set(request, uId, uName, rId);
                 return true;
             }
             sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "令牌错误 请重新登陆"));

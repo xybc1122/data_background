@@ -1,7 +1,6 @@
 package com.dt.user.service.SystemService;
 
 import com.dt.user.config.ResponseBase;
-import com.dt.user.model.System.SystemShopRole;
 
 import java.util.Map;
 
@@ -21,6 +20,5 @@ public interface SystemShopRoleService {
      * @return
      */
     ResponseBase serviceInsertShopRole(Map<String, Object> sRMap);
-
 
 }

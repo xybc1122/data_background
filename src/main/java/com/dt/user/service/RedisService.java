@@ -16,6 +16,7 @@ public class RedisService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
+
     @Autowired
     private RedisTemplate redisTemplate;
 //
@@ -391,6 +392,9 @@ public class RedisService {
         }
         return null;
     }
+
+
+
 
     public String getListKey(String key) {
         if (key != null) {

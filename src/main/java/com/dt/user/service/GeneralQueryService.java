@@ -9,9 +9,4 @@ package com.dt.user.service;
 public interface GeneralQueryService {
 
 
-    /**
-     * 封装判断 statusId服务  通过用查询 状态ID
-     */
-    void statusIdExist(String key);
-
 }

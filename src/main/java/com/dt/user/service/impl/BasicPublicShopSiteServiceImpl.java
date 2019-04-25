@@ -24,4 +24,6 @@ public class BasicPublicShopSiteServiceImpl implements BasicPublicShopSiteServic
 
         return null;
     }
+
+
 }

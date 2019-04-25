@@ -11,6 +11,9 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.user.model.BasePublicModel.BasicPublicShopSite;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.jdbc.SQL;
+
 import java.util.Map;
 
 public class BasicPublicShopSiteSqlProvider {
@@ -31,65 +34,39 @@ public class BasicPublicShopSiteSqlProvider {
     public String insertSelective(BasicPublicShopSite record) {
         BEGIN();
         INSERT_INTO("basic_public_shop_site");
-        
+
         if (record.getShopId() != null) {
             VALUES("shop_id", "#{shopId,jdbcType=BIGINT}");
         }
-        
+
         if (record.getSiteId() != null) {
             VALUES("site_id", "#{siteId,jdbcType=BIGINT}");
         }
-        
+
 
         if (record.getrId() != null) {
             VALUES("r_id", "#{rId,jdbcType=INTEGER}");
         }
-        
-        if (record.getStatusId() != null) {
-            VALUES("status_id", "#{statusId,jdbcType=BIGINT}");
-        }
-        
-        return SQL();
-    }
-
-    public String selectByExample(BasicPublicShopSite example) {
-        BEGIN();
-        SELECT("site_id");
-        SELECT("id");
-        SELECT("status");
-        SELECT("version");
-        SELECT("del_or_not");
-        SELECT("r_id");
-        SELECT("status_id");
-        FROM("basic_public_shop_site");
 
         return SQL();
     }
-
     public String updateByExampleSelective(Map<String, Object> parameter) {
         BasicPublicShopSite record = (BasicPublicShopSite) parameter.get("record");
-        
+
         BEGIN();
         UPDATE("basic_public_shop_site");
-        
+
         if (record.getShopId() != null) {
             SET("shop_id = #{record.shopId,jdbcType=BIGINT}");
         }
-        
+
         if (record.getSiteId() != null) {
             SET("site_id = #{record.siteId,jdbcType=BIGINT}");
         }
-        
-        if (record.getId() != null) {
-            SET("id = #{record.id,jdbcType=BIGINT}");
-        }
+
 
         if (record.getrId() != null) {
             SET("r_id = #{record.rId,jdbcType=INTEGER}");
-        }
-        
-        if (record.getStatusId() != null) {
-            SET("status_id = #{record.statusId,jdbcType=BIGINT}");
         }
 
         return SQL();
@@ -98,7 +75,7 @@ public class BasicPublicShopSiteSqlProvider {
     public String updateByExample(Map<String, Object> parameter) {
         BEGIN();
         UPDATE("basic_public_shop_site");
-        
+
         SET("shop_id = #{record.shopId,jdbcType=BIGINT}");
         SET("site_id = #{record.siteId,jdbcType=BIGINT}");
         SET("id = #{record.id,jdbcType=BIGINT}");

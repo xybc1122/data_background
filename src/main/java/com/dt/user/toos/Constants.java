@@ -7,10 +7,20 @@ public interface Constants {
      */
     String TOKEN = "token";
 
-
+    /**
+     * 通过模型去条件查询 key
+     */
     String MODEL = "model:";
 
-    String STATUS_ID = "sId";
+    String STATUS_ID = "sId:";
+    /**
+     * 管理员reid key
+     */
+    String ADMIN = "admin:";
+    /**
+     * user key
+     */
+    String USER = "user:";
     /**
      * 文件上传存放地址
      */

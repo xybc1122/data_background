@@ -9,7 +9,7 @@ import java.util.List;
 public class StrUtils {
 
     /**
-     * 更新sql //批量删除数据
+     * 更新sql // 批量删除数据  针对基础资料 一些通过用的方法
      *
      * @param delIds
      * @param sql
@@ -25,6 +25,26 @@ public class StrUtils {
             sb.append(delDate).append(new Date().getTime());
         }
         sb.append("\n").append("WHERE ").append(thisId).append(" in (");
+        for (String id : idsList) {
+            if (idsList.indexOf(id) > 0)
+                sb.append(",").append(id);
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    /**
+     * 拼接删除in sql
+     *
+     * @param delIds
+     * @param thisId
+     * @return
+     */
+    public static String delInSql(String delIds, String thisId) {
+        String[] newDelIds = delIds.split(",");
+        List<String> idsList = java.util.Arrays.asList(newDelIds);
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n").append("WHERE").append(thisId).append(" in (");
         for (String id : idsList) {
             if (idsList.indexOf(id) > 0)
                 sb.append(",").append(id);

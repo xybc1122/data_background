@@ -28,17 +28,18 @@ public class TableHeadImpl implements TableHeadService {
     @Override
     @Transactional
     public ResponseBase ReHead(TableHead tableHead) {
-        try {
-            if (tableHead.getHeadList() != null && tableHead.getHeadList().size() > 0) {
-                for (TableHead t : tableHead.getHeadList()) {
-                    serviceUpHead(t);
-                }
+
+        if (tableHead.getHeadList() != null && tableHead.getHeadList().size() > 0) {
+            int count = 0;
+            for (TableHead t : tableHead.getHeadList()) {
+                count += serviceUpHead(t);
+            }
+            if (count == tableHead.getHeadList().size()) {
                 return JsonData.setResultSuccess("引用成功");
             }
-        } catch (Exception e) {
-            throw new LsException("引用头异常" + e.getMessage());
+            throw new LsException("引用失败");
         }
-        return JsonData.setResultError("引用失败");
+        return JsonData.setResultError("参数无效");
     }
 
     @Override

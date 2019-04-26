@@ -348,7 +348,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                                 break;
                             }
                         }
-                        if (abandonList != null) {
+                        if (abandon != null) {
                             abandonList.add(abandon);
                         }
                         break;
@@ -436,15 +436,20 @@ public class ConsumerServiceImpl implements ConsumerService {
             //币别
             String currency = StrUtils.repString(j[i]);
             //这里判断不为null的
+            Integer seId;
             if (StringUtils.isNotBlank(currency)) {
                 //通过币别去查找站点ID
-                Integer seId = siteService.getCurrencySiteId(currency);
-                if (seId == null) {
-                    return null;
-                }
+                seId = siteService.getCurrencySiteId(currency);
+                if (seId == null) return null;
+                ab.setSiteId(seId);
+                ab.setCurrency(currency);
             } else {
                 //如果是null 的直接存了
-                ab.setCurrency(StrUtils.repString(j[i]));
+                ab.setCurrency(currency);
+                //通过 Aid 店铺id 去站点查找
+                seId = siteService.selectAidAndSite(ab.getAreaId());
+                if (seId == null) return null;
+                ab.setSiteId(seId);
             }
         }
         if (i + 1 == j.length) {
@@ -630,9 +635,14 @@ public class ConsumerServiceImpl implements ConsumerService {
         } else if (txtHeadList.get(i).equals(isImportHead.get(5).getImportTemplet()) && isImportHead.get(5).getOpenClose()) {
             String fc = StrUtils.repString(j[i]);
             BasicSalesAmazonWarehouse warehouse = warehouseService.getWarehouse(fc);
-            if (warehouse == null) return null;
+            if (warehouse == null || warehouse.getSiteId() == null || warehouse.getAmazonWarehouseId() == null)
+                return null;
             ie.setFc(fc);
             ie.setSiteId(warehouse.getSiteId());
+            //查找skuId
+            Long skuId = skuService.selSkuId(ie.getShopId(), ie.getSiteId(), ie.getInvSku());
+            if (skuId == null) return null;
+            ie.setSkuId(skuId);
             ie.setAwId(warehouse.getAmazonWarehouseId());
         } else if (txtHeadList.get(i).equals(isImportHead.get(6).getImportTemplet()) && isImportHead.get(6).getOpenClose()) {
             ie.setDisposition(StrUtils.repString(j[i]));

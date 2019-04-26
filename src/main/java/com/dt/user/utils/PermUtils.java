@@ -1,6 +1,7 @@
 package com.dt.user.utils;
 
 import com.dt.user.config.ApplicationContextRegister;
+import com.dt.user.exception.LsException;
 import com.dt.user.model.Permission;
 import com.dt.user.service.PermsMapperService;
 import com.dt.user.service.RoleService;
@@ -29,6 +30,7 @@ public class PermUtils {
         Set<String> roles = roleService.getAllRolesByUid(uid.longValue());
         //获得权限
         Set<String> perms = permsService.findByPerms(uid.longValue());
+        if (perms == null || perms.size() <= 0) throw new LsException("无权操作");
         Permission info = new Permission();
         info.setRoles(roles);
         info.setPermissions(perms);

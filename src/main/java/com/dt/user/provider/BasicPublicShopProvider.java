@@ -21,7 +21,7 @@ public class BasicPublicShopProvider {
         if (StringUtils.isNotBlank(rid)) {
             sql.INNER_JOIN("`system_shop_role` AS pr ON pr.s_id= s.shop_id");
             sql.WHERE("r_id in (#{rId})");
-
+            sql.GROUP_BY("s.shop_name");
         }
         return sql.toString();
     }

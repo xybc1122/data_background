@@ -25,7 +25,7 @@ public class BasicPublicAreaProvider {
         }
         sql.SELECT(" ar.`ar_id`,`area_id`,`area_name`,`area_short_name_eng` from  basic_public_area AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_area_role` AS ar ON ar.`a_id` = a.`area_id`");
-        return sql.toString() + " WHERE " + StrUtils.in(rids, "ar.`r_id`");
+        return sql.toString() + " WHERE " + StrUtils.in(rids, "ar.`r_id`") + " GROUP BY "+Alias+".area_name";
     }
 
 

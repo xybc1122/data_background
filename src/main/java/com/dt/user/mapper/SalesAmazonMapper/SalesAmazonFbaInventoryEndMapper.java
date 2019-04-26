@@ -20,7 +20,7 @@ public interface SalesAmazonFbaInventoryEndMapper {
 
 
     /**
-     * 查询接收库存数据
+     * 查询期末库存数据
      */
     @SelectProvider(type = SalesAmazonFbaInventoryEndProvider.class, method = "getEndInfo")
     List<SalesAmazonFbaInventoryEnd> findByListEnd(SalesAmazonFbaInventoryEnd end);

@@ -7,7 +7,6 @@ import com.dt.user.dto.AreaDto;
 import com.dt.user.dto.RoleDto;
 import com.dt.user.dto.UserDto;
 import com.dt.user.model.BasePublicModel.BasicPublicShop;
-import com.dt.user.model.BasePublicModel.BasicPublicSite;
 import com.dt.user.model.Role;
 import com.dt.user.model.UserInfo;
 import com.dt.user.service.BasePublicService.BasicPublicAreaService;

@@ -44,4 +44,9 @@ public class BasicPublicSiteServiceImpl implements BasicPublicSiteService {
     public List<BasicPublicSite> selectAidSiteAdmin(Integer aid) {
         return siteMapper.selectAidSite(aid);
     }
+
+    @Override
+    public Integer selectAidAndSite(Integer aid) {
+        return siteMapper.selectAidAndSite(aid);
+    }
 }

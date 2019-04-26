@@ -55,4 +55,13 @@ public interface BasicPublicSiteService {
      */
     List<BasicPublicSite> selectAidSiteAdmin(Integer aid);
 
+
+    /**
+     * 通过区域ID 去查找 站点ID  只取第一位
+     *
+     * @param aid
+     * @return
+     */
+    Integer selectAidAndSite(Integer aid);
+
 }

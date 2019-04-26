@@ -27,11 +27,11 @@ public class HeadMenuController {
     @SuppressWarnings("unchecked")
     @PostMapping("/saveHeadMenu")
     public ResponseBase saveHeadMenu(@RequestBody Map<String, Object> mhMap) {
-        String mId = (String) mhMap.get("mId");
+        String mid = (String) mhMap.get("mid");
         List<Integer> thIds = (List<Integer>) mhMap.get("thIds");
         TbHeadMenu tbHeadMenu = new TbHeadMenu();
         for (int i = 0; i < thIds.size(); i++) {
-            tbHeadMenu.setMid(Long.parseLong(mId));
+            tbHeadMenu.setMid(Long.parseLong(mid));
             tbHeadMenu.setThId(thIds.get(i).longValue());
             headMenuMapperService.addHeadMenu(tbHeadMenu);
         }
@@ -46,13 +46,13 @@ public class HeadMenuController {
     @SuppressWarnings("unchecked")
     @PostMapping("/delTbHeadMenu")
     public ResponseBase delTbHeadMenu(@RequestBody Map<String, Object> mhMap) {
-        String mId = (String) mhMap.get("mId");
+        String mid = (String) mhMap.get("mid");
         List<Integer> thIds = (List<Integer>) mhMap.get("thIds");
         TbHeadMenu tbHeadMenu = new TbHeadMenu();
-        for (int i = 0; i < thIds.size(); i++) {
-            tbHeadMenu.setMid(Long.parseLong(mId));
-            tbHeadMenu.setThId(thIds.get(i).longValue());
-                headMenuMapperService.delHeadMenu(tbHeadMenu);
+        for (Integer thId : thIds) {
+            tbHeadMenu.setMid(Long.parseLong(mid));
+            tbHeadMenu.setThId(thId.longValue());
+            headMenuMapperService.delHeadMenu(tbHeadMenu);
         }
         return JsonData.setResultSuccess("删除成功");
     }

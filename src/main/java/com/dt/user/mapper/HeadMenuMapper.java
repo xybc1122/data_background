@@ -12,7 +12,7 @@ public interface HeadMenuMapper {
      * 新增菜单关联数据
      */
     @Insert("INSERT INTO `system_user_menu_field`(`m_id`,`field_id`)\n" +
-            "VALUES (#{mId},#{thId})")
+            "VALUES (#{mid},#{thId})")
     int addHeadMenu(TbHeadMenu tbHeadMenu);
 
     /**

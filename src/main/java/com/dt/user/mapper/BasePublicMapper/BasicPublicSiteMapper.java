@@ -30,7 +30,7 @@ public interface BasicPublicSiteMapper {
     List<BasicPublicSite> selectSiteInfo(@Param("arId") Integer arId);
 
     /**
-     * admin配置 通过 aid 查询站点
+     * admin   配置 通过 aid 查询站点
      *
      * @param aid
      * @return
@@ -49,6 +49,15 @@ public interface BasicPublicSiteMapper {
             "WHERE url=#{url}")
     Integer getUrlSiteId(@Param("url") String url);
 
+    /**
+     * 通过arId 去查找站点ID 只取第一行
+     *
+     * @param aid
+     * @return
+     */
+    @Select("select se.`site_id`\n" +
+            "FROM `basic_public_site` AS se where area_id = #{aid} LIMIT 1")
+    Integer selectAidAndSite(@Param("aid") Integer aid);
 
     /**
      * 通过币别 currency 去查询site ID

@@ -8,6 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
+import java.text.SimpleDateFormat;
+
 /**
  * @ClassName SystemFinalProcessingServiceImpl
  * Description TODO
@@ -21,8 +25,10 @@ public class SystemFinalProcessingServiceImpl implements SystemFinalProcessingSe
 
     @Override
     public ResponseBase selectByDateCheckout(Integer menuId) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         String date = pMapper.selectByDateCheckout(menuId);
-        if (StringUtils.isNotBlank(date)) return JsonData.setResultSuccess("",date);
+        if (StringUtils.isNotBlank(date))
+            return JsonData.setResultSuccess("success", date + ":" + format.format(new Date()));
         return JsonData.setResultError("无时间数据");
     }
 }

@@ -43,12 +43,9 @@ public class SalesAmazonFbaInventoryEndProvider {
         SQL sql = new SQL();
         String alias = "re";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
-                "`ref_id`, `purchase_date`,\n" +
-                "`order_id`, `ref_sku`, re.`s_asin`,`fn_sku`,\n" +
-                "`p_name`, `quantity`, `fc`, `aw_id`,\n" +
-                "`detailed_disposition`,`reason`,`refund_status`,\n" +
-                "`license_plate_number`,`customer_remarks`," + ProviderSqlStore.statusV + "" +
-                "FROM sales_amazon_fba_refund AS " + alias + " \n");
+                "`date`,`inv_id`,`inv_sku`,`fn_sku`,\n" +
+                "`quantity`,`fc`,`aw_id`,`disposition`,`country`," + ProviderSqlStore.statusV + "" +
+                "FROM sales_amazon_fba_Inventory_End AS " + alias + " \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");

@@ -40,17 +40,14 @@ public class StrUtils {
      * @param thisId
      * @return
      */
-    public static String delInSql(String delIds, String thisId) {
-        String[] newDelIds = delIds.split(",");
-        List<String> idsList = java.util.Arrays.asList(newDelIds);
+    public static String in(String delIds, String thisId) {
+        String[] delStr = delIds.split(",");
         StringBuilder sb = new StringBuilder();
-        sb.append("\n").append("WHERE").append(thisId).append(" in (");
-        for (String id : idsList) {
-            if (idsList.indexOf(id) > 0)
-                sb.append(",").append(id);
+        sb.append("\n").append(thisId).append(" in (");
+        for (String id : delStr) {
+            sb.append(id).append(",");
         }
-        sb.append(")");
-        return sb.toString();
+        return sb.substring(0, sb.length() - 1) + ")";
     }
 
     /**

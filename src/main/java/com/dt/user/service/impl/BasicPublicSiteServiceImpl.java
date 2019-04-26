@@ -21,8 +21,8 @@ public class BasicPublicSiteServiceImpl implements BasicPublicSiteService {
     }
 
     @Override
-    public List<BasicPublicSite> serviceSelectSiteInfo(Integer sId, String rid) {
-        return siteMapper.selectSiteInfo(sId, rid);
+    public List<BasicPublicSite> serviceSelectSiteInfo(Integer arId) {
+        return siteMapper.selectSiteInfo(arId);
     }
 
     @Override
@@ -38,5 +38,10 @@ public class BasicPublicSiteServiceImpl implements BasicPublicSiteService {
     @Override
     public Integer getCurrencySiteId(String currency) {
         return siteMapper.getCurrencySiteId(currency);
+    }
+
+    @Override
+    public List<BasicPublicSite> selectAidSiteAdmin(Integer aid) {
+        return siteMapper.selectAidSite(aid);
     }
 }

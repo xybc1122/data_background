@@ -24,10 +24,20 @@ public interface BasicPublicSiteMapper {
     List<SiteDto> findBySiteList(SiteDto siteDto);
 
     /**
-     * 通过店铺id查询站点信息
+     * 通过区域角色 id 查询 站点信息
      */
     @SelectProvider(type = BasicPublicSiteProvider.class, method = "selectSiteInfo")
-    List<BasicPublicSite> selectSiteInfo(@Param("sid") Integer sid, @Param("rid") String rid);
+    List<BasicPublicSite> selectSiteInfo(@Param("arId") Integer arId);
+
+    /**
+     * admin配置 通过 aid 查询站点
+     *
+     * @param aid
+     * @return
+     */
+    @Select("select se.`site_id`,se.`site_name`\n" +
+            "FROM `basic_public_site` AS se where area_id = #{aid}")
+    List<BasicPublicSite> selectAidSite(@Param("aid") Integer aid);
 
     /**
      * 通过url 去查询site ID

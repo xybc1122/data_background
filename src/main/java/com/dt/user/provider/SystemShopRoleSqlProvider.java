@@ -18,14 +18,13 @@ import java.util.Map;
 public class SystemShopRoleSqlProvider {
 
 
-    public String delSr(Map<String, String> srMap) {
-        String rid = srMap.get("rid");
-        String delSid = srMap.get("delSid");
+    public String delSr(Map<String, Object> srMap) {
+        Integer rid = (Integer) srMap.get("rid");
+        String delSid = (String) srMap.get("delSid");
         SQL sql = new SQL();
         sql.DELETE_FROM("`system_shop_role`");
         sql.WHERE("`r_id` =" + rid);
-        sql.AND();
-        return sql.toString() + StrUtils.delInSql(delSid, "s_id");
+        return sql.toString() + " AND " + StrUtils.in(delSid, "`s_id`");
     }
 
 

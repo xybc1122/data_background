@@ -185,18 +185,23 @@ public class AdminController {
 
 
     /**
-     * 通过店铺获得所有站点信息
+     * 获得区域的信息
      *
      * @return
      */
-    @GetMapping("/selectSiteList")
-    public ResponseBase selectSiteList(@RequestParam("sid") String sid) {
-        return JsonData.setResultSuccess(siteService.serviceSelectSiteInfo(Integer.parseInt(sid), null));
+    @GetMapping("/selectReg")
+    public ResponseBase selectReg() {
+        return JsonData.setResultSuccess(areaService.selectRegion(null));
     }
 
-    @GetMapping("/selectArea")
-    public ResponseBase findByListRegion() {
-        return JsonData.setResultSuccess(areaService.findByListArea());
-    }
 
+    /**
+     * 获得站点信息
+     *
+     * @return
+     */
+    @GetMapping("/selectSite")
+    public ResponseBase selectSite(@RequestParam("aid") String aid) {
+        return JsonData.setResultSuccess(siteService.selectAidSiteAdmin(Integer.parseInt(aid)));
+    }
 }

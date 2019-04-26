@@ -17,9 +17,9 @@ public interface BasicPublicSiteService {
 
 
     /**
-     * 通过店铺id查询站点信息
+     * 通过区域角色id 查询站点
      */
-    List<BasicPublicSite> serviceSelectSiteInfo(Integer sId, String rid);
+    List<BasicPublicSite> serviceSelectSiteInfo(Integer arId);
 
 
     /**
@@ -46,5 +46,13 @@ public interface BasicPublicSiteService {
      */
     Integer getCurrencySiteId(String currency);
 
+
+    /**
+     * admin配置 通过 aid 查询站点
+     *
+     * @param aid
+     * @return
+     */
+    List<BasicPublicSite> selectAidSiteAdmin(Integer aid);
 
 }

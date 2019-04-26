@@ -26,9 +26,18 @@ public class BasicPublicArea extends ParentSysTemLog {
      * 区域英文检称
      */
     private String areaShortNameEng;
+    /**
+     * 区域角色id
+     */
+    private Integer arId;
 
+    public Integer getArId() {
+        return arId;
+    }
 
-
+    public void setArId(Integer arId) {
+        this.arId = arId;
+    }
 
     public Long getAreaId() {
         return areaId;
@@ -54,6 +63,7 @@ public class BasicPublicArea extends ParentSysTemLog {
     public void setAreaNameEng(String areaNameEng) {
         this.areaNameEng = areaNameEng;
     }
+
     public Long getNumber() {
         return number;
     }

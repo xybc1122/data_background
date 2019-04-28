@@ -1,7 +1,4 @@
 package com.dt.user.model.System;
-
-import java.util.Date;
-
 /**
  * 关账 结账 控制对象
  */

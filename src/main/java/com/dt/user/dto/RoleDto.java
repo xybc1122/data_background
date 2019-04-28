@@ -28,6 +28,10 @@ public class RoleDto extends Role {
      * 用户ids
      */
     private String uIds;
+    /**
+     * 站点ids
+     */
+    private String seIds;
 
     public String getuIds() {
         return uIds;
@@ -75,5 +79,13 @@ public class RoleDto extends Role {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getSeIds() {
+        return seIds;
+    }
+
+    public void setSeIds(String seIds) {
+        this.seIds = seIds;
     }
 }

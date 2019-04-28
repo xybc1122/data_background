@@ -43,9 +43,11 @@ public class JavaSqlNameServiceImpl implements JavaSqlNameService {
         if (StringUtils.isEmpty(rList)) {
             //走DB
             List<JavaSqlName> javaSqlNames = nameMapper.get(model);
-            //刷入缓存
-            redisService.setString(Constants.MODEL + model, JsonUtils.getJsonObj(javaSqlNames));
-            return javaSqlNames;
+            if (javaSqlNames != null && javaSqlNames.size() > 0) {
+                //刷入缓存
+                redisService.setString(Constants.MODEL + model, JsonUtils.getJsonObj(javaSqlNames));
+                return javaSqlNames;
+            }
         }
         return JSONObject.parseArray(rList, JavaSqlName.class);
     }

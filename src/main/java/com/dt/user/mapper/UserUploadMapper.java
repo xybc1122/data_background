@@ -21,12 +21,11 @@ public interface UserUploadMapper {
      * @return
      */
     @Insert("INSERT INTO`system_user_upload`" +
-            "(`uid`,`name`," +
-            "`create_date`," +
+            "(`uid`,`name`,`create_date`,`closing_date`," +
             "`del_date`,`del_date_id`,`remark`,`file_path`,`write_file_path`,`status`,`shop_id`,`site_id`,`m_id`,`area_id`,`businessTime`,uuid_name,pay_id)" +
-            "VALUES (#{uid},#{name},#{createDate},#{delDate},#{delDateId},#{remark},#{filePath},#{writeFilePath},#{status},#{shopId}," +
+            "VALUES (#{uid},#{name},#{createDate},#{closingDate},#{delDate},#{delDateId},#{remark},#{filePath},#{writeFilePath},#{status},#{shopId}," +
             "#{siteId},#{mid},#{areaId},#{businessTime},#{uuidName},#{payId})")
-    @Options(useGeneratedKeys = true,  keyColumn = "id")
+    @Options(useGeneratedKeys = true, keyColumn = "id")
     int addUserUploadInfo(UserUpload userUpload);
 
     /**

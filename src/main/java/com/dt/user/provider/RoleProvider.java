@@ -11,11 +11,17 @@ public class RoleProvider {
     public String findByRoleInfo(RoleDto roleDto) {
         return new SQL() {{
             SELECT("r.rid,r.r_name,GROUP_CONCAT(DISTINCT u.user_name)AS userName,GROUP_CONCAT(DISTINCT u.uid)AS uIds , \n" +
-                    "GROUP_CONCAT(DISTINCT s.`shop_name`)AS shopName,GROUP_CONCAT(DISTINCT s.`shop_id`)AS sIds FROM system_user_role AS r ");
+                    "GROUP_CONCAT(DISTINCT s.`shop_name`)AS shopName," +
+                    "GROUP_CONCAT(DISTINCT s.`shop_id`)AS sIds," +
+                    "GROUP_CONCAT(DISTINCT se.`site_id`)AS seIds \n" +
+                    "FROM system_user_role AS r ");
             LEFT_OUTER_JOIN("`system_user_role_user` AS ur ON ur.`r_id`=r.`rid`");
             LEFT_OUTER_JOIN("`system_user_info` AS u ON u.uid= ur.u_id");
             LEFT_OUTER_JOIN("`system_shop_role` AS sr ON sr.r_id = r.rid");
             LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id` = sr.s_id");
+            LEFT_OUTER_JOIN("`basic_public_area_role` AS a ON a.`r_id` = r.`rid`");
+            LEFT_OUTER_JOIN("`basic_public_area_role_site` AS ars ON ars.`ar_id`=a.`ar_id`");
+            LEFT_OUTER_JOIN("`basic_public_site` AS se ON se.`site_id`=ars.`se_id`");
             if (StringUtils.isNotBlank(roleDto.getUserName())) {
                 WHERE("u.user_name=#{userName}");
             }

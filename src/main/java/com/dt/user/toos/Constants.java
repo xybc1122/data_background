@@ -11,6 +11,7 @@ public interface Constants {
      * 通过模型去条件查询 key
      */
     String MODEL = "model:";
+    String SITE_INFO = "se_ino:";
 
     String STATUS_ID = "sId:";
     /**

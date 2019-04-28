@@ -1405,11 +1405,10 @@ public class ConsumerServiceImpl implements ConsumerService {
     @Override
     @Transactional
     @Async("executor")
-    public Future<ResponseBase> importCsv(String uuIdName, String saveFilePath, String fileName, Integer
-            siteId, Integer shopId, Long uid, Integer pId, Long recordingId, Integer mId, String businessTime) throws
+    public Future<ResponseBase> importCsv(UserUpload upload) throws
             Exception {
-        future = new AsyncResult<>(threadCsv(uuIdName, saveFilePath, fileName, siteId, shopId, uid,
-                pId, recordingId, mId, businessTime));
+        future = new AsyncResult<>(threadCsv(upload.getUuidName(), upload.getFilePath(), upload.getName(), upload.getSiteId(), upload.getShopId(), upload.getUid(),
+                upload.getPayId(), upload.getRecordingId(), upload.getMid(), upload.getBusinessTime(), upload.getClosingDate()));
         return future;
     }
 
@@ -1425,7 +1424,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     public ResponseBase threadCsv(String uuIdName, String saveFilePath, String fileName, Integer
             siteId, Integer
                                           shopId, Long uid, Integer
-                                          pId, Long recordingId, Integer tbId, String businessTime) throws Exception {
+                                          pId, Long recordingId, Integer tbId, String businessTime, Long closingDate) throws Exception {
 
         List<String> csvHeadList;
         String filePath = saveFilePath + uuIdName;
@@ -1458,7 +1457,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             csvReader = new CsvReader(isr);
             //创建对象设置文件总数
             RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
-            ResponseBase responseCsv = saveCsv(csvReader, row, shopId, siteId, uid, pId, recordingId, tbId, businessTime, newCsvHeadList, timeData);
+            ResponseBase responseCsv = saveCsv(csvReader, row, shopId, siteId, uid, pId, recordingId, tbId, businessTime, newCsvHeadList, timeData, closingDate);
             return saveUserUploadInfo(responseCsv, recordingId, fileName, newCsvHeadList, 2, saveFilePath, uuIdName);
         } finally {
             if (csvReader != null) {
@@ -1479,7 +1478,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     public ResponseBase saveCsv(CsvReader csvReader, int row, Integer sId, Integer seId, Long uid, Integer
             pId, Long
-                                        recordingId, Integer menuId, String businessTime, List<String> csvHeadList, RealTimeData timeData) {
+                                        recordingId, Integer menuId, String businessTime, List<String> csvHeadList, RealTimeData timeData, Long closingDate) {
         List<FinancialSalesBalance> fsbList = null;
         List<SalesAmazonFbaBusinessreport> sfbList = null;
         // 开始时间
@@ -1623,61 +1622,61 @@ public class ConsumerServiceImpl implements ConsumerService {
             IOException {
         //设置时间类型转换
         if (csvHeadList.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose())
-            DateUtils.setDate(fsb, seId, csvReader.get(j));
-        else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
-            fsb.setSettlementId(StrUtils.repString(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(2).getImportTemplet()) && importHead.get(2).getOpenClose()) {
-            String type = StrUtils.repString(csvReader.get(j));
-            if (StringUtils.isEmpty(type)) {
-                fsb.setType(type);
-            } else if (!setType(type, seId, csvReader, fsb)) {
-                return null;
+            if (DateUtils.setDate(fsb, seId, csvReader.get(j)) == null) return null;
+            else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
+                fsb.setSettlementId(StrUtils.repString(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(2).getImportTemplet()) && importHead.get(2).getOpenClose()) {
+                String type = StrUtils.repString(csvReader.get(j));
+                if (StringUtils.isEmpty(type)) {
+                    fsb.setType(type);
+                } else if (!setType(type, seId, csvReader, fsb)) {
+                    return null;
+                }
+            } else if (csvHeadList.get(j).equals(importHead.get(3).getImportTemplet()) && importHead.get(3).getOpenClose())
+                fsb.setOrderId(StrUtils.repString(csvReader.get(j)));
+            else if (csvHeadList.get(j).equals(importHead.get(4).getImportTemplet()) && importHead.get(4).getOpenClose()) {
+                fsb.setFinancialSku(StrUtils.repString(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(5).getImportTemplet()) && importHead.get(5).getOpenClose()) {
+                fsb.setDescription(StrUtils.repString(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(6).getImportTemplet()) && importHead.get(6).getOpenClose()) {
+                fsb.setoQuantity(StrUtils.replaceLong(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(7).getImportTemplet()) && importHead.get(7).getOpenClose()) {
+                fsb.setMarketplace(StrUtils.repString(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(8).getImportTemplet()) && importHead.get(8).getOpenClose()) {
+                fsb.setFulfillment(StrUtils.repString(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(9).getImportTemplet()) && importHead.get(9).getOpenClose()) {
+                fsb.setCity(StrUtils.repString(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(10).getImportTemplet()) && importHead.get(10).getOpenClose()) {
+                fsb.setState(StrUtils.repString(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(11).getImportTemplet()) && importHead.get(11).getOpenClose()) {
+                fsb.setPostal(StrUtils.repString(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(12).getImportTemplet()) && importHead.get(12).getOpenClose()) {
+                fsb.setSales(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(13).getImportTemplet()) && importHead.get(13).getOpenClose()) {
+                fsb.setShippingCredits(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(14).getImportTemplet()) && importHead.get(14).getOpenClose()) {
+                fsb.setGiftwrapCredits(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(15).getImportTemplet()) && importHead.get(15).getOpenClose()) {
+                fsb.setPromotionalRebates(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(16).getImportTemplet()) && importHead.get(16).getOpenClose()) {
+                fsb.setSalesTax(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(17).getImportTemplet()) && importHead.get(17).getOpenClose()) {
+                fsb.setMarketplaceFacilitatorTax(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(18).getImportTemplet()) && importHead.get(18).getOpenClose()) {
+                fsb.setSellingFees(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(19).getImportTemplet()) && importHead.get(19).getOpenClose()) {
+                fsb.setFbaFee(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(20).getImportTemplet()) && importHead.get(20).getOpenClose()) {
+                fsb.setOtherTransactionFees(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(21).getImportTemplet()) && importHead.get(21).getOpenClose()) {
+                fsb.setOther(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(22).getImportTemplet()) && importHead.get(22).getOpenClose()) {
+                fsb.setTotal(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(23).getImportTemplet()) && importHead.get(23).getOpenClose()) {
+                fsb.setLowValueGoods(StrUtils.replaceDecimal(csvReader.get(j)));
+            } else if (csvHeadList.get(j).equals(importHead.get(24).getImportTemplet()) && importHead.get(23).getOpenClose()) {
+                fsb.setPointFee(StrUtils.replaceDecimal(csvReader.get(j)));
             }
-        } else if (csvHeadList.get(j).equals(importHead.get(3).getImportTemplet()) && importHead.get(3).getOpenClose())
-            fsb.setOrderId(StrUtils.repString(csvReader.get(j)));
-        else if (csvHeadList.get(j).equals(importHead.get(4).getImportTemplet()) && importHead.get(4).getOpenClose()) {
-            fsb.setFinancialSku(StrUtils.repString(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(5).getImportTemplet()) && importHead.get(5).getOpenClose()) {
-            fsb.setDescription(StrUtils.repString(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(6).getImportTemplet()) && importHead.get(6).getOpenClose()) {
-            fsb.setoQuantity(StrUtils.replaceLong(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(7).getImportTemplet()) && importHead.get(7).getOpenClose()) {
-            fsb.setMarketplace(StrUtils.repString(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(8).getImportTemplet()) && importHead.get(8).getOpenClose()) {
-            fsb.setFulfillment(StrUtils.repString(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(9).getImportTemplet()) && importHead.get(9).getOpenClose()) {
-            fsb.setCity(StrUtils.repString(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(10).getImportTemplet()) && importHead.get(10).getOpenClose()) {
-            fsb.setState(StrUtils.repString(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(11).getImportTemplet()) && importHead.get(11).getOpenClose()) {
-            fsb.setPostal(StrUtils.repString(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(12).getImportTemplet()) && importHead.get(12).getOpenClose()) {
-            fsb.setSales(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(13).getImportTemplet()) && importHead.get(13).getOpenClose()) {
-            fsb.setShippingCredits(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(14).getImportTemplet()) && importHead.get(14).getOpenClose()) {
-            fsb.setGiftwrapCredits(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(15).getImportTemplet()) && importHead.get(15).getOpenClose()) {
-            fsb.setPromotionalRebates(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(16).getImportTemplet()) && importHead.get(16).getOpenClose()) {
-            fsb.setSalesTax(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(17).getImportTemplet()) && importHead.get(17).getOpenClose()) {
-            fsb.setMarketplaceFacilitatorTax(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(18).getImportTemplet()) && importHead.get(18).getOpenClose()) {
-            fsb.setSellingFees(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(19).getImportTemplet()) && importHead.get(19).getOpenClose()) {
-            fsb.setFbaFee(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(20).getImportTemplet()) && importHead.get(20).getOpenClose()) {
-            fsb.setOtherTransactionFees(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(21).getImportTemplet()) && importHead.get(21).getOpenClose()) {
-            fsb.setOther(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(22).getImportTemplet()) && importHead.get(22).getOpenClose()) {
-            fsb.setTotal(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(23).getImportTemplet()) && importHead.get(23).getOpenClose()) {
-            fsb.setLowValueGoods(StrUtils.replaceDecimal(csvReader.get(j)));
-        } else if (csvHeadList.get(j).equals(importHead.get(24).getImportTemplet()) && importHead.get(23).getOpenClose()) {
-            fsb.setPointFee(StrUtils.replaceDecimal(csvReader.get(j)));
-        }
 
         //这里最后执行
         if ((j + 1) == csvReader.getColumnCount()) {

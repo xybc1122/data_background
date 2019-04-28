@@ -3,12 +3,13 @@ package com.dt.user.controller.Admin;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.customize.PermissionCheck;
-import com.dt.user.dto.AreaDto;
+import com.dt.user.dto.AreaRoleDto;
 import com.dt.user.dto.RoleDto;
 import com.dt.user.dto.UserDto;
 import com.dt.user.model.BasePublicModel.BasicPublicShop;
 import com.dt.user.model.Role;
 import com.dt.user.model.UserInfo;
+import com.dt.user.service.BasePublicService.BasicPublicAreaRoleService;
 import com.dt.user.service.BasePublicService.BasicPublicAreaService;
 import com.dt.user.service.BasePublicService.BasicPublicShopService;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
@@ -49,6 +50,9 @@ public class AdminController {
 
     @Autowired
     private BasicPublicAreaService areaService;
+
+    @Autowired
+    private BasicPublicAreaRoleService areaRoleService;
 
     /**
      * 获取用户管理信息的一些信息
@@ -202,5 +206,16 @@ public class AdminController {
     @GetMapping("/selectSite")
     public ResponseBase selectSite(@RequestParam("aid") String aid) {
         return JsonData.setResultSuccess(siteService.selectAidSiteAdmin(Integer.parseInt(aid)));
+    }
+
+
+    /**
+     * 配置区域 角色  站点 权限
+     *
+     * @return
+     */
+    @PostMapping("/setAreaRole")
+    public ResponseBase setAreaRole(@RequestBody AreaRoleDto areaRoleDto) {
+        return JsonData.setResultSuccess(areaRoleService.serviceInsertARole(areaRoleDto));
     }
 }

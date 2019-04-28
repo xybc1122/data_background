@@ -3,13 +3,13 @@ package com.dt.user.model.BasePublicModel;
 public class BasicPublicAreaRole {
     private Integer arId;
 
-    private Integer aId;
+    private Integer aid;
 
-    private Integer rId;
+    private Integer rid;
 
     private String createUser;
 
-    private byte[] createDate;
+    private Long createDate;
 
     public Integer getArId() {
         return arId;
@@ -19,20 +19,20 @@ public class BasicPublicAreaRole {
         this.arId = arId;
     }
 
-    public Integer getaId() {
-        return aId;
+    public Integer getAid() {
+        return aid;
     }
 
-    public void setaId(Integer aId) {
-        this.aId = aId;
+    public void setAid(Integer aid) {
+        this.aid = aid;
     }
 
-    public Integer getrId() {
-        return rId;
+    public Integer getRid() {
+        return rid;
     }
 
-    public void setrId(Integer rId) {
-        this.rId = rId;
+    public void setRid(Integer rid) {
+        this.rid = rid;
     }
 
     public String getCreateUser() {
@@ -43,26 +43,12 @@ public class BasicPublicAreaRole {
         this.createUser = createUser == null ? null : createUser.trim();
     }
 
-    public byte[] getCreateDate() {
+    public Long getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(byte[] createDate) {
+    public void setCreateDate(Long createDate) {
         this.createDate = createDate;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", arId=").append(arId);
-        sb.append(", aId=").append(aId);
-        sb.append(", rId=").append(rId);
-        sb.append(", createUser=").append(createUser);
-        sb.append(", createDate=").append(createDate);
-        sb.append("]");
-        return sb.toString();
-    }
 }

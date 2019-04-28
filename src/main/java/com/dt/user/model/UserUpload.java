@@ -18,6 +18,10 @@ public class UserUpload {
      * 存入记录信息集合数据
      */
     private List<UserUpload> uploadSuccessList;
+    /**
+     * 关账时间
+     */
+    private Long closingDate;
     private Long id;
     private Long uid;
     /**
@@ -93,6 +97,14 @@ public class UserUpload {
     private Integer pageSize;
     private List<Long> createDates;
     private List<Long> delDates;
+
+    public Long getClosingDate() {
+        return closingDate;
+    }
+
+    public void setClosingDate(Long closingDate) {
+        this.closingDate = closingDate;
+    }
 
     public List<Long> getCreateDates() {
         return createDates;

@@ -7,6 +7,7 @@ import com.dt.user.service.RedisService;
 import com.dt.user.service.UserService;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.JwtUtils;
+import com.dt.user.utils.MD5Util;
 import com.dt.user.utils.ReqUtils;
 import com.google.gson.Gson;
 import io.jsonwebtoken.Claims;
@@ -83,10 +84,16 @@ public class LoginInterCenter implements HandlerInterceptor {
                     return true;
                 }
                 //如果请求的是超级管理员配置接口
+
                 if (request.getRequestURI().contains("/api/v1/admin")) {
                     String redisValue = redisService.getStringKey(Constants.ADMIN + uId);
                     if (StringUtils.isBlank(redisValue)) {
                         sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RES_CODE, "你不是超级管理员"));
+                        return false;
+                    }
+                    String v = MD5Util.MD5(Constants.ADMIN + uId + uName);
+                    if (!redisValue.equals(v)) {
+                        sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RES_CODE, "管理员令牌不匹配"));
                         return false;
                     }
                 }

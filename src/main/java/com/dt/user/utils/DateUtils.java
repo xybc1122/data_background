@@ -21,7 +21,7 @@ public class DateUtils {
      * @param seId
      * @throws IOException
      */
-    public static void setDate(FinancialSalesBalance fsb, Integer seId, String time) {
+    public static String setDate(FinancialSalesBalance fsb, Integer seId, String time) {
         switch (seId) {
             case 1:
                 fsb.setDate(DateUtils.getTime(time, Constants.USA_TIME));
@@ -53,7 +53,11 @@ public class DateUtils {
             case 10:
                 fsb.setDate(DateUtils.getTime(time, Constants.MEXICO_TIME));
                 break;
+            default:
+                return null;
         }
+        if (fsb.getDate() < 111L) return null;
+        return "ok";
     }
 
 
@@ -221,10 +225,20 @@ public class DateUtils {
         return time;
     }
 
+
+
     public static void main(String[] args) throws ParseException {
-        String stringDate = "2018/11/1";
-        //   SimpleDateFormat sdf = new SimpleDateFormat("dd MM yyyy HH:mm:ss", Locale.ENGLISH);
-        System.out.println(getTime(stringDate, "yyyy/MM/dd"));
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+//        String c = sdf.format(new Date());
+//        Date date2 = sdf.parse(c);//调用parse()方法时 注意 传入的格式必须符合simpleDateFormat对象的格式，即"yyyy-MM-dd HH:mm:ss:SSS" 否则会报错！！
+//        System.out.println(date2.getTime());
+
+
+        String stringDate = "2019-04";
+        SimpleDateFormat sdfc = new SimpleDateFormat("yyyy-MM");
+        Date d2 = sdfc.parse(stringDate);
+        System.out.println(d2.compareTo(new Date()));
 //        Long time = sdf.parse(stringDate).getTime();
 //        System.out.println(time);
 //        System.out.println(getXlsStrTime(stringDate, "dd-MM-yyyy"));

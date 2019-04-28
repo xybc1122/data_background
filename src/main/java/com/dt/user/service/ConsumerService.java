@@ -1,6 +1,7 @@
 package com.dt.user.service;
 
 import com.dt.user.config.ResponseBase;
+import com.dt.user.model.UserUpload;
 
 import java.util.concurrent.Future;
 
@@ -40,18 +41,7 @@ public interface ConsumerService {
 
     /**
      * 封装处理数据Csv
-     * @param uuIdName
-     * @param saveFilePath
-     * @param fileName
-     * @param siteId
-     * @param shopId
-     * @param uid
-     * @param pId
-     * @param recordingId
-     * @param mId
-     * @param businessTime
      * @return
      */
-    Future<ResponseBase> importCsv(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Integer
-            pId, Long recordingId, Integer mId, String businessTime) throws Exception;
+    Future<ResponseBase> importCsv(UserUpload userUpload) throws Exception;
 }

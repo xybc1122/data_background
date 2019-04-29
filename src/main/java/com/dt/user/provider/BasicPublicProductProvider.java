@@ -29,7 +29,7 @@ public class BasicPublicProductProvider {
         sql.LEFT_OUTER_JOIN("`basic_public_products` AS ps ON ps.`products_id`=p.`products_id`");
         sql.LEFT_OUTER_JOIN("`basic_export_hs_code` AS hc ON hc.`hs_code_id`=p.`hs_code_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(productDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(productDto.getSystemLogStatus(), Alias, sql);
         //产品代码
         AppendSqlStore.sqlWhere(productDto.getProductCode(), Alias + ".product_code", sql, Constants.SELECT);
 

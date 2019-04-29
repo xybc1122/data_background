@@ -20,7 +20,7 @@ public class BasicExportMonitoringConditionProvider {
         sql.SELECT("`monitoring_condition_id`, `c_number`, `monitoring_condition_name`,mc.`status_id`\n" +
                 "FROM `basic_export_monitoring_condition` AS " + Alias + "");
         //状态数据查询
-        ProviderSqlStore.saveStatus(condition.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(condition.getSystemLogStatus(), Alias, sql);
 
         //监管条件名称
         if (StringUtils.isNotBlank(condition.getMonitoringConditionName())) {

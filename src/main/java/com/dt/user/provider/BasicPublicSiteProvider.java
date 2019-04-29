@@ -21,7 +21,7 @@ public class BasicPublicSiteProvider {
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS e ON e.`dept_id`=s.`principal`");
         sql.LEFT_OUTER_JOIN("`basic_public_currency` AS cu ON cu.`currency_id`=s.country_id");
         //状态数据查询
-        ProviderSqlStore.saveStatus(siteDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(siteDto.getSystemLogStatus(), Alias, sql);
         //站点编号
         if (siteDto.getNumber() != null) {
             sql.WHERE(Alias + ".number=#{number}");

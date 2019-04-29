@@ -21,7 +21,7 @@ public class BasicLogisticsmgtTransportCompanyProvider {
                 "  tc.`address`, tc.`status_id`\n" +
                 "FROM `basic_logisticsmgt_transport_company` as " + Alias + "");
         //状态数据查询
-        ProviderSqlStore.saveStatus(company.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(company.getSystemLogStatus(), Alias, sql);
         //货运公司编号
         if (company.getNumber() != null) {
             sql.WHERE(Alias + ".number=#{number}");

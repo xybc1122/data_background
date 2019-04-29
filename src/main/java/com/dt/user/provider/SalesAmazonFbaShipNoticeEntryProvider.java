@@ -22,7 +22,7 @@ public class SalesAmazonFbaShipNoticeEntryProvider {
                 "`e_id`,`quantity`,`packages`,\n" +
                 "`length_cm`,`width_cm`,`height_cm`, `gw_kg`,\n" +
                 "`nw_kg`, `volume_m3`,`se_quantity`,`re_quantity`,`re_date`,\n" +
-                "`close_date`,`close_user`" + ProviderSqlStore.statusV + "" +
+                "`close_date`,`close_user`" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM `sales_amazon_fba_ship_notice_entry` AS " + alias + " \n");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         sql.INNER_JOIN("`sales_amazon_fba_ship_notice` AS sn ON sn.`ship_notice_id` = " + alias + ".`ship_notice_id`");
@@ -67,7 +67,7 @@ public class SalesAmazonFbaShipNoticeEntryProvider {
             sql.WHERE("re_date  " + entry.getReDates().get(0) + " " +
                     "AND " + entry.getReDates().get(1) + "");
         }
-        ProviderSqlStore.saveUploadStatus(sql, entry, alias);
+        ProviderSqlStore.selectUploadStatus(sql, entry, alias);
         return sql.toString();
     }
 

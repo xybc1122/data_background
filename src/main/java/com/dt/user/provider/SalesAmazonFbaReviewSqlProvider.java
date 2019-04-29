@@ -109,19 +109,19 @@ public class SalesAmazonFbaReviewSqlProvider {
 
     public String selectByReview(ReviewDto reviewDto) throws IllegalAccessException {
         SQL sql = new SQL();
-        String Alias = "rev";
+        String alias = "rev";
         sql.SELECT("`lev.star_level_name`,ps.`sku`,s.`shop_name`, cs.`site_name`," +
-                "`re_id`, `date`,`add`,`move`," + ProviderSqlStore.statusV + "");
-        sql.FROM("sales_amazon_fba_review AS " + Alias);
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + Alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + Alias + ".`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + Alias + ".`sku_id`");
-        sql.INNER_JOIN("`basic_sales_public_starlevel` AS lev ON lev.`star_level_id` = " + Alias + ".`star_level_id`");
+                "`re_id`, `date`,`add`,`move`," + ProviderSqlStore.statusV(alias) + "");
+        sql.FROM("sales_amazon_fba_review AS " + alias);
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.INNER_JOIN("`basic_sales_public_starlevel` AS lev ON lev.`star_level_id` = " + alias + ".`star_level_id`");
         if (StringUtils.isNotBlank(reviewDto.getStarLevelName()))
             sql.WHERE("POSITION('" + reviewDto.getStarLevelName() + "' IN lev.`star_level_name`)");
         Field[] fields = SalesAmazonFbaReview.class.getDeclaredFields();
         FieldStore.query(fields, reviewDto.getNameList(), reviewDto, sql);
-        ProviderSqlStore.saveUploadStatus(sql, reviewDto, Alias);
+        ProviderSqlStore.selectUploadStatus(sql, reviewDto, alias);
         return sql.toString();
     }
 

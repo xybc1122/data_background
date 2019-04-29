@@ -45,7 +45,7 @@ public class SalesAmazonAdOarProvider {
     }
 
     public String getOarInfo(SalesAmazonAdOar oar) {
-        String table = AppendSqlStore.setSqlTable(oar, "`sales_amazon_ad_oar`", "`sales_amazon_ad_oar_wk`");
+        String table = AppendSqlStore.setSqlTable(oar.getSqlMode(), "`sales_amazon_ad_oar`", "`sales_amazon_ad_oar_wk`");
         SQL sql = new SQL();
         String alias = "oar";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
@@ -55,7 +55,7 @@ public class SalesAmazonAdOarProvider {
                 "`match_type`,`other_asin`,\n" +
                 "`other_asin_units`,`other_asin_units_ordered`,\n" +
                 "`other_asin_units_ordered_sales`," +
-                "" + ProviderSqlStore.statusV + "" +
+                "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM " + table + " AS " + alias + "");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
@@ -104,7 +104,7 @@ public class SalesAmazonAdOarProvider {
         if (StringUtils.isNotBlank(oar.getTargeting())) {
             sql.WHERE("POSITION('" + oar.getTargeting() + "' IN `targeting`)");
         }
-        ProviderSqlStore.saveUploadStatus(sql, oar,alias);
+        ProviderSqlStore.selectUploadStatus(sql, oar,alias);
         return sql.toString();
     }
 

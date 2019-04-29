@@ -19,7 +19,7 @@ public class BasicSalesAmazonCsvTxtXslHeaderProvider {
         sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id` = h.`site_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id` = h.`shop_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(header.getSystemLogStatus(), alias, sql);
+        ProviderSqlStore.selectStatus(header.getSystemLogStatus(), alias, sql);
         //对应表头字段
         if (StringUtils.isNotBlank(header.getImportTemplet())) {
             sql.WHERE(alias + ".import_templet=#{importTemplet}");

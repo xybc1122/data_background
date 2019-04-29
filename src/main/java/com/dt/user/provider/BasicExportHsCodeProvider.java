@@ -23,7 +23,7 @@ public class BasicExportHsCodeProvider {
                 "hc.`categories`,hc.`chapter`,hc.`status_id`\n" +
                 "FROM `basic_export_hs_code` AS " + Alias + "");
         //状态数据查询
-        ProviderSqlStore.saveStatus(hsCode.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(hsCode.getSystemLogStatus(), Alias, sql);
         //hs_code
         if (StringUtils.isNotBlank(hsCode.getHsCode())) {
             sql.WHERE(Alias + ".hs_code=#{hsCode}");

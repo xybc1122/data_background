@@ -95,9 +95,9 @@ public class SystemFinalProcessingSqlProvider {
 
     public String selectByExample(SystemFinalProcessing example) {
         SQL sql = new SQL();
-
+        String alias = "lp";
         sql.SELECT("menu_id,close_years," +
-                "close_period,checkout_years,checkout_period," + ProviderSqlStore.statusV + "");
+                "close_period,checkout_years,checkout_period," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("system_final_processing");
         return sql.toString();
     }

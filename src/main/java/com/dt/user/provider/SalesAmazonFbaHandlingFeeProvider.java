@@ -40,16 +40,14 @@ public class SalesAmazonFbaHandlingFeeProvider {
     }
 
     public String selectByHFee(SalesAmazonFbaHandlingFee lFee) throws IllegalAccessException {
-        BEGIN();
         SQL sql = new SQL();
-        String Alias = "hlFee";
+        String alias = "hlFee";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`hd_id`, `std_fba_hd_fee`,`effective_date`," +
-                "" + ProviderSqlStore.statusV + "" +
-                "FROM `sales_amazon_fba_handlingfee` AS " + Alias + "");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + Alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + Alias + ".`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + Alias + ".`sku_id`");
+                "" + ProviderSqlStore.statusV(alias) + "" +
+                "FROM `sales_amazon_fba_handlingfee` AS " + alias + "");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(lFee.getSku()))
             sql.WHERE("POSITION('" + lFee.getSku() + "' IN ps.`sku`)");
         if (lFee.getEffectiveDates() != null && (lFee.getEffectiveDates().size() > 0)) {
@@ -57,7 +55,8 @@ public class SalesAmazonFbaHandlingFeeProvider {
         }
         Field[] fields = lFee.getClass().getDeclaredFields();
         FieldStore.query(fields, lFee.getNameList(), lFee, sql);
-        ProviderSqlStore.saveUploadStatus(sql, lFee,Alias);
+        ProviderSqlStore.selectUploadStatus(sql, lFee, alias);
+        sql.GROUP_BY(alias + ".hd_id");
         return sql.toString();
     }
 

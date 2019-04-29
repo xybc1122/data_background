@@ -22,7 +22,7 @@ public class BasicSalesAmazonTypeProvider {
                 "FROM `basic_sales_amazon_type` AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id`=" + Alias + ".`site_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(amazonType.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(amazonType.getSystemLogStatus(), Alias, sql);
         //站点名称
         if (StringUtils.isNotBlank(amazonType.getSiteName())) {
             sql.WHERE("si.site_name=#{siteName}");

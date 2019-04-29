@@ -26,7 +26,7 @@ public class BasicPublicSkuProvider {
         sql.LEFT_OUTER_JOIN("`basic_sales_amazon_handling_class` AS cl ON cl.`class_id`=ku.`class_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_product` AS pr ON pr.`product_id`=ku.`product_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(skuDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(skuDto.getSystemLogStatus(), Alias, sql);
         //站点名称
         if (StringUtils.isNotBlank(skuDto.getSiteName())) {
             sql.WHERE("si.`site_name`=#{siteName}");

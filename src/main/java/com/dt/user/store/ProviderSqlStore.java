@@ -2,6 +2,8 @@ package com.dt.user.store;
 
 import com.dt.user.model.Parent.ParentUploadInfo;
 import com.dt.user.model.SystemLogStatus;
+import com.dt.user.utils.ReqUtils;
+import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -15,17 +17,21 @@ public class ProviderSqlStore {
     /**
      * 通用设置sql状态
      */
-    public static String statusV = "`remark`,`status`,`create_date`,`create_user`," +
-            "`modify_date`,`modify_user`,`audit_date`,`audit_user` \n";
+    public static String statusV(String alias) {
+
+        return alias + ".`remark`," + alias + ".`status`," + alias + ".`create_date`, " + alias + ".`create_user`, " +
+                "`modify_date`,`modify_user`,`audit_date`,`audit_user` \n";
+    }
+
 
     /**
-     * 通用设置
+     * 通用 查询 系统类状态
      *
      * @param logStatus
      * @param as
      * @param sql
      */
-    public static void saveStatus(SystemLogStatus logStatus, String as, SQL sql) {
+    public static void selectStatus(SystemLogStatus logStatus, String as, SQL sql) {
         if (logStatus != null) {
             sql.LEFT_OUTER_JOIN("`system_log_status` AS ls ON ls.status_id=" + as + ". `status_id` ");
             //有效日期
@@ -68,12 +74,23 @@ public class ProviderSqlStore {
     }
 
     /**
-     * 通用设置
+     * 设置通过用链表
+     */
+    public static void joinTable(SQL sql, String alias) {
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.LEFT_OUTER_JOIN("`system_shop_role` AS pr ON pr.s_id = s.`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_public_area_role_site` AS ars ON ars.`se_id`=cs.`site_id`");
+        sql.INNER_JOIN("`basic_public_area_role` AS ar ON ar.`ar_id` = ars.`ar_id`");
+    }
+
+    /**
+     * 通用查询 文件类 数据状态
      *
      * @param sql
      * @param p
      */
-    public static void saveUploadStatus(SQL sql, ParentUploadInfo p, String alias) {
+    public static void selectUploadStatus(SQL sql, ParentUploadInfo p, String alias) {
         //店铺名称
         if (StringUtils.isNotBlank(p.getShopName())) {
             sql.WHERE("POSITION('" + p.getShopName() + "' IN s.`shop_name`)");
@@ -118,6 +135,7 @@ public class ProviderSqlStore {
         if (StringUtils.isNotBlank(p.getAuditUser())) {
             sql.WHERE("audit_user=#{auditUser}");
         }
-        sql.WHERE(alias + ".del_or_not=0");
+        sql.WHERE(alias + ".del_or_not=0 AND " + StrUtils.in(ReqUtils.getRoleId(), "pr.r_id") +
+                " AND " + StrUtils.in(ReqUtils.getRoleId(), "ar.`r_id`"));
     }
 }

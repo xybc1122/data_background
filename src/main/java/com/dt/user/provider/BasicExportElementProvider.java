@@ -19,7 +19,7 @@ public class BasicExportElementProvider {
         sql.SELECT("e.`element_id`, e.`element_name`, e.`element_name_eng`, e.`status_id`\n" +
                 "FROM`basic_export_element` AS " + Alias + "");
         //状态数据查询
-        ProviderSqlStore.saveStatus(element.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(element.getSystemLogStatus(), Alias, sql);
         //要素名称
         if (StringUtils.isNotBlank(element.getElementName())) {
             sql.WHERE(Alias + ".element_name=#{elementName}");

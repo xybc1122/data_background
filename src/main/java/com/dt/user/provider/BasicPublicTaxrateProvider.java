@@ -22,7 +22,7 @@ public class BasicPublicTaxrateProvider {
         sql.LEFT_OUTER_JOIN("`basic_public_country` AS c ON c.`country_id`=st.`country_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_products` AS p ON p.`products_id`=st.`products_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(taxrateDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(taxrateDto.getSystemLogStatus(), Alias, sql);
         //国家名称
         if (StringUtils.isNotBlank(taxrateDto.getCountryName())) {
             sql.WHERE("c.country_name=#{countryName}");

@@ -58,7 +58,7 @@ public class SalesAmazonAdStrProvider {
                 "`match_type`, `customer_search_term`, `impressions`,`clicks`, `total_spend`,`sales`,\n" +
                 "`roas`,`orders_placed`,`total_units`,`advertised_sku_units_ordered`,\n" +
                 "`other_sku_units_ordered`,`advertised_sku_units_sales`,`other_sku_units_sales`," +
-                "" + ProviderSqlStore.statusV + "" +
+                "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM `sales_amazon_ad_str` AS " + alias);
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
@@ -135,7 +135,7 @@ public class SalesAmazonAdStrProvider {
         if (str.getOtherSkuUnitsSales() != null) {
             sql.WHERE("other_sku_units_sales=#{otherSkuUnitsSales}");
         }
-        ProviderSqlStore.saveUploadStatus(sql, str, alias);
+        ProviderSqlStore.selectUploadStatus(sql, str, alias);
         return sql.toString();
     }
 }

@@ -75,20 +75,23 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
                 "`measurement_units`, `weight`,`weight_units`,\n" +
                 "`item_volume`,`volume_units`,`product_size_tier`,`average_quantity_on_hand`,\n" +
                 "`average_quantity_pending_removal`,`estimated_total_item_volume`, `month_of_charge`,\n" +
-                "`storage_rate`, mWar.`currency`, `estimated_monthly_storage_fee`," +
-                "" + ProviderSqlStore.statusV + "" +
+                "`storage_rate`, " + alias + ".`currency`, `estimated_monthly_storage_fee`," +
+                "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_month_warehousefee AS " + alias + "");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         sql.INNER_JOIN("`basic_sales_amazon_warehouse` AS aw ON aw.`amazon_warehouse_id` = " + alias + ".`aw_id`");
+        //链表
+        ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(mWar.getWarehouseCode()))
             sql.WHERE("POSITION('" + mWar.getWarehouseCode() + "' IN aw.`warehouse_code`)");
         if (StringUtils.isNotBlank(mWar.getSku()))
             sql.WHERE("POSITION('" + mWar.getSku() + "' IN ps.`sku`)");
+        //反射拼接
         Field[] fields = mWar.getClass().getDeclaredFields();
+        //查询
         FieldStore.query(fields, mWar.getNameList(), mWar, sql);
-        ProviderSqlStore.saveUploadStatus(sql, mWar,alias);
+        ProviderSqlStore.selectUploadStatus(sql, mWar, alias);
+        sql.GROUP_BY(alias + ".w_id");
         return sql.toString();
     }
 }

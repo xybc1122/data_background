@@ -66,11 +66,10 @@ public class SalesAmazonFbaRefundProvider {
                 "`order_id`, `ref_sku`, re.`s_asin`,`fn_sku`,\n" +
                 "`p_name`, `quantity`, `fc`, `aw_id`,\n" +
                 "`detailed_disposition`,`reason`,`refund_status`,\n" +
-                "`license_plate_number`,`customer_remarks`," + ProviderSqlStore.statusV + "" +
+                "`license_plate_number`,`customer_remarks`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_refund AS " + alias + " \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         // sku
         AppendSqlStore.sqlWhere(refund.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //下单日期
@@ -103,7 +102,8 @@ public class SalesAmazonFbaRefundProvider {
         AppendSqlStore.sqlWhere(refund.getLicensePlateNumber(), "`license_plate_number`", sql, Constants.SELECT);
         //客户备注
         AppendSqlStore.sqlWhere(refund.getCustomerRemarks(), "`customer_remarks`", sql, Constants.SELECT);
-        ProviderSqlStore.saveUploadStatus(sql, refund, alias);
+        ProviderSqlStore.selectUploadStatus(sql, refund, alias);
+        sql.GROUP_BY(alias + ".ref_id");
         return sql.toString();
     }
 }

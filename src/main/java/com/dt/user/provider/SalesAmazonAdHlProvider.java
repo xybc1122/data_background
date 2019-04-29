@@ -39,7 +39,7 @@ public class SalesAmazonAdHlProvider {
                 "`hl_id`,`date`,`campaign_name`,`impressions`,\n" +
                 "`clicks`, `ctr`,`cpc`,`spend`,\n" +
                 "`acos`,`roas`, `total_sales`,`total_orders`,`total_units`,\n" +
-                "`conversion_rate`," + ProviderSqlStore.statusV + "" +
+                "`conversion_rate`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM `sales_amazon_ad_hl` AS " + alias);
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
@@ -91,7 +91,7 @@ public class SalesAmazonAdHlProvider {
         if (hl.getConversionRate() != null) {
             sql.WHERE("conversion_rate=#{conversionRate}");
         }
-        ProviderSqlStore.saveUploadStatus(sql, hl, alias);
+        ProviderSqlStore.selectUploadStatus(sql, hl, alias);
         return sql.toString();
     }
 

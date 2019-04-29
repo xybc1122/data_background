@@ -34,7 +34,7 @@ public class HrArchivesEmployeeProvider {
         sql.LEFT_OUTER_JOIN("`hr_archives_department` as ad ON ad.`dept_id`=se.`dept_id`");
         sql.LEFT_OUTER_JOIN("`basic_hr_nation` AS hn ON hn.`nation_id`=se.`nation_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(employeeDto.getSystemLogStatus(), alias, sql);
+        ProviderSqlStore.selectStatus(employeeDto.getSystemLogStatus(), alias, sql);
         //员工编号
         if (employeeDto.getNumber() != null) {
             sql.WHERE(alias + ".`number`=#{number}");

@@ -32,6 +32,18 @@ public class RoleDto extends Role {
      * 站点ids
      */
     private String seIds;
+    /**
+     * 区域ids
+     */
+    private String aids;
+
+    public String getAids() {
+        return aids;
+    }
+
+    public void setAids(String aids) {
+        this.aids = aids;
+    }
 
     public String getuIds() {
         return uIds;

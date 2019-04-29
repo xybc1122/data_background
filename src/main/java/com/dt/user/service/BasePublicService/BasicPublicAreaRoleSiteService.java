@@ -18,4 +18,15 @@ public interface BasicPublicAreaRoleSiteService {
      */
 
     int serviceInsertARSInfo(BasicPublicAreaRoleSite record);
+
+
+    /**
+     * 通过 区域 角色表id  删除下面的站点
+     *
+     * @param arId
+     * @param seId
+     * @return
+     */
+    int serviceDeleteARS(Integer arId, Integer seId);
+
 }

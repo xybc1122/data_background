@@ -106,12 +106,12 @@ public class FinancialSalesBalanceProvider {
         return sb.toString().substring(0, sb.length() - 1);
     }
 
-    public String getFbsInfo(FinancialSalesBalance fbs) throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        String table = AppendSqlStore.setSqlTable(fbs, "`financial_sales_amazon_balance`", "`sales_amazon_fba_balance`");
+    public String getFbsInfo(FinancialSalesBalance fbs) {
+        String table = AppendSqlStore.setSqlTable(fbs.getSqlMode(), "`financial_sales_amazon_balance`", "`sales_amazon_fba_balance`");
         SQL sql = new SQL();
         String alias = "sab";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,pt.`payment_type_name`,\n" +
-                "`financial_sku`,`settlement_id`,`date`,`type`, `order_id`,\n" +
+                "`balance_id`,`financial_sku`,`settlement_id`,`date`,`type`, `order_id`,\n" +
                 "`description`,`o_quantity`,`quantity`,\n" +
                 "`refund_quantity`,`order_qty`,`adjustment_qty`,\n" +
                 "`marketplace`, `fulfillment`, `city`,\n" +
@@ -124,12 +124,11 @@ public class FinancialSalesBalanceProvider {
                 "`transfer`,`adjustment`, `new_promotional_rebates`,\n" +
                 "`new_shipping_fba`, `std_product_sales`, `std_sales_original`, `std_sales_add`,\n" +
                 "`std_sales_minus`,`std_fba`,`std_fbas`,`std_fba_original`,`lightning_deal_fee`," +
-                "`fba_inventory_fee`,`new_other`,sab.`vat`,`sales_for_tax`,`service_fee_tax`," + ProviderSqlStore.statusV + "" +
+                "`fba_inventory_fee`,`new_other`,sab.`vat`,`sales_for_tax`,`service_fee_tax`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM " + table + " AS " + alias + " \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.INNER_JOIN("`basic_sales_amazon_payment_type` AS pt ON pt.`payment_type_id` = " + alias + ".`payment_type_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         //结算号
         AppendSqlStore.sqlWhere(fbs.getSettlementId(), "settlement_id", sql, Constants.SELECT);
         //付款类型
@@ -226,7 +225,8 @@ public class FinancialSalesBalanceProvider {
         AppendSqlStore.sqlWhere(fbs.getLightningDealFee(), "lightning_deal_fee", sql, Constants.SELECT);
         //FBA仓储费
         AppendSqlStore.sqlWhere(fbs.getFbaInventoryFee(), "fba_inventory_fee", sql, Constants.SELECT);
-        ProviderSqlStore.saveUploadStatus(sql, fbs, alias);
+        ProviderSqlStore.selectUploadStatus(sql, fbs, alias);
+        sql.GROUP_BY(alias + ".balance_id");
         return sql.toString();
     }
 

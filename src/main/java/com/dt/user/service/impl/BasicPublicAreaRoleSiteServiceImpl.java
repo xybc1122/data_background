@@ -22,4 +22,9 @@ public class BasicPublicAreaRoleSiteServiceImpl implements BasicPublicAreaRoleSi
     public int serviceInsertARSInfo(BasicPublicAreaRoleSite record) {
         return aRSiteMapper.insertARSInfo(record);
     }
+
+    @Override
+    public int serviceDeleteARS(Integer arId, Integer seId) {
+        return aRSiteMapper.deleteARS(arId, seId);
+    }
 }

@@ -63,22 +63,22 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
 
     public String selectByLongWarehouseFee(SalesAmazonFbaLongWarehouseFee wFee) throws IllegalAccessException {
         SQL sql = new SQL();
-        String Alias = "lWar";
+        String alias = "lWar";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`lw_id`,`date`,`lw_sku`,`fn_sku`,\n" +
                 "`asin`,`condition`,`qty_charged_twelve_mo_long_term_storage_fee`,`per_unit_volume`,lWar.`currency`,\n" +
                 "`twelve_mo_long_terms_storage_fee`,`qty_charged_six_mo_long_term_storage_fee`,\n" +
                 "`six_mo_long_terms_storage_fee`,`volume_unit`,`country`, `enrolled_in_small_and_light`," +
-                "" + ProviderSqlStore.statusV + "" +
-                "FROM `sales_amazon_fba_long_warehousefee` AS " + Alias + "");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + Alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + Alias + ".`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + Alias + ".`sku_id`");
+                "" + ProviderSqlStore.statusV(alias) + "" +
+                "FROM `sales_amazon_fba_long_warehousefee` AS " + alias + "");
+        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(wFee.getSku()))
             sql.WHERE("POSITION('" + wFee.getSku() + "' IN ps.`sku`)");
         Field[] fields = wFee.getClass().getDeclaredFields();
         FieldStore.query(fields, wFee.getNameList(), wFee, sql);
-        ProviderSqlStore.saveUploadStatus(sql, wFee,Alias);
+        ProviderSqlStore.selectUploadStatus(sql, wFee, alias);
+        sql.GROUP_BY(alias + ".lw_id");
         return sql.toString();
     }
 

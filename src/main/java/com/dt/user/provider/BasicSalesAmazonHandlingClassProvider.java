@@ -21,7 +21,7 @@ public class BasicSalesAmazonHandlingClassProvider {
                 "  gc.`codex`,gc.`status_id`\n" +
                 "FROM `basic_sales_amazon_handling_class` as " + Alias + "");
         //状态数据查询
-        ProviderSqlStore.saveStatus(handlingClass.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(handlingClass.getSystemLogStatus(), Alias, sql);
 
         //处理类名称
         if (StringUtils.isNotBlank(handlingClass.getClassName())) {

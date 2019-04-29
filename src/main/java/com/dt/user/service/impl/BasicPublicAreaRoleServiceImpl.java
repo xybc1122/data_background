@@ -1,6 +1,5 @@
 package com.dt.user.service.impl;
 
-import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.AreaRoleDto;
 import com.dt.user.exception.LsException;
@@ -43,10 +42,23 @@ public class BasicPublicAreaRoleServiceImpl implements BasicPublicAreaRoleServic
             for (AreaRoleDto aR : record.getAreaRoleDtoList()) {
                 //是否是全部删除 true全部删除
                 if (aR.getRemoveArea()) {
+                    //先查找获得arid
+                    Integer arId = serviceSelectArId(aR.getAid(), record.getRid());
+                    if (arId == null) throw new LsException("表中无AR_ID操作失败");
                     //删除 区域 角色表数据
-                    serviceDeleteByARole(aR);
+                    serviceDeleteByARole(aR.getAid(), record.getRid());
+                    //如果这里是  != -1
+                    if (aR.getDelSeId().contains(",")) {
+                        String[] strDelSeId = aR.getDelSeId().split(",");
+                        for (String delId : strDelSeId) {
+                            //循环删除
+                            aRSService.serviceDeleteARS(arId, Integer.parseInt(delId));
+                        }
+                    } else {
+                             //单个删除
+                             aRSService.serviceDeleteARS(arId, Integer.parseInt(aR.getDelSeId()));
+                    }
                 }
-
                 if (StringUtils.isNotBlank(aR.getSeIds())) {
                     aR.setRid(record.getRid());
                     aR.setCreateDate(date);
@@ -55,20 +67,19 @@ public class BasicPublicAreaRoleServiceImpl implements BasicPublicAreaRoleServic
                     listCount += aRMapper.insertARole(aR);
                     if (listCount == record.getAreaRoleDtoList().size()) listFlg = true;
                     //如果这里 != -1
-                    if (StringUtils.isNotBlank(aR.getSeIds())) {
-                        if (aR.getSeIds().contains(",")) {
-                            String[] strAR = aR.getSeIds().split(",");
-                            for (String seId : strAR) {
-                                //先添加 角色跟区域配置表
-                                arrCount += set(aR.getArId(), Integer.parseInt(seId), date, uName);
-                            }
-                            if (arrCount == strAR.length) arrFlg = true;
-                        } else {
-                            //如果是-1
-                            arrCount += set(aR.getArId(), Integer.parseInt(aR.getSeIds()), date, uName);
-                            if (arrCount > 0) arrFlg = true;
+                    if (aR.getSeIds().contains(",")) {
+                        String[] strAR = aR.getSeIds().split(",");
+                        for (String seId : strAR) {
+                            //先添加 角色跟区域配置表
+                            arrCount += set(aR.getArId(), Integer.parseInt(seId), date, uName);
                         }
+                        if (arrCount == strAR.length) arrFlg = true;
+                    } else {
+                        //如果是-1
+                        arrCount += set(aR.getArId(), Integer.parseInt(aR.getSeIds()), date, uName);
+                        if (arrCount > 0) arrFlg = true;
                     }
+
                     // if (listFlg && arrFlg) return JsonData.setResultSuccess("success");
                 }
             }
@@ -79,8 +90,13 @@ public class BasicPublicAreaRoleServiceImpl implements BasicPublicAreaRoleServic
 
 
     @Override
-    public int serviceDeleteByARole(AreaRoleDto record) {
-        return aRMapper.deleteByARole(record);
+    public int serviceDeleteByARole(Integer aid, Integer rid) {
+        return aRMapper.deleteByARole(aid, rid);
+    }
+
+    @Override
+    public Integer serviceSelectArId(Integer aid, Integer rid) {
+        return aRMapper.selectArId(aid, rid);
     }
 
     public int set(Integer arId, Integer seId, Long date, String userName) {

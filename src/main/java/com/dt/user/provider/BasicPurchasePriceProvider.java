@@ -23,7 +23,7 @@ public class BasicPurchasePriceProvider {
                 "FROM `basic_purchase_price` AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_product` as p on p.`products_id`= " + Alias + ".`product_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(price.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(price.getSystemLogStatus(), Alias, sql);
         //不含税价格
         if (price.getNotTaxPrice() != null) {
             sql.WHERE(Alias + ".not_tax_price=#{notTaxPrice}");

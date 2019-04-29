@@ -62,9 +62,9 @@ public class AppendSqlStore {
      * @param v2
      * @return
      */
-    public static String setSqlTable(ParentUploadInfo p, String v1, String v2) {
+    public static String setSqlTable(Integer sqlMode, String v1, String v2) {
         String sqlTable = v1;
-        if (p.getSqlMode() != null && p.getSqlMode() == 1) {
+        if (sqlMode != null && sqlMode == 1) {
             sqlTable = v2;
         }
         return sqlTable;

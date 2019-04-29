@@ -57,6 +57,10 @@ public class ParentUploadInfo {
     private Long auditDate;
     private String auditUser;
     /**
+     * 角色ids
+     */
+    private String rid;
+    /**
      * 前端查询封装对象
      */
     private List<JavaSqlName> nameList;
@@ -80,6 +84,14 @@ public class ParentUploadInfo {
      * 文件表已有时间
      */
     private List<Long> dates;
+
+    public String getRid() {
+        return rid;
+    }
+
+    public void setRid(String rid) {
+        this.rid = rid;
+    }
 
     public ParentUploadInfo() {
 

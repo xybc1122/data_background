@@ -18,19 +18,8 @@ import java.util.Map;
 
 public class BasicPublicAreaRoleSqlProvider {
 
-    public String countByExample(BasicPublicAreaRole example) {
-        BEGIN();
-        SELECT("count(*)");
-        FROM("basic_public_area_role");
-        return SQL();
-    }
 
-    public String deleteByAreaRole(AreaRoleDto record) {
-        SQL sql = new SQL();
-        sql.DELETE_FROM("basic_public_area_role");
-        sql.WHERE("ar_id=#{arId}");
-        return sql.toString();
-    }
+
 
     public String insertSelective(BasicPublicAreaRole record) {
         BEGIN();

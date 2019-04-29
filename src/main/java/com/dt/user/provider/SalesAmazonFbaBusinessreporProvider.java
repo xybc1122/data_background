@@ -38,7 +38,7 @@ public class SalesAmazonFbaBusinessreporProvider {
 
 
     public String getBusInfo(SalesAmazonFbaBusinessreport rePort) {
-        String table = AppendSqlStore.setSqlTable(rePort, "`sales_amazon_fba_businessreport`",
+        String table = AppendSqlStore.setSqlTable(rePort.getSqlMode(), "`sales_amazon_fba_businessreport`",
                 "`sales_amazon_fba_businessreport_wk`");
         SQL sql = new SQL();
         String alias = "bus";
@@ -47,11 +47,10 @@ public class SalesAmazonFbaBusinessreporProvider {
                 "`sessions_per`,`page_views`, `buy_box_per`,\n" +
                 "`order`,`order_b2b`,`sales`,\n" +
                 "`sales_b2b`,`order_items`, `order_items_b2b`," +
-                "" + ProviderSqlStore.statusV + "" +
+                "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM " + table + " AS " + alias);
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         // sku
         if (StringUtils.isNotBlank(rePort.getSku())) {
             sql.WHERE("POSITION('" + rePort.getSku() + "' IN ps.`sku`)");
@@ -113,7 +112,8 @@ public class SalesAmazonFbaBusinessreporProvider {
         if (rePort.getOrderItemsB2B() != null) {
             sql.WHERE("order_items_b2b=#{orderItemsB2b}");
         }
-        ProviderSqlStore.saveUploadStatus(sql, rePort, alias);
+        ProviderSqlStore.selectUploadStatus(sql, rePort, alias);
+        sql.GROUP_BY(alias + ".bus_id");
         return sql.toString();
     }
 }

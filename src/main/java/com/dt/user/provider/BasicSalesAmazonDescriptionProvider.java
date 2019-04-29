@@ -25,7 +25,7 @@ public class BasicSalesAmazonDescriptionProvider {
                 "FROM `basic_sales_amazon_description` AS " + Alias + " ");
         sql.LEFT_OUTER_JOIN("`basic_public_site` AS s ON s.`site_id`=de.`site_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(description.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(description.getSystemLogStatus(), Alias, sql);
 
         //站点名称
         if (StringUtils.isNotBlank(description.getSiteName())) {

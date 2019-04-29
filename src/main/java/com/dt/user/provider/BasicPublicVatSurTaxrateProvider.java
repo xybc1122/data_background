@@ -21,7 +21,7 @@ public class BasicPublicVatSurTaxrateProvider {
                 "FROM `basic_public_vat_sur_taxrate` AS " + Alias + "\n");
         sql.LEFT_OUTER_JOIN("`basic_public_country` AS c ON c.`country_id`=" + Alias + ".`country_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(vatSurTaxrate.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(vatSurTaxrate.getSystemLogStatus(), Alias, sql);
 
         //国家名称
         if (StringUtils.isNotBlank(vatSurTaxrate.getCountryName())) {

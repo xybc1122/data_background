@@ -85,13 +85,13 @@ public class SalesAmazonFbaFeedbackSqlProvider {
     public String selectByFeedback(SalesAmazonFbaFeedback record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "back";
-        sql.SELECT("s.`shop_name`, cs.`site_name`,`date`,`add`,`move`," + ProviderSqlStore.statusV + "");
+        sql.SELECT("s.`shop_name`, cs.`site_name`,`date`,`add`,`move`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_amazon_fba_feedback AS " + alias);
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         Field[] fields = record.getClass().getDeclaredFields();
         FieldStore.query(fields, record.getNameList(), record, sql);
-        ProviderSqlStore.saveUploadStatus(sql, record, alias);
+        ProviderSqlStore.selectUploadStatus(sql, record, alias);
         return sql.toString();
     }
 

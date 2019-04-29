@@ -5,22 +5,21 @@ import com.dt.user.model.BasePublicModel.BasicPublicAreaRoleSite;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 
 public interface BasicPublicAreaRoleSiteMapper {
     @SelectProvider(type = BasicPublicAreaRoleSiteSqlProvider.class, method = "countByExample")
     int countByExample(BasicPublicAreaRoleSite example);
 
-    @DeleteProvider(type = BasicPublicAreaRoleSiteSqlProvider.class, method = "deleteByExample")
-    int deleteByExample(BasicPublicAreaRoleSite example);
+    /**
+     * 通过 区域 角色表id  删除下面的站点
+     * @param arId
+     * @param seId
+     * @return
+     */
+    @Delete("DELETE FROM `basic_public_area_role_site` WHERE `ar_id` = #{arId} AND `se_id` = #{seId};")
+    int deleteARS(@Param("arId") Integer arId, @Param("seId") Integer seId);
 
     /**
      * 添加 区域 角色配置表id 跟站点id

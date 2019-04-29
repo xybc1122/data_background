@@ -110,19 +110,18 @@ public class SalesAmazonFbaTradeReportProvider {
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`trade_id`, `amazon_order_id`,`merchant_order_id`,`date`,\n" +
                 "`last_updated_date`,`order_status`,`fulfillment_channel`,\n" +
-                "`sales_channel`,`order_channel`, tr.`url`,\n" +
+                "`sales_channel`,`order_channel`, " + alias + ".`url`,\n" +
                 "`ship_service_level`, `product_name`,`trade_sku`,\n" +
-                "`asin`,`item_status`,`quantity`, `currency`,\n" +
+                "`asin`,`item_status`,`quantity`, " + alias + ".`currency`,\n" +
                 "`item_price`,`item_tax`,`shipping_price`,`shipping_tax`,\n" +
                 "`gift_wrap_price`, `gift_wrap_tax`,`item_promotion_discount`,\n" +
                 "`ship_promotion_discount`, `ship_city`,`ship_state`,\n" +
                 "`ship_postal_code`,`ship_country`,`promotion_ids`,\n" +
                 "`is_business_order`,`purchase_order_number`,`price_designation`,\n" +
-                "`is_replacement_order`, `original_order_id`," + ProviderSqlStore.statusV + "" +
+                "`is_replacement_order`, `original_order_id`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_trade_report AS " + alias + " \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         // sku
         AppendSqlStore.sqlWhere(report.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //亚马逊订单号
@@ -211,7 +210,8 @@ public class SalesAmazonFbaTradeReportProvider {
         AppendSqlStore.sqlWhere(report.getIsReplacementOrder(), "is_replacement_order", sql, Constants.SELECT);
         //原始订单号
         AppendSqlStore.sqlWhere(report.getOriginalOrderId(), "original_order_id", sql, Constants.SELECT);
-        ProviderSqlStore.saveUploadStatus(sql, report, alias);
+        ProviderSqlStore.selectUploadStatus(sql, report, alias);
+        sql.GROUP_BY(alias + ".trade_id");
         return sql.toString();
     }
 }

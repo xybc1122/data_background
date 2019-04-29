@@ -44,7 +44,7 @@ public class SalesAmazonFbaInventoryEndProvider {
         String alias = "re";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`date`,`inv_id`,`inv_sku`,`fn_sku`,\n" +
-                "`quantity`,`fc`,`aw_id`,`disposition`,`country`," + ProviderSqlStore.statusV + "" +
+                "`quantity`,`fc`,`aw_id`,`disposition`,`country`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_Inventory_End AS " + alias + " \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
@@ -71,7 +71,7 @@ public class SalesAmazonFbaInventoryEndProvider {
         AppendSqlStore.sqlWhere(inv.getDisposition(), "`disposition`", sql, Constants.SELECT);
         //未知
         AppendSqlStore.sqlWhere(inv.getCountry(), "`country`", sql, Constants.SELECT);
-        ProviderSqlStore.saveUploadStatus(sql, inv, alias);
+        ProviderSqlStore.selectUploadStatus(sql, inv, alias);
         return sql.toString();
     }
 }

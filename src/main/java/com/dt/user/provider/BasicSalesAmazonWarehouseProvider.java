@@ -23,7 +23,7 @@ public class BasicSalesAmazonWarehouseProvider {
                 "FROM `basic_sales_amazon_warehouse` AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id`=" + Alias + ".`site_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(amazonWarehouse.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(amazonWarehouse.getSystemLogStatus(), Alias, sql);
         //站点名称
         AppendSqlStore.sqlWhere(amazonWarehouse.getSiteName(), "si.site_name", sql, Constants.SELECT);
         //FBA仓库编号

@@ -22,7 +22,7 @@ public class BasicExportExitCustomsProvider {
                 " `exit_customs_name_pinyin`,ec.`status_id`\n" +
                 "FROM `basic_export_exit_customs` AS  " + Alias + "");
         //状态数据查询
-        ProviderSqlStore.saveStatus(customs.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(customs.getSystemLogStatus(), Alias, sql);
 
         //出境口岸代码
         if (StringUtils.isNotBlank(customs.getcNumber())) {

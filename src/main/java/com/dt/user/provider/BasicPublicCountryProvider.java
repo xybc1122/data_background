@@ -19,7 +19,7 @@ public class BasicPublicCountryProvider {
         sql.LEFT_OUTER_JOIN("`basic_public_province_city_county`AS pcc ON pcc.city_number=pc.`city_number`");
         sql.LEFT_OUTER_JOIN("`basic_public_language`AS l ON l.language_id=c.`language_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(countryDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(countryDto.getSystemLogStatus(), Alias, sql);
         //国家名称
         if (StringUtils.isNotBlank(countryDto.getCountryName())) {
             sql.WHERE(Alias + ".country_name=#{countryName}");

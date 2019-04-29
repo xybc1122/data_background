@@ -52,7 +52,7 @@ public class SalesAmazonAdCprProvider {
 
 
     public String getCprInfo(SalesAmazonAdCpr cpr) {
-        String table = AppendSqlStore.setSqlTable(cpr, "`sales_amazon_ad_cpr`", "`sales_amazon_ad_cpr_wk`");
+        String table = AppendSqlStore.setSqlTable(cpr.getSqlMode(), "`sales_amazon_ad_cpr`", "`sales_amazon_ad_cpr_wk`");
         SQL sql = new SQL();
         String alias = "cpr";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
@@ -62,7 +62,7 @@ public class SalesAmazonAdCprProvider {
                 "`clicks`,`total_spend`,`orders_placed`,\n" +
                 "`sales`,`roas`,`total_units`,\n" +
                 "`same_sku_units_ordered`,`other_sku_units_ordered`,`same_sku_units_sales`,\n" +
-                "`other_sku_units_sales`," + ProviderSqlStore.statusV + "" +
+                "`other_sku_units_sales`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM " + table + " AS " + alias + " \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
@@ -139,7 +139,7 @@ public class SalesAmazonAdCprProvider {
         if (cpr.getOtherSkuUnitsSales() != null) {
             sql.WHERE("other_sku_units_sales=#{otherSkuUnitsSales}");
         }
-        ProviderSqlStore.saveUploadStatus(sql, cpr, alias);
+        ProviderSqlStore.selectUploadStatus(sql, cpr, alias);
         return sql.toString();
     }
 }

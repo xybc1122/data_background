@@ -21,7 +21,7 @@ public class BasicPublicExchangeRateProvider {
                 "FROM `basic_public_exchange_rate` AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_currency` AS c ON c.currency_id=r.`currency_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(rateDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(rateDto.getSystemLogStatus(), Alias, sql);
         //币别名称
         AppendSqlStore.sqlWhere(rateDto.getCurrencyName(), "c.currency_name", sql, Constants.SELECT);
         //兑人民币汇率

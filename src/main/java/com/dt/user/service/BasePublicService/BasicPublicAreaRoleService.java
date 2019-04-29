@@ -3,6 +3,7 @@ package com.dt.user.service.BasePublicService;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.AreaRoleDto;
 
+
 /**
  * @ClassName BasicPublicAreaRoleService
  * Description TODO
@@ -22,10 +23,20 @@ public interface BasicPublicAreaRoleService {
     ResponseBase serviceInsertARole(AreaRoleDto record);
 
     /**
-     * 删除接口
+     * 通过aid 跟角色id 删除区域关联表信息
      *
-     * @param record
      * @return
      */
-    int serviceDeleteByARole(AreaRoleDto record);
+    int serviceDeleteByARole(Integer aid, Integer rid);
+
+
+    /**
+     * 通过角色id 跟 区域id 查找  arid  用于删除 下面关联的站点
+     *
+     * @param aid
+     * @param rid
+     * @return
+     */
+    Integer serviceSelectArId(Integer aid, Integer rid);
+
 }

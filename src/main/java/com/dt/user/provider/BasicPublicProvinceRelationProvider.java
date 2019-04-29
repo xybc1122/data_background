@@ -23,7 +23,7 @@ public class BasicPublicProvinceRelationProvider {
                 "FROM `basic_public_province_relation` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_province` AS p ON p.`province_id`=r.`province_id`");
         //状态数据查询
-        ProviderSqlStore.saveStatus(relation.getSystemLogStatus(), alias, sql);
+        ProviderSqlStore.selectStatus(relation.getSystemLogStatus(), alias, sql);
         //省州名称
         if (StringUtils.isNotBlank(relation.getProvinceName())) {
             sql.WHERE("p.`province_name`=#{provinceName}");

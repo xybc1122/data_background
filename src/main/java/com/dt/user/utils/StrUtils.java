@@ -36,15 +36,18 @@ public class StrUtils {
     /**
      * 拼接删除in sql
      *
-     * @param delIds
+     * @param ids
      * @param thisId
      * @return
      */
-    public static String in(String delIds, String thisId) {
-        String[] delStr = delIds.split(",");
+    public static String in(String ids, String thisId) {
         StringBuilder sb = new StringBuilder();
+        if (StringUtils.isBlank(ids)) {
+            return sb.append(thisId).append(" IN (-1)").toString();
+        }
+        String[] idsArr = ids.split(",");
         sb.append("\n").append(thisId).append(" in (");
-        for (String id : delStr) {
+        for (String id : idsArr) {
             sb.append(id).append(",");
         }
         return sb.substring(0, sb.length() - 1) + ")";

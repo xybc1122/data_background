@@ -65,7 +65,7 @@ public class SalesAmazonFbaAbandonProvider {
                 "`last_updated_date`, `abandon_sku`,`fn_sku`,\n" +
                 "`disposition`,`requested_quantity`, `cancelled_quantity`,`disposed_quantity`,\n" +
                 "`shipped_quantity`,`in_process_quantity`,`removal_fee`," + alias + ".`currency`,\n " +
-                "" + ProviderSqlStore.statusV + "" +
+                "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM `sales_amazon_fba_abandon` AS " + alias + "");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
@@ -78,7 +78,7 @@ public class SalesAmazonFbaAbandonProvider {
         }
         Field[] fields = abandon.getClass().getDeclaredFields();
         FieldStore.query(fields, abandon.getNameList(), abandon, sql);
-        ProviderSqlStore.saveUploadStatus(sql, abandon, alias);
+        ProviderSqlStore.selectUploadStatus(sql, abandon, alias);
         return sql.toString();
     }
 }

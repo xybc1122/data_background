@@ -46,7 +46,7 @@ public class SalesAmazonFbaReceivestockProvider {
         String alias = "rec";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,\n" +
                 "`rec_id`, `date`,`fba_shipment_id`,`rec_sku`,\n" +
-                "  `fn_sku`,`product_name`,`quantity`,`fc`,`aw_id`," + ProviderSqlStore.statusV + "" +
+                "  `fn_sku`,`product_name`,`quantity`,`fc`,`aw_id`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_receivestock AS " + alias + " \n");
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
@@ -71,7 +71,7 @@ public class SalesAmazonFbaReceivestockProvider {
         if (rec.getAwId() != null) {
             sql.WHERE("aw_id=#{awId}");
         }
-        ProviderSqlStore.saveUploadStatus(sql, rec, alias);
+        ProviderSqlStore.selectUploadStatus(sql, rec, alias);
         return sql.toString();
     }
 }

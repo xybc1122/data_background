@@ -78,7 +78,6 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
         Field[] fields = wFee.getClass().getDeclaredFields();
         FieldStore.query(fields, wFee.getNameList(), wFee, sql);
         ProviderSqlStore.selectUploadStatus(sql, wFee, alias);
-        sql.GROUP_BY(alias + ".lw_id");
         return sql.toString();
     }
 

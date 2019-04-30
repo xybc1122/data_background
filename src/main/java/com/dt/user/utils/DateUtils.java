@@ -56,7 +56,7 @@ public class DateUtils {
             default:
                 return null;
         }
-        if (fsb.getDate() < 111L) return null;
+       // if (fsb.getDate() < 111L) return null;
         return "ok";
     }
 

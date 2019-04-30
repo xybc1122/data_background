@@ -78,10 +78,12 @@ public class ProviderSqlStore {
      */
     public static void joinTable(SQL sql, String alias) {
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.LEFT_OUTER_JOIN("`system_shop_role` AS pr ON pr.s_id = s.`shop_id`");
+        sql.LEFT_OUTER_JOIN("(SELECT s_id FROM system_shop_role AS c_pr  " +
+                "WHERE " + StrUtils.in(ReqUtils.getRoleId(), "c_pr.r_id") + " GROUP BY s_id) AS pr ON  pr.s_id  = s.`shop_id`");
         sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.INNER_JOIN("`basic_public_area_role_site` AS ars ON ars.`se_id`=cs.`site_id`");
-        sql.INNER_JOIN("`basic_public_area_role` AS ar ON ar.`ar_id` = ars.`ar_id`");
+        sql.INNER_JOIN("(SELECT ar_id FROM `basic_public_area_role` AS c_ar  WHERE " + StrUtils.in(ReqUtils.getRoleId(), "c_ar.r_id ") + " " +
+                " GROUP BY a_id) AS ar ON ar.`ar_id` = ars.`ar_id`");
     }
 
     /**
@@ -135,7 +137,6 @@ public class ProviderSqlStore {
         if (StringUtils.isNotBlank(p.getAuditUser())) {
             sql.WHERE("audit_user=#{auditUser}");
         }
-        sql.WHERE(alias + ".del_or_not=0 AND " + StrUtils.in(ReqUtils.getRoleId(), "pr.r_id") +
-                " AND " + StrUtils.in(ReqUtils.getRoleId(), "ar.`r_id`"));
+        sql.WHERE(alias + ".del_or_not=0");
     }
 }

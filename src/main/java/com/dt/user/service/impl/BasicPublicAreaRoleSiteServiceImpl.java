@@ -1,5 +1,6 @@
 package com.dt.user.service.impl;
 
+import com.dt.user.exception.LsException;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicAreaRoleSiteMapper;
 import com.dt.user.model.BasePublicModel.BasicPublicAreaRoleSite;
 import com.dt.user.service.BasePublicService.BasicPublicAreaRoleSiteService;
@@ -25,6 +26,8 @@ public class BasicPublicAreaRoleSiteServiceImpl implements BasicPublicAreaRoleSi
 
     @Override
     public int serviceDeleteARS(Integer arId, Integer seId) {
-        return aRSiteMapper.deleteARS(arId, seId);
+        int delCount = aRSiteMapper.deleteARS(arId, seId);
+        if (delCount <= 0) throw new LsException("deleteARS删除失败");
+        return delCount;
     }
 }

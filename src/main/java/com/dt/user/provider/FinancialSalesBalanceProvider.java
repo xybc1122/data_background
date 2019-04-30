@@ -226,7 +226,6 @@ public class FinancialSalesBalanceProvider {
         //FBA仓储费
         AppendSqlStore.sqlWhere(fbs.getFbaInventoryFee(), "fba_inventory_fee", sql, Constants.SELECT);
         ProviderSqlStore.selectUploadStatus(sql, fbs, alias);
-        sql.GROUP_BY(alias + ".balance_id");
         return sql.toString();
     }
 

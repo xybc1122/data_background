@@ -52,7 +52,7 @@ public class LoginInterCenter implements HandlerInterceptor {
                 String uName = (String) claims.get("name");
                 String rId = (String) claims.get("rId");
                 //查询redis中的token
-                String vRedis = redisService.getStringKey(uName + Constants.TOKEN);
+                String vRedis = redisService.getStringKey(Constants.TOKEN + ":" + uId);
                 //如果是null 说明 token 已经过期
                 if (StringUtils.isEmpty(vRedis)) {
                     sendJsonMessage(response, JsonData.setResultError(Constants.HTTP_RESP_CODE, "令牌失效，请重新登陆"));

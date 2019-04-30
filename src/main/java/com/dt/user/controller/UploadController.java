@@ -65,7 +65,7 @@ public class UploadController {
     public ResponseBase uploadFile(HttpServletRequest request, @RequestParam("sId") String sId,
                                    @RequestParam("seId") String seId, @RequestParam("payId") String payId,
                                    @RequestParam("menuId") String menuId,
-                                   @RequestParam("areaId") String areaId, @RequestParam("businessTime") String businessTime, @RequestParam("closingDate") Long closingDate) {
+                                   @RequestParam("areaId") String areaId, @RequestParam("businessTime") String businessTime) {
         MultipartFile file;
         List<MultipartFile> files = ((MultipartHttpServletRequest) request)
                 .getFiles("files");
@@ -102,7 +102,7 @@ public class UploadController {
             Integer aId = StrUtils.isIntegerNull(areaId);
             int status = isUpload ? 0 : 4;
             //记录用户上传信息~
-            UserUpload upload = uploadOperating(siteId, shopId, fileName, Constants.SAVE_FILE_PATH, ReqUtils.getUid(), pId, status, msg, tbId, aId, businessTime, uuId, closingDate);
+            UserUpload upload = uploadOperating(siteId, shopId, fileName, Constants.SAVE_FILE_PATH, ReqUtils.getUid(), pId, status, msg, tbId, aId, businessTime, uuId, 1L);
             if (isUpload) {
                 uploadList.add(upload);
             }

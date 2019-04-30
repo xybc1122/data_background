@@ -103,7 +103,6 @@ public class SalesAmazonFbaRefundProvider {
         //客户备注
         AppendSqlStore.sqlWhere(refund.getCustomerRemarks(), "`customer_remarks`", sql, Constants.SELECT);
         ProviderSqlStore.selectUploadStatus(sql, refund, alias);
-        sql.GROUP_BY(alias + ".ref_id");
         return sql.toString();
     }
 }

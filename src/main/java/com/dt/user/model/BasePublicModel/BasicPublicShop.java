@@ -9,11 +9,11 @@ public class BasicPublicShop extends ParentSysTemLog {
     /**
      * 店铺ID
      */
-    private Long shopId;
+    private Integer shopId;
     /**
      * 店铺编号
      */
-    private Long number;
+    private Integer number;
     /**
      * 店铺名称
      */
@@ -40,19 +40,19 @@ public class BasicPublicShop extends ParentSysTemLog {
     private String shopShortCode;
 
 
-    public Long getShopId() {
+    public Integer getShopId() {
         return shopId;
     }
 
-    public void setShopId(Long shopId) {
+    public void setShopId(Integer shopId) {
         this.shopId = shopId;
     }
 
-    public Long getNumber() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void setNumber(Long number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 

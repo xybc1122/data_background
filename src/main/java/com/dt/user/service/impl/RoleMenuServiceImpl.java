@@ -30,7 +30,6 @@ public class RoleMenuServiceImpl implements RoleMenuService {
 
     @Override
     @Transactional
-    //添加菜单跟删除有问题
     public ResponseBase addAndDelMenu(Map<String, Object> menuMap) {
         String rid = (String) menuMap.get("rid");
         String menuIds = (String) menuMap.get("menuIds");

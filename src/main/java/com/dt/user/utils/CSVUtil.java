@@ -16,7 +16,7 @@ public class CSVUtil {
      *
      * @param filePath 文件路径
      */
-    public static String startReadLine(String filePath, Integer site, int tbId) {
+    public static String startReadLine(String filePath, Integer site, int mid) {
         JSONObject readJson = new JSONObject();
         try (InputStreamReader read = FileUtils.streamReader(filePath);
              BufferedReader reader = new BufferedReader(read)) {
@@ -24,7 +24,7 @@ public class CSVUtil {
             String line;
             int index = 1;
             while ((line = reader.readLine()) != null) {
-                if (tbId == 85 || tbId == 104) {
+                if (mid == 85 || mid == 104) {
                     //CSV格式文件为逗号分隔符文件，这里根据逗号切分
                     String item[] = line.split(",");
                     String itemHead = item[0].replace("\"", "");

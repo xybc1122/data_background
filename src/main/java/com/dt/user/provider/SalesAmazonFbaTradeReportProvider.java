@@ -211,7 +211,6 @@ public class SalesAmazonFbaTradeReportProvider {
         //原始订单号
         AppendSqlStore.sqlWhere(report.getOriginalOrderId(), "original_order_id", sql, Constants.SELECT);
         ProviderSqlStore.selectUploadStatus(sql, report, alias);
-        sql.GROUP_BY(alias + ".trade_id");
         return sql.toString();
     }
 }

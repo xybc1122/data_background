@@ -1,5 +1,7 @@
 package com.dt.user.store;
 
+import com.dt.user.utils.StrUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class UploadStore {
         List<String> headList = new ArrayList<>();
         //转换下头信息
         for (String anOldHeadList : oldHeadList) {
-            String head = anOldHeadList.replace("\"", "").replace("﻿", "").trim();
+            String head = StrUtils.specialUnicode(anOldHeadList).replace("\"", "").trim();
             headList.add(head);
             System.out.println(head);
         }

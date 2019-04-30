@@ -3,7 +3,9 @@ package com.dt.user.controller.UserServiceController;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.UserRole;
+import com.dt.user.service.RedisService;
 import com.dt.user.service.UserRoleService;
+import com.dt.user.toos.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,8 @@ public class UserRoleController {
 
     @Autowired
     private UserRoleService roleService;
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 删除角色信息
@@ -36,6 +40,7 @@ public class UserRoleController {
             for (Integer r : rid) {
                 roleService.delUserRole(r.longValue(), uid.longValue());
             }
+            redisService.delKey(Constants.TOKEN + ":" + uid);
             return JsonData.setResultSuccess("角色删除成功~");
         } else if (delMap.get("rolesId") instanceof String) {
             String rid = (String) delMap.get("rolesId");
@@ -43,6 +48,7 @@ public class UserRoleController {
             for (Integer u : uid) {
                 roleService.delUserRole(Long.parseLong(rid), u.longValue());
             }
+            redisService.delKey(Constants.TOKEN + ":" + uid);
             return JsonData.setResultSuccess("删除用户成功~");
         }
         return JsonData.setResultError("删除用户失败~");
@@ -68,6 +74,7 @@ public class UserRoleController {
             urList.add(userRole);
             //新增角色信息
             roleService.addUserRole(urList);
+            redisService.delKey(Constants.TOKEN + ":" + uid);
             return JsonData.setResultSuccess("添加角色成功~");
         } else if (addMap.get("rolesId") instanceof String) {
             //如果是String 类型
@@ -78,7 +85,7 @@ public class UserRoleController {
             urList.add(userRole);
             //新增角色信息
             roleService.addUserRole(urList);
-
+            redisService.delKey(Constants.TOKEN + ":" + uid);
             return JsonData.setResultSuccess("添加用户成功~");
         }
         return JsonData.setResultError("添加失败~");

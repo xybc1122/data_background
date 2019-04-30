@@ -126,7 +126,7 @@ public class UserServiceImpl extends JsonData implements UserService {
         uJson.put("user", user);
         uJson.put("token", userToken);
         //设置token
-        redisService.setString(user.getUserName() + Constants.TOKEN, userToken, time);
+        redisService.setString(Constants.TOKEN + ":" + user.getUid(), userToken, time);
         //设置Cookie
         CookieUtil.set(response, Constants.TOKEN, userToken, ifRemember);
         return uJson;

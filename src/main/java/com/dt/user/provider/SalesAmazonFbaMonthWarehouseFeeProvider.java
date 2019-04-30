@@ -91,7 +91,6 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
         //查询
         FieldStore.query(fields, mWar.getNameList(), mWar, sql);
         ProviderSqlStore.selectUploadStatus(sql, mWar, alias);
-        sql.GROUP_BY(alias + ".w_id");
         return sql.toString();
     }
 }

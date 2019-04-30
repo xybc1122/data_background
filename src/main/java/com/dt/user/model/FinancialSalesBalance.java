@@ -505,4 +505,63 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     public void setLowValueGoods(BigDecimal lowValueGoods) {
         this.lowValueGoods = lowValueGoods;
     }
+
+    @Override
+    public String toString() {
+        return "FinancialSalesBalance{" +
+                "balanceId=" + balanceId +
+                ", settlementId='" + settlementId + '\'' +
+                ", paymentTypeId=" + paymentTypeId +
+                ", financialSku='" + financialSku + '\'' +
+                ", type='" + type + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", description='" + description + '\'' +
+                ", oQuantity=" + oQuantity +
+                ", quantity=" + quantity +
+                ", refundQuantity=" + refundQuantity +
+                ", orderQty=" + orderQty +
+                ", adjustmentQty=" + adjustmentQty +
+                ", marketplace='" + marketplace + '\'' +
+                ", fulfillment='" + fulfillment + '\'' +
+                ", city='" + city + '\'' +
+                ", state='" + state + '\'' +
+                ", postal='" + postal + '\'' +
+                ", sales=" + sales +
+                ", salePrice=" + salePrice +
+                ", preSalePrice=" + preSalePrice +
+                ", stdSalePrice=" + stdSalePrice +
+                ", newShippingCredits=" + newShippingCredits +
+                ", shippingCredits=" + shippingCredits +
+                ", giftwrapCredits=" + giftwrapCredits +
+                ", promotionalRebates=" + promotionalRebates +
+                ", salesTax=" + salesTax +
+                ", marketplaceFacilitatorTax=" + marketplaceFacilitatorTax +
+                ", sellingFees=" + sellingFees +
+                ", fbaFee=" + fbaFee +
+                ", otherTransactionFees=" + otherTransactionFees +
+                ", other=" + other +
+                ", total=" + total +
+                ", serviceFee=" + serviceFee +
+                ", transfer=" + transfer +
+                ", adjustment=" + adjustment +
+                ", newPromotionalRebates=" + newPromotionalRebates +
+                ", newShippingFba=" + newShippingFba +
+                ", stdProductSales=" + stdProductSales +
+                ", stdSalesOriginal=" + stdSalesOriginal +
+                ", stdSalesAdd=" + stdSalesAdd +
+                ", stdSalesMinus=" + stdSalesMinus +
+                ", stdFba=" + stdFba +
+                ", stdFbas=" + stdFbas +
+                ", stdFbaOriginal=" + stdFbaOriginal +
+                ", lightningDealFee=" + lightningDealFee +
+                ", fbaInventoryFee=" + fbaInventoryFee +
+                ", newOther=" + newOther +
+                ", vat=" + vat +
+                ", salesForTax=" + salesForTax +
+                ", serviceFeeTax=" + serviceFeeTax +
+                ", paymentTypeName='" + paymentTypeName + '\'' +
+                ", pointFee=" + pointFee +
+                ", lowValueGoods=" + lowValueGoods +
+                '}';
+    }
 }

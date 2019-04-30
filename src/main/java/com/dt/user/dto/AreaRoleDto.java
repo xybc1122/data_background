@@ -26,14 +26,14 @@ public class AreaRoleDto extends BasicPublicAreaRole {
     /**
      * 是否全部删除
      */
-    private Boolean removeArea;
+    private Boolean areaChecked;
 
-    public Boolean getRemoveArea() {
-        return removeArea;
+    public Boolean getAreaChecked() {
+        return areaChecked;
     }
 
-    public void setRemoveArea(Boolean removeArea) {
-        this.removeArea = removeArea;
+    public void setAreaChecked(Boolean areaChecked) {
+        this.areaChecked = areaChecked;
     }
 
     public List<AreaRoleDto> getAreaRoleDtoList() {

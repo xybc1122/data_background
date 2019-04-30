@@ -113,7 +113,6 @@ public class SalesAmazonFbaBusinessreporProvider {
             sql.WHERE("order_items_b2b=#{orderItemsB2b}");
         }
         ProviderSqlStore.selectUploadStatus(sql, rePort, alias);
-        sql.GROUP_BY(alias + ".bus_id");
         return sql.toString();
     }
 }

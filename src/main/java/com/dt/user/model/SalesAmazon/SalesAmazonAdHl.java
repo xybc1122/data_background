@@ -28,8 +28,8 @@ public class SalesAmazonAdHl extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonAdHl(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
-        super(shopId, siteId, createDate, createUser, recordingId);
+    public SalesAmazonAdHl(Integer shopId, Integer siteId, Long createDate, Long createIdUser, Long recordingId) {
+        super(shopId, siteId, createDate, createIdUser, recordingId);
 
     }
 

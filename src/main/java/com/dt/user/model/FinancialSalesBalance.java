@@ -77,8 +77,8 @@ public class FinancialSalesBalance extends ParentUploadInfo {
 
     }
 
-    public FinancialSalesBalance(Integer shopId, Integer siteId, Long paymentTypeId, Long createDate, String createUser, Long recordingId) {
-        super(shopId, siteId, createDate, createUser, recordingId);
+    public FinancialSalesBalance(Integer shopId, Integer siteId, Long paymentTypeId, Long createDate, Long createIdUser, Long recordingId) {
+        super(shopId, siteId, createDate, createIdUser, recordingId);
         this.paymentTypeId = paymentTypeId;
     }
 

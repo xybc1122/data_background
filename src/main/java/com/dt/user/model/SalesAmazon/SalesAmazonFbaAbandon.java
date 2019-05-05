@@ -33,8 +33,8 @@ public class SalesAmazonFbaAbandon extends ParentUploadInfo {
 
 
     }
-    public SalesAmazonFbaAbandon(Integer sId, Long createDate, String createUser, Long recordingId, Integer aId) {
-        super(sId, null, createDate, createUser, recordingId);
+    public SalesAmazonFbaAbandon(Integer sId, Long createDate, Long createIdUser, Long recordingId, Integer aId) {
+        super(sId, null, createDate, createIdUser, recordingId);
         this.areaId = aId;
     }
 

@@ -29,8 +29,8 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonFbaBusinessreport(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
-        super(shopId, siteId, createDate, createUser, recordingId);
+    public SalesAmazonFbaBusinessreport(Integer shopId, Integer siteId, Long createDate, Long createIdUser, Long recordingId) {
+        super(shopId, siteId, createDate, createIdUser, recordingId);
     }
 
     public BigDecimal getSessionsPer() {
@@ -104,7 +104,6 @@ public class SalesAmazonFbaBusinessreport extends ParentUploadInfo {
     public void setPageViews(Integer pageViews) {
         this.pageViews = pageViews;
     }
-
 
 
     public Integer getOrder() {

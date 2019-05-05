@@ -57,7 +57,7 @@ public interface TableHeadMapper {
     /**
      * 查询引用表头信息
      */
-    @Select("SELECT`id`,`head_name`,`menu_id`,top_order,top_type FROM `system_user_table_head` where is_reference =true")
+    @Select("SELECT`id`,`head_name`,`menu_id`,top_order,top_type,version FROM `system_user_table_head` where is_reference =true")
     List<TableHead> getIsReference();
 
     /**

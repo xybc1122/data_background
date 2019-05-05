@@ -34,76 +34,6 @@ public class SalesAmazonFbaReviewSqlProvider {
     }
 
     public String insertSelective(SalesAmazonFbaReview record) {
-        INSERT_INTO("sales_amazon_fba_review");
-
-        if (record.getReId() != null) {
-            VALUES("re_id", "#{reId,jdbcType=BIGINT}");
-        }
-
-        if (record.getDate() != null) {
-            VALUES("date", "#{date,jdbcType=BIGINT}");
-        }
-
-        if (record.getShopId() != null) {
-            VALUES("shop_id", "#{shopId,jdbcType=INTEGER}");
-        }
-
-        if (record.getSiteId() != null) {
-            VALUES("site_id", "#{siteId,jdbcType=INTEGER}");
-        }
-
-        if (record.getSkuId() != null) {
-            VALUES("sku_id", "#{skuId,jdbcType=BIGINT}");
-        }
-
-        if (record.getStarLevelId() != null) {
-            VALUES("star_level_id", "#{starLevelId,jdbcType=INTEGER}");
-        }
-
-        if (record.getAdd() != null) {
-            VALUES("add", "#{add,jdbcType=INTEGER}");
-        }
-
-        if (record.getMove() != null) {
-            VALUES("move", "#{move,jdbcType=INTEGER}");
-        }
-
-        if (record.getRemark() != null) {
-            VALUES("remark", "#{remark,jdbcType=VARCHAR}");
-        }
-
-        if (record.getStatus() != null) {
-            VALUES("status", "#{status,jdbcType=INTEGER}");
-        }
-
-        if (record.getCreateDate() != null) {
-            VALUES("create_date", "#{createDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getCreateUser() != null) {
-            VALUES("create_user", "#{createUser,jdbcType=VARCHAR}");
-        }
-
-        if (record.getModifyDate() != null) {
-            VALUES("modify_date", "#{modifyDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getModifyUser() != null) {
-            VALUES("modify_user", "#{modifyUser,jdbcType=VARCHAR}");
-        }
-
-        if (record.getAuditDate() != null) {
-            VALUES("audit_date", "#{auditDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getAuditUser() != null) {
-            VALUES("audit_user", "#{auditUser,jdbcType=VARCHAR}");
-        }
-
-        if (record.getRecordingId() != null) {
-            VALUES("recording_id", "#{recordingId,jdbcType=BIGINT}");
-        }
-
         return SQL();
     }
 
@@ -171,30 +101,6 @@ public class SalesAmazonFbaReviewSqlProvider {
 
         if (record.getCreateDate() != null) {
             SET("create_date = #{record.createDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getCreateUser() != null) {
-            SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
-        }
-
-        if (record.getModifyDate() != null) {
-            SET("modify_date = #{record.modifyDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getModifyUser() != null) {
-            SET("modify_user = #{record.modifyUser,jdbcType=VARCHAR}");
-        }
-
-        if (record.getAuditDate() != null) {
-            SET("audit_date = #{record.auditDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getAuditUser() != null) {
-            SET("audit_user = #{record.auditUser,jdbcType=VARCHAR}");
-        }
-
-        if (record.getRecordingId() != null) {
-            SET("recording_id = #{record.recordingId,jdbcType=BIGINT}");
         }
 
         return SQL();

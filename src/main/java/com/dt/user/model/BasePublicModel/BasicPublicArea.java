@@ -9,7 +9,7 @@ public class BasicPublicArea extends ParentSysTemLog {
     /**
      * 区域ID
      */
-    private Long areaId;
+    private Integer areaId;
     /**
      * 区域编号
      */
@@ -31,6 +31,32 @@ public class BasicPublicArea extends ParentSysTemLog {
      */
     private Integer arId;
 
+    /**
+     * 站点id
+     */
+    private Integer siteId;
+    /**
+     * 站点 名称
+     */
+    private String siteName;
+
+
+    public Integer getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(Integer siteId) {
+        this.siteId = siteId;
+    }
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
     public Integer getArId() {
         return arId;
     }
@@ -39,14 +65,13 @@ public class BasicPublicArea extends ParentSysTemLog {
         this.arId = arId;
     }
 
-    public Long getAreaId() {
+    public Integer getAreaId() {
         return areaId;
     }
 
-    public void setAreaId(Long areaId) {
+    public void setAreaId(Integer areaId) {
         this.areaId = areaId;
     }
-
 
     public String getAreaName() {
         return areaName;

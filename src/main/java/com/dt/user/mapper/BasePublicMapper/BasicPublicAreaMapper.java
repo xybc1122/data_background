@@ -27,6 +27,7 @@ public interface BasicPublicAreaMapper {
     })
     List<AreaDto> findByListArea();
 
+
     /**
      * 查询区域信息
      *
@@ -34,4 +35,6 @@ public interface BasicPublicAreaMapper {
      */
     @SelectProvider(type = BasicPublicAreaProvider.class, method = "selectReg")
     List<BasicPublicArea> selectRegion(@Param("rid") String rid);
+
+
 }

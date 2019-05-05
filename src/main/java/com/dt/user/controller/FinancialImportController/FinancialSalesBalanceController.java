@@ -3,7 +3,6 @@ package com.dt.user.controller.FinancialImportController;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.FinancialSalesBalance;
 import com.dt.user.service.FinancialImportService.FinancialSalesBalanceService;
-import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,8 +29,7 @@ public class FinancialSalesBalanceController {
      */
     @PostMapping("/getFsbInfo")
     public ResponseBase geFsbInfo(@RequestBody FinancialSalesBalance fsb) {
-        PageInfoUtils.setPage(fsb.getPageSize(), fsb.getCurrentPage());
-        return PageInfoUtils.returnPage(fsbService.serviceFindByListFbs(fsb), fsb.getCurrentPage());
+        return fsbService.serviceFindByListFbs(fsb);
     }
 
 }

@@ -27,8 +27,8 @@ public class SalesAmazonFbaLongWarehouseFee extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonFbaLongWarehouseFee(Integer shopId, Long createDate, String createUser, Long recordingId) {
-        super(shopId, null, createDate, createUser, recordingId);
+    public SalesAmazonFbaLongWarehouseFee(Integer shopId, Long createDate, Long createIdUser, Long recordingId) {
+        super(shopId, null, createDate, createIdUser, recordingId);
     }
 
     public String getProductName() {

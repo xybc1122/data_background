@@ -25,8 +25,18 @@ public class BasicPublicAreaProvider {
         }
         sql.SELECT(" ar.`ar_id`,`area_id`,`area_name`,`area_short_name_eng` from  basic_public_area AS " + Alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_area_role` AS ar ON ar.`a_id` = a.`area_id`");
-        return sql.toString() + " WHERE " + StrUtils.in(rids, "ar.`r_id`") + " GROUP BY "+Alias+".area_name";
+        return sql.toString() + " WHERE " + StrUtils.in(rids, "ar.`r_id`") + " GROUP BY " + Alias + ".area_name";
     }
 
 
+    public String selectAreaAndSite(Map<String, String> reMap) {
+        String rids = reMap.get("rid");
+        SQL sql = new SQL();
+        String Alias = "a";
+        sql.SELECT(" a.area_id,a.area_name,cs.`site_id`,cs.`site_name` FROM `basic_public_area` AS " + Alias + "");
+        sql.LEFT_OUTER_JOIN("`basic_public_area_role` AS ar ON ar.a_id = a.area_id");
+        sql.LEFT_OUTER_JOIN("`basic_public_area_role_site` AS ars ON ars.`ar_id` = ar.ar_id");
+        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = ars.`se_id`");
+        return sql.toString() + " WHERE " + StrUtils.in(rids, "ar.r_id") + " GROUP BY ar.a_id";
+    }
 }

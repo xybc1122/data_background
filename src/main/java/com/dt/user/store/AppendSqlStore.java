@@ -21,9 +21,7 @@ public class AppendSqlStore {
      * @param p
      */
     public static void set(StringBuilder sb, ParentUploadInfo p) {
-        sb.append(p.getCreateDate()).append(",");
-        StrUtils.appBuider(sb, p.getCreateUser());
-        sb.append(",");
+        sb.append(p.getCreateDate()).append(",").append(p.getCreateIdUser()).append(",");
         sb.append(p.getRecordingId()).append("),");
     }
 

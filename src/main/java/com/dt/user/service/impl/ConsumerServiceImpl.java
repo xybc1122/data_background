@@ -228,8 +228,6 @@ public class ConsumerServiceImpl implements ConsumerService {
         List<?> tList = new ArrayList<>();
         //获得数据库是否存入的信息
         List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(null, menuId, aId, shopId);
-        //通过uid 查找账号
-        String userName = userService.serviceGetName(uid);
         //设置第一行头信息List 设置的是字符串
         List<String> txtHeadList = UploadStore.setLineHeadList(lineHead);
         String line;
@@ -250,7 +248,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //订单报告
                     case 109:
                         safTradList = ArrUtils.listT(tList);
-                        SalesAmazonFbaTradeReport sftPort = setTraPort(shopId, userName, recordingId);
+                        SalesAmazonFbaTradeReport sftPort = setTraPort(shopId, uid, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
                             sftPort = setTradeReport(i, sftPort, newLine, shopId, txtHead, isImportHead);
@@ -265,7 +263,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //退货报告
                     case 110:
                         safRefundList = ArrUtils.listT(tList);
-                        SalesAmazonFbaRefund sfRefund = setRefund(shopId, userName, recordingId);
+                        SalesAmazonFbaRefund sfRefund = setRefund(shopId, uid, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
                             sfRefund = setAmazonFbaRefund(i, sfRefund, newLine, shopId, aId, txtHead, isImportHead);
@@ -280,7 +278,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //接收库存
                     case 113:
                         sfReceivesList = ArrUtils.listT(tList);
-                        SalesAmazonFbaReceivestock sfReceives = setReceives(shopId, userName, recordingId);
+                        SalesAmazonFbaReceivestock sfReceives = setReceives(shopId, uid, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
                             sfReceives = setReceiveStock(i, sfReceives, newLine, txtHead, shopId, isImportHead);
@@ -295,7 +293,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //期末库存
                     case 114:
                         safEndList = ArrUtils.listT(tList);
-                        SalesAmazonFbaInventoryEnd sfEnd = setEnd(shopId, userName, recordingId);
+                        SalesAmazonFbaInventoryEnd sfEnd = setEnd(shopId, uid, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
                             sfEnd = setSalesEnd(i, sfEnd, newLine, txtHead, isImportHead);
@@ -310,7 +308,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //月度仓储费用
                     case 269:
                         mWarList = ArrUtils.listT(tList);
-                        SalesAmazonFbaMonthWarehouseFee mWar = setMWar(shopId, userName, recordingId);
+                        SalesAmazonFbaMonthWarehouseFee mWar = setMWar(shopId, uid, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
                             mWar = setMonthWarehouseFee(i, mWar, newLine, txtHead, isImportHead);
@@ -325,7 +323,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //长期仓储费用
                     case 270:
                         lwList = ArrUtils.listT(tList);
-                        SalesAmazonFbaLongWarehouseFee lWar = setLWar(shopId, userName, recordingId);
+                        SalesAmazonFbaLongWarehouseFee lWar = setLWar(shopId, uid, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
                             lWar = setLongWarehouseFee(i, lWar, newLine, txtHead, isImportHead);
@@ -340,7 +338,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     case 325:
                         //FBA遗弃
                         abandonList = ArrUtils.listT(tList);
-                        SalesAmazonFbaAbandon abandon = setAbandon(shopId, userName, recordingId, aId);
+                        SalesAmazonFbaAbandon abandon = setAbandon(shopId, uid, recordingId, aId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
                             abandon = setFbaAbandon(i, abandon, newLine, txtHead, isImportHead);
@@ -919,8 +917,6 @@ public class ConsumerServiceImpl implements ConsumerService {
         RealTimeData timeData = new RealTimeData((double) sheet.getLastRowNum());
         //获得数据库是否存入的信息
         List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(siteId, menuId, null, shopId);
-        //通过uid 查找账号
-        String userName = userService.serviceGetName(uid);
         //保存J的索引 为了拿到 出错的头 字段
         int k = 0;
         Map<String, Integer> intMap = new HashMap<>();
@@ -936,7 +932,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 // 105 cpr
                 if (menuId == 105) {
                     cprList = ArrUtils.listT(tList);
-                    SalesAmazonAdCpr saCpr = setCpr(shopId, siteId, userName, recordingId);
+                    SalesAmazonAdCpr saCpr = setCpr(shopId, siteId, uid, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
                         cell = row.getCell(j);
@@ -953,7 +949,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //107 str
                 } else if (menuId == 107) {
                     strList = ArrUtils.listT(tList);
-                    SalesAmazonAdStr adStr = setStr(shopId, siteId, userName, recordingId);
+                    SalesAmazonAdStr adStr = setStr(shopId, siteId, uid, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
                         cell = row.getCell(j);
@@ -963,7 +959,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //106 oar
                 } else if (menuId == 106) {
                     oarList = ArrUtils.listT(tList);
-                    SalesAmazonAdOar adOar = setOar(shopId, siteId, userName, recordingId);
+                    SalesAmazonAdOar adOar = setOar(shopId, siteId, uid, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
                         cell = row.getCell(j);
@@ -979,7 +975,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //HL
                 } else if (menuId == 125) {
                     hlList = ArrUtils.listT(tList);
-                    SalesAmazonAdHl adHl = setHl(shopId, siteId, userName, recordingId);
+                    SalesAmazonAdHl adHl = setHl(shopId, siteId, uid, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
                         cell = row.getCell(j);
@@ -989,7 +985,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //订单处理费
                 } else if (menuId == 271) {
                     hFeesList = ArrUtils.listT(tList);
-                    SalesAmazonFbaHandlingFee hLFee = setHLFee(userName, recordingId);
+                    SalesAmazonFbaHandlingFee hLFee = setHLFee(uid, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
                         cell = row.getCell(j);
@@ -1487,8 +1483,6 @@ public class ConsumerServiceImpl implements ConsumerService {
         List<?> tList = new ArrayList<>();
         //获得数据库是否存入的信息
         List<BasicSalesAmazonCsvTxtXslHeader> isImportHead = headService.sqlHead(seId, menuId, null, sId);
-        //通过uid 查找账号
-        String userName = userService.serviceGetName(uid);
         Map<String, Integer> intMap = new HashMap<>();
         //获得 ctx 对象
         ChannelHandlerContext ctx = chatService.getCtx(uid);
@@ -1503,7 +1497,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //85 == 财务上传ID | 104 运营上传
                     if (menuId == Constants.FINANCE_ID || menuId == Constants.FINANCE_ID_YY) {
                         fsbList = ArrUtils.listT(tList);
-                        FinancialSalesBalance fb = setFsb(sId, seId, userName, pId.longValue(), recordingId);
+                        FinancialSalesBalance fb = setFsb(sId, seId, uid, pId.longValue(), recordingId);
                         for (int j = 0; j < csvReader.getColumnCount(); j++) {
                             k = j;
                             fb = saveFinance(fb, csvReader, sId, seId, csvHeadList, isImportHead, j);
@@ -1518,7 +1512,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //108 == 业务上传ID
                     else if (menuId == Constants.BUSINESS_ID) {
                         sfbList = ArrUtils.listT(tList);
-                        SalesAmazonFbaBusinessreport sfb = setBusPort(sId, seId, userName, recordingId);
+                        SalesAmazonFbaBusinessreport sfb = setBusPort(sId, seId, uid, recordingId);
                         for (int j = 0; j < csvReader.getColumnCount(); j++) {
                             k = j;
                             sfb = saveBusiness(sfb, csvReader, sId, seId, Long.parseLong(businessTime), csvHeadList, isImportHead, j);
@@ -2006,99 +2000,99 @@ public class ConsumerServiceImpl implements ConsumerService {
     /**
      * FBA遗弃存入
      */
-    public SalesAmazonFbaAbandon setAbandon(Integer sId, String userName, Long recordingId, Integer aId) {
-        return new SalesAmazonFbaAbandon(sId, new Date().getTime(), userName, recordingId, aId);
+    public SalesAmazonFbaAbandon setAbandon(Integer sId, Long uid, Long recordingId, Integer aId) {
+        return new SalesAmazonFbaAbandon(sId, new Date().getTime(), uid, recordingId, aId);
     }
 
     /**
      * 订单处理费 通用存储
      */
-    public SalesAmazonFbaHandlingFee setHLFee(String userName, Long recordingId) {
-        return new SalesAmazonFbaHandlingFee(new Date().getTime(), userName, recordingId);
+    public SalesAmazonFbaHandlingFee setHLFee(Long uid, Long recordingId) {
+        return new SalesAmazonFbaHandlingFee(new Date().getTime(), uid, recordingId);
     }
 
     /**
      * 长期仓储费通用存储
      */
-    public SalesAmazonFbaLongWarehouseFee setLWar(Integer sId, String userName, Long recordingId) {
-        return new SalesAmazonFbaLongWarehouseFee(sId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonFbaLongWarehouseFee setLWar(Integer sId, Long uid, Long recordingId) {
+        return new SalesAmazonFbaLongWarehouseFee(sId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * 月度仓储费通用存储
      */
-    public SalesAmazonFbaMonthWarehouseFee setMWar(Integer sId, String userName, Long recordingId) {
-        return new SalesAmazonFbaMonthWarehouseFee(sId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonFbaMonthWarehouseFee setMWar(Integer sId, Long uid, Long recordingId) {
+        return new SalesAmazonFbaMonthWarehouseFee(sId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * 期末库存通用对象
      */
-    public SalesAmazonFbaInventoryEnd setEnd(Integer sId, String userName, Long recordingId) {
-        return new SalesAmazonFbaInventoryEnd(sId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonFbaInventoryEnd setEnd(Integer sId, Long uid, Long recordingId) {
+        return new SalesAmazonFbaInventoryEnd(sId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * 接收库存通用对象
      */
-    public SalesAmazonFbaReceivestock setReceives(Integer sId, String userName, Long recordingId) {
-        return new SalesAmazonFbaReceivestock(sId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonFbaReceivestock setReceives(Integer sId, Long uid, Long recordingId) {
+        return new SalesAmazonFbaReceivestock(sId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * 退货报告通用对象
      */
-    public SalesAmazonFbaRefund setRefund(Integer sId, String userName, Long recordingId) {
-        return new SalesAmazonFbaRefund(sId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonFbaRefund setRefund(Integer sId, Long uid, Long recordingId) {
+        return new SalesAmazonFbaRefund(sId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * 订单报告通用对象
      */
-    public SalesAmazonFbaTradeReport setTraPort(Integer sId, String userName, Long recordingId) {
-        return new SalesAmazonFbaTradeReport(sId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonFbaTradeReport setTraPort(Integer sId, Long uid, Long recordingId) {
+        return new SalesAmazonFbaTradeReport(sId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * 业务报告通用对象
      */
-    public SalesAmazonFbaBusinessreport setBusPort(Integer sId, Integer seId, String userName, Long recordingId) {
-        return new SalesAmazonFbaBusinessreport(sId, seId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonFbaBusinessreport setBusPort(Integer sId, Integer seId,  Long uid, Long recordingId) {
+        return new SalesAmazonFbaBusinessreport(sId, seId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * 财务设置通用对象
      */
-    public FinancialSalesBalance setFsb(Integer sId, Integer seId, String userName, Long pId, Long recordingId) {
-        return new FinancialSalesBalance(sId, seId, pId, new Date().getTime(), userName, recordingId);
+    public FinancialSalesBalance setFsb(Integer sId, Integer seId, Long uid, Long pId, Long recordingId) {
+        return new FinancialSalesBalance(sId, seId, pId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * H1设置通用对象
      */
-    public SalesAmazonAdHl setHl(Integer sId, Integer seId, String userName, Long recordingId) {
-        return new SalesAmazonAdHl(sId, seId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonAdHl setHl(Integer sId, Integer seId, Long uid, Long recordingId) {
+        return new SalesAmazonAdHl(sId, seId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * Cpr设置通用对象
      */
-    public SalesAmazonAdCpr setCpr(Integer sId, Integer seId, String userName, Long recordingId) {
-        return new SalesAmazonAdCpr(sId, seId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonAdCpr setCpr(Integer sId, Integer seId, Long uid, Long recordingId) {
+        return new SalesAmazonAdCpr(sId, seId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * Oar设置通用对象
      */
-    public SalesAmazonAdOar setOar(Integer sId, Integer seId, String userName, Long recordingId) {
-        return new SalesAmazonAdOar(sId, seId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonAdOar setOar(Integer sId, Integer seId,  Long uid, Long recordingId) {
+        return new SalesAmazonAdOar(sId, seId, new Date().getTime(), uid, recordingId);
     }
 
     /**
      * Str设置通用对象
      */
-    public SalesAmazonAdStr setStr(Integer sId, Integer seId, String userName, Long recordingId) {
-        return new SalesAmazonAdStr(sId, seId, new Date().getTime(), userName, recordingId);
+    public SalesAmazonAdStr setStr(Integer sId, Integer seId,  Long uid, Long recordingId) {
+        return new SalesAmazonAdStr(sId, seId, new Date().getTime(), uid, recordingId);
     }
 
 //###############设置表头

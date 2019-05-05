@@ -29,7 +29,7 @@ public class SalesAmazonAdStr extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonAdStr(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
+    public SalesAmazonAdStr(Integer shopId, Integer siteId, Long createDate, Long createUser, Long recordingId) {
         super(shopId, siteId, createDate, createUser, recordingId);
 
     }

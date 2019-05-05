@@ -1,5 +1,6 @@
 package com.dt.user.service.FinancialImportService;
 
+import com.dt.user.config.ResponseBase;
 import com.dt.user.model.FinancialSalesBalance;
 
 import java.util.List;
@@ -21,6 +22,6 @@ public interface FinancialSalesBalanceService {
      * @param fsb
      * @return
      */
-    List<FinancialSalesBalance> serviceFindByListFbs(FinancialSalesBalance fsb);
+    ResponseBase serviceFindByListFbs(FinancialSalesBalance fsb);
 
 }

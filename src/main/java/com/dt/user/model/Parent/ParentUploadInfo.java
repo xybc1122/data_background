@@ -51,11 +51,11 @@ public class ParentUploadInfo {
     private String remark;
     private Integer status;
     private Long createDate;
-    private String createUser;
+    private Long createIdUser;
     private Long modifyDate;
-    private String modifyUser;
+    private Long modifyIdUser;
     private Long auditDate;
-    private String auditUser;
+    private Long auditIdUser;
     /**
      * 角色ids
      */
@@ -97,21 +97,13 @@ public class ParentUploadInfo {
 
     }
 
-    public ParentUploadInfo(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
+    public ParentUploadInfo(Integer shopId, Integer siteId, Long createDate, Long createIdUser, Long recordingId) {
         this.createDate = createDate;
-        this.createUser = createUser;
+        this.createIdUser = createIdUser;
         this.recordingId = recordingId;
         this.shopId = shopId;
         this.siteId = siteId;
 
-    }
-
-    public List<JavaSqlName> getNameList() {
-        return nameList;
-    }
-
-    public void setNameList(List<JavaSqlName> nameList) {
-        this.nameList = nameList;
     }
 
     public Integer getSqlMode() {
@@ -226,12 +218,12 @@ public class ParentUploadInfo {
         this.createDate = createDate;
     }
 
-    public String getCreateUser() {
-        return createUser;
+    public Long getCreateIdUser() {
+        return createIdUser;
     }
 
-    public void setCreateUser(String createUser) {
-        this.createUser = createUser;
+    public void setCreateIdUser(Long createIdUser) {
+        this.createIdUser = createIdUser;
     }
 
     public Long getModifyDate() {
@@ -242,12 +234,12 @@ public class ParentUploadInfo {
         this.modifyDate = modifyDate;
     }
 
-    public String getModifyUser() {
-        return modifyUser;
+    public Long getModifyIdUser() {
+        return modifyIdUser;
     }
 
-    public void setModifyUser(String modifyUser) {
-        this.modifyUser = modifyUser;
+    public void setModifyIdUser(Long modifyIdUser) {
+        this.modifyIdUser = modifyIdUser;
     }
 
     public Long getAuditDate() {
@@ -258,12 +250,20 @@ public class ParentUploadInfo {
         this.auditDate = auditDate;
     }
 
-    public String getAuditUser() {
-        return auditUser;
+    public Long getAuditIdUser() {
+        return auditIdUser;
     }
 
-    public void setAuditUser(String auditUser) {
-        this.auditUser = auditUser;
+    public void setAuditIdUser(Long auditIdUser) {
+        this.auditIdUser = auditIdUser;
+    }
+
+    public List<JavaSqlName> getNameList() {
+        return nameList;
+    }
+
+    public void setNameList(List<JavaSqlName> nameList) {
+        this.nameList = nameList;
     }
 
     public List<Long> getCreateDates() {

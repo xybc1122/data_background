@@ -54,26 +54,6 @@ public class SalesAmazonFbaFeedbackSqlProvider {
                 VALUES("create_date", "#{createDate,jdbcType=BIGINT}");
             }
 
-            if (record.getCreateUser() != null) {
-                VALUES("create_user", "#{createUser,jdbcType=VARCHAR}");
-            }
-
-            if (record.getModifyDate() != null) {
-                VALUES("modify_date", "#{modifyDate,jdbcType=BIGINT}");
-            }
-
-            if (record.getModifyUser() != null) {
-                VALUES("modify_user", "#{modifyUser,jdbcType=VARCHAR}");
-            }
-
-            if (record.getAuditDate() != null) {
-                VALUES("audit_date", "#{auditDate,jdbcType=BIGINT}");
-            }
-
-            if (record.getAuditUser() != null) {
-                VALUES("audit_user", "#{auditUser,jdbcType=VARCHAR}");
-            }
-
             if (record.getRecordingId() != null) {
                 VALUES("recording_id", "#{recordingId,jdbcType=BIGINT}");
             }
@@ -134,26 +114,6 @@ public class SalesAmazonFbaFeedbackSqlProvider {
 
             if (record.getCreateDate() != null) {
                 SET("create_date = #{createDate,jdbcType=BIGINT}");
-            }
-
-            if (record.getCreateUser() != null) {
-                SET("create_user = #{createUser,jdbcType=VARCHAR}");
-            }
-
-            if (record.getModifyDate() != null) {
-                SET("modify_date = #{modifyDate,jdbcType=BIGINT}");
-            }
-
-            if (record.getModifyUser() != null) {
-                SET("modify_user = #{modifyUser,jdbcType=VARCHAR}");
-            }
-
-            if (record.getAuditDate() != null) {
-                SET("audit_date = #{auditDate,jdbcType=BIGINT}");
-            }
-
-            if (record.getAuditUser() != null) {
-                SET("audit_user = #{auditUser,jdbcType=VARCHAR}");
             }
 
             if (record.getRecordingId() != null) {

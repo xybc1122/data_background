@@ -4,12 +4,14 @@ package com.dt.user;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicShopMapper;
 import com.dt.user.mapper.FinancialImportMapper.FinancialSalesBalanceMapper;
 import com.dt.user.mapper.SystemMapper.SystemFinalProcessingMapper;
+import com.dt.user.model.BasePublicModel.BasicPublicArea;
 import com.dt.user.model.BasePublicModel.BasicPublicShop;
 import com.dt.user.model.FinancialSalesBalance;
 import com.dt.user.model.JavaSqlName;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaReview;
 import com.dt.user.service.FinancialImportService.FinancialSalesBalanceService;
 import com.dt.user.service.JavaSqlNameService;
+import com.dt.user.utils.ReqUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,18 +58,13 @@ public class MapperTest {
 
     @Test
     public void fsbService() {
-//        List<FinancialSalesBalance> c = fsbMapper.s();
-//        shopMapper.findByListShop();
-//        for (FinancialSalesBalance f : c) {
-//            for (BasicPublicShop sp : shopMapper.findByListShop()) {
-//                if (f.getShopId().equals(sp.getShopId())) {
-//                    f.setShopName(sp.getShopName());
-//                    break;
-//                }
-//            }
-//        }
-//        for (int i = 0; i < c.size(); i++) {
-//            System.out.println(c.get(i));
+//        //获得财务结算报告所有信息
+//        List<FinancialSalesBalance> fsbList = fsbMapper.findByListFbs(salesBalance);
+//        //查询 角色区域Id
+//        List<BasicPublicArea> areaList = areaService.serviceSelectAreaAndSite(ReqUtils.getRoleId());
+//        for (FinancialSalesBalance fsb : fsbList) {
+//
+//
 //        }
     }
 }

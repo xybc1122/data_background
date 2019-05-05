@@ -19,8 +19,8 @@ public class ProviderSqlStore {
      */
     public static String statusV(String alias) {
 
-        return alias + ".`remark`," + alias + ".`status`," + alias + ".`create_date`, " + alias + ".`create_user`, " +
-                "`modify_date`,`modify_user`,`audit_date`,`audit_user` \n";
+        return alias + ".`remark`," + alias + ".`status`," + alias + ".`create_date`, " + alias + ".`create_id_user`, " +
+                "`modify_date`,`modify_id_user`,`audit_date`,`audit_id_user`," + alias + ".`version` \n ";
     }
 
 
@@ -76,14 +76,16 @@ public class ProviderSqlStore {
     /**
      * 设置通过用链表
      */
-    public static void joinTable(SQL sql, String alias) {
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.LEFT_OUTER_JOIN("(SELECT s_id FROM system_shop_role AS c_pr  " +
-                "WHERE " + StrUtils.in(ReqUtils.getRoleId(), "c_pr.r_id") + " GROUP BY s_id) AS pr ON  pr.s_id  = s.`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
-        sql.INNER_JOIN("`basic_public_area_role_site` AS ars ON ars.`se_id`=cs.`site_id`");
-        sql.INNER_JOIN("(SELECT ar_id FROM `basic_public_area_role` AS c_ar  WHERE " + StrUtils.in(ReqUtils.getRoleId(), "c_ar.r_id ") + " " +
-                " GROUP BY a_id) AS ar ON ar.`ar_id` = ars.`ar_id`");
+    public static String joinTable(SQL sql, String alias) {
+        String s = "(\n" +
+                "SELECT ars.`se_id`\n" +
+                "FROM `basic_public_area_role_site` AS ars,(SELECT\n" +
+                "  `ar_id`  FROM `basic_public_area_role`\n" +
+                "WHERE " + StrUtils.in(ReqUtils.getRoleId(), "r_id") + ") AS ar\n" +
+                "WHERE ar.ar_id=ars.`ar_id`\n" +
+                "GROUP BY ars.se_id) AS b \n";
+        sql.WHERE("b.se_id=" + alias + ".`site_id`");
+        return s;
     }
 
     /**
@@ -94,49 +96,29 @@ public class ProviderSqlStore {
      */
     public static void selectUploadStatus(SQL sql, ParentUploadInfo p, String alias) {
         //店铺名称
-        if (StringUtils.isNotBlank(p.getShopName())) {
-            sql.WHERE("POSITION('" + p.getShopName() + "' IN s.`shop_name`)");
+        if (p.getShopId() != null) {
+            sql.WHERE(alias + ".shop_id=#{shopId}");
         }
         //站点名称
-        if (StringUtils.isNotBlank(p.getSiteName())) {
-            sql.WHERE("POSITION('" + p.getSiteName() + "' IN cs.`site_name`)");
+        if (p.getSiteId() != null) {
+            sql.WHERE(alias + ".site_id=#{siteId}");
         }
         //文件已有时间
         if (p.getDates() != null && (p.getDates().size() > 0)) {
-            sql.WHERE("date  " + p.getDates().get(0) + " AND " + p.getDates().get(1) + "");
+            sql.WHERE(alias + ".date  " + p.getDates().get(0) + " AND " + p.getDates().get(1) + "");
         }
         //备注
         if (StringUtils.isNotBlank(p.getRemark())) {
-            sql.WHERE("remark=#{remark}");
+            sql.WHERE(alias + ".remark=#{remark}");
         }
         //状态
         if (p.getStatus() != null) {
-            sql.WHERE("status=#{status}");
+            sql.WHERE(alias + ".status=#{status}");
         }
         //创建时间
         if (p.getCreateDates() != null && (p.getCreateDates().size() > 0)) {
-            sql.WHERE("create_date BETWEEN  " + p.getCreateDates().get(0) + " AND " + p.getCreateDates().get(1) + "");
+            sql.WHERE(alias + ".create_date BETWEEN  " + p.getCreateDates().get(0) + " AND " + p.getCreateDates().get(1) + "");
         }
-        //创建人
-        if (StringUtils.isNotBlank(p.getCreateUser())) {
-            sql.WHERE("create_user=#{createUser}");
-        }
-        //修改日期
-        if (p.getModifyDates() != null && (p.getModifyDates().size() > 0)) {
-            sql.WHERE("modify_date BETWEEN  " + p.getModifyDates().get(0) + " AND " + p.getModifyDates().get(1) + "");
-        }
-        //修改人
-        if (StringUtils.isNotBlank(p.getModifyUser())) {
-            sql.WHERE("modify_user=#{modifyUser}");
-        }
-        //审核时间
-        if (p.getAuditDates() != null && (p.getAuditDates().size() > 0)) {
-            sql.WHERE("audit_date BETWEEN  " + p.getAuditDates().get(0) + " AND " + p.getAuditDates().get(1) + "");
-        }
-        //审核人
-        if (StringUtils.isNotBlank(p.getAuditUser())) {
-            sql.WHERE("audit_user=#{auditUser}");
-        }
-        sql.WHERE(alias + ".del_or_not=0");
+       // sql.WHERE(alias + ".del_or_not=0");
     }
 }

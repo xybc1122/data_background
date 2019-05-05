@@ -24,4 +24,5 @@ public class BasicPublicAreaServiceImpl implements BasicPublicAreaService {
     public List<BasicPublicArea> selectRegion(String rid) {
         return areaMapper.selectRegion(rid);
     }
+
 }

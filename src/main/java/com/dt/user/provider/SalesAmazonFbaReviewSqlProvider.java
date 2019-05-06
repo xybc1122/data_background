@@ -44,8 +44,8 @@ public class SalesAmazonFbaReviewSqlProvider {
                 "`re_id`, `date`,`add`,`move`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_amazon_fba_review AS " + alias);
         ProviderSqlStore.joinTable(sql,alias);
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
-        sql.INNER_JOIN("`basic_sales_public_starlevel` AS lev ON lev.`star_level_id` = " + alias + ".`star_level_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_sales_public_starlevel` AS lev ON lev.`star_level_id` = " + alias + ".`star_level_id`");
         if (StringUtils.isNotBlank(reviewDto.getStarLevelName()))
             sql.WHERE("POSITION('" + reviewDto.getStarLevelName() + "' IN lev.`star_level_name`)");
         Field[] fields = SalesAmazonFbaReview.class.getDeclaredFields();

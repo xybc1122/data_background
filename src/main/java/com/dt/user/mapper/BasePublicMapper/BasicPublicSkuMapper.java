@@ -43,7 +43,7 @@ public interface BasicPublicSkuMapper {
      */
     @Select("SELECT `sku_id`\n" +
             "FROM `basic_public_sku`\n" +
-            "WHERE shop_id=#{sId} AND site_id=#{siteId} AND sku=#{skuName} LIMIT 0,1")
+            "WHERE shop_id=#{sId} AND site_id=#{siteId} AND sku=#{skuName} LIMIT 1")
     Long getSkuId(@Param("sId") Integer sId, @Param("siteId") Integer siteId, @Param("skuName") String skuName);
 
 
@@ -55,6 +55,9 @@ public interface BasicPublicSkuMapper {
      */
     @Select("SELECT `sku_id`\n" +
             "FROM `basic_public_sku`\n" +
-            "WHERE shop_id=#{sId} AND site_id=#{siteId} AND s_asin=#{sAsin} LIMIT 0,1")
+            "WHERE shop_id=#{sId} AND site_id=#{siteId} AND s_asin=#{sAsin} LIMIT 1")
     Long getAsinSkuId(@Param("sId") Integer sId, @Param("siteId") Integer siteId, @Param("sAsin") String sAsin);
+
+
+
 }

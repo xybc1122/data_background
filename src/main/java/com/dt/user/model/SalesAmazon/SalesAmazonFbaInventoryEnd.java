@@ -22,8 +22,8 @@ public class SalesAmazonFbaInventoryEnd extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonFbaInventoryEnd(Integer shopId, Long createDate, Long createIdUser, Long recordingId) {
-        super(shopId, null, createDate, createIdUser, recordingId);
+    public SalesAmazonFbaInventoryEnd(Integer shopId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, null, createDate, createUser, recordingId);
     }
 
     public String getInvSku() {

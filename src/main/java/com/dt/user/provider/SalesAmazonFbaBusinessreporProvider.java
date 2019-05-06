@@ -49,7 +49,7 @@ public class SalesAmazonFbaBusinessreporProvider {
                 "`sales_b2b`,`order_items`, `order_items_b2b`," +
                 "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM " + table + " AS " + alias);
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
         // sku
         if (StringUtils.isNotBlank(rePort.getSku())) {

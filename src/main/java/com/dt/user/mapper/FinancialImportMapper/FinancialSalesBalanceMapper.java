@@ -16,14 +16,11 @@ public interface FinancialSalesBalanceMapper {
     int addInfo(@Param("fsbList") List<FinancialSalesBalance> fsbList, @Param("tbId") Integer menuId);
 
 
-
     /**
      * 查询财务 数据
      */
     @SelectProvider(type = FinancialSalesBalanceProvider.class, method = "getFbsInfo")
     List<FinancialSalesBalance> findByListFbs(FinancialSalesBalance fsb);
-
-
 
 
 }

@@ -155,7 +155,7 @@ public class SalesAmazonFbaController {
     }
 
     /**
-     * 查询长期仓库费
+     * 查询长期仓储费
      *
      * @return
      */

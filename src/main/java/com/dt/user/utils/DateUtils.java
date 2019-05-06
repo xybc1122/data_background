@@ -14,6 +14,16 @@ import java.util.*;
  */
 public class DateUtils {
 
+    public static String checkingTime(Long thisDate, String closingDate) {
+        //转换时间戳
+        String thisFileDate = stampToDate(thisDate);
+        //如果时间不等于前端传来的时间 返回null
+        if (!thisFileDate.equals(closingDate)) {
+            return null;
+        }
+        return "ok";
+    }
+
     /**
      * 设置时间转换类型
      *
@@ -21,7 +31,7 @@ public class DateUtils {
      * @param seId
      * @throws IOException
      */
-    public static String setDate(FinancialSalesBalance fsb, Integer seId, String time) {
+    public static String setDate(FinancialSalesBalance fsb, Integer seId, String time, String closingDate) {
         switch (seId) {
             case 1:
                 fsb.setDate(DateUtils.getTime(time, Constants.USA_TIME));
@@ -56,10 +66,22 @@ public class DateUtils {
             default:
                 return null;
         }
-       // if (fsb.getDate() < 111L) return null;
+        if (checkingTime(fsb.getDate(), closingDate) == null) return null;
+//        System.out.println(thisFileDate);
+//        System.out.println(closingDate);
         return "ok";
     }
 
+    /*
+     * 将时间戳转换为时间
+     */
+    public static String stampToDate(Long lt) {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
+        Date date = new Date(lt);
+        res = simpleDateFormat.format(date);
+        return res;
+    }
 
     //获得当前时间+后面 N天时间的时间戳
     public static Long getRearDate(Integer time) {
@@ -224,7 +246,6 @@ public class DateUtils {
         }
         return time;
     }
-
 
 
     public static void main(String[] args) throws ParseException {

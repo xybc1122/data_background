@@ -77,5 +77,19 @@ public interface BasicPublicSiteMapper {
     @SelectProvider(type = BasicPublicSiteProvider.class, method = "getSId")
     Integer getSId(@Param("country") String country, @Param("sName") String sName);
 
+    /**
+     * 查询站点 id 跟站点名
+     *
+     * @return
+     */
+    @Select("SELECT `site_id`,`site_name` FROM `basic_public_site`")
+    List<BasicPublicSite> selectSite();
+
+    /**
+     * 通过角色表去查询 站点信息
+     */
+    @SelectProvider(type = BasicPublicSiteProvider.class, method = "selSiteRole")
+    List<BasicPublicSite> selectSiteRole();
+
 
 }

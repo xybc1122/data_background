@@ -15,14 +15,21 @@ import org.apache.ibatis.jdbc.SQL;
  **/
 public class ProviderSqlStore {
     /**
-     * 通用设置sql状态
+     * 通用查询sql 所有状态
      */
     public static String statusV(String alias) {
 
-        return alias + ".`remark`," + alias + ".`status`," + alias + ".`create_date`, " + alias + ".`create_id_user`, " +
-                "`modify_date`,`modify_id_user`,`audit_date`,`audit_id_user`," + alias + ".`version` \n ";
+        return alias + ".`remark`," + alias + ".`status`," + alias + ".`create_date`, " + alias + ".`create_user`, " +
+                "" + alias + ".`modify_date`," + alias + ".`modify_user`," + alias + ".`audit_date`," + alias + ".`audit_user`," + alias + ".`version` \n ";
     }
 
+    /**
+     * 通用存入sql部分状态
+     */
+    public static String setV() {
+
+        return "`create_date`,`create_user`,`recording_id`";
+    }
 
     /**
      * 通用 查询 系统类状态
@@ -73,17 +80,33 @@ public class ProviderSqlStore {
         }
     }
 
+    public static String joinTable(SQL sql, String alias) {
+        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        return sql.toString();
+    }
+
+    /**
+     * 临时的
+     * 设置站点 join table
+     */
+    public static String siteJoinTable(SQL sql, String alias) {
+        String s = "(SELECT DISTINCT ars.`se_id`\n" +
+                "FROM `basic_public_area_role_site` AS ars\n" +
+                "INNER JOIN (SELECT`ar_id`FROM `basic_public_area_role`WHERE " + StrUtils.in(ReqUtils.getRoleId(), "r_id") + ") AS ar ON  ar.ar_id=ars.`ar_id`\n" +
+                ") AS b \n";
+        sql.WHERE("b.se_id=" + alias + ".`site_id`");
+        return s;
+    }
+
     /**
      * 设置通过用链表
      */
-    public static String joinTable(SQL sql, String alias) {
-        String s = "(\n" +
-                "SELECT ars.`se_id`\n" +
-                "FROM `basic_public_area_role_site` AS ars,(SELECT\n" +
-                "  `ar_id`  FROM `basic_public_area_role`\n" +
-                "WHERE " + StrUtils.in(ReqUtils.getRoleId(), "r_id") + ") AS ar\n" +
-                "WHERE ar.ar_id=ars.`ar_id`\n" +
-                "GROUP BY ars.se_id) AS b \n";
+    public static String fsbJoinTable(SQL sql, String alias) {
+        String s = "(SELECT DISTINCT ars.`se_id`\n" +
+                "FROM `basic_public_area_role_site` AS ars\n" +
+                "INNER JOIN (SELECT`ar_id`FROM `basic_public_area_role`WHERE " + StrUtils.in(ReqUtils.getRoleId(), "r_id") + ") AS ar ON  ar.ar_id=ars.`ar_id`\n" +
+                ") AS b \n";
         sql.WHERE("b.se_id=" + alias + ".`site_id`");
         return s;
     }
@@ -97,11 +120,11 @@ public class ProviderSqlStore {
     public static void selectUploadStatus(SQL sql, ParentUploadInfo p, String alias) {
         //店铺名称
         if (p.getShopId() != null) {
-            sql.WHERE(alias + ".shop_id=#{shopId}");
+            sql.WHERE("s.`shop_name`=#{shopName}");
         }
         //站点名称
         if (p.getSiteId() != null) {
-            sql.WHERE(alias + ".site_id=#{siteId}");
+            sql.WHERE("cs.`site_name`=#{siteName}");
         }
         //文件已有时间
         if (p.getDates() != null && (p.getDates().size() > 0)) {
@@ -119,6 +142,6 @@ public class ProviderSqlStore {
         if (p.getCreateDates() != null && (p.getCreateDates().size() > 0)) {
             sql.WHERE(alias + ".create_date BETWEEN  " + p.getCreateDates().get(0) + " AND " + p.getCreateDates().get(1) + "");
         }
-       // sql.WHERE(alias + ".del_or_not=0");
+        sql.WHERE(alias + ".del_or_not=0");
     }
 }

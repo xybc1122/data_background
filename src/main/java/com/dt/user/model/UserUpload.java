@@ -21,7 +21,7 @@ public class UserUpload {
     /**
      * 关账时间
      */
-    private Long closingDate;
+    private String closingDate;
     private Long id;
     private Long uid;
     /**
@@ -98,11 +98,11 @@ public class UserUpload {
     private List<Long> createDates;
     private List<Long> delDates;
 
-    public Long getClosingDate() {
+    public String getClosingDate() {
         return closingDate;
     }
 
-    public void setClosingDate(Long closingDate) {
+    public void setClosingDate(String closingDate) {
         this.closingDate = closingDate;
     }
 

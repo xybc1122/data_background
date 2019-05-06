@@ -120,7 +120,7 @@ public class SalesAmazonFbaTradeReportProvider {
                 "`is_business_order`,`purchase_order_number`,`price_designation`,\n" +
                 "`is_replacement_order`, `original_order_id`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_trade_report AS " + alias + " \n");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
         // sku
         AppendSqlStore.sqlWhere(report.getSku(), "ps.`sku`", sql, Constants.SELECT);

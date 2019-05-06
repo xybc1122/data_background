@@ -30,7 +30,7 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
                 "`per_unit_volume`,`currency`,`twelve_mo_long_terms_storage_fee`," +
                 "`qty_charged_six_mo_long_term_storage_fee`,\n" +
                 "`six_mo_long_terms_storage_fee`,`volume_unit`, `country`," +
-                "`enrolled_in_small_and_light`,`create_date`,`create_user`,`recording_id`) values");
+                "`enrolled_in_small_and_light`," + ProviderSqlStore.setV() + ") values");
         for (SalesAmazonFbaLongWarehouseFee l : longWarList) {
             sb.append("(").append(l.getDate()).append(",").
                     append(l.getShopId()).append(",").append(l.getSiteId()).append(",").append(l.getSkuId());
@@ -71,14 +71,15 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
                 "`six_mo_long_terms_storage_fee`,`volume_unit`,`country`, `enrolled_in_small_and_light`," +
                 "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM `sales_amazon_fba_long_warehousefee` AS " + alias + "");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
+
         if (StringUtils.isNotBlank(wFee.getSku()))
             sql.WHERE("POSITION('" + wFee.getSku() + "' IN ps.`sku`)");
+
         Field[] fields = wFee.getClass().getDeclaredFields();
         FieldStore.query(fields, wFee.getNameList(), wFee, sql);
         ProviderSqlStore.selectUploadStatus(sql, wFee, alias);
         return sql.toString();
     }
-
 }

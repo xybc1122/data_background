@@ -68,7 +68,7 @@ public class SalesAmazonFbaRefundProvider {
                 "`detailed_disposition`,`reason`,`refund_status`,\n" +
                 "`license_plate_number`,`customer_remarks`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_refund AS " + alias + " \n");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
         // sku
         AppendSqlStore.sqlWhere(refund.getSku(), "ps.`sku`", sql, Constants.SELECT);

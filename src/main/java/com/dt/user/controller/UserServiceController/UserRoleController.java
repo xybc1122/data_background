@@ -41,15 +41,15 @@ public class UserRoleController {
                 roleService.delUserRole(r.longValue(), uid.longValue());
             }
             redisService.delKey(Constants.TOKEN + ":" + uid);
-            return JsonData.setResultSuccess("角色删除成功~");
+            return JsonData.setResultSuccess("删除用户成功");
         } else if (delMap.get("rolesId") instanceof String) {
             String rid = (String) delMap.get("rolesId");
             List<Integer> uid = (List<Integer>) delMap.get("uid");
             for (Integer u : uid) {
                 roleService.delUserRole(Long.parseLong(rid), u.longValue());
+                redisService.delKey(Constants.TOKEN + ":" + u);
             }
-            redisService.delKey(Constants.TOKEN + ":" + uid);
-            return JsonData.setResultSuccess("删除用户成功~");
+            return JsonData.setResultSuccess("角色删除成功");
         }
         return JsonData.setResultError("删除用户失败~");
     }
@@ -75,7 +75,7 @@ public class UserRoleController {
             //新增角色信息
             roleService.addUserRole(urList);
             redisService.delKey(Constants.TOKEN + ":" + uid);
-            return JsonData.setResultSuccess("添加角色成功~");
+            return JsonData.setResultSuccess("添加用户成功");
         } else if (addMap.get("rolesId") instanceof String) {
             //如果是String 类型
             String rId = (String) addMap.get("rolesId");
@@ -85,8 +85,10 @@ public class UserRoleController {
             urList.add(userRole);
             //新增角色信息
             roleService.addUserRole(urList);
-            redisService.delKey(Constants.TOKEN + ":" + uid);
-            return JsonData.setResultSuccess("添加用户成功~");
+            for (Integer id : uid) {
+                redisService.delKey(Constants.TOKEN + ":" + id);
+            }
+            return JsonData.setResultSuccess("添加角色成功");
         }
         return JsonData.setResultError("添加失败~");
     }

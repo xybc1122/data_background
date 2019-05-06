@@ -64,4 +64,19 @@ public interface BasicPublicSiteService {
      */
     Integer selectAidAndSite(Integer aid);
 
+
+    /**
+     * 查询所有站点 id 跟站点名
+     *
+     * @return
+     */
+    List<BasicPublicSite> serviceSelectSite();
+
+
+    /**
+     * 通过角色表去查询 站点信息
+     */
+    List<BasicPublicSite> serviceSelectSiteRole();
+
+
 }

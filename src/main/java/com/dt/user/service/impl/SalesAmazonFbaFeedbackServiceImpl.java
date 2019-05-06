@@ -31,7 +31,7 @@ public class SalesAmazonFbaFeedbackServiceImpl implements SalesAmazonFbaFeedback
     @Override
     public ResponseBase serviceInsert(SalesAmazonFbaFeedback feedback) {
         feedback.setCreateDate(new Date().getTime());
-        feedback.setCreateIdUser(ReqUtils.getUid());
+        feedback.setCreateUser(ReqUtils.getUserName());
         int result = backMapper.insertFeedback(feedback);
         return JsonUtils.saveMsg(result);
     }

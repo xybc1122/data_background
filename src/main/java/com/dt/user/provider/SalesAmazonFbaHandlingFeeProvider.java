@@ -46,7 +46,7 @@ public class SalesAmazonFbaHandlingFeeProvider {
                 "`hd_id`, `std_fba_hd_fee`,`effective_date`," +
                 "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM `sales_amazon_fba_handlingfee` AS " + alias + "");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(lFee.getSku()))
             sql.WHERE("POSITION('" + lFee.getSku() + "' IN ps.`sku`)");

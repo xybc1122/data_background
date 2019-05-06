@@ -40,4 +40,14 @@ public class BasicPublicSiteController {
         return JsonData.setResultSuccess(shopIdSiteList);
     }
 
+
+    /**
+     * 通过角色 id 获得所有的站点信息
+     *
+     * @return
+     */
+    @GetMapping("/getSelectSiteRole")
+    public ResponseBase getSelectSiteRole() {
+        return JsonData.setResultSuccess(siteService.serviceSelectSiteRole());
+    }
 }

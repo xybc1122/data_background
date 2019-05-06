@@ -78,8 +78,8 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
                 "`storage_rate`, " + alias + ".`currency`, `estimated_monthly_storage_fee`," +
                 "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_month_warehousefee AS " + alias + "");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
-        sql.INNER_JOIN("`basic_sales_amazon_warehouse` AS aw ON aw.`amazon_warehouse_id` = " + alias + ".`aw_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_sales_amazon_warehouse` AS aw ON aw.`amazon_warehouse_id` = " + alias + ".`aw_id`");
         //链表
         ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(mWar.getWarehouseCode()))

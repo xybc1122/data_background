@@ -64,9 +64,9 @@ public class SalesAmazonAdCprProvider {
                 "`same_sku_units_ordered`,`other_sku_units_ordered`,`same_sku_units_sales`,\n" +
                 "`other_sku_units_sales`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM " + table + " AS " + alias + " \n");
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
-        sql.INNER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         // sku
         if (StringUtils.isNotBlank(cpr.getSku())) {
             sql.WHERE("POSITION('" + cpr.getSku() + "' IN ps.`sku`)");

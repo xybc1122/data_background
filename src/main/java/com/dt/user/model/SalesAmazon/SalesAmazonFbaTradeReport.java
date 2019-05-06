@@ -53,8 +53,8 @@ public class SalesAmazonFbaTradeReport extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonFbaTradeReport(Integer shopId, Long createDate, Long createIdUser, Long recordingId) {
-        super(shopId, null, createDate, createIdUser, recordingId);
+    public SalesAmazonFbaTradeReport(Integer shopId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, null, createDate, createUser, recordingId);
     }
 
     public List<Long> getLastUpdatedDates() {

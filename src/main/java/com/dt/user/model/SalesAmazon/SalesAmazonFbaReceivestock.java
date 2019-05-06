@@ -20,8 +20,8 @@ public class SalesAmazonFbaReceivestock extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonFbaReceivestock(Integer shopId, Long createDate, Long createIdUser, Long recordingId) {
-        super(shopId, null, createDate, createIdUser, recordingId);
+    public SalesAmazonFbaReceivestock(Integer shopId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, null, createDate, createUser, recordingId);
     }
 
     public Long getRecId() {

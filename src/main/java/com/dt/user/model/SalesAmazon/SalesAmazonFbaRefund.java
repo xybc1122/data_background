@@ -35,8 +35,8 @@ public class SalesAmazonFbaRefund extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonFbaRefund(Integer shopId, Long createDate, Long createIdUser, Long recordingId) {
-        super(shopId, null, createDate, createIdUser, recordingId);
+    public SalesAmazonFbaRefund(Integer shopId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, null, createDate, createUser, recordingId);
     }
 
     public String getRefSku() {

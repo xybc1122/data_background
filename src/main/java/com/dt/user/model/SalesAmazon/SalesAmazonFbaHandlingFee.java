@@ -23,8 +23,8 @@ public class SalesAmazonFbaHandlingFee extends ParentUploadInfo {
     }
 
 
-    public SalesAmazonFbaHandlingFee(Long createDate, Long createIdUser, Long recordingId) {
-        super(null, null, createDate, createIdUser, recordingId);
+    public SalesAmazonFbaHandlingFee(Long createDate, String createUser, Long recordingId) {
+        super(null, null, createDate, createUser, recordingId);
     }
 
     public Long getHdId() {

@@ -24,19 +24,9 @@ public interface ConsumerService {
 
     /**
      * 封装处理数据Xls
-     *
-     * @param uuIdName
-     * @param saveFilePath
-     * @param fileName
-     * @param siteId
-     * @param shopId
-     * @param uid
-     * @param recordingId
-     * @param tbId
      * @return
      */
-    Future<ResponseBase> importXls(String uuIdName, String saveFilePath, String fileName, Integer siteId, Integer shopId, Long uid, Long
-            recordingId, Integer tbId) throws Exception;
+    Future<ResponseBase> importXls(UserUpload userUpload) throws Exception;
 
 
     /**

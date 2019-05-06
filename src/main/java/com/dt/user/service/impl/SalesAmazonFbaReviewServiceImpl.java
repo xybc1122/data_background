@@ -32,7 +32,7 @@ public class SalesAmazonFbaReviewServiceImpl implements SalesAmazonFbaReviewServ
     @Override
     public ResponseBase serviceInsertReview(SalesAmazonFbaReview review) {
         review.setCreateDate(new Date().getTime());
-        review.setCreateIdUser(ReqUtils.getUid());
+        review.setCreateUser(ReqUtils.getUserName());
         int result = reviewMapper.insertReview(review);
         return JsonUtils.saveMsg(result);
     }

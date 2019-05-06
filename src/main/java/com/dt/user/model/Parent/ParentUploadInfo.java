@@ -51,11 +51,11 @@ public class ParentUploadInfo {
     private String remark;
     private Integer status;
     private Long createDate;
-    private Long createIdUser;
+    private String createUser;
     private Long modifyDate;
-    private Long modifyIdUser;
+    private String modifyUser;
     private Long auditDate;
-    private Long auditIdUser;
+    private String auditUser;
     /**
      * 角色ids
      */
@@ -97,9 +97,9 @@ public class ParentUploadInfo {
 
     }
 
-    public ParentUploadInfo(Integer shopId, Integer siteId, Long createDate, Long createIdUser, Long recordingId) {
+    public ParentUploadInfo(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
         this.createDate = createDate;
-        this.createIdUser = createIdUser;
+        this.createUser = createUser;
         this.recordingId = recordingId;
         this.shopId = shopId;
         this.siteId = siteId;
@@ -218,12 +218,12 @@ public class ParentUploadInfo {
         this.createDate = createDate;
     }
 
-    public Long getCreateIdUser() {
-        return createIdUser;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setCreateIdUser(Long createIdUser) {
-        this.createIdUser = createIdUser;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
     public Long getModifyDate() {
@@ -234,12 +234,12 @@ public class ParentUploadInfo {
         this.modifyDate = modifyDate;
     }
 
-    public Long getModifyIdUser() {
-        return modifyIdUser;
+    public String getModifyUser() {
+        return modifyUser;
     }
 
-    public void setModifyIdUser(Long modifyIdUser) {
-        this.modifyIdUser = modifyIdUser;
+    public void setModifyUser(String modifyUser) {
+        this.modifyUser = modifyUser;
     }
 
     public Long getAuditDate() {
@@ -250,12 +250,12 @@ public class ParentUploadInfo {
         this.auditDate = auditDate;
     }
 
-    public Long getAuditIdUser() {
-        return auditIdUser;
+    public String getAuditUser() {
+        return auditUser;
     }
 
-    public void setAuditIdUser(Long auditIdUser) {
-        this.auditIdUser = auditIdUser;
+    public void setAuditUser(String auditUser) {
+        this.auditUser = auditUser;
     }
 
     public List<JavaSqlName> getNameList() {

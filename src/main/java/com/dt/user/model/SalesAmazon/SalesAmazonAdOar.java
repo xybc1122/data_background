@@ -24,8 +24,8 @@ public class SalesAmazonAdOar extends ParentUploadInfo {
 
     }
 
-    public SalesAmazonAdOar(Integer shopId, Integer siteId, Long createDate, Long createIdUser, Long recordingId) {
-        super(shopId, siteId, createDate, createIdUser, recordingId);
+    public SalesAmazonAdOar(Integer shopId, Integer siteId, Long createDate, String createUser, Long recordingId) {
+        super(shopId, siteId, createDate, createUser, recordingId);
     }
 
     public String getAdGroupName() {

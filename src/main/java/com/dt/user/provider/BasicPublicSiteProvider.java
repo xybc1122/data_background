@@ -69,6 +69,14 @@ public class BasicPublicSiteProvider {
         return sql.toString();
     }
 
+    public String selSiteRole() {
+        SQL sql = new SQL();
+        sql.SELECT("se.`site_id`,se.`site_name`\n" +
+                "FROM `basic_public_site` AS se," + ProviderSqlStore.siteJoinTable(sql, "se") + "");
+        return sql.toString();
+    }
+
+
     public String selectSiteInfo(Map<String, Object> seMap) {
         SQL sql = new SQL();
         Integer arId = (Integer) seMap.get("arId");

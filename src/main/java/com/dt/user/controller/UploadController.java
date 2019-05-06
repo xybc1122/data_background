@@ -65,7 +65,8 @@ public class UploadController {
     public ResponseBase uploadFile(HttpServletRequest request, @RequestParam("sId") String sId,
                                    @RequestParam("seId") String seId, @RequestParam("payId") String payId,
                                    @RequestParam("menuId") String menuId,
-                                   @RequestParam("areaId") String areaId, @RequestParam("businessTime") String businessTime) {
+                                   @RequestParam("areaId") String areaId, @RequestParam("businessTime") String businessTime,
+                                   @RequestParam("closingDate") String closingDate) {
         MultipartFile file;
         List<MultipartFile> files = ((MultipartHttpServletRequest) request)
                 .getFiles("files");
@@ -102,7 +103,7 @@ public class UploadController {
             Integer aId = StrUtils.isIntegerNull(areaId);
             int status = isUpload ? 0 : 4;
             //记录用户上传信息~
-            UserUpload upload = uploadOperating(siteId, shopId, fileName, Constants.SAVE_FILE_PATH, ReqUtils.getUid(), pId, status, msg, tbId, aId, businessTime, uuId, 1L);
+            UserUpload upload = uploadOperating(siteId, shopId, fileName, Constants.SAVE_FILE_PATH, ReqUtils.getUid(), pId, status, msg, tbId, aId, businessTime, uuId, closingDate);
             if (isUpload) {
                 uploadList.add(upload);
             }
@@ -134,7 +135,7 @@ public class UploadController {
                     responseBase = consumerService.importCsv(userUpload).get();
                     responseBaseList.add(responseBase);
                 } else if (typeFile.equals("xlsx") || typeFile.equals("xls")) {
-                    responseBase = consumerService.importXls(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getSiteId(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getMid()).get();
+                    responseBase = consumerService.importXls(userUpload).get();
                     responseBaseList.add(responseBase);
                 } else if (typeFile.equals("txt")) {
                     responseBase = consumerService.importTxt(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getMid(), userUpload.getAreaId()).get();
@@ -160,7 +161,7 @@ public class UploadController {
     public UserUpload uploadOperating(Integer siteId, Integer shopId,
                                       String fileName, String saveFilePath,
                                       Long uId, Integer pId, Integer status,
-                                      String msg, Integer mId, Integer aId, String businessTime, String uuId, Long closingDate) {
+                                      String msg, Integer mId, Integer aId, String businessTime, String uuId, String closingDate) {
         UserUpload upload = new UserUpload();
         //存入打碎后的文件名称
         upload.setUuidName(uuId);

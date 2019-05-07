@@ -12,7 +12,7 @@ public class FinancialSalesBalance extends ParentUploadInfo {
     private Long balanceId;
     private String settlementId;
     //付款类型
-    private Long paymentTypeId;
+    private Integer paymentTypeId;
     private String financialSku;
     private String type;
     private String orderId;
@@ -77,7 +77,7 @@ public class FinancialSalesBalance extends ParentUploadInfo {
 
     }
 
-    public FinancialSalesBalance(Integer shopId, Integer siteId, Long paymentTypeId, Long createDate,  String createUser, Long recordingId) {
+    public FinancialSalesBalance(Integer shopId, Integer siteId, Integer paymentTypeId, Long createDate,  String createUser, Long recordingId) {
         super(shopId, siteId, createDate, createUser, recordingId);
         this.paymentTypeId = paymentTypeId;
     }
@@ -146,11 +146,11 @@ public class FinancialSalesBalance extends ParentUploadInfo {
         this.settlementId = settlementId;
     }
 
-    public Long getPaymentTypeId() {
+    public Integer getPaymentTypeId() {
         return paymentTypeId;
     }
 
-    public void setPaymentTypeId(Long paymentTypeId) {
+    public void setPaymentTypeId(Integer paymentTypeId) {
         this.paymentTypeId = paymentTypeId;
     }
 

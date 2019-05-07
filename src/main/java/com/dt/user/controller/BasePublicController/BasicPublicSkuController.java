@@ -30,10 +30,10 @@ public class BasicPublicSkuController {
         PageInfoUtils.setPage(skuDto.getPageSize(), skuDto.getCurrentPage());
         return PageInfoUtils.returnPage(skuService.serviceFindByListSku(skuDto), skuDto.getCurrentPage());
     }
+
     @GetMapping("/getSkuName")
-    public ResponseBase getKuName(@RequestParam("sId") Integer sId, @RequestParam("seId") Integer seId,
-                                  @RequestParam("kuName") String kuName) {
-        return JsonData.setResultSuccess(skuService.selSkuId(sId, seId, kuName));
+    public ResponseBase getKuName(@RequestParam("sId") Integer sId, @RequestParam("seId") Integer seId) {
+        return JsonData.setResultSuccess(skuService.serviceGetListKu(sId, seId));
     }
 
 

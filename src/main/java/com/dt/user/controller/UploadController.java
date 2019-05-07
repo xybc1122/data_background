@@ -138,7 +138,7 @@ public class UploadController {
                     responseBase = consumerService.importXls(userUpload).get();
                     responseBaseList.add(responseBase);
                 } else if (typeFile.equals("txt")) {
-                    responseBase = consumerService.importTxt(userUpload.getUuidName(), userUpload.getFilePath(), userUpload.getName(), userUpload.getShopId(), userUpload.getUid(), userUpload.getId(), userUpload.getMid(), userUpload.getAreaId()).get();
+                    responseBase = consumerService.importTxt(userUpload).get();
                     responseBaseList.add(responseBase);
                 }
             }

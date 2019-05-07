@@ -21,7 +21,7 @@ public class SalesAmazonFbaRefundProvider {
                 "(`date`,`purchase_date`,`shop_id`,`site_id`,`order_id`,`ref_sku`,`s_asin`,\n" +
                 "`fn_sku`,`sku_id`,`p_name`,`quantity`,`fc`,`aw_id`,`detailed_disposition`,\n" +
                 "`reason`,`refund_status`,`license_plate_number`,`customer_remarks`," +
-                "`create_date`,`create_user`,`recordingId`)values");
+                "`create_date`,`create_user`,`recording_id`)values");
         for (SalesAmazonFbaRefund refund : refundList) {
             sb.append("(" + refund.getDate() + "," + refund.getPurchaseDate() + ","
                     + refund.getShopId() + "," + refund.getSiteId());
@@ -74,7 +74,7 @@ public class SalesAmazonFbaRefundProvider {
         AppendSqlStore.sqlWhere(refund.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //下单日期
         if (refund.getPurchaseDates() != null && (refund.getPurchaseDates().size() > 0)) {
-            sql.WHERE("purchase_date  " + refund.getPurchaseDates().get(0) + " AND " + refund.getPurchaseDates().get(1) + "");
+            sql.WHERE("purchase_date  BETWEEN " + refund.getPurchaseDates().get(0) + " AND " + refund.getPurchaseDates().get(1) + "");
         }
         //订单号
         AppendSqlStore.sqlWhere(refund.getOrderId(), "order_id", sql, Constants.SELECT);

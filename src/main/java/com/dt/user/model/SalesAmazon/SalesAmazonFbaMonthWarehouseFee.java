@@ -27,7 +27,7 @@ public class SalesAmazonFbaMonthWarehouseFee extends ParentUploadInfo {
     private Double averageQuantityOnHand;
     private Double averageQuantityPendingRemoval;
     private Double estimatedTotalItemVolume;
-    private Long monthOfCharge;
+    private String monthOfCharge;
     private Double storageRate;
     private String currency;
     private Double estimatedMonthlyStorageFee;
@@ -51,6 +51,14 @@ public class SalesAmazonFbaMonthWarehouseFee extends ParentUploadInfo {
 
     public void setWarehouseCode(String warehouseCode) {
         this.warehouseCode = warehouseCode;
+    }
+
+    public String getMonthOfCharge() {
+        return monthOfCharge;
+    }
+
+    public void setMonthOfCharge(String monthOfCharge) {
+        this.monthOfCharge = monthOfCharge;
     }
 
     public Long getwId() {
@@ -205,13 +213,6 @@ public class SalesAmazonFbaMonthWarehouseFee extends ParentUploadInfo {
         this.estimatedTotalItemVolume = estimatedTotalItemVolume;
     }
 
-    public Long getMonthOfCharge() {
-        return monthOfCharge;
-    }
-
-    public void setMonthOfCharge(Long monthOfCharge) {
-        this.monthOfCharge = monthOfCharge;
-    }
 
     public Double getStorageRate() {
         return storageRate;

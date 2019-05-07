@@ -80,10 +80,17 @@ public class ProviderSqlStore {
         }
     }
 
-    public static String joinTable(SQL sql, String alias) {
-        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
-        return sql.toString();
+    /**
+     * 设置通过用链表
+     */
+    public static void joinTable(SQL sql, String alias) {
+        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
+        sql.INNER_JOIN("(SELECT s_id FROM system_shop_role AS c_pr  " +
+                "WHERE " + StrUtils.in(ReqUtils.getRoleId(), "c_pr.r_id") + " GROUP BY s_id) AS pr ON  pr.s_id  = s.`shop_id`");
+        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        sql.INNER_JOIN("`basic_public_area_role_site` AS ars ON ars.`se_id`=cs.`site_id`");
+        sql.INNER_JOIN("(SELECT ar_id FROM `basic_public_area_role` AS c_ar  WHERE " + StrUtils.in(ReqUtils.getRoleId(), "c_ar.r_id ") + " " +
+                " GROUP BY a_id) AS ar ON ar.`ar_id` = ars.`ar_id`");
     }
 
     /**
@@ -118,17 +125,16 @@ public class ProviderSqlStore {
      * @param p
      */
     public static void selectUploadStatus(SQL sql, ParentUploadInfo p, String alias) {
-        //店铺名称
-        if (p.getShopId() != null) {
-            sql.WHERE("s.`shop_name`=#{shopName}");
+        if (StringUtils.isNotBlank(p.getShopName())) {
+            sql.WHERE("POSITION('" + p.getShopName() + "' IN s.`shop_name`)");
         }
         //站点名称
-        if (p.getSiteId() != null) {
-            sql.WHERE("cs.`site_name`=#{siteName}");
+        if (StringUtils.isNotBlank(p.getSiteName())) {
+            sql.WHERE("POSITION('" + p.getSiteName() + "' IN cs.`site_name`)");
         }
         //文件已有时间
         if (p.getDates() != null && (p.getDates().size() > 0)) {
-            sql.WHERE(alias + ".date  " + p.getDates().get(0) + " AND " + p.getDates().get(1) + "");
+            sql.WHERE(alias + ".date  BETWEEN " + p.getDates().get(0) + " AND " + p.getDates().get(1) + "");
         }
         //备注
         if (StringUtils.isNotBlank(p.getRemark())) {

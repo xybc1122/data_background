@@ -18,7 +18,7 @@ public class UploadStore {
      */
     public static List<String> setLineHeadList(String lineHead) {
         List<String> txtHeadList = new ArrayList<>();
-        txtHeadList.add(lineHead);
+        txtHeadList.add(StrUtils.specialUnicode(lineHead));
         return txtHeadList;
     }
 

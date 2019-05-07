@@ -1,9 +1,8 @@
 package com.dt.user.mapper.BasePublicMapper;
 
 import com.dt.user.dto.SkuDto;
-import com.dt.user.model.BasePublicModel.BasicPublicVatSurTaxrate;
+import com.dt.user.model.BasePublicModel.BasicPublicSku;
 import com.dt.user.provider.BasicPublicSkuProvider;
-import com.dt.user.provider.BasicPublicVatSurTaxrateProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
@@ -16,7 +15,6 @@ import java.util.List;
  * @Date 2019/3/19 11:09
  **/
 public interface BasicPublicSkuMapper {
-
     /**
      * 查询SKU 信息
      *
@@ -48,7 +46,20 @@ public interface BasicPublicSkuMapper {
 
 
     /**
+     * 通过站点 店铺  id  查找对应的sku
+     *
+     * @param sId
+     * @param siteId
+     * @return
+     */
+    @Select("SELECT `sku_id`,`sku`" +
+            "FROM `basic_public_sku`" +
+            "WHERE shop_id=#{sId} AND site_id=#{siteId}")
+    List<BasicPublicSku> getListKu(@Param("sId") Integer sId, @Param("siteId") Integer siteId);
+
+    /**
      * 通过店铺ID  站点ID  sAsin 查找 skuId
+     *
      * @param sId
      * @param siteId
      * @return
@@ -58,6 +69,16 @@ public interface BasicPublicSkuMapper {
             "WHERE shop_id=#{sId} AND site_id=#{siteId} AND s_asin=#{sAsin} LIMIT 1")
     Long getAsinSkuId(@Param("sId") Integer sId, @Param("siteId") Integer siteId, @Param("sAsin") String sAsin);
 
+    /**
+     * 查询所有sku
+     *
+     * @return
+     */
+    @Select(" SELECT\n" +
+            "`sku_id`,\n" +
+            "`sku`\n" +
+            "FROM `basic_public_sku`")
+    List<BasicPublicSku> selAllSku();
 
 
 }

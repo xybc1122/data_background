@@ -49,7 +49,7 @@ public interface BasicPublicProductMapper {
             "(`product_code`, `product_name`, `model`,\n" +
             "`unit_id`,`qty_per_box`, `item_typ_id`,`item_attribute_id`,\n" +
             "`product_sku`,`products_id`,`length_cm`, `width_cm`, `height_cm`,\n" +
-            "`gw_kg`,`nw_kg`, `volume_m3`, `length_in`, `width_in`,\n" +
+            "`gw_kg`,`nw_kg`,`volume_m3`, `length_in`, `width_in`,\n" +
             "`height_in`, `volume_cuft`, `made_in`, `hs_code_id`,`status_id`)" +
             "VALUES (#{productCode},#{productName},#{model},\n" +
             "#{unitId},#{qtyPerBox},#{itemTypId},\n" +

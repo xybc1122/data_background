@@ -5,6 +5,7 @@ import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.mapper.JavaSqlNameMapper;
 import com.dt.user.model.JavaSqlName;
+import com.dt.user.model.Parent.ParentUploadInfo;
 import com.dt.user.service.JavaSqlNameService;
 import com.dt.user.service.RedisService;
 import com.dt.user.toos.Constants;
@@ -38,7 +39,7 @@ public class JavaSqlNameServiceImpl implements JavaSqlNameService {
     }
 
     @Override
-    public List<JavaSqlName> get(String model) {
+    public void get(String model, ParentUploadInfo p) {
         String rList = redisService.getStringKey(Constants.MODEL + model);
         if (StringUtils.isEmpty(rList)) {
             //走DB
@@ -46,9 +47,9 @@ public class JavaSqlNameServiceImpl implements JavaSqlNameService {
             if (javaSqlNames != null && javaSqlNames.size() > 0) {
                 //刷入缓存
                 redisService.setString(Constants.MODEL + model, JsonUtils.getJsonObj(javaSqlNames));
-                return javaSqlNames;
+                p.setNameList(javaSqlNames);
             }
         }
-        return JSONObject.parseArray(rList, JavaSqlName.class);
+        p.setNameList(JSONObject.parseArray(rList, JavaSqlName.class));
     }
 }

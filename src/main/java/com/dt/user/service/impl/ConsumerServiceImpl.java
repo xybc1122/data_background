@@ -136,8 +136,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * 实时数据Set集合
      */
     private ThreadLocal<Set<RealTimeData>> timeDataSet = new ThreadLocal<>();
-    @Autowired
-    private RedisService redisService;
+
 
     @Autowired
     private ChatServiceImpl chatService;
@@ -157,26 +156,18 @@ public class ConsumerServiceImpl implements ConsumerService {
     /**
      * 异步处理Txt数据
      *
-     * @param uuIdName
-     * @param saveFilePath
-     * @param fileName
-     * @param shopId
-     * @param uid
-     * @param recordingId
-     * @param tbId
-     * @param aId
      * @return
      */
     @Override
     @Transactional
     @Async("executor")
-    public Future<ResponseBase> importTxt(String uuIdName, String saveFilePath, String fileName, Integer shopId, Long uid, Long recordingId, Integer tbId, Integer aId) throws Exception {
-        future = new AsyncResult<>(threadTxt(uuIdName, saveFilePath, fileName, shopId, uid, recordingId, tbId, aId));
+    public Future<ResponseBase> importTxt(UserUpload upload) throws Exception {
+        future = new AsyncResult<>(threadTxt(upload.getUuidName(), upload.getFilePath(), upload.getName(), upload.getShopId(), upload.getUid(), upload.getRecordingId(), upload.getMid(), upload.getAreaId(), upload.getClosingDate()));
         return future;
     }
 
 
-    private ResponseBase threadTxt(String uuIdName, String saveFilePath, String fileName, Integer shopId, Long uid, Long recordingId, Integer menuId, Integer aId) throws Exception {
+    private ResponseBase threadTxt(String uuIdName, String saveFilePath, String fileName, Integer shopId, Long uid, Long recordingId, Integer menuId, Integer aId, String closingDate) throws Exception {
         String filePath = saveFilePath + uuIdName;
         try (InputStreamReader read = FileUtils.streamReader(filePath);
              BufferedReader br = new BufferedReader(read)
@@ -195,7 +186,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             //创建对象设置文件总数
             RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
             //多线程处理
-            ResponseBase responseTxt = saveTxt(br, shopId, uid, recordingId, lineHead, menuId, aId, timeData, txtHead);
+            ResponseBase responseTxt = saveTxt(br, shopId, uid, recordingId, lineHead, menuId, aId, timeData, txtHead, closingDate);
             return saveUserUploadInfo(responseTxt, recordingId, fileName, null, 3, saveFilePath, uuIdName);
         } finally {
             clear();
@@ -215,7 +206,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     private ResponseBase saveTxt(BufferedReader br, Integer shopId, Long uid, Long
-            recordingId, String lineHead, Integer menuId, Integer aId, RealTimeData timeData, List<String> txtHead) {
+            recordingId, String lineHead, Integer menuId, Integer aId, RealTimeData timeData, List<String> txtHead, String closingDate) {
         // 开始时间
         Long begin = new Date().getTime();
         List<SalesAmazonFbaReceivestock> sfReceivesList = null;
@@ -252,7 +243,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaTradeReport sftPort = setTraPort(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            sftPort = setTradeReport(i, sftPort, newLine, shopId, txtHead, isImportHead);
+                            sftPort = setTradeReport(i, sftPort, newLine, shopId, txtHead, isImportHead, closingDate);
                             if (isObjNull(sftPort, txtHeadList, line) == -1) {
                                 break;
                             }
@@ -267,7 +258,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaRefund sfRefund = setRefund(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            sfRefund = setAmazonFbaRefund(i, sfRefund, newLine, shopId, aId, txtHead, isImportHead);
+                            sfRefund = setAmazonFbaRefund(i, sfRefund, newLine, shopId, txtHead, isImportHead, closingDate);
                             if (isObjNull(sfRefund, txtHeadList, line) == -1) {
                                 break;
                             }
@@ -282,7 +273,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaReceivestock sfReceives = setReceives(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            sfReceives = setReceiveStock(i, sfReceives, newLine, txtHead, shopId, isImportHead);
+                            sfReceives = setReceiveStock(i, sfReceives, newLine, txtHead, shopId, isImportHead, closingDate);
                             if (isObjNull(sfReceives, txtHeadList, line) == -1) {
                                 break;
                             }
@@ -297,7 +288,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaInventoryEnd sfEnd = setEnd(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            sfEnd = setSalesEnd(i, sfEnd, newLine, txtHead, isImportHead);
+                            sfEnd = setSalesEnd(i, sfEnd, newLine, txtHead, isImportHead, closingDate);
                             if (isObjNull(sfEnd, txtHeadList, line) == -1) {
                                 break;
                             }
@@ -312,7 +303,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaMonthWarehouseFee mWar = setMWar(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            mWar = setMonthWarehouseFee(i, mWar, newLine, txtHead, isImportHead);
+                            mWar = setMonthWarehouseFee(i, mWar, newLine, txtHead, isImportHead, closingDate);
                             if (isObjNull(mWar, txtHeadList, line) == -1) {
                                 break;
                             }
@@ -327,7 +318,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaLongWarehouseFee lWar = setLWar(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            lWar = setLongWarehouseFee(i, lWar, newLine, txtHead, isImportHead);
+                            lWar = setLongWarehouseFee(i, lWar, newLine, txtHead, isImportHead, closingDate);
                             if (isObjNull(lWar, txtHeadList, line) == -1) {
                                 break;
                             }
@@ -342,7 +333,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         SalesAmazonFbaAbandon abandon = setAbandon(shopId, uName, recordingId, aId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
-                            abandon = setFbaAbandon(i, abandon, newLine, txtHead, isImportHead);
+                            abandon = setFbaAbandon(i, abandon, newLine, txtHead, isImportHead, closingDate);
                             if (isObjNull(abandon, txtHeadList, line) == -1) {
                                 break;
                             }
@@ -402,10 +393,11 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     private SalesAmazonFbaAbandon setFbaAbandon(int i, SalesAmazonFbaAbandon ab, String[] j,
-                                                List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
-        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
+                                                List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead, String closingDate) {
+        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose()) {
             ab.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
-        else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
+            if (DateUtils.checkingTime(ab.getDate(), closingDate) == null) return null;
+        } else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
             ab.setOrderId(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
             ab.setOrderType(StrUtils.repString(j[i]));
@@ -471,10 +463,11 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     private SalesAmazonFbaLongWarehouseFee setLongWarehouseFee(int i, SalesAmazonFbaLongWarehouseFee lWar, String[]
             j,
-                                                               List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
-        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
+                                                               List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead, String closingDate) {
+        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose()) {
             lWar.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
-        else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
+            if (DateUtils.checkingTime(lWar.getDate(), closingDate) == null) return null;
+        } else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
             lWar.setLwSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
             lWar.setFnSku(StrUtils.repString(j[i]));
@@ -533,7 +526,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      */
     private SalesAmazonFbaMonthWarehouseFee setMonthWarehouseFee(int i, SalesAmazonFbaMonthWarehouseFee
             mWar, String[] j,
-                                                                 List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
+                                                                 List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead, String closingDate) {
         if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
             mWar.setAsin(StrUtils.repString(j[i]));
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
@@ -574,7 +567,9 @@ public class ConsumerServiceImpl implements ConsumerService {
         } else if (txtHeadList.get(i).equals(isImportHead.get(16).getImportTemplet()) && isImportHead.get(16).getOpenClose()) {
             mWar.setEstimatedTotalItemVolume(StrUtils.repDouble(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(17).getImportTemplet()) && isImportHead.get(17).getOpenClose()) {
-            mWar.setMonthOfCharge(DateUtils.getTime(j[i], Constants.MONTHLY_REPORT));
+            mWar.setDate(DateUtils.getTime(j[i], Constants.MONTHLY_REPORT));
+            if (DateUtils.checkingTime(mWar.getDate(), closingDate) == null) return null;
+            mWar.setMonthOfCharge(j[i]);
         } else if (txtHeadList.get(i).equals(isImportHead.get(18).getImportTemplet()) && isImportHead.get(18).getOpenClose()) {
             mWar.setStorageRate(StrUtils.repDouble(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(19).getImportTemplet()) && isImportHead.get(19).getOpenClose()) {
@@ -619,11 +614,12 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @throws IOException
      */
     private SalesAmazonFbaInventoryEnd setSalesEnd(int i, SalesAmazonFbaInventoryEnd ie, String[] j,
-                                                   List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
+                                                   List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead, String closingDate) {
 
-        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
+        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose()) {
             ie.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
-        else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
+            if (DateUtils.checkingTime(ie.getDate(), closingDate) == null) return null;
+        } else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
             ie.setFnSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
             ie.setInvSku(StrUtils.repString(j[i]));
@@ -660,10 +656,11 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @throws IOException
      */
     private SalesAmazonFbaReceivestock setReceiveStock(int i, SalesAmazonFbaReceivestock fr, String[] j,
-                                                       List<String> txtHeadList, Integer shopId, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
-        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
+                                                       List<String> txtHeadList, Integer shopId, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead, String closingDate) {
+        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose()) {
             fr.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
-        else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
+            if (DateUtils.checkingTime(fr.getDate(), closingDate) == null) return null;
+        } else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
             fr.setFnSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
             String recSku = StrUtils.repString(j[i]);
@@ -702,11 +699,11 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @throws IOException
      */
     private SalesAmazonFbaRefund setAmazonFbaRefund(int i, SalesAmazonFbaRefund sft, String[] j, Integer
-            sId, Integer aId,
-                                                    List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
-        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
+            sId, List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead, String closingDate) {
+        if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose()) {
             sft.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
-        else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
+            if (DateUtils.checkingTime(sft.getDate(), closingDate) == null) return null;
+        } else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose()) {
             String orderId = StrUtils.repString(j[i]);
             if (StringUtils.isEmpty(orderId)) {
                 return null;
@@ -727,7 +724,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             sft.setRefSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose()) {
             sft.setsAsin(StrUtils.repString(j[i]));
-            boolean isFlgId = skuEqAsin(sft.getSku(), sft.getsAsin(), sId, sft.getSiteId(), sft);
+            boolean isFlgId = skuEqAsin(sft.getRefSku(), sft.getsAsin(), sId, sft.getSiteId(), sft);
             if (!isFlgId) {
                 return null;
             }
@@ -762,16 +759,17 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @throws IOException
      */
     private SalesAmazonFbaTradeReport setTradeReport(int i, SalesAmazonFbaTradeReport sft, String[] j,
-                                                     Integer sId, List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead) {
+                                                     Integer sId, List<String> txtHeadList, List<BasicSalesAmazonCsvTxtXslHeader> isImportHead, String closingDate) {
         //下标对应  并且 是开启导入状态
 
         if (txtHeadList.get(i).equals(isImportHead.get(0).getImportTemplet()) && isImportHead.get(0).getOpenClose())
             sft.setAmazonOrderId(StrUtils.repString(j[i]));
         else if (txtHeadList.get(i).equals(isImportHead.get(1).getImportTemplet()) && isImportHead.get(1).getOpenClose())
             sft.setMerchantOrderId(StrUtils.repString(j[i]));
-        else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose())
+        else if (txtHeadList.get(i).equals(isImportHead.get(2).getImportTemplet()) && isImportHead.get(2).getOpenClose()) {
             sft.setDate(DateUtils.getTime(j[i], Constants.GP_DATE));
-        else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose())
+            if (DateUtils.checkingTime(sft.getDate(), closingDate) == null) return null;
+        } else if (txtHeadList.get(i).equals(isImportHead.get(3).getImportTemplet()) && isImportHead.get(3).getOpenClose())
             sft.setLastUpdatedDate(DateUtils.getTime(j[i], Constants.GP_DATE));
         else if (txtHeadList.get(i).equals(isImportHead.get(4).getImportTemplet()) && isImportHead.get(4).getOpenClose())
             sft.setOrderStatus(StrUtils.repString(j[i]));
@@ -798,7 +796,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             sft.setTradeSku(StrUtils.repString(j[i]));
         } else if (txtHeadList.get(i).equals(isImportHead.get(12).getImportTemplet()) && isImportHead.get(12).getOpenClose()) {
             sft.setAsin(StrUtils.repString(j[i]));
-            boolean isFlgId = skuEqAsin(sft.getSku(), sft.getAsin(), sId, sft.getSiteId(), sft);
+            boolean isFlgId = skuEqAsin(sft.getTradeSku(), sft.getAsin(), sId, sft.getSiteId(), sft);
             if (!isFlgId) {
                 return null;
             }
@@ -1503,7 +1501,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     //85 == 财务上传ID | 104 运营上传
                     if (menuId == Constants.FINANCE_ID || menuId == Constants.FINANCE_ID_YY) {
                         fsbList = ArrUtils.listT(tList);
-                        FinancialSalesBalance fb = setFsb(sId, seId, uName, pId.longValue(), recordingId);
+                        FinancialSalesBalance fb = setFsb(sId, seId, uName, pId, recordingId);
                         for (int j = 0; j < csvReader.getColumnCount(); j++) {
                             k = j;
                             fb = saveFinance(fb, csvReader, sId, seId, csvHeadList, isImportHead, j, closingDate);
@@ -2071,7 +2069,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     /**
      * 财务设置通用对象
      */
-    public FinancialSalesBalance setFsb(Integer sId, Integer seId, String userName, Long pId, Long recordingId) {
+    public FinancialSalesBalance setFsb(Integer sId, Integer seId, String userName, Integer pId, Long recordingId) {
         return new FinancialSalesBalance(sId, seId, pId, new Date().getTime(), userName, recordingId);
     }
 

@@ -2,6 +2,7 @@ package com.dt.user.service.impl;
 
 import com.dt.user.dto.SkuDto;
 import com.dt.user.mapper.BasePublicMapper.BasicPublicSkuMapper;
+import com.dt.user.model.BasePublicModel.BasicPublicSku;
 import com.dt.user.service.BasePublicService.BasicPublicSkuService;
 import com.dt.user.service.RedisService;
 import com.dt.user.toos.Constants;
@@ -45,5 +46,15 @@ public class BasicSalesSkuServiceImpl implements BasicPublicSkuService {
             return skuId;
         }
         return null;
+    }
+
+    @Override
+    public List<BasicPublicSku> serviceGetListKu(Integer sId, Integer siteId) {
+        return skuMapper.getListKu(sId, siteId);
+    }
+
+    @Override
+    public List<BasicPublicSku> serviceSelAllSku() {
+        return skuMapper.selAllSku();
     }
 }

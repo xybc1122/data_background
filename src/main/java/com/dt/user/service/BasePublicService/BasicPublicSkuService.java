@@ -1,6 +1,7 @@
 package com.dt.user.service.BasePublicService;
 
 import com.dt.user.dto.SkuDto;
+import com.dt.user.model.BasePublicModel.BasicPublicSku;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public interface BasicPublicSkuService {
     /**
      * 查询SKU信息
+     *
      * @param skuDto
      * @return
      */
@@ -21,6 +23,7 @@ public interface BasicPublicSkuService {
 
     /**
      * 通过店铺ID  站点ID  skuName 查找 skuId
+     *
      * @param sId
      * @param siteId
      * @param skuName
@@ -31,9 +34,28 @@ public interface BasicPublicSkuService {
 
     /**
      * 通过店铺ID  站点ID  sAsin 查找 skuId
+     *
      * @param sId
      * @param siteId
      * @return
      */
     Long getAsinSkuId(Integer sId, Integer siteId, String sAsin);
+
+
+    /**
+     * 通过站点 店铺  id  查找对应的sku
+     *
+     * @param sId
+     * @param siteId
+     * @return
+     */
+    List<BasicPublicSku> serviceGetListKu(Integer sId, Integer siteId);
+
+
+    /**
+     * 查询所有sku
+     *
+     * @return
+     */
+    List<BasicPublicSku> serviceSelAllSku();
 }

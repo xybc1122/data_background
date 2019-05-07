@@ -73,7 +73,6 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
                 "FROM `sales_amazon_fba_long_warehousefee` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
-
         if (StringUtils.isNotBlank(wFee.getSku()))
             sql.WHERE("POSITION('" + wFee.getSku() + "' IN ps.`sku`)");
 

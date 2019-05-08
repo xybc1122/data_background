@@ -24,31 +24,31 @@ public class RoleMenuServiceImpl implements RoleMenuService {
     private RedisService redisService;
 
     @Override
-    public List<String> gerRoleMenus(Long rid) {
+    public List<String> gerRoleMenus(Integer rid) {
         return roleMenuMapper.gerRoleMenus(rid);
     }
 
     @Override
     @Transactional
     public ResponseBase addAndDelMenu(Map<String, Object> menuMap) {
-        String rid = (String) menuMap.get("rid");
+        Integer rid = (Integer) menuMap.get("rid");
         String menuIds = (String) menuMap.get("menuIds");
         if (StringUtils.isNotBlank(menuIds)) {
             //前端传来的数据
             List<String> resultMenuIds = Arrays.asList(menuIds.split(","));
             RoleMenu roleMenu = new RoleMenu();
-            roleMenu.setRid(Long.parseLong(rid));
+            roleMenu.setRid(rid);
             roleMenuMapper.delRoleMenu(roleMenu);
             if (resultMenuIds.size() != 0) {
                 //新增菜单
                 for (int i = 0; i < resultMenuIds.size(); i++) {
                     String menuId = resultMenuIds.get(i);
-                    roleMenuMapper.addRoleMenu(Long.parseLong(menuId), Long.parseLong(rid));
+                    roleMenuMapper.addRoleMenu(Integer.parseInt(menuId), rid);
                 }
                 redisService.setString("tokenMenu", "success");
                 return JsonData.setResultSuccess("添加菜单成功");
             }
         }
-        return JsonData.setResultError("修改菜单失败");
+        return JsonData.setResultError("添加菜单失败");
     }
 }

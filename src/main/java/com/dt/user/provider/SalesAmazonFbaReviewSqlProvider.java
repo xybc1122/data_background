@@ -40,12 +40,12 @@ public class SalesAmazonFbaReviewSqlProvider {
     public String selectByReview(ReviewDto reviewDto) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "rev";
-        sql.SELECT("`lev.star_level_name`,ps.`sku`,s.`shop_name`, cs.`site_name`," +
+        sql.SELECT("lev.`star_level_name`,ps.`sku`,s.`shop_name`, cs.`site_name`," +
                 "`re_id`, `date`,`add`,`move`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_amazon_fba_review AS " + alias);
-        ProviderSqlStore.joinTable(sql,alias);
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         sql.LEFT_OUTER_JOIN("`basic_sales_public_starlevel` AS lev ON lev.`star_level_id` = " + alias + ".`star_level_id`");
+        ProviderSqlStore.joinTable(sql,alias);
         if (StringUtils.isNotBlank(reviewDto.getStarLevelName()))
             sql.WHERE("POSITION('" + reviewDto.getStarLevelName() + "' IN lev.`star_level_name`)");
         Field[] fields = SalesAmazonFbaReview.class.getDeclaredFields();

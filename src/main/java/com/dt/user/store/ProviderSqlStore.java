@@ -106,17 +106,18 @@ public class ProviderSqlStore {
         return s;
     }
 
-    /**
-     * 设置通过用链表
-     */
-    public static String fsbJoinTable(SQL sql, String alias) {
-        String s = "(SELECT DISTINCT ars.`se_id`\n" +
-                "FROM `basic_public_area_role_site` AS ars\n" +
-                "INNER JOIN (SELECT`ar_id`FROM `basic_public_area_role`WHERE " + StrUtils.in(ReqUtils.getRoleId(), "r_id") + ") AS ar ON  ar.ar_id=ars.`ar_id`\n" +
-                ") AS b \n";
-        sql.WHERE("b.se_id=" + alias + ".`site_id`");
-        return s;
-    }
+//    /**
+//     * 这里这样写是性能优化后的sql
+//     * 设置通过用链表
+//     */
+//    public static String fsbJoinTable(SQL sql, String alias) {
+//        String s = "(SELECT DISTINCT ars.`se_id`\n" +
+//                "FROM `basic_public_area_role_site` AS ars\n" +
+//                "INNER JOIN (SELECT`ar_id`FROM `basic_public_area_role`WHERE " + StrUtils.in(ReqUtils.getRoleId(), "r_id") + ") AS ar ON  ar.ar_id=ars.`ar_id`\n" +
+//                ") AS b \n";
+//        sql.WHERE("b.se_id=" + alias + ".`site_id`");
+//        return s;
+//    }
 
     /**
      * 通用查询 文件类 数据状态

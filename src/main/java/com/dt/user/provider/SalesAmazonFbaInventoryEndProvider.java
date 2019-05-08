@@ -46,9 +46,8 @@ public class SalesAmazonFbaInventoryEndProvider {
                 "`date`,`inv_id`,`inv_sku`,`fn_sku`,\n" +
                 "`quantity`,`fc`,`aw_id`,`disposition`,`country`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_Inventory_End AS " + alias + " \n");
-        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         // sku
         AppendSqlStore.sqlWhere(inv.getSku(), "ps.`sku`", sql, Constants.SELECT);
         // inv_sku

@@ -162,7 +162,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     @Transactional
     @Async("executor")
     public Future<ResponseBase> importTxt(UserUpload upload) throws Exception {
-        future = new AsyncResult<>(threadTxt(upload.getUuidName(), upload.getFilePath(), upload.getName(), upload.getShopId(), upload.getUid(), upload.getRecordingId(), upload.getMid(), upload.getAreaId(), upload.getClosingDate()));
+        future = new AsyncResult<>(threadTxt(upload.getUuidName(), upload.getFilePath(), upload.getName(), upload.getShopId(), upload.getUid(), upload.getId(), upload.getMid(), upload.getAreaId(), upload.getClosingDate()));
         return future;
     }
 
@@ -849,7 +849,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     @Async("executor")
     public Future<ResponseBase> importXls(UserUpload upload) throws Exception {
         future = new AsyncResult<>(threadXls(upload.getUuidName(), upload.getFilePath(), upload.getName(), upload.getSiteId(), upload.getShopId(), upload.getUid(),
-                upload.getRecordingId(), upload.getMid(), upload.getClosingDate()));
+                upload.getId(), upload.getMid(), upload.getClosingDate()));
         return future;
     }
 
@@ -953,8 +953,16 @@ public class ConsumerServiceImpl implements ConsumerService {
                         k = j;
                         cell = row.getCell(j);
                         adStr = setStrPojo(j, adStr, cell, isImportHead, xlsListHead, closingDate);
+                        if (adStr == null) {
+                            //设置没有SKU的信息导入
+                            skuSetting(row, totalNumber, sqlHead);
+                            break;
+                        }
+
                     }
-                    strList.add(adStr);
+                    if (adStr != null) {
+                        strList.add(adStr);
+                    }
                     //106 oar
                 } else if (menuId == 106) {
                     oarList = ArrUtils.listT(tList);
@@ -979,8 +987,15 @@ public class ConsumerServiceImpl implements ConsumerService {
                         k = j;
                         cell = row.getCell(j);
                         adHl = setHlPojo(j, adHl, cell, isImportHead, xlsListHead, closingDate);
+                        if (adHl == null) {
+                            //设置没有SKU的信息导入
+                            skuSetting(row, totalNumber, sqlHead);
+                            break;
+                        }
                     }
-                    hlList.add(adHl);
+                    if (adHl != null) {
+                        hlList.add(adHl);
+                    }
                     //订单处理费
                 } else if (menuId == 271) {
                     hFeesList = ArrUtils.listT(tList);
@@ -1003,6 +1018,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             }
         } catch (Exception e) {
             if (e instanceof NullPointerException) {
+                e.printStackTrace();
                 return setErrorInfo(recordingId, "====>参数空指针异常" + e.getMessage(), null);
             }
             chatService.sendMessage(ctx, JsonUtils.getJsonTypeError("error", ChatType.PROGRESS_BAR));
@@ -1407,7 +1423,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     public Future<ResponseBase> importCsv(UserUpload upload) throws
             Exception {
         future = new AsyncResult<>(threadCsv(upload.getUuidName(), upload.getFilePath(), upload.getName(), upload.getSiteId(), upload.getShopId(), upload.getUid(),
-                upload.getPayId(), upload.getRecordingId(), upload.getMid(), upload.getBusinessTime(), upload.getClosingDate()));
+                upload.getPayId(), upload.getId(), upload.getMid(), upload.getBusinessTime(), upload.getClosingDate()));
         return future;
     }
 
@@ -1420,10 +1436,10 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @param shopId
      * @return
      */
-    public ResponseBase threadCsv(String uuIdName, String saveFilePath, String fileName, Integer
+    private ResponseBase threadCsv(String uuIdName, String saveFilePath, String fileName, Integer
             siteId, Integer
-                                          shopId, Long uid, Integer
-                                          pId, Long recordingId, Integer tbId, String businessTime, String closingDate) throws Exception {
+                                           shopId, Long uid, Integer
+                                           pId, Long recordingId, Integer tbId, String businessTime, String closingDate) throws Exception {
 
         List<String> csvHeadList;
         String filePath = saveFilePath + uuIdName;
@@ -1622,14 +1638,18 @@ public class ConsumerServiceImpl implements ConsumerService {
         //设置时间类型转换
         if (csvHeadList.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose()) {
             if (DateUtils.setDate(fsb, seId, csvReader.get(j), closingDate) == null) {
+                //设置跟没有sku 一样导出 下载
+                exportCsvType(csvReader, -1L);
                 return null;
             }
         } else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
             fsb.setSettlementId(StrUtils.repString(csvReader.get(j)));
         } else if (csvHeadList.get(j).equals(importHead.get(2).getImportTemplet()) && importHead.get(2).getOpenClose()) {
             String type = StrUtils.repString(csvReader.get(j));
+            //如果是 null 直接设置
             if (StringUtils.isEmpty(type)) {
                 fsb.setType(type);
+                //如果不是null 进入校验 如果是false 返回null
             } else if (!setType(type, seId, csvReader, fsb)) {
                 return null;
             }

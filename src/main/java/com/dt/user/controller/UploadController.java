@@ -31,6 +31,35 @@ public class UploadController {
     private UserUploadService userUploadService;
 
 
+    @PostMapping("/image")
+    @PermissionCheck("upload")
+    public ResponseBase uploadImage(HttpServletRequest request) {
+        MultipartFile file;
+        List<MultipartFile> files = ((MultipartHttpServletRequest) request)
+                .getFiles("files");
+        int fileCount = 0;
+        String msg;
+        List<UserUpload> uploadList = new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < files.size(); i++) {
+            file = files.get(i);
+            // String contentType = filter.getContentType();//图片||文件类型
+            String fileName = file.getOriginalFilename();//图片||文件名字
+            String uuId = UuIDUtils.fileUuId(fileName);
+            try {
+                FileUtils.uploadFile(file.getBytes(), Constants.SAVE_IMAGE_PATH, uuId);
+                msg = "上传成功";
+            } catch (Exception e) {
+                msg = "上传失败" + fileName;
+                fileCount++;
+                sb.append(fileName);
+            }
+        }
+        String getMsg = "上传了" + files.size() + "个文件/" + "其中" + fileCount + "个文件失败~ 失败文件名字" + sb.toString() + "";
+        return JsonData.setResultSuccess(getMsg, uploadList);
+    }
+
+
     /**
      * 下载接口
      *
@@ -84,10 +113,10 @@ public class UploadController {
             String uuId = UuIDUtils.fileUuId(fileName);
             try {
                 FileUtils.uploadFile(file.getBytes(), Constants.SAVE_FILE_PATH, uuId);
-                msg = "上传成功~";
+                msg = "上传成功";
             } catch (Exception e) {
                 isUpload = false;
-                msg = "上传失败~" + fileName;
+                msg = "上传失败" + fileName;
                 fileCount++;
                 sb.append(fileName);
             }

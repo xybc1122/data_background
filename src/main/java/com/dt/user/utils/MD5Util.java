@@ -49,12 +49,12 @@ public class MD5Util {
 
     public static void main(String[] args) {
         //C82BB40E3E1C6D1E880645353F6F53B8
-        String v = Constants.ADMIN + 1 + "tt";
-        System.out.println(MD5Util.MD5(v));
+//        String v = Constants.ADMIN + 1 + "tt";
+//        System.out.println(MD5Util.MD5(v));
         //盐值加密
-//        ByteSource salt = ByteSource.Util.bytes("dd");
-//        Object result = new SimpleHash("MD5", "1", salt, 1024);
-//        //d6f1c053e0a3faca08830aabca5f9885
-//        System.out.println(result);
+        ByteSource salt = ByteSource.Util.bytes("dd");
+        Object result = new SimpleHash("MD5", "1", salt, 1024);
+        //d6f1c053e0a3faca08830aabca5f9885
+        System.out.println(result);
     }
 }  

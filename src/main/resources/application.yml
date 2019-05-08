@@ -87,3 +87,9 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
+
+
+#图片服务器相关配置
+IMAGE:
+  BASE:
+    URL: http://192.168.208.109/images

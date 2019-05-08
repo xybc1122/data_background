@@ -48,9 +48,8 @@ public class SalesAmazonFbaReceivestockProvider {
                 "`rec_id`, `date`,`fba_shipment_id`,`rec_sku`,\n" +
                 "  `fn_sku`,`product_name`,`quantity`,`fc`,`aw_id`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM sales_amazon_fba_receivestock AS " + alias + " \n");
-        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         // sku
         AppendSqlStore.sqlWhere(rec.getSku(), "ps.`sku`", sql, Constants.SELECT);
         //FBA号

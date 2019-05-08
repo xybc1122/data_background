@@ -16,7 +16,6 @@ public class RedisService {
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
     @Autowired
     private RedisTemplate redisTemplate;
 //
@@ -325,12 +324,27 @@ public class RedisService {
 //        Set<ZSetOperations.TypedTuple<Object>> ret = zset.reverseRangeWithScores(key, start, end);
 //        return ret;
 //    }
+
+
+    public String setLock(String lockKey, String requestId, int expireTime) {
+
+        String result = null;
+        try {
+
+        } catch (Exception e) {
+            System.out.println("redis连接异常");
+        } finally {
+
+        }
+        return result;
+    }
+
+
     // stringRedisTemplate.opsForValue();//操作字符串
     // stringRedisTemplate.opsForHash();//操作hash
     // stringRedisTemplate.opsForList();//操作list
     // stringRedisTemplate.opsForSet();//操作set
     // stringRedisTemplate.opsForZSet();//操作有序set
-
 
     /**
      * 定义成功一个方法调用
@@ -392,8 +406,6 @@ public class RedisService {
         }
         return null;
     }
-
-
 
 
     public String getListKey(String key) {

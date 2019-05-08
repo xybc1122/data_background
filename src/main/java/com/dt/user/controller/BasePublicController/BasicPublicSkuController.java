@@ -32,8 +32,8 @@ public class BasicPublicSkuController {
     }
 
     @GetMapping("/getSkuName")
-    public ResponseBase getKuName(@RequestParam("sId") Integer sId, @RequestParam("seId") Integer seId) {
-        return JsonData.setResultSuccess(skuService.serviceGetListKu(sId, seId));
+    public ResponseBase getKuName(@RequestParam("sId") Integer sId, @RequestParam("seId") Integer seId, @RequestParam("kuName") String kuName) {
+        return JsonData.setResultSuccess(skuService.serviceGetListKu(sId, seId, kuName));
     }
 
 

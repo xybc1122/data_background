@@ -57,9 +57,8 @@ public class SalesAmazonAdOarProvider {
                 "`other_asin_units_ordered_sales`," +
                 "" + ProviderSqlStore.statusV(alias) + "" +
                 "FROM " + table + " AS " + alias + "");
-        sql.LEFT_OUTER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         // sku
         if (StringUtils.isNotBlank(oar.getSku())) {
             sql.WHERE("POSITION('" + oar.getSku() + "' IN ps.`sku`)");

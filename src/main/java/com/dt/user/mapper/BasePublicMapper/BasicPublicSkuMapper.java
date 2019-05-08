@@ -54,8 +54,8 @@ public interface BasicPublicSkuMapper {
      */
     @Select("SELECT `sku_id`,`sku`" +
             "FROM `basic_public_sku`" +
-            "WHERE shop_id=#{sId} AND site_id=#{siteId}")
-    List<BasicPublicSku> getListKu(@Param("sId") Integer sId, @Param("siteId") Integer siteId);
+            "WHERE shop_id=#{sId} AND site_id=#{siteId} AND sku LIKE CONCAT('%',#{kuName},'%') ")
+    List<BasicPublicSku> getListKu(@Param("sId") Integer sId, @Param("siteId") Integer siteId, @Param("kuName") String kuName);
 
     /**
      * 通过店铺ID  站点ID  sAsin 查找 skuId

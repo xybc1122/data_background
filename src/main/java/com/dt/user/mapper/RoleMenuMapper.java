@@ -13,13 +13,13 @@ public interface RoleMenuMapper {
      * 通过角色id来查询拥有的菜单
      **/
     @Select("select m_id from system_user_role_menu where r_id=#{rid}")
-    List<String> gerRoleMenus(@Param("rid") Long rid);
+    List<String> gerRoleMenus(@Param("rid") Integer rid);
 
     /**
      * 添加角色跟菜单
      */
     @Insert("INSERT INTO `system_user_role_menu` (`m_id`, `r_id`) values(#{menuId}, #{rid})")
-    int addRoleMenu(@Param("menuId") Long menuId, @Param("rid") Long rid);
+    int addRoleMenu(@Param("menuId") Integer menuId, @Param("rid") Integer rid);
 
 
     /**

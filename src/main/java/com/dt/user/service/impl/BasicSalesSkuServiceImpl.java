@@ -49,8 +49,8 @@ public class BasicSalesSkuServiceImpl implements BasicPublicSkuService {
     }
 
     @Override
-    public List<BasicPublicSku> serviceGetListKu(Integer sId, Integer siteId) {
-        return skuMapper.getListKu(sId, siteId);
+    public List<BasicPublicSku> serviceGetListKu(Integer sId, Integer siteId,String kuName) {
+        return skuMapper.getListKu(sId, siteId,kuName);
     }
 
     @Override

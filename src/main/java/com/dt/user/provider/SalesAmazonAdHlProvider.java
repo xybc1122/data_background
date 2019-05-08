@@ -41,8 +41,7 @@ public class SalesAmazonAdHlProvider {
                 "`acos`,`roas`, `total_sales`,`total_orders`,`total_units`,\n" +
                 "`conversion_rate`," + ProviderSqlStore.statusV(alias) + "" +
                 "FROM `sales_amazon_ad_hl` AS " + alias);
-        sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
-        sql.INNER_JOIN("`basic_public_site` AS cs ON cs.`site_id` = " + alias + ".`site_id`");
+        ProviderSqlStore.joinTable(sql, alias);
         //广告活动
         if (StringUtils.isNotBlank(hl.getCampaignName())) {
             sql.WHERE("POSITION('" + hl.getCampaignName() + "' IN `campaign_name`)");

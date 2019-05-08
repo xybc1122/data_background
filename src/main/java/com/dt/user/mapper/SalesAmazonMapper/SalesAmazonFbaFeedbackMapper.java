@@ -52,7 +52,7 @@ public interface SalesAmazonFbaFeedbackMapper {
     int insertSelective(SalesAmazonFbaFeedback record);
 
     /**
-     * 查找
+     * 查找feedback
      *
      * @param record
      * @return
@@ -61,7 +61,7 @@ public interface SalesAmazonFbaFeedbackMapper {
     List<SalesAmazonFbaFeedback> selectByFeedback(SalesAmazonFbaFeedback record);
 
     /**
-     * 动态更新
+     * 动态更新feedback
      *
      * @param record
      * @return

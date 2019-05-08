@@ -9,37 +9,37 @@ public class RoleMenu implements Serializable {
     /**
      * menuID
      */
-    private Long mid;
+    private Integer mid;
     /**
      * roleID
      */
-    private Long rid;
+    private Integer rid;
     /**
      * id
      */
-    private Long id;
+    private Integer id;
 
-    public Long getMid() {
+    public Integer getMid() {
         return mid;
     }
 
-    public void setMid(Long mid) {
+    public void setMid(Integer mid) {
         this.mid = mid;
     }
 
-    public Long getRid() {
+    public Integer getRid() {
         return rid;
     }
 
-    public void setRid(Long rid) {
+    public void setRid(Integer rid) {
         this.rid = rid;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

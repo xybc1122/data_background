@@ -43,13 +43,13 @@ public interface BasicPublicSkuService {
 
 
     /**
-     * 通过站点 店铺  id  查找对应的sku
+     * 通过站点 店铺  id  kuName 查找对应的sku
      *
      * @param sId
      * @param siteId
      * @return
      */
-    List<BasicPublicSku> serviceGetListKu(Integer sId, Integer siteId);
+    List<BasicPublicSku> serviceGetListKu(Integer sId, Integer siteId,String kuName);
 
 
     /**

@@ -25,6 +25,10 @@ public interface Constants {
     /**
      * 文件上传存放地址
      */
+    String SAVE_IMAGE_PATH = "E:/imagePath/";
+    /**
+     * 文件上传存放地址
+     */
     String SAVE_FILE_PATH = "E:/filePath/";
 //    /**
 //     * Linux文件上传存放地址

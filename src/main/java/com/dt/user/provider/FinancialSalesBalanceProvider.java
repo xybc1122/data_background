@@ -110,7 +110,7 @@ public class FinancialSalesBalanceProvider {
         String table = AppendSqlStore.setSqlTable(fbs.getSqlMode(), "`financial_sales_amazon_balance`", "`sales_amazon_fba_balance`");
         SQL sql = new SQL();
         String alias = "sab";
-        sql.SELECT("`balance_id`, `years`,`pediod`,`date`, `shop_id`,`site_id`,\n" +
+        sql.SELECT("`balance_id`, `years`,`pediod`,`date`,s.`shop_name`,cs.`site_name`,\n" +
                 "`settlement_id`,`payment_type_id`,`type`,`order_id`,`financial_sku`, `sku_id`,`o_quantity`,\n" +
                 "`quantity`,`refund_quantity`,`order_qty`,`adjustment_qty`,`marketplace`,\n" +
                 "`fulfillment`,`city`,`state`,`postal`, `sales`,`sale_price`,`pre_sale_price`,`std_sale_price`,`new_shipping_credits`,\n" +
@@ -119,8 +119,14 @@ public class FinancialSalesBalanceProvider {
                 "`point_fee`,`selling_fees`,`fba_fee`,`other_transaction_fees`,`other`,\n" +
                 "`new_other`,`total`,`service_fee`,`transfer`,`adjustment`,`new_promotional_rebates`,`new_shipping_fba`,\n" +
                 "`std_product_sales`,`std_sales_original`,`std_sales_add`,`std_sales_minus`,`std_fba`,`std_fbas`,`std_fba_original`,\n" +
-                "`lightning_deal_fee`,`fba_inventory_fee`,`vat`,`sales_for_tax`,`service_fee_tax`," + ProviderSqlStore.statusV(alias) + "" +
-                "FROM " + table + " AS " + alias + "," + ProviderSqlStore.fsbJoinTable(sql, alias) + " \n");
+                "`lightning_deal_fee`,`fba_inventory_fee`," + alias + ".`vat`,`sales_for_tax`,`service_fee_tax`," + ProviderSqlStore.statusV(alias) + "" +
+                "FROM " + table + " AS " + alias + " \n");
+
+
+        //这里这样写是性能优化后的sql
+        //  "FROM " + table + " AS " + alias + "," + ProviderSqlStore.fsbJoinTable(sql, alias) + " \n");
+
+        ProviderSqlStore.joinTable(sql, alias);
         //结算号
         AppendSqlStore.sqlWhere(fbs.getSettlementId(), "settlement_id", sql, Constants.SELECT);
         //付款类型
@@ -217,31 +223,32 @@ public class FinancialSalesBalanceProvider {
         AppendSqlStore.sqlWhere(fbs.getLightningDealFee(), "lightning_deal_fee", sql, Constants.SELECT);
         //FBA仓储费
         AppendSqlStore.sqlWhere(fbs.getFbaInventoryFee(), "fba_inventory_fee", sql, Constants.SELECT);
-        //店铺名称
-        if (fbs.getShopId() != null) {
-            sql.WHERE(alias + ".shop_id=#{shopId}");
-        }
-        //站点名称
-        if (fbs.getSiteId() != null) {
-            sql.WHERE(alias + ".site_id=#{siteId}");
-        }
-        //文件已有时间
-        if (fbs.getDates() != null && (fbs.getDates().size() > 0)) {
-            sql.WHERE(alias + ".date  " + fbs.getDates().get(0) + " AND " + fbs.getDates().get(1) + "");
-        }
-        //备注
-        if (StringUtils.isNotBlank(fbs.getRemark())) {
-            sql.WHERE(alias + ".remark=#{remark}");
-        }
-        //状态
-        if (fbs.getStatus() != null) {
-            sql.WHERE(alias + ".status=#{status}");
-        }
-        //创建时间
-        if (fbs.getCreateDates() != null && (fbs.getCreateDates().size() > 0)) {
-            sql.WHERE(alias + ".create_date BETWEEN  " + fbs.getCreateDates().get(0) + " AND " + fbs.getCreateDates().get(1) + "");
-        }
-        sql.WHERE(alias + ".del_or_not=0");
+        //这里这样写是性能优化后的sql
+//        //店铺名称
+//        if (fbs.getShopId() != null) {
+//            sql.WHERE(alias + ".shop_id=#{shopId}");
+//        }
+//        //站点名称
+//        if (fbs.getSiteId() != null) {
+//            sql.WHERE(alias + ".site_id=#{siteId}");
+//        }
+//        //文件已有时间
+//        if (fbs.getDates() != null && (fbs.getDates().size() > 0)) {
+//            sql.WHERE(alias + ".date  " + fbs.getDates().get(0) + " AND " + fbs.getDates().get(1) + "");
+//        }
+//        //备注
+//        if (StringUtils.isNotBlank(fbs.getRemark())) {
+//            sql.WHERE(alias + ".remark=#{remark}");
+//        }
+//        //状态
+//        if (fbs.getStatus() != null) {
+//            sql.WHERE(alias + ".status=#{status}");
+//        }
+//        //创建时间
+//        if (fbs.getCreateDates() != null && (fbs.getCreateDates().size() > 0)) {
+//            sql.WHERE(alias + ".create_date BETWEEN  " + fbs.getCreateDates().get(0) + " AND " + fbs.getCreateDates().get(1) + "");
+//        }
+//        sql.WHERE(alias + ".del_or_not=0");
         ProviderSqlStore.selectUploadStatus(sql, fbs, alias);
         return sql.toString();
     }

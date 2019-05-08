@@ -69,12 +69,6 @@ public class UserUpload {
     private Integer mid;
 
     /**
-     * 记录表ID
-     *
-     * @return
-     */
-    private Long recordingId;
-    /**
      * 洲ID
      */
     private Integer areaId;
@@ -272,14 +266,6 @@ public class UserUpload {
 
     public void setMid(Integer mid) {
         this.mid = mid;
-    }
-
-    public Long getRecordingId() {
-        return recordingId;
-    }
-
-    public void setRecordingId(Long recordingId) {
-        this.recordingId = recordingId;
     }
 
     public Integer getShopId() {

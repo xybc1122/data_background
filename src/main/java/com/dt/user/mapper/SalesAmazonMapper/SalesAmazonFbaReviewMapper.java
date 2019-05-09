@@ -6,12 +6,7 @@ import com.dt.user.model.SalesAmazon.SalesAmazonFbaReview;
 import java.util.List;
 
 import com.dt.user.provider.SalesAmazonFbaReviewSqlProvider;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
 
 public interface SalesAmazonFbaReviewMapper {
 
@@ -45,8 +40,6 @@ public interface SalesAmazonFbaReviewMapper {
     int insertReview(SalesAmazonFbaReview review);
 
 
-
-
     @InsertProvider(type = SalesAmazonFbaReviewSqlProvider.class, method = "insertSelective")
     int insertSelective(SalesAmazonFbaReview record);
 
@@ -59,10 +52,21 @@ public interface SalesAmazonFbaReviewMapper {
     @SelectProvider(type = SalesAmazonFbaReviewSqlProvider.class, method = "selectByReview")
     List<SalesAmazonFbaReview> selectByReview(ReviewDto reviewDto);
 
+    /**
+     * 修改Review
+     *
+     * @param record
+     * @return
+     */
+    @UpdateProvider(type = SalesAmazonFbaReviewSqlProvider.class, method = "updateByReview")
+    int updateByReview(SalesAmazonFbaReview record);
 
-    @UpdateProvider(type = SalesAmazonFbaReviewSqlProvider.class, method = "updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") SalesAmazonFbaReview record);
-
-    @UpdateProvider(type = SalesAmazonFbaReviewSqlProvider.class, method = "updateByExample")
-    int updateByExample(@Param("record") SalesAmazonFbaReview record);
+    /**
+     * 物理删除 更新数据
+     *
+     * @param reId
+     * @return
+     */
+    @UpdateProvider(type = SalesAmazonFbaReviewSqlProvider.class, method = "updateDelByReview")
+    int delByReview(@Param("reId") Long reId, @Param("version") Integer version);
 }

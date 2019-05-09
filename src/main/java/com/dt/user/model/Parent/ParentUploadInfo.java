@@ -84,6 +84,10 @@ public class ParentUploadInfo {
      * 文件表已有时间
      */
     private List<Long> dates;
+    /**
+     * 版本标识
+     */
+    private Integer version;
 
     public String getRid() {
         return rid;
@@ -104,6 +108,14 @@ public class ParentUploadInfo {
         this.shopId = shopId;
         this.siteId = siteId;
 
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 
     public Integer getSqlMode() {

@@ -10,6 +10,7 @@ import com.dt.user.service.*;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.net.ftp.FTPClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,11 +19,17 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @RestController
 @RequestMapping("/api/v1/upload")
 public class UploadController {
+    private static final String FTP_HOST = "192.168.1.230";
+    private static final int FTP_POST = 21;
+    private static final String USER_NAME = "ftpuser";
+    private static final String PAW = "wawzj7788";
+
 
     @Autowired
     private ConsumerService consumerService;
@@ -31,34 +38,58 @@ public class UploadController {
     private UserUploadService userUploadService;
 
 
-    @PostMapping("/image")
+    @PostMapping("/images")
     @PermissionCheck("upload")
-    public ResponseBase uploadImage(HttpServletRequest request) {
-        MultipartFile file;
+    public ResponseBase uploadImage(HttpServletRequest request) throws Exception {
         List<MultipartFile> files = ((MultipartHttpServletRequest) request)
                 .getFiles("files");
-        int fileCount = 0;
         String msg;
         List<UserUpload> uploadList = new ArrayList<>();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < files.size(); i++) {
-            file = files.get(i);
-            // String contentType = filter.getContentType();//图片||文件类型
-            String fileName = file.getOriginalFilename();//图片||文件名字
-            String uuId = UuIDUtils.fileUuId(fileName);
-            try {
-                FileUtils.uploadFile(file.getBytes(), Constants.SAVE_IMAGE_PATH, uuId);
-                msg = "上传成功";
-            } catch (Exception e) {
-                msg = "上传失败" + fileName;
-                fileCount++;
-                sb.append(fileName);
+        String ftpPath = Constants.UPLOAD_PATH;
+        InputStream is = null;
+        FTPClient ftpClient = null;
+        try {
+            if (files != null && files.size() > 0) {
+                ftpClient = FTPCUtils.connect(FTP_HOST, FTP_POST, USER_NAME, PAW, ftpPath);
+                for (MultipartFile file : files) {
+                    is = file.getInputStream();
+//            String contentType = file.getContentType();//图片||文件类型
+//            System.out.println(contentType);
+                    String fileName = file.getOriginalFilename();//图片||文件名字
+                    String uuId = UuIDUtils.fileUuId(fileName);
+                    //ftp是否上传成功
+                    boolean isFlg = FTPCUtils.upload(ftpClient, uuId, is, ftpPath);
+                    if (isFlg) {
+                        msg = "success";
+                    } else {
+                        msg = "error";
+                    }
+                    //记录用户上传信息~
+                    UserUpload upload = new UserUpload(ReqUtils.getUid(), "http://" + FTP_HOST + "/images/" + uuId + "", msg, fileName);
+                    uploadList.add(upload);
+                    userUploadService.addUserUploadInfo(upload);
+                }
+                return JsonData.setResultSuccess("success", uploadList);
+            }
+            return JsonData.setResultError("上传失败");
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ftpClient != null) {
+                try {
+                    ftpClient.logout();
+                    ftpClient.disconnect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        String getMsg = "上传了" + files.size() + "个文件/" + "其中" + fileCount + "个文件失败~ 失败文件名字" + sb.toString() + "";
-        return JsonData.setResultSuccess(getMsg, uploadList);
     }
-
 
     /**
      * 下载接口
@@ -96,7 +127,7 @@ public class UploadController {
                                    @RequestParam("menuId") String menuId,
                                    @RequestParam("areaId") String areaId, @RequestParam("businessTime") String businessTime,
                                    @RequestParam("closingDate") String closingDate) {
-        MultipartFile file;
+
         List<MultipartFile> files = ((MultipartHttpServletRequest) request)
                 .getFiles("files");
         //记录用户上传信息~
@@ -105,9 +136,7 @@ public class UploadController {
         String msg;
         List<UserUpload> uploadList = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < files.size(); i++) {
-            file = files.get(i);
+        for (MultipartFile file : files) {
             // String contentType = filter.getContentType();//图片||文件类型
             String fileName = file.getOriginalFilename();//图片||文件名字
             String uuId = UuIDUtils.fileUuId(fileName);

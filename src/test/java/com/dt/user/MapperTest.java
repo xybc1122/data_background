@@ -54,22 +54,23 @@ public class MapperTest {
         FTPClient ftpClient = new FTPClient();
         ftpClient.connect("192.168.1.230", 21);
         //2、登录ftp服务器
-        ftpClient.login("dt", "wawzj7788");
+        ftpClient.login("ftpuser", "wawzj7788");
         ftpClient.setControlEncoding("UTF-8");
         int reply = ftpClient.getReplyCode();
         System.out.println(reply);
         if (!FTPReply.isPositiveCompletion(reply)) {
             System.out.println("connect failed...ftp服务器");
-            return;
+            ftpClient.disconnect();
+            return ;
         }
         System.out.println("connect successfu...ftp服务器");
-        //3、读取本地文件
-        FileInputStream inputStream = new FileInputStream(new File("E:/10197997_003647426000_2.jpg"));
         //4、上传文件
         //1）指定上传目录
-        ftpClient.changeWorkingDirectory("/home/dt/images");
+        ftpClient.changeWorkingDirectory("/home/ftpuser/www/images");
         //2）指定文件类型
         ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+        //3、读取本地文件
+        FileInputStream inputStream = new FileInputStream(new File("E:/1.jpg"));
         //第一个参数：文件在远程服务器的名称
         //第二个参数：文件流
         ftpClient.storeFile("hello.jpg", inputStream);

@@ -64,8 +64,8 @@ public class JsonUtils {
      */
     public static ResponseBase saveMsg(int result) {
         if (result != 0) {
-            return JsonData.setResultSuccess("新增成功");
+            return JsonData.setResultSuccess("success");
         }
-        return JsonData.setResultError("新增失败");
+        return JsonData.setResultError("error");
     }
 }

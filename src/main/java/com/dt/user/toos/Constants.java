@@ -23,13 +23,17 @@ public interface Constants {
      */
     String USER = "user:";
     /**
-     * 文件上传存放地址
+     * 图片上传存放地址
      */
     String SAVE_IMAGE_PATH = "E:/imagePath/";
     /**
      * 文件上传存放地址
      */
     String SAVE_FILE_PATH = "E:/filePath/";
+    /**
+     * 上传到ftp服务器上的地址
+     */
+    String UPLOAD_PATH = "/home/ftpuser/www/images";
 //    /**
 //     * Linux文件上传存放地址
 //     */

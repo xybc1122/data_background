@@ -8,10 +8,7 @@ import com.dt.user.service.JavaSqlNameService;
 import com.dt.user.service.SalesAmazonService.*;
 import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -223,5 +220,21 @@ public class SalesAmazonFbaController {
     @PostMapping("/saveReview")
     public ResponseBase getReview(@RequestBody SalesAmazonFbaReview review) {
         return reviewService.serviceInsertReview(review);
+    }
+
+    /**
+     * 删除 Review
+     */
+    @GetMapping("/delReview")
+    public ResponseBase delReview(@RequestParam("thisIds") String thisIds, @RequestParam("versions") String versions) {
+        return reviewService.serviceDelReview(thisIds, versions);
+    }
+
+    /**
+     * 更新 Review
+     */
+    @PostMapping("/upReview")
+    public ResponseBase upReview(@RequestBody SalesAmazonFbaReview review) {
+        return reviewService.serviceUpdateByReview(review);
     }
 }

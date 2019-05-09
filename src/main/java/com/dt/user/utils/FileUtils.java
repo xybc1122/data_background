@@ -3,7 +3,11 @@ package com.dt.user.utils;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
+import com.dt.user.toos.Constant;
+import com.dt.user.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +16,7 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 
 public class FileUtils {
+
     /**
      * 上传文件
      *

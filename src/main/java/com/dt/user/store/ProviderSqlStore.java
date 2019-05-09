@@ -7,6 +7,8 @@ import com.dt.user.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.Date;
+
 /**
  * @ClassName ProviderSqlStore
  * Description TODO
@@ -120,6 +122,52 @@ public class ProviderSqlStore {
 //    }
 
     /**
+     * 通用更新 数据状态
+     *
+     * @param sql
+     * @param p
+     */
+    public static void setStatus(SQL sql, ParentUploadInfo p) {
+        if (StringUtils.isNotBlank(p.getRemark())) {
+            sql.SET("`remark` = #{remark,jdbcType=VARCHAR}");
+        }
+
+        if (p.getStatus() != null) {
+            sql.SET("`status` = #{status,jdbcType=INTEGER}");
+        }
+
+
+        if (StringUtils.isNotBlank(p.getCreateUser())) {
+            sql.SET("`create_user` = #{createUser,jdbcType=BIGINT}");
+
+        }
+        if (p.getCreateDate() != null) {
+            sql.SET("`create_date` = #{createDate,jdbcType=BIGINT}");
+        }
+
+
+        if (StringUtils.isNotBlank(p.getModifyUser())) {
+            sql.SET("`modify_user` = #{modifyUser,jdbcType=BIGINT}");
+
+        }
+        if (p.getModifyDate() != null) {
+            sql.SET("`modify_date` = #{modifyDate,jdbcType=BIGINT}");
+        }
+
+
+        if (StringUtils.isNotBlank(p.getAuditUser())) {
+            sql.SET("`audit_user` = #{auditUser,jdbcType=BIGINT}");
+
+        }
+        if (p.getAuditDate() != null) {
+            sql.SET("`audit_date` = #{auditDate,jdbcType=BIGINT}");
+        }
+        Integer version = p.getVersion();
+        sql.SET("version=" + version + "+1");
+        sql.WHERE("version=" + version);
+    }
+
+    /**
      * 通用查询 文件类 数据状态
      *
      * @param sql
@@ -150,5 +198,24 @@ public class ProviderSqlStore {
             sql.WHERE(alias + ".create_date BETWEEN  " + p.getCreateDates().get(0) + " AND " + p.getCreateDates().get(1) + "");
         }
         sql.WHERE(alias + ".del_or_not=0");
+    }
+
+    //  @Update("UPDATE `sales_amazon_fba_review`\n" +
+    //            "SET`del_or_not` =1 ,\n" +
+    //            "`modify_user` = #{uName},\n" +
+    //            "`modify_date` = #{modifyDate}" +
+    //            "  WHERE `re_id` = #{reId};")
+
+    /**
+     * 上传文件通用删除
+     */
+    public static String upDel(SQL sql, String table, String alias, int version) {
+        sql.UPDATE(table + " AS " + alias);
+        sql.SET(alias + ".`del_or_not` = 1");
+        sql.SET(alias + ".`modify_date` =" + new Date().getTime());
+        sql.SET(alias + ".`modify_user` = " + "'" + ReqUtils.getUserName() + "'");
+        sql.SET("version=" + version + "+1");
+        sql.WHERE("version=" + version);
+        return sql.toString();
     }
 }

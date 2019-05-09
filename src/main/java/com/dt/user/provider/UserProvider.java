@@ -146,8 +146,8 @@ public class UserProvider {
             }
             Integer version = (Integer) userMap.get("version");
             SET("version=" + version + "+1");
-            Integer uid = (Integer) userMap.get("uid");
             WHERE("version=" + version);
+            Integer uid = (Integer) userMap.get("uid");
             WHERE("uid=" + uid);
         }}.toString();
     }

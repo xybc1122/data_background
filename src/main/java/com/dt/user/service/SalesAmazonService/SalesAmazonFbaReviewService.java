@@ -24,4 +24,22 @@ public interface SalesAmazonFbaReviewService {
     List<SalesAmazonFbaReview> serviceSelectByReview(ReviewDto reviewDto);
 
     ResponseBase serviceInsertReview(SalesAmazonFbaReview review);
+
+
+    /**
+     * 物理删除 更新数据
+     *
+     * @return
+     */
+    ResponseBase serviceDelReview(String thisIds, String versions);
+
+
+    /**
+     * 更新数据
+     *
+     * @return
+     */
+    ResponseBase serviceUpdateByReview(SalesAmazonFbaReview review);
+
+
 }

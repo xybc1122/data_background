@@ -14,6 +14,13 @@ public class UserUpload {
         this.uid = uid;
     }
 
+    public UserUpload(Long uid, String url, String remark, String name) {
+        this.uid = uid;
+        this.url = url;
+        this.remark = remark;
+        this.name = name;
+    }
+
     /**
      * 存入记录信息集合数据
      */
@@ -35,7 +42,10 @@ public class UserUpload {
      * 上传服务器路径
      */
     private String filePath;
-
+    /**
+     * 上传图片url
+     */
+    private String url;
     /**
      * 写入服务器路径
      */
@@ -91,6 +101,14 @@ public class UserUpload {
     private Integer pageSize;
     private List<Long> createDates;
     private List<Long> delDates;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getClosingDate() {
         return closingDate;

@@ -53,6 +53,15 @@ public interface SalesAmazonFbaReviewMapper {
     List<SalesAmazonFbaReview> selectByReview(ReviewDto reviewDto);
 
     /**
+     * 查询 是否存在 is_review
+     *
+     * @return
+     */
+    @SelectProvider(type = SalesAmazonFbaReviewSqlProvider.class, method = "isReview")
+    Long selectIsReview(SalesAmazonFbaReview review);
+
+
+    /**
      * 修改Review
      *
      * @param record

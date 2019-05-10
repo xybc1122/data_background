@@ -50,10 +50,7 @@ public class SystemLogStatusProvider {
             if (logStatus.getAuditUser() != null) {
                 SET("audit_user=#{auditUser}");
             }
-            //有效日期
-            if (logStatus.getEffectiveDate() != null) {
-                SET("effective_date=#{effectiveDate}");
-            }
+
             WHERE("status_id=#{statusId}");
         }}.toString();
     }

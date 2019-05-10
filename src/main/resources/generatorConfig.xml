@@ -37,10 +37,7 @@
 		</javaClientGenerator>
 
 
-		<table tableName="`basic_public_area_role`">
-			<generatedKey column="id" sqlStatement="JDBC"/>
-		</table>
-		<table tableName="`basic_public_area_role_site`">
+		<table tableName="`sales_ship_notice_entry`">
 			<generatedKey column="id" sqlStatement="JDBC"/>
 		</table>
 

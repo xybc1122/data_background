@@ -49,16 +49,16 @@ public class ArrUtils {
      *
      * @return
      */
-    public static boolean eqOrderList(List<String> oneList, List<String> twoList) {
-        if (twoList == null) {
+    public static boolean eqOrderList(List<String> sqlList, List<String> fileList) {
+        if (fileList == null) {
             return false;
         }
-        if (oneList.size() != twoList.size()) {
+        if (sqlList.size() != fileList.size()) {
             return false;
         }
-        for (int i = 0; i < oneList.size(); i++) {
-            System.out.println(twoList.get(i).trim());
-            if (!(oneList.get(i)).equals(StrUtils.specialUnicode(twoList.get(i).trim()))) {
+        for (int i = 0; i < sqlList.size(); i++) {
+            System.out.println(fileList.get(i).trim());
+            if (!(sqlList.get(i).trim()).equals(StrUtils.specialUnicode(fileList.get(i).trim()))) {
                 return false;
             }
         }

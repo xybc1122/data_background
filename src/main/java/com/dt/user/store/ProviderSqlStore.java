@@ -43,10 +43,10 @@ public class ProviderSqlStore {
     public static void selectStatus(SystemLogStatus logStatus, String as, SQL sql) {
         if (logStatus != null) {
             sql.LEFT_OUTER_JOIN("`system_log_status` AS ls ON ls.status_id=" + as + ". `status_id` ");
-            //有效日期
-            if (logStatus.getEffectiveDates() != null && (logStatus.getEffectiveDates().size() > 0)) {
-                sql.WHERE("ls.effective_date BETWEEN  " + logStatus.getEffectiveDates().get(0) + " AND " + logStatus.getEffectiveDates().get(1) + "");
-            }
+//            //有效日期
+//            if (logStatus.getEffectiveDates() != null && (logStatus.getEffectiveDates().size() > 0)) {
+//                sql.WHERE("ls.effective_date BETWEEN  " + logStatus.getEffectiveDates().get(0) + " AND " + logStatus.getEffectiveDates().get(1) + "");
+//            }
             //备注
             if (StringUtils.isNotBlank(logStatus.getRemark())) {
                 sql.WHERE("ls.remark=#{systemLogStatus.remark}");

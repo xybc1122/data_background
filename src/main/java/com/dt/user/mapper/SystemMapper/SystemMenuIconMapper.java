@@ -1,4 +1,4 @@
-package com.dt.user.mapper;
+package com.dt.user.mapper.SystemMapper;
 
 import com.dt.user.model.SystemMenuIcon;
 import org.apache.ibatis.annotations.Mapper;

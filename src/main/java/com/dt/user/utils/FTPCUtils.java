@@ -1,12 +1,8 @@
 package com.dt.user.utils;
 
 import com.dt.user.exception.LsException;
-import com.dt.user.toos.Constants;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -41,12 +37,13 @@ public class FTPCUtils {
             if (!FTPReply.isPositiveCompletion(reply)) {
                 closeConnection(ftpClient);
                 throw new LsException("connect failed...ftp服务器");
-
             }
             // 中文支持
             ftpClient.setControlEncoding("UTF-8");
             ftpClient.enterLocalPassiveMode();
             ftpClient.changeWorkingDirectory(ftpPath);
+            //2）指定文件类型
+            ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
         } catch (Exception e) {
             throw new LsException("连接文件服务器失败");
         }
@@ -95,7 +92,8 @@ public class FTPCUtils {
      *
      * @throws IOException
      */
-    private static void closeConnection(FTPClient ftpClient) throws IOException {
+    public static void closeConnection(FTPClient ftpClient) throws IOException {
+        ftpClient.logout();
         ftpClient.disconnect();
     }
 

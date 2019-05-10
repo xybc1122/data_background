@@ -17,7 +17,6 @@ public class SystemLogStatus implements Serializable {
     private String modifyUser;
     private Long auditDate;
     private String auditUser;
-    private Long effectiveDate;
 
     /**
      * 创建时间范围查询变量
@@ -34,10 +33,6 @@ public class SystemLogStatus implements Serializable {
      */
     private List<Long> auditDates;
 
-    /**
-     * 有效如期范围查询
-     */
-    private List<Long> effectiveDates;
 
 
     public Long getStatusId() {
@@ -136,19 +131,4 @@ public class SystemLogStatus implements Serializable {
         this.auditDates = auditDates;
     }
 
-    public Long getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Long effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    public List<Long> getEffectiveDates() {
-        return effectiveDates;
-    }
-
-    public void setEffectiveDates(List<Long> effectiveDates) {
-        this.effectiveDates = effectiveDates;
-    }
 }

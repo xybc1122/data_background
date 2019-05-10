@@ -1,6 +1,6 @@
 package com.dt.user.service.impl;
 
-import com.dt.user.mapper.SystemMenuIconMapper;
+import com.dt.user.mapper.SystemMapper.SystemMenuIconMapper;
 import com.dt.user.model.SystemMenuIcon;
 import com.dt.user.service.SystemMenuIconService;
 import org.springframework.beans.factory.annotation.Autowired;

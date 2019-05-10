@@ -28,7 +28,7 @@ public interface BasicHrEmploymentTypeMapper {
     @Results({
             @Result(column = "status_id", property = "systemLogStatus",
                     one = @One(
-                            select = "com.dt.user.mapper.SystemLogStatusMapper.findSysStatusInfo",
+                            select = "com.dt.user.mapper.SystemMapper.SystemLogStatusMapper.findSysStatusInfo",
                             fetchType = FetchType.EAGER
                     )
             )

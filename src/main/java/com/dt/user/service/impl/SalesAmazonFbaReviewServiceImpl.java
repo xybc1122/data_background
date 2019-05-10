@@ -7,6 +7,7 @@ import com.dt.user.exception.LsException;
 import com.dt.user.mapper.SalesAmazonMapper.SalesAmazonFbaReviewMapper;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaReview;
 import com.dt.user.service.SalesAmazonService.SalesAmazonFbaReviewService;
+import com.dt.user.toos.Constants;
 import com.dt.user.utils.JsonUtils;
 import com.dt.user.utils.ReqUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @ClassName SalesAmazonFbaReviewServiceImpl
@@ -26,6 +28,8 @@ import java.util.List;
 public class SalesAmazonFbaReviewServiceImpl implements SalesAmazonFbaReviewService {
     @Autowired
     private SalesAmazonFbaReviewMapper reviewMapper;
+    private ReentrantLock lock = new ReentrantLock();
+
 
     @Override
     public List<SalesAmazonFbaReview> serviceSelectByReview(ReviewDto reviewDto) {
@@ -34,10 +38,14 @@ public class SalesAmazonFbaReviewServiceImpl implements SalesAmazonFbaReviewServ
 
     @Override
     public ResponseBase serviceInsertReview(SalesAmazonFbaReview review) {
-        review.setCreateDate(new Date().getTime());
-        review.setCreateUser(ReqUtils.getUserName());
-        int result = reviewMapper.insertReview(review);
-        return JsonUtils.saveMsg(result);
+        try {
+            lock.lock();
+            check(review, "数据已存在不能存入", Constants.SAVE);
+            int result = reviewMapper.insertReview(review);
+            return JsonUtils.saveMsg(result);
+        } finally {
+            lock.unlock();
+        }
     }
 
     @Override
@@ -63,9 +71,28 @@ public class SalesAmazonFbaReviewServiceImpl implements SalesAmazonFbaReviewServ
 
     @Override
     public ResponseBase serviceUpdateByReview(SalesAmazonFbaReview review) {
-        review.setModifyDate(new Date().getTime());
-        review.setModifyUser(ReqUtils.getUserName());
+        check(review, "数据已存在不能修改", Constants.UP);
         int result = reviewMapper.updateByReview(review);
         return JsonUtils.saveMsg(result);
     }
+
+
+    private void check(SalesAmazonFbaReview review, String msg, String type) {
+        Long reId = reviewMapper.selectIsReview(review);
+        switch (type) {
+            case "save":
+                if (reId != null) {
+                    throw new LsException(msg);
+                }
+                break;
+            case "up":
+                if (reId != null && !reId.equals(review.getReId())) {
+                    throw new LsException(msg);
+                }
+                break;
+        }
+        review.setCreateDate(new Date().getTime());
+        review.setCreateUser(ReqUtils.getUserName());
+    }
+
 }

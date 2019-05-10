@@ -53,8 +53,6 @@ public class UploadController {
                 ftpClient = FTPCUtils.connect(FTP_HOST, FTP_POST, USER_NAME, PAW, ftpPath);
                 for (MultipartFile file : files) {
                     is = file.getInputStream();
-//            String contentType = file.getContentType();//图片||文件类型
-//            System.out.println(contentType);
                     String fileName = file.getOriginalFilename();//图片||文件名字
                     String uuId = UuIDUtils.fileUuId(fileName);
                     //ftp是否上传成功
@@ -82,8 +80,7 @@ public class UploadController {
             }
             if (ftpClient != null) {
                 try {
-                    ftpClient.logout();
-                    ftpClient.disconnect();
+                    FTPCUtils.closeConnection(ftpClient);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -189,15 +186,20 @@ public class UploadController {
                 UserUpload userUpload = upload.getUploadSuccessList().get(i);
                 int fileIndex = userUpload.getName().lastIndexOf(".");
                 String typeFile = userUpload.getName().substring(fileIndex + 1);
-                if (typeFile.equals("csv")) {
-                    responseBase = consumerService.importCsv(userUpload).get();
-                    responseBaseList.add(responseBase);
-                } else if (typeFile.equals("xlsx") || typeFile.equals("xls")) {
-                    responseBase = consumerService.importXls(userUpload).get();
-                    responseBaseList.add(responseBase);
-                } else if (typeFile.equals("txt")) {
-                    responseBase = consumerService.importTxt(userUpload).get();
-                    responseBaseList.add(responseBase);
+                switch (typeFile) {
+                    case "csv":
+                        responseBase = consumerService.importCsv(userUpload).get();
+                        responseBaseList.add(responseBase);
+                        break;
+                    case "xlsx":
+                    case "xls":
+                        responseBase = consumerService.importXls(userUpload).get();
+                        responseBaseList.add(responseBase);
+                        break;
+                    case "txt":
+                        responseBase = consumerService.importTxt(userUpload).get();
+                        responseBaseList.add(responseBase);
+                        break;
                 }
             }
         }

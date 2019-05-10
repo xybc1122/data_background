@@ -1,4 +1,4 @@
-package com.dt.user.mapper;
+package com.dt.user.mapper.SystemMapper;
 
 import com.dt.user.model.SystemLogStatus;
 import com.dt.user.provider.SystemLogStatusProvider;

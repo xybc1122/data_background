@@ -46,6 +46,35 @@ public class SalesAmazonFbaReviewSqlProvider {
         return sql.toString();
     }
 
+    public String isReview(SalesAmazonFbaReview review) {
+        SQL sql = new SQL();
+        String alias = "rev";
+        sql.SELECT("re_id");
+        sql.FROM("sales_amazon_fba_review AS " + alias);
+        if (review.getDate() != null) {
+            sql.WHERE("`date`=#{date}");
+        }
+        if (review.getShopId() != null) {
+            sql.WHERE("shop_id=#{shopId}");
+        }
+        if (review.getSiteId() != null) {
+            sql.WHERE("site_id=#{siteId}");
+        }
+        if (review.getSkuId() != null) {
+            sql.WHERE("sku_id=#{skuId}");
+        }
+        if (review.getStarLevelId() != null) {
+            sql.WHERE("star_level_id=#{starLevelId}");
+        }
+        if (review.getAdd() != null) {
+            sql.WHERE("`add`=#{add}");
+        }
+        if (review.getMove() != null) {
+            sql.WHERE("move=#{move}");
+        }
+        return sql.toString();
+    }
+
 
     public String updateDelByReview(Map<String, Object> reMap) {
         Long reId = (Long) reMap.get("reId");

@@ -3,9 +3,13 @@ package com.dt.user;
 
 import com.dt.user.mapper.BasePublicMapper.BasicPublicShopMapper;
 import com.dt.user.mapper.FinancialImportMapper.FinancialSalesBalanceMapper;
+import com.dt.user.mapper.SalesAmazonMapper.SalesShipNoticeEntryMapper;
+import com.dt.user.mapper.SalesAmazonMapper.SalesShipNoticeMapper;
 import com.dt.user.mapper.SystemMapper.SystemFinalProcessingMapper;
 import com.dt.user.model.JavaSqlName;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaReview;
+import com.dt.user.model.SalesAmazon.SalesShipNotice;
+import com.dt.user.model.SalesAmazon.SalesShipNoticeEntry;
 import com.dt.user.service.JavaSqlNameService;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -32,6 +36,8 @@ public class MapperTest {
     private FinancialSalesBalanceMapper fsbMapper;
     @Autowired
     private BasicPublicShopMapper shopMapper;
+    @Autowired
+    private SalesShipNoticeMapper noticeMapper;
 
     @Test
     public void add() {
@@ -61,7 +67,7 @@ public class MapperTest {
         if (!FTPReply.isPositiveCompletion(reply)) {
             System.out.println("connect failed...ftp服务器");
             ftpClient.disconnect();
-            return ;
+            return;
         }
         System.out.println("connect successfu...ftp服务器");
         //4、上传文件
@@ -76,6 +82,11 @@ public class MapperTest {
         ftpClient.storeFile("hello.jpg", inputStream);
         //5、退出登录
         ftpClient.logout();
+    }
+
+    @Test
+    public void selectByNotice() {
+        noticeMapper.selectByNotice(new SalesShipNotice());
     }
 }
 

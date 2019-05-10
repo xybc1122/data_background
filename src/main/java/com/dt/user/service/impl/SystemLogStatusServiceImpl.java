@@ -3,16 +3,15 @@ package com.dt.user.service.impl;
 import com.dt.user.config.JsonData;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.exception.LsException;
-import com.dt.user.mapper.SystemLogStatusMapper;
+import com.dt.user.mapper.SystemMapper.SystemLogStatusMapper;
 import com.dt.user.model.BasePublicModel.*;
+import com.dt.user.model.System.SystemInfoCompany;
 import com.dt.user.model.SystemLogStatus;
 import com.dt.user.service.RedisService;
 import com.dt.user.service.SystemLogStatusService;
 import com.dt.user.store.SystemLogStatusStore;
-import com.dt.user.toos.Constants;
 import com.dt.user.utils.ReqUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -28,9 +27,6 @@ import java.util.Map;
 public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     @Autowired
     private SystemLogStatusMapper logStatusMapper;
-    @Autowired
-    private RedisService redisService;
-
     @Override
     public SystemLogStatus serviceFindSysStatusInfo(Long statusId) {
         return logStatusMapper.findSysStatusInfo(statusId);
@@ -117,6 +113,12 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
             logStatus = serviceSaveSysStatusInfo(products.getSystemLogStatus());
             products.setStatusId(logStatus.getStatusId());
             return products;
+        } else if (obj instanceof SystemInfoCompany) {
+            //公司页面信息配置表
+            SystemInfoCompany company = (SystemInfoCompany) obj;
+            logStatus = serviceSaveSysStatusInfo(company.getSystemLogStatus());
+            company.setStatusId(logStatus.getStatusId());
+            return company;
         }
         return null;
     }

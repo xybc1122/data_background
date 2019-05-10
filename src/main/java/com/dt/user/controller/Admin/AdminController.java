@@ -8,6 +8,7 @@ import com.dt.user.dto.RoleDto;
 import com.dt.user.dto.UserDto;
 import com.dt.user.model.BasePublicModel.BasicPublicShop;
 import com.dt.user.model.Role;
+import com.dt.user.model.System.SystemInfoCompany;
 import com.dt.user.model.UserInfo;
 import com.dt.user.service.BasePublicService.BasicPublicAreaRoleService;
 import com.dt.user.service.BasePublicService.BasicPublicAreaService;
@@ -15,6 +16,7 @@ import com.dt.user.service.BasePublicService.BasicPublicShopService;
 import com.dt.user.service.BasePublicService.BasicPublicSiteService;
 import com.dt.user.service.RoleMenuService;
 import com.dt.user.service.RoleService;
+import com.dt.user.service.SystemService.SystemInfoCompanyService;
 import com.dt.user.service.UserService;
 import com.dt.user.utils.PageInfoUtils;
 import com.github.pagehelper.PageHelper;
@@ -53,6 +55,9 @@ public class AdminController {
 
     @Autowired
     private BasicPublicAreaRoleService areaRoleService;
+
+    @Autowired
+    private SystemInfoCompanyService cService;
 
     /**
      * 获取用户管理信息的一些信息
@@ -217,5 +222,17 @@ public class AdminController {
     @PostMapping("/setAreaRole")
     public ResponseBase setAreaRole(@RequestBody AreaRoleDto areaRoleDto) {
         return JsonData.setResultSuccess(areaRoleService.serviceInsertARole(areaRoleDto));
+    }
+
+
+
+    /**
+     * admin 新增配置公司 信息 LOGO
+     *
+     * @return
+     */
+    @PostMapping("/saveInfoCompany")
+    public ResponseBase saveInfoCompany(@RequestBody SystemInfoCompany company) {
+        return JsonData.setResultSuccess(cService.serviceInsertCompany(company));
     }
 }

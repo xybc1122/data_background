@@ -5,15 +5,7 @@ import com.dt.user.model.SalesAmazon.SalesShipNoticeEntry;
 import java.util.List;
 
 import com.dt.user.provider.SalesShipNoticeEntrySqlProvider;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
-import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.annotations.*;
 
 public interface SalesShipNoticeEntryMapper {
     @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "countByExample")
@@ -51,11 +43,26 @@ public interface SalesShipNoticeEntryMapper {
 
 
     /**
-     * 查询发货通知表体
+     * 查询发货通知表体    用于一对多查询
+     *
      * @return
      */
+//    @Select("SELECT\n" +
+//            "`e_id` AS eid ,`e_id`,`entry_id`, `ship_notice_id`,`sku_id`,\n" +
+//            "`quantity`,`packages`,`length_cm`,\n" +
+//            "`width_cm`,`height_cm`,`gw_kg`,\n" +
+//            "`nw_kg`,`volume_m3`,`packing_status`,`se_quantity`,\n" +
+//            "`re_quantity`,`re_date`,`remark`,\n" +
+//            "`status`, `close_date`,`close_user`,`version`\n" +
+//            "FROM `sales_ship_notice_entry` where ship_notice_id =#{shipNoticeId}")
     @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "selectByNoticeEntry")
-    SalesShipNoticeEntry selectByNoticeEntry();
+//    @Results(value = {
+//            @Result(property = "pEList", column = "eid",
+//                    many = @Many(select = "com.dt.user.mapper.SalesAmazonMapper.SalesShipNoticePackingListEntryMapper.selectPackingListEntry",
+//                            fetchType = FetchType.LAZY))
+//    })
+    List<SalesShipNoticeEntry> selectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
+
 
     @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByExampleSelective")
     int updateByExampleSelective(@Param("record") SalesShipNoticeEntry record);

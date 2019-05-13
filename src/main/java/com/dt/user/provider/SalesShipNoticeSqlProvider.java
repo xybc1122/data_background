@@ -4,19 +4,18 @@ import static org.apache.ibatis.jdbc.SqlBuilder.BEGIN;
 import static org.apache.ibatis.jdbc.SqlBuilder.DELETE_FROM;
 import static org.apache.ibatis.jdbc.SqlBuilder.FROM;
 import static org.apache.ibatis.jdbc.SqlBuilder.INSERT_INTO;
-import static org.apache.ibatis.jdbc.SqlBuilder.ORDER_BY;
 import static org.apache.ibatis.jdbc.SqlBuilder.SELECT;
-import static org.apache.ibatis.jdbc.SqlBuilder.SELECT_DISTINCT;
 import static org.apache.ibatis.jdbc.SqlBuilder.SET;
 import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
-import static org.apache.ibatis.jdbc.SqlBuilder.WHERE;
 
 import com.dt.user.model.SalesAmazon.SalesShipNotice;
+import com.dt.user.store.FieldStore;
 import com.dt.user.store.ProviderSqlStore;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 public class SalesShipNoticeSqlProvider {
@@ -159,15 +158,21 @@ public class SalesShipNoticeSqlProvider {
         return SQL();
     }
 
-    public String selectByNotice(SalesShipNotice notice) {
+    public String selectByNotice(SalesShipNotice notice) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "pn";
-        sql.SELECT("`ship_notice_id`,`no`,`date`,`platform_type_id`,\n" +
-                "`delivery_date`,`arrive_date`,`transport_type_id`,\n" +
-                "`shop_id`,`site_id`,`fba_shipment_id`,\n" +
-                "`aw_id`,`warehouse_id`,`ttl_qty`,`ttl_packages`,`ttl_volume`,\n" +
+        //如果不多查一个字段来存放ship_notice_id，而是在column里直接填ship_notice_id，
+        // 查询出来的结果里，就没有ship_notice_id这个字段了
+        sql.SELECT("`ship_notice_id` AS nid,s.`shop_name`, cs.`site_name`,`ship_notice_id`,`no`,`date`," + alias + ".`platform_type_id`,\n" +
+                "`delivery_date`,`arrive_date`," + alias + ".`transport_type_id`,\n" +
+                "" + alias + ".`shop_id`," + alias + ".`site_id`," + alias + ".`fba_shipment_id`,\n" +
+                "" + alias + ".`aw_id`," + alias + ".`warehouse_id`,`ttl_qty`,`ttl_packages`,`ttl_volume`,\n" +
                 "`ttl_gw_kg`,`source_type_id`,`source_id`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_ship_notice AS " + alias);
+        ProviderSqlStore.joinTable(sql, alias);
+        Field[] fields = notice.getClass().getDeclaredFields();
+        FieldStore.query(fields, notice.getNameList(), notice, sql);
+        ProviderSqlStore.selectUploadStatus(sql, notice, alias);
         return sql.toString();
     }
 

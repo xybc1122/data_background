@@ -2,6 +2,7 @@ package com.dt.user.controller.SalesAmazonController;
 
 import com.dt.user.config.ResponseBase;
 import com.dt.user.model.SalesAmazon.SalesShipNotice;
+import com.dt.user.service.JavaSqlNameService;
 import com.dt.user.service.SalesAmazonService.SalesShipNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +21,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class SalesShipNoticeController {
     @Autowired
     private SalesShipNoticeService noticeService;
-
+    @Autowired
+    private JavaSqlNameService nameService;
     /**
      * 查询发货通知单信息
      * @return
      */
     @PostMapping("/getNotice")
     public ResponseBase getBusInfo(@RequestBody SalesShipNotice notice) {
+        //这里放入缓存
+        nameService.get("shipNotice", notice);
         return noticeService.selectSelectByNotice(notice);
     }
 

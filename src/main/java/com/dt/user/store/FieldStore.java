@@ -32,6 +32,7 @@ public class FieldStore {
             rfModel.setAccessible(true);
             for (JavaSqlName javaSqlName : info) {
                 if (javaSqlName.getjName().equals(rfModel.getName())) {
+                    //这里主要做查询
                     AppendSqlStore.sqlWhere(rfModel.get(v), javaSqlName.getSqlName(), sql, Constants.SELECT);
                     break;
                 }

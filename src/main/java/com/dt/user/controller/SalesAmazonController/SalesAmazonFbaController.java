@@ -2,15 +2,12 @@ package com.dt.user.controller.SalesAmazonController;
 
 import com.dt.user.config.ResponseBase;
 import com.dt.user.dto.ReviewDto;
-import com.dt.user.model.JavaSqlName;
 import com.dt.user.model.SalesAmazon.*;
 import com.dt.user.service.JavaSqlNameService;
 import com.dt.user.service.SalesAmazonService.*;
 import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @ClassName SalesAmazonFbaController
@@ -36,8 +33,6 @@ public class SalesAmazonFbaController {
     private SalesAmazonFbaInventoryEndService invService;
     @Autowired
     private SalesAmazonFbaAbandonService abandonService;
-    @Autowired
-    private SalesAmazonFbaShipNoticeEntryService entryService;
 
     @Autowired
     private SalesAmazonFbaMonthWarehouseFeeService mWarService;
@@ -124,17 +119,6 @@ public class SalesAmazonFbaController {
         return PageInfoUtils.returnPage(abandonService.serviceFindByListAbandon(abandon), abandon.getCurrentPage());
     }
 
-
-    /**
-     * 查询出货通知单
-     *
-     * @return
-     */
-    @PostMapping("/getNoticeInfo")
-    public ResponseBase getNoticeInfo(@RequestBody SalesAmazonFbaShipNoticeEntry entry) {
-        PageInfoUtils.setPage(entry.getPageSize(), entry.getCurrentPage());
-        return PageInfoUtils.returnPage(entryService.serviceFindByListAbandon(entry), entry.getCurrentPage());
-    }
 
     /**
      * 查询月度仓库费

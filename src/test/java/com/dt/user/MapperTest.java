@@ -42,13 +42,13 @@ public class MapperTest {
     @Test
     public void add() {
         //设置动态查询
-        SalesAmazonFbaReview f = new SalesAmazonFbaReview();
+        SalesShipNotice f = new SalesShipNotice();
         Field[] field = f.getClass().getDeclaredFields();
         for (Field s : field) {
             s.setAccessible(true);
             JavaSqlName b = new JavaSqlName();
             b.setjName(s.getName());
-            b.setModel("review");
+            b.setModel("shipNotice");
             service.serviceSet(b);
         }
     }

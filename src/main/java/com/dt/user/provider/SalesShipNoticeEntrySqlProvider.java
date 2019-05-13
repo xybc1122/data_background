@@ -118,13 +118,16 @@ public class SalesShipNoticeEntrySqlProvider {
         return SQL();
     }
 
-    public String selectByNoticeEntry() {
+    public String selectByNoticeEntry(SalesShipNoticeEntry nEntry) {
         SQL sql = new SQL();
-        sql.SELECT("  `e_id`,`entry_id`,\n" +
+        sql.SELECT("`e_id`,`entry_id`,\n" +
                 "`ship_notice_id`,`sku_id`,`quantity`,`packages`,`length_cm`,`width_cm`,`height_cm`,`gw_kg`,\n" +
                 "`nw_kg`,`volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`remark`,`status`,\n" +
                 "`close_date`,`close_user`,`version`\n" +
                 "FROM `sales_ship_notice_entry`");
+        if (nEntry.getShipNoticeId() != null) {
+            sql.WHERE("ship_notice_id =#{shipNoticeId}");
+        }
         return sql.toString();
     }
 

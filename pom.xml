@@ -57,12 +57,12 @@
         <!--<artifactId>spring-boot-starter-websocket</artifactId>-->
         <!--</dependency>-->
         <!--webSocket -->
-        <!--转换工具 -->
-        <!--<dependency>-->
-        <!--<groupId>commons-beanutils</groupId>-->
-        <!--<artifactId>commons-beanutils</artifactId>-->
-        <!--<version>1.9.3</version>-->
-        <!--</dependency>-->
+        <!-- obj转换工具 -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>

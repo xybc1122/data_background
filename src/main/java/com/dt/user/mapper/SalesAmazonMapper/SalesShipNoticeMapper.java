@@ -6,6 +6,7 @@ import com.dt.user.model.SalesAmazon.SalesShipNotice;
 import java.util.List;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.apache.ibatis.type.JdbcType;
 
 public interface SalesShipNoticeMapper {
@@ -56,20 +57,11 @@ public interface SalesShipNoticeMapper {
     /**
      * 查询发货通知单
      *
-     * @param example
+     * @param record
      * @return
      */
     @SelectProvider(type = SalesShipNoticeSqlProvider.class, method = "selectByNotice")
-    @Results(value = {
-            @Result(property = "shipNoticeId", column = "ship_notice_id",
-                    many = @Many(select = "com.dt.user.mapper.SalesAmazonMapper.selectByNoticeEntry"))
-    })
-    List<SalesShipNotice> selectByNotice(SalesShipNotice example);
-
-
-
-
-
+    List<SalesShipNotice> selectByNotice(SalesShipNotice record);
 
 
     @UpdateProvider(type = SalesShipNoticeSqlProvider.class, method = "updateByExampleSelective")

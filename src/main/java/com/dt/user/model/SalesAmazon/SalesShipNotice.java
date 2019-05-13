@@ -1,12 +1,16 @@
 package com.dt.user.model.SalesAmazon;
 
+import com.dt.user.config.ResponseBase;
 import com.dt.user.model.Parent.ParentUploadInfo;
 
+
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
- * 发货通知
+ * 发货通知单
  */
+//作用是在 json 序列化时忽略 bean 中的一些不需要转化的属性
 public class SalesShipNotice extends ParentUploadInfo {
     private Long shipNoticeId;
 
@@ -44,15 +48,82 @@ public class SalesShipNotice extends ParentUploadInfo {
     private Long closeDate;
 
     private Long closeUser;
+    /**
+     * 付款类型名称
+     */
+    private String paymentTypeName;
 
-    private SalesShipNoticeEntry salesShipNoticeEntry;
+    /**
+     * 接收对象查询
+     */
+    private SalesShipNoticeEntry shipNoticeEntry;
+    /**
+     * 一对多查询存储
+     */
+    private ResponseBase noticeEntryData;
+    /**
+     * 计划出货日期范围查询
+     */
+    private List<Long> deliveryDates;
+    /**
+     * 最迟到达日期返回查询
+     */
+    private List<Long> arriveDates;
+    /**
+     * 关闭时间范围查询
+     */
+    private List<Long> closeDates;
 
-    public SalesShipNoticeEntry getSalesShipNoticeEntry() {
-        return salesShipNoticeEntry;
+    public SalesShipNotice() {
+
     }
 
-    public void setSalesShipNoticeEntry(SalesShipNoticeEntry salesShipNoticeEntry) {
-        this.salesShipNoticeEntry = salesShipNoticeEntry;
+    public SalesShipNoticeEntry getShipNoticeEntry() {
+        return shipNoticeEntry;
+    }
+
+    public void setShipNoticeEntry(SalesShipNoticeEntry shipNoticeEntry) {
+        this.shipNoticeEntry = shipNoticeEntry;
+    }
+
+    public List<Long> getCloseDates() {
+        return closeDates;
+    }
+
+    public void setCloseDates(List<Long> closeDates) {
+        this.closeDates = closeDates;
+    }
+
+    public List<Long> getDeliveryDates() {
+        return deliveryDates;
+    }
+
+    public void setDeliveryDates(List<Long> deliveryDates) {
+        this.deliveryDates = deliveryDates;
+    }
+
+    public List<Long> getArriveDates() {
+        return arriveDates;
+    }
+
+    public void setArriveDates(List<Long> arriveDates) {
+        this.arriveDates = arriveDates;
+    }
+
+    public String getPaymentTypeName() {
+        return paymentTypeName;
+    }
+
+    public void setPaymentTypeName(String paymentTypeName) {
+        this.paymentTypeName = paymentTypeName;
+    }
+
+    public ResponseBase getNoticeEntryData() {
+        return noticeEntryData;
+    }
+
+    public void setNoticeEntryData(ResponseBase noticeEntryData) {
+        this.noticeEntryData = noticeEntryData;
     }
 
     public Long getShipNoticeId() {

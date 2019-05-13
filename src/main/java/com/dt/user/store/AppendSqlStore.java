@@ -3,6 +3,7 @@ package com.dt.user.store;
 import com.dt.user.model.Parent.ParentUploadInfo;
 import com.dt.user.toos.Constants;
 import com.dt.user.utils.StrUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
@@ -35,11 +36,14 @@ public class AppendSqlStore {
      * @param sql
      */
     public static void sqlWhere(Object k, String v, SQL sql, String status) {
-        String c;
-        if (v.contains("`")) {
-            c = v;
-        } else {
-            c = "`" + v + "`";
+        String c = null;
+        if (StringUtils.isNotBlank(v)) {
+            if (v.contains("`")) {
+                c = v;
+            } else {
+                c = "`" + v + "`";
+            }
+
         }
         if (k != null && k != "") {
             if (status.equals(Constants.SELECT)) {

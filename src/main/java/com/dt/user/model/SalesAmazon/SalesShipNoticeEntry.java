@@ -1,6 +1,13 @@
 package com.dt.user.model.SalesAmazon;
 
+
+import com.dt.user.config.ResponseBase;
+
 import java.math.BigDecimal;
+
+/**
+ * 发货通知单表体
+ */
 
 public class SalesShipNoticeEntry {
     private Long eid;
@@ -44,7 +51,62 @@ public class SalesShipNoticeEntry {
     private String closeUser;
 
     private Integer version;
+    /**
+     * 当前页
+     */
+    private Integer currentPage;
 
+    /**
+     * 显示的页数
+     */
+    private Integer pageSize;
+
+
+    /**
+     * 一对多存储的数据
+     */
+    private ResponseBase pEData;
+
+    /**
+     * 要查询的数据
+     */
+    private SalesShipNoticePackingListEntry packingListEntry;
+
+    public SalesShipNoticePackingListEntry getPackingListEntry() {
+        return packingListEntry;
+    }
+
+    public void setPackingListEntry(SalesShipNoticePackingListEntry packingListEntry) {
+        this.packingListEntry = packingListEntry;
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public SalesShipNoticeEntry() {
+
+    }
+
+    public ResponseBase getpEData() {
+        return pEData;
+    }
+
+    public void setpEData(ResponseBase pEData) {
+        this.pEData = pEData;
+    }
 
     public Long getEid() {
         return eid;

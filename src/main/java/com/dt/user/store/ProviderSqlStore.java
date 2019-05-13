@@ -175,11 +175,11 @@ public class ProviderSqlStore {
      */
     public static void selectUploadStatus(SQL sql, ParentUploadInfo p, String alias) {
         if (StringUtils.isNotBlank(p.getShopName())) {
-            sql.WHERE("POSITION('" + p.getShopName() + "' IN s.`shop_name`)");
+            sql.WHERE(alias + ".`shop_id`=#{shopId}");
         }
         //站点名称
         if (StringUtils.isNotBlank(p.getSiteName())) {
-            sql.WHERE("POSITION('" + p.getSiteName() + "' IN cs.`site_name`)");
+            sql.WHERE(alias + ".`site_id`=#{siteId}");
         }
         //文件已有时间
         if (p.getDates() != null && (p.getDates().size() > 0)) {
@@ -199,13 +199,6 @@ public class ProviderSqlStore {
         }
         sql.WHERE(alias + ".del_or_not=0");
     }
-
-    //  @Update("UPDATE `sales_amazon_fba_review`\n" +
-    //            "SET`del_or_not` =1 ,\n" +
-    //            "`modify_user` = #{uName},\n" +
-    //            "`modify_date` = #{modifyDate}" +
-    //            "  WHERE `re_id` = #{reId};")
-
     /**
      * 上传文件通用删除
      */

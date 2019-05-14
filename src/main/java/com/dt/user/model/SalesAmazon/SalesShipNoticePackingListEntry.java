@@ -1,6 +1,9 @@
 package com.dt.user.model.SalesAmazon;
 
+import com.dt.user.model.JavaSqlName;
+
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 装箱单-表体
@@ -48,6 +51,18 @@ public class SalesShipNoticePackingListEntry {
      */
     private Integer pageSize;
 
+    /**
+     * 前端查询参数封装对象
+     */
+    private List<JavaSqlName> nameList;
+
+    public List<JavaSqlName> getNameList() {
+        return nameList;
+    }
+
+    public void setNameList(List<JavaSqlName> nameList) {
+        this.nameList = nameList;
+    }
 
     public Integer getCurrentPage() {
         return currentPage;

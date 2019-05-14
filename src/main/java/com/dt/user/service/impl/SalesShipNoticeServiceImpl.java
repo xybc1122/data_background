@@ -45,6 +45,7 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
             //查询发货通知单表
             for (SalesShipNotice pn : pnList) {
                 for (BasicSalesAmazonPaymentType ty : typeList) {
+                    //设置付款类型
                     if (pn.getPlatformTypeId().equals(ty.getPaymentTypeId())) {
                         pn.setPaymentTypeName(ty.getPaymentTypeName());
                         break;

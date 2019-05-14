@@ -3,6 +3,7 @@ package com.dt.user.service.impl;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.mapper.SalesAmazonMapper.SalesShipNoticeEntryMapper;
 import com.dt.user.model.SalesAmazon.SalesShipNoticeEntry;
+import com.dt.user.service.JavaSqlNameService;
 import com.dt.user.service.SalesAmazonService.SalesShipNoticeEntryService;
 import com.dt.user.utils.PageInfoUtils;
 import com.github.pagehelper.PageInfo;
@@ -21,14 +22,17 @@ import java.util.List;
 public class SalesShipNoticeEntryServiceImpl implements SalesShipNoticeEntryService {
     @Autowired
     private SalesShipNoticeEntryMapper nEMapper;
+    @Autowired
+    private JavaSqlNameService nameService;
 
     @Override
     public ResponseBase serviceSelectByNoticeEntry(SalesShipNoticeEntry noticeEntry) {
-        PageInfoUtils.setPage(noticeEntry.getPageSize(), noticeEntry.getCurrentPage());
+        //这里放入缓存
+        noticeEntry.setNameList(nameService.get("nEntry"));
         List<SalesShipNoticeEntry> entryList = nEMapper.selectByNoticeEntry(noticeEntry);
         if (entryList == null || entryList.size() == 0) {
             return null;
         }
-        return PageInfoUtils.returnPage(nEMapper.selectByNoticeEntry(noticeEntry), noticeEntry.getCurrentPage());
+        return PageInfoUtils.returnPage(entryList, noticeEntry.getCurrentPage());
     }
 }

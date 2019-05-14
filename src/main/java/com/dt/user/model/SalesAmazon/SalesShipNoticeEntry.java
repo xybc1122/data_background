@@ -2,8 +2,10 @@ package com.dt.user.model.SalesAmazon;
 
 
 import com.dt.user.config.ResponseBase;
+import com.dt.user.model.JavaSqlName;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 发货通知单表体
@@ -22,17 +24,17 @@ public class SalesShipNoticeEntry {
 
     private String packages;
 
-    private BigDecimal lengthCm;
+    private BigDecimal neLengthCm;
 
-    private Double widthCm;
+    private Double neWidthCm;
 
-    private Double heightCm;
+    private Double neHeightCm;
 
-    private Double gwKg;
+    private Double neGwKg;
 
-    private Double nwKg;
+    private Double neNwKg;
 
-    private Double volumeM3;
+    private Double neVolumeM3;
 
     private Boolean packingStatus;
 
@@ -71,6 +73,19 @@ public class SalesShipNoticeEntry {
      * 要查询的数据
      */
     private SalesShipNoticePackingListEntry packingListEntry;
+
+    /**
+     * 前端查询参数封装对象
+     */
+    private List<JavaSqlName> nameList;
+
+    public List<JavaSqlName> getNameList() {
+        return nameList;
+    }
+
+    public void setNameList(List<JavaSqlName> nameList) {
+        this.nameList = nameList;
+    }
 
     public SalesShipNoticePackingListEntry getPackingListEntry() {
         return packingListEntry;
@@ -156,52 +171,52 @@ public class SalesShipNoticeEntry {
         this.packages = packages == null ? null : packages.trim();
     }
 
-    public BigDecimal getLengthCm() {
-        return lengthCm;
+    public BigDecimal getNeLengthCm() {
+        return neLengthCm;
     }
 
-    public void setLengthCm(BigDecimal lengthCm) {
-        this.lengthCm = lengthCm;
+    public void setNeLengthCm(BigDecimal neLengthCm) {
+        this.neLengthCm = neLengthCm;
     }
 
-    public Double getWidthCm() {
-        return widthCm;
+    public Double getNeWidthCm() {
+        return neWidthCm;
     }
 
-    public void setWidthCm(Double widthCm) {
-        this.widthCm = widthCm;
+    public void setNeWidthCm(Double neWidthCm) {
+        this.neWidthCm = neWidthCm;
     }
 
-    public Double getHeightCm() {
-        return heightCm;
+    public Double getNeHeightCm() {
+        return neHeightCm;
     }
 
-    public void setHeightCm(Double heightCm) {
-        this.heightCm = heightCm;
+    public void setNeHeightCm(Double neHeightCm) {
+        this.neHeightCm = neHeightCm;
     }
 
-    public Double getGwKg() {
-        return gwKg;
+    public Double getNeGwKg() {
+        return neGwKg;
     }
 
-    public void setGwKg(Double gwKg) {
-        this.gwKg = gwKg;
+    public void setNeGwKg(Double neGwKg) {
+        this.neGwKg = neGwKg;
     }
 
-    public Double getNwKg() {
-        return nwKg;
+    public Double getNeNwKg() {
+        return neNwKg;
     }
 
-    public void setNwKg(Double nwKg) {
-        this.nwKg = nwKg;
+    public void setNeNwKg(Double neNwKg) {
+        this.neNwKg = neNwKg;
     }
 
-    public Double getVolumeM3() {
-        return volumeM3;
+    public Double getNeVolumeM3() {
+        return neVolumeM3;
     }
 
-    public void setVolumeM3(Double volumeM3) {
-        this.volumeM3 = volumeM3;
+    public void setNeVolumeM3(Double neVolumeM3) {
+        this.neVolumeM3 = neVolumeM3;
     }
 
     public Boolean getPackingStatus() {

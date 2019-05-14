@@ -10,6 +10,7 @@ import com.dt.user.model.JavaSqlName;
 import com.dt.user.model.SalesAmazon.SalesAmazonFbaReview;
 import com.dt.user.model.SalesAmazon.SalesShipNotice;
 import com.dt.user.model.SalesAmazon.SalesShipNoticeEntry;
+import com.dt.user.model.SalesAmazon.SalesShipNoticePackingListEntry;
 import com.dt.user.service.JavaSqlNameService;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -42,13 +43,13 @@ public class MapperTest {
     @Test
     public void add() {
         //设置动态查询
-        SalesShipNotice f = new SalesShipNotice();
+        SalesShipNoticePackingListEntry f = new SalesShipNoticePackingListEntry();
         Field[] field = f.getClass().getDeclaredFields();
         for (Field s : field) {
             s.setAccessible(true);
             JavaSqlName b = new JavaSqlName();
             b.setjName(s.getName());
-            b.setModel("shipNotice");
+            b.setModel("pLEntry");
             service.serviceSet(b);
         }
     }

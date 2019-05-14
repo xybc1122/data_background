@@ -61,7 +61,7 @@ public class ParentUploadInfo {
      */
     private String rid;
     /**
-     * 前端查询封装对象
+     * 前端查询参数封装对象
      */
     private List<JavaSqlName> nameList;
 
@@ -88,7 +88,6 @@ public class ParentUploadInfo {
      * 版本标识
      */
     private Integer version;
-
 
 
     public String getRid() {

@@ -39,17 +39,17 @@ public class JavaSqlNameServiceImpl implements JavaSqlNameService {
     }
 
     @Override
-    public void get(String model, ParentUploadInfo p) {
+    public List<JavaSqlName> get(String model) {
         String rList = redisService.getStringKey(Constants.MODEL + model);
         if (StringUtils.isEmpty(rList)) {
             //走DB
-            List<JavaSqlName> javaSqlNames = nameMapper.get(model);
+            List<JavaSqlName> javaSqlNames = nameMapper.selectSqlName(model);
             if (javaSqlNames != null && javaSqlNames.size() > 0) {
                 //刷入缓存
                 redisService.setString(Constants.MODEL + model, JsonUtils.getJsonObj(javaSqlNames));
-                p.setNameList(javaSqlNames);
+                return javaSqlNames;
             }
         }
-        p.setNameList(JSONObject.parseArray(rList, JavaSqlName.class));
+        return JSONObject.parseArray(rList, JavaSqlName.class);
     }
 }

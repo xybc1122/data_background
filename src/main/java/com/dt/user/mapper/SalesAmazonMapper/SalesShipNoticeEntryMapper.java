@@ -47,20 +47,7 @@ public interface SalesShipNoticeEntryMapper {
      *
      * @return
      */
-//    @Select("SELECT\n" +
-//            "`e_id` AS eid ,`e_id`,`entry_id`, `ship_notice_id`,`sku_id`,\n" +
-//            "`quantity`,`packages`,`length_cm`,\n" +
-//            "`width_cm`,`height_cm`,`gw_kg`,\n" +
-//            "`nw_kg`,`volume_m3`,`packing_status`,`se_quantity`,\n" +
-//            "`re_quantity`,`re_date`,`remark`,\n" +
-//            "`status`, `close_date`,`close_user`,`version`\n" +
-//            "FROM `sales_ship_notice_entry` where ship_notice_id =#{shipNoticeId}")
     @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "selectByNoticeEntry")
-//    @Results(value = {
-//            @Result(property = "pEList", column = "eid",
-//                    many = @Many(select = "com.dt.user.mapper.SalesAmazonMapper.SalesShipNoticePackingListEntryMapper.selectPackingListEntry",
-//                            fetchType = FetchType.LAZY))
-//    })
     List<SalesShipNoticeEntry> selectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
 
 

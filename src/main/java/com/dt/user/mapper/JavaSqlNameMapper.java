@@ -28,6 +28,6 @@ public interface JavaSqlNameMapper {
      */
     @Select("SELECT`js_id`,`sql_name`,`j_name`,`model`,`sign`\n" +
             "FROM `java_sql_name` WHERE model =#{model} AND `sign` =1")
-    List<JavaSqlName> get(@Param("model") String model);
+    List<JavaSqlName> selectSqlName(@Param("model") String model);
 
 }

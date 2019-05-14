@@ -11,8 +11,10 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.user.model.SalesAmazon.SalesShipNoticePackingListEntry;
+import com.dt.user.store.FieldStore;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 public class SalesShipNoticePackingListEntrySqlProvider {
@@ -96,7 +98,7 @@ public class SalesShipNoticePackingListEntrySqlProvider {
     }
 
 
-    public String selectPackingListEntry(SalesShipNoticePackingListEntry pLEntry) {
+    public String selectPackingListEntry(SalesShipNoticePackingListEntry pLEntry) throws IllegalAccessException {
         SQL sql = new SQL();
         sql.SELECT("`pe_id`,`packing_list_id`,\n" +
                 "`e_id`,`entry_id`,`quantity`,\n" +
@@ -104,9 +106,8 @@ public class SalesShipNoticePackingListEntrySqlProvider {
                 "`height_cm`,`gw_kg`,\n" +
                 "`nw_kg`,`volume_m3`,`remark`,`version`" +
                 " FROM `sales_ship_notice_packing_list_entry`");
-        if (pLEntry.getEid() != null) {
-            sql.WHERE("e_id =#{eid}");
-        }
+        Field[] fields = pLEntry.getClass().getDeclaredFields();
+        FieldStore.query(fields, pLEntry.getNameList(), pLEntry, sql);
         return sql.toString();
     }
 

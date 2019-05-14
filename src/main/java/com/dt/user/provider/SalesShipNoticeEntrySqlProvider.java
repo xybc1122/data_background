@@ -11,8 +11,10 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.user.model.SalesAmazon.SalesShipNoticeEntry;
+import com.dt.user.store.FieldStore;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 public class SalesShipNoticeEntrySqlProvider {
@@ -52,30 +54,6 @@ public class SalesShipNoticeEntrySqlProvider {
 
         if (record.getPackages() != null) {
             VALUES("packages", "#{packages,jdbcType=VARCHAR}");
-        }
-
-        if (record.getLengthCm() != null) {
-            VALUES("length_cm", "#{lengthCm,jdbcType=DECIMAL}");
-        }
-
-        if (record.getWidthCm() != null) {
-            VALUES("width_cm", "#{widthCm,jdbcType=DOUBLE}");
-        }
-
-        if (record.getHeightCm() != null) {
-            VALUES("height_cm", "#{heightCm,jdbcType=DOUBLE}");
-        }
-
-        if (record.getGwKg() != null) {
-            VALUES("gw_kg", "#{gwKg,jdbcType=DOUBLE}");
-        }
-
-        if (record.getNwKg() != null) {
-            VALUES("nw_kg", "#{nwKg,jdbcType=DOUBLE}");
-        }
-
-        if (record.getVolumeM3() != null) {
-            VALUES("volume_m3", "#{volumeM3,jdbcType=DOUBLE}");
         }
 
         if (record.getPackingStatus() != null) {
@@ -118,16 +96,15 @@ public class SalesShipNoticeEntrySqlProvider {
         return SQL();
     }
 
-    public String selectByNoticeEntry(SalesShipNoticeEntry nEntry) {
+    public String selectByNoticeEntry(SalesShipNoticeEntry nEntry) throws IllegalAccessException {
         SQL sql = new SQL();
         sql.SELECT("`e_id`,`entry_id`,\n" +
-                "`ship_notice_id`,`sku_id`,`quantity`,`packages`,`length_cm`,`width_cm`,`height_cm`,`gw_kg`,\n" +
-                "`nw_kg`,`volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`remark`,`status`,\n" +
+                "`ship_notice_id`,`sku_id`,`quantity`,`packages`,`ne_length_cm`,`ne_width_cm`,`ne_height_cm`,`ne_gw_kg`,\n" +
+                "`ne_nw_kg`,`ne_volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`remark`,`status`,\n" +
                 "`close_date`,`close_user`,`version`\n" +
                 "FROM `sales_ship_notice_entry`");
-        if (nEntry.getShipNoticeId() != null) {
-            sql.WHERE("ship_notice_id =#{shipNoticeId}");
-        }
+        Field[] fields = nEntry.getClass().getDeclaredFields();
+        FieldStore.query(fields, nEntry.getNameList(), nEntry, sql);
         return sql.toString();
     }
 
@@ -156,31 +133,6 @@ public class SalesShipNoticeEntrySqlProvider {
         if (record.getPackages() != null) {
             SET("packages = #{record.packages,jdbcType=VARCHAR}");
         }
-
-        if (record.getLengthCm() != null) {
-            SET("length_cm = #{record.lengthCm,jdbcType=DECIMAL}");
-        }
-
-        if (record.getWidthCm() != null) {
-            SET("width_cm = #{record.widthCm,jdbcType=DOUBLE}");
-        }
-
-        if (record.getHeightCm() != null) {
-            SET("height_cm = #{record.heightCm,jdbcType=DOUBLE}");
-        }
-
-        if (record.getGwKg() != null) {
-            SET("gw_kg = #{record.gwKg,jdbcType=DOUBLE}");
-        }
-
-        if (record.getNwKg() != null) {
-            SET("nw_kg = #{record.nwKg,jdbcType=DOUBLE}");
-        }
-
-        if (record.getVolumeM3() != null) {
-            SET("volume_m3 = #{record.volumeM3,jdbcType=DOUBLE}");
-        }
-
         if (record.getPackingStatus() != null) {
             SET("packing_status = #{record.packingStatus,jdbcType=BIT}");
         }

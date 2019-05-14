@@ -3,6 +3,7 @@ package com.dt.user.service.impl;
 import com.dt.user.config.ResponseBase;
 import com.dt.user.mapper.SalesAmazonMapper.SalesShipNoticePackingListEntryMapper;
 import com.dt.user.model.SalesAmazon.SalesShipNoticePackingListEntry;
+import com.dt.user.service.JavaSqlNameService;
 import com.dt.user.service.SalesShipNoticePackingListEntryService;
 import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,13 @@ import java.util.List;
 public class SalesShipNoticePackingListEntryServiceImpl implements SalesShipNoticePackingListEntryService {
     @Autowired
     private SalesShipNoticePackingListEntryMapper pLEMapper;
+    @Autowired
+    private JavaSqlNameService nameService;
 
     @Override
     public ResponseBase serviceSelectPackingListEntry(SalesShipNoticePackingListEntry pLEntry) {
-        PageInfoUtils.setPage(pLEntry.getPageSize(), pLEntry.getCurrentPage());
+        //这里放入缓存
+        pLEntry.setNameList(nameService.get("pLEntry"));
         List<SalesShipNoticePackingListEntry> pLEs = pLEMapper.selectPackingListEntry(pLEntry);
         if (pLEs == null || pLEs.size() == 0) {
             return null;

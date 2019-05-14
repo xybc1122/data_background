@@ -23,14 +23,16 @@ public class SalesShipNoticeController {
     private SalesShipNoticeService noticeService;
     @Autowired
     private JavaSqlNameService nameService;
+
     /**
      * 查询发货通知单信息
+     *
      * @return
      */
     @PostMapping("/getNotice")
     public ResponseBase getBusInfo(@RequestBody SalesShipNotice notice) {
         //这里放入缓存
-        nameService.get("shipNotice", notice);
+        notice.setNameList(nameService.get("shipNotice"));
         return noticeService.selectSelectByNotice(notice);
     }
 

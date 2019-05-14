@@ -29,5 +29,5 @@ public interface JavaSqlNameService {
      * @param model
      * @return
      */
-    void get(String model, ParentUploadInfo p);
+    List<JavaSqlName> get(String model);
 }

@@ -114,7 +114,7 @@ public class SalesAmazonFbaController {
     @PostMapping("/getAbandonInfo")
     public ResponseBase getAbandonInfo(@RequestBody SalesAmazonFbaAbandon abandon) {
         //这里放入缓存
-        nameService.get("abandon", abandon);
+        abandon.setNameList(nameService.get("abandon"));
         PageInfoUtils.setPage(abandon.getPageSize(), abandon.getCurrentPage());
         return PageInfoUtils.returnPage(abandonService.serviceFindByListAbandon(abandon), abandon.getCurrentPage());
     }
@@ -128,7 +128,7 @@ public class SalesAmazonFbaController {
     @PostMapping("/getMWarInfo")
     public ResponseBase getMWarInfo(@RequestBody SalesAmazonFbaMonthWarehouseFee mFee) {
         //这里放入缓存
-        nameService.get("monthWarehouseFee", mFee);
+        mFee.setNameList(nameService.get("monthWarehouseFee"));
         PageInfoUtils.setPage(mFee.getPageSize(), mFee.getCurrentPage());
         return PageInfoUtils.returnPage(mWarService.serviceFindByListMWar(mFee), mFee.getCurrentPage());
     }
@@ -141,7 +141,7 @@ public class SalesAmazonFbaController {
     @PostMapping("/getLWarInfo")
     public ResponseBase getLWarInfo(@RequestBody SalesAmazonFbaLongWarehouseFee lFee) {
         //这里放入缓存
-        nameService.get("longWarehouseFee", lFee);
+        lFee.setNameList(nameService.get("longWarehouseFee"));
         PageInfoUtils.setPage(lFee.getPageSize(), lFee.getCurrentPage());
         return PageInfoUtils.returnPage(lWarService.serviceSelectByLongWarehouse(lFee), lFee.getCurrentPage());
 
@@ -154,8 +154,7 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getHlFee")
     public ResponseBase getHlFee(@RequestBody SalesAmazonFbaHandlingFee hlFee) {
-        //这里放入缓存
-        nameService.get("handlingFee", hlFee);
+        hlFee.setNameList(nameService.get("handlingFee"));
         PageInfoUtils.setPage(hlFee.getPageSize(), hlFee.getCurrentPage());
         return PageInfoUtils.returnPage(hlingFeeService.serviceSelectByHandLFee(hlFee), hlFee.getCurrentPage());
     }
@@ -167,8 +166,7 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getFeedback")
     public ResponseBase getFeedback(@RequestBody SalesAmazonFbaFeedback feedback) {
-        //这里放入缓存
-        nameService.get("feedback", feedback);
+        feedback.setNameList(nameService.get("feedback"));
         PageInfoUtils.setPage(feedback.getPageSize(), feedback.getCurrentPage());
         return PageInfoUtils.returnPage(feedbackService.serviceSelectByFeedback(feedback), feedback.getCurrentPage());
     }
@@ -190,8 +188,7 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getReview")
     public ResponseBase getReview(@RequestBody ReviewDto reviewDto) {
-        //这里放入缓存
-        nameService.get("review", reviewDto);
+        reviewDto.setNameList(nameService.get("review"));
         PageInfoUtils.setPage(reviewDto.getPageSize(), reviewDto.getCurrentPage());
         return PageInfoUtils.returnPage(reviewService.serviceSelectByReview(reviewDto), reviewDto.getCurrentPage());
     }

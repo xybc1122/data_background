@@ -1,7 +1,5 @@
 package com.dt.user.model.SalesAmazon;
 
-
-import com.dt.user.config.ResponseBase;
 import com.dt.user.model.JavaSqlName;
 
 import java.math.BigDecimal;
@@ -17,6 +15,11 @@ public class SalesShipNoticeEntry {
     private Integer entryId;
 
     private Long shipNoticeId;
+    /**
+     * in查询存储id
+     */
+    private List<Long> inShipNoticeList;
+
 
     private Long skuId;
 
@@ -63,17 +66,6 @@ public class SalesShipNoticeEntry {
      */
     private Integer pageSize;
 
-
-    /**
-     * 一对多存储的数据
-     */
-    private ResponseBase pEData;
-
-    /**
-     * 要查询的数据
-     */
-    private SalesShipNoticePackingListEntry packingListEntry;
-
     /**
      * 前端查询参数封装对象
      */
@@ -83,16 +75,16 @@ public class SalesShipNoticeEntry {
         return nameList;
     }
 
+    public List<Long> getInShipNoticeList() {
+        return inShipNoticeList;
+    }
+
+    public void setInShipNoticeList(List<Long> inShipNoticeList) {
+        this.inShipNoticeList = inShipNoticeList;
+    }
+
     public void setNameList(List<JavaSqlName> nameList) {
         this.nameList = nameList;
-    }
-
-    public SalesShipNoticePackingListEntry getPackingListEntry() {
-        return packingListEntry;
-    }
-
-    public void setPackingListEntry(SalesShipNoticePackingListEntry packingListEntry) {
-        this.packingListEntry = packingListEntry;
     }
 
     public Integer getCurrentPage() {
@@ -113,14 +105,6 @@ public class SalesShipNoticeEntry {
 
     public SalesShipNoticeEntry() {
 
-    }
-
-    public ResponseBase getpEData() {
-        return pEData;
-    }
-
-    public void setpEData(ResponseBase pEData) {
-        this.pEData = pEData;
     }
 
     public Long getEid() {
@@ -290,5 +274,6 @@ public class SalesShipNoticeEntry {
     public void setVersion(Integer version) {
         this.version = version;
     }
+
 
 }

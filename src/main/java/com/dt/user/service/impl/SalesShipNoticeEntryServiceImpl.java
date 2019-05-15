@@ -26,13 +26,13 @@ public class SalesShipNoticeEntryServiceImpl implements SalesShipNoticeEntryServ
     private JavaSqlNameService nameService;
 
     @Override
-    public ResponseBase serviceSelectByNoticeEntry(SalesShipNoticeEntry noticeEntry) {
+    public List<SalesShipNoticeEntry> serviceSelectByNoticeEntry(SalesShipNoticeEntry noticeEntry) {
         //这里放入缓存
         noticeEntry.setNameList(nameService.get("nEntry"));
         List<SalesShipNoticeEntry> entryList = nEMapper.selectByNoticeEntry(noticeEntry);
         if (entryList == null || entryList.size() == 0) {
             return null;
         }
-        return PageInfoUtils.returnPage(entryList, noticeEntry.getCurrentPage());
+        return entryList;
     }
 }

@@ -36,19 +36,27 @@ public class StrUtils {
     /**
      * 拼接删除in sql
      *
-     * @param ids
      * @param thisId
      * @return
      */
-    public static String in(String ids, String thisId) {
+    public static String in(Object obj, String thisId) {
         StringBuilder sb = new StringBuilder();
-        if (StringUtils.isBlank(ids)) {
+        if (obj == null) {
             return sb.append(thisId).append(" IN (-1)").toString();
         }
-        String[] idsArr = ids.split(",");
-        sb.append("\n").append(thisId).append(" in (");
-        for (String id : idsArr) {
-            sb.append(id).append(",");
+        if (obj instanceof String) {
+            String ids = (String) obj;
+            String[] idsArr = ids.split(",");
+            sb.append("\n").append(thisId).append(" in (");
+            for (String id : idsArr) {
+                sb.append(id).append(",");
+            }
+        } else if (obj instanceof List) {
+            List idList = (List) obj;
+            sb.append("\n").append(thisId).append(" in (");
+            for (Object id : idList) {
+                sb.append(id).append(",");
+            }
         }
         return sb.substring(0, sb.length() - 1) + ")";
     }

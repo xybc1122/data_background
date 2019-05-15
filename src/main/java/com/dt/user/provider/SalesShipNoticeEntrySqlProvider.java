@@ -12,6 +12,7 @@ import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.user.model.SalesAmazon.SalesShipNoticeEntry;
 import com.dt.user.store.FieldStore;
+import com.dt.user.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.lang.reflect.Field;
@@ -105,6 +106,10 @@ public class SalesShipNoticeEntrySqlProvider {
                 "FROM `sales_ship_notice_entry`");
         Field[] fields = nEntry.getClass().getDeclaredFields();
         FieldStore.query(fields, nEntry.getNameList(), nEntry, sql);
+        sql.WHERE("del_or_not=0");
+        if (nEntry.getInShipNoticeList() != null && nEntry.getInShipNoticeList().size() > 0) {
+            return sql.toString() + " AND " + StrUtils.in(nEntry.getInShipNoticeList(), "ship_notice_id");
+        }
         return sql.toString();
     }
 

@@ -16,7 +16,8 @@ public interface TableHeadMapper {
      *
      * @return
      */
-    @Select("SELECT t.id as h_id ,t.menu_id,t.id,t.head_name,t.`top_type`,t.top_order,t.is_fixed ,t.input_type ,t.version FROM `system_user_table_head` AS t\n" +
+    @Select("SELECT t.id as h_id ,t.menu_id,t.id,t.head_name,t.`top_type`,t.top_order," +
+            "t.is_fixed ,t.`input_type` ,t.`version`,t.`whether_cal`,t.`sub_field` FROM `system_user_table_head` AS t\n" +
             "LEFT JOIN `system_user_menu_field` AS mf ON mf.field_id= t.`id`\n" +
             "WHERE  mf.m_id = #{mId}")
     @Results({

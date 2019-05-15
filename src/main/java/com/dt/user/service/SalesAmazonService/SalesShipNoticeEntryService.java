@@ -20,7 +20,7 @@ public interface SalesShipNoticeEntryService {
      *
      * @return
      */
-    ResponseBase serviceSelectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
+    List<SalesShipNoticeEntry> serviceSelectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
 
 
 }

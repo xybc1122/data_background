@@ -57,11 +57,42 @@ public class TableHead implements Serializable {
      */
     private Integer index;
 
+    /**
+     * 存放List head
+     */
     private List<TableHead> headList;
+    /**
+     * 是否要计算
+     */
+    private Boolean whetherCal;
+    /**
+     * 子字段
+     */
+    private String subField;
     /**
      * 版本
      */
     private int version;
+
+    public String getSubField() {
+        return subField;
+    }
+
+    public void setSubField(String subField) {
+        this.subField = subField;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public Boolean getWhetherCal() {
+        return whetherCal;
+    }
+
+    public void setWhetherCal(Boolean whetherCal) {
+        this.whetherCal = whetherCal;
+    }
 
     public int getVersion() {
         return version;

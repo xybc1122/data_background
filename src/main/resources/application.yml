@@ -42,7 +42,16 @@ spring:
     filters: stat,wall,slf4j
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
-
+  # activiti default configuration
+  activiti:
+    database-schema-update: true
+    check-process-definitions: true
+    process-definition-location-prefix: classpath:/processes/
+    async-executor-activate: false # 激活AsyncExecutor,异步  true 开启 false  关闭  需要关闭 不然会10秒发送一次sql 请求
+    #    process-definition-location-suffixes:
+    #      - **.bpmn
+    #      - **.bpmn20.xml
+    history-level: full
 
     ################Redis
     #连接第0个库

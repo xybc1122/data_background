@@ -60,7 +60,7 @@ public class SalesShipNotice extends ParentUploadInfo {
     /**
      * 一对多查询存储
      */
-    private ResponseBase noticeEntryData;
+    private List<SalesShipNoticeEntry> noticeEntryList;
     /**
      * 计划出货日期范围查询
      */
@@ -118,12 +118,12 @@ public class SalesShipNotice extends ParentUploadInfo {
         this.paymentTypeName = paymentTypeName;
     }
 
-    public ResponseBase getNoticeEntryData() {
-        return noticeEntryData;
+    public List<SalesShipNoticeEntry> getNoticeEntryList() {
+        return noticeEntryList;
     }
 
-    public void setNoticeEntryData(ResponseBase noticeEntryData) {
-        this.noticeEntryData = noticeEntryData;
+    public void setNoticeEntryList(List<SalesShipNoticeEntry> noticeEntryList) {
+        this.noticeEntryList = noticeEntryList;
     }
 
     public Long getShipNoticeId() {

@@ -14,8 +14,10 @@ import com.dt.user.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName SalesShipNoticeServiceImpl
@@ -40,6 +42,7 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
         PageInfoUtils.setPage(notice.getPageSize(), notice.getCurrentPage());
         List<SalesShipNotice> pnList = nMapper.selectByNotice(notice);
         if (pnList != null && pnList.size() > 0) {
+            List<Long> shipIdList = new ArrayList<>();
             //查询付款类型
             List<BasicSalesAmazonPaymentType> typeList = pTService.serviceFindByListPayType();
             //查询发货通知单表
@@ -51,28 +54,24 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
                         break;
                     }
                 }
-                //设置发货通知表体
-                SalesShipNoticeEntry noticeEntry = notice.getShipNoticeEntry();
-                noticeEntry.setShipNoticeId(pn.getShipNoticeId());
-                //查询 发货通知表体结果
-                ResponseBase nEResult = nEService.serviceSelectByNoticeEntry(noticeEntry);
-                pn.setNoticeEntryData(nEResult);
-                //如果 查询 result 不是null的情况下 继续查询下面关联的表
-                if (nEResult != null) {
-                    //转换成Map
-                    HashMap<String, Object> nerMap = (HashMap<String, Object>) nEResult.getData();
-                    List<SalesShipNoticeEntry> nELists = (List<SalesShipNoticeEntry>) nerMap.get("dataList");
-                    //循环设置
-                    if (nELists != null && nELists.size() > 0) {
-                        for (SalesShipNoticeEntry nE : nELists) {
-                            SalesShipNoticePackingListEntry packingListEntry = noticeEntry.getPackingListEntry();
-                            packingListEntry.setEid(nE.getEid());
-                            //查询下面的数据 放到nE数据中
-                            nE.setpEData(pLEService.serviceSelectPackingListEntry(packingListEntry));
-                        }
+                shipIdList.add(pn.getShipNoticeId());
+            }
+            //设置发货通知表体
+            SalesShipNoticeEntry noticeEntry = notice.getShipNoticeEntry();
+            noticeEntry.setInShipNoticeList(shipIdList);
+            //查询 发货通知表体结果
+            List<SalesShipNoticeEntry> nEResults = nEService.serviceSelectByNoticeEntry(noticeEntry);
+            for (int i = 0; i < shipIdList.size(); i++) {
+                List<SalesShipNoticeEntry> listNe = new ArrayList<>();
+                Long shipId = shipIdList.get(i);
+                for (SalesShipNoticeEntry ne : nEResults) {
+                    if (shipId.equals(ne.getShipNoticeId())) {
+                        listNe.add(ne);
                     }
                 }
+                pnList.get(i).setNoticeEntryList(listNe);
             }
+
         }
         return PageInfoUtils.returnPage(pnList, notice.getCurrentPage());
     }

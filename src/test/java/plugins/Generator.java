@@ -100,8 +100,8 @@ public class Generator {
                             String targetProject = ctx.getJavaClientGeneratorConfiguration().getTargetProject();
                             String targetPackage = ctx.getJavaClientGeneratorConfiguration().getTargetPackage();
                             String dir = targetProject.replaceAll("\\.", "\\\\") + "\\" + targetPackage.replaceAll("\\.", "\\\\");
-                            System.out.println(System.getProperty("user.dir") + dir);
-                            File mapperDir = new File(System.getProperty("user.dir"), dir);
+                            System.out.println(System.getProperty("project.dir") + dir);
+                            File mapperDir = new File(System.getProperty("project.dir"), dir);
                             File[] files = mapperDir.listFiles(filter);
                             if (files != null && files.length > 0) {
                                 File sqlProviderFile = files[0];

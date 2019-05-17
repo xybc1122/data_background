@@ -326,7 +326,6 @@ public class RedisService {
 
 
     public String setLock(String lockKey, String requestId, int expireTime) {
-
         String result = null;
         try {
 
@@ -406,6 +405,18 @@ public class RedisService {
         return null;
     }
 
+    /**
+     * 取keys
+     *
+     * @param key
+     * @return
+     */
+    public Set getKeys(String key) {
+        if (key != null) {
+            return stringRedisTemplate.keys(key + "*");
+        }
+        return null;
+    }
 
     public String getListKey(String key) {
         if (key != null) {

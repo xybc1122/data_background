@@ -14,8 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -62,13 +61,18 @@ public class UserController {
      * 拿取用户配置
      *
      * @param mid
-     * @param programName
      * @return
      */
     @GetMapping("/getUserConfig")
-    public ResponseBase getUserConfig(@RequestParam("mid") Integer mid, @RequestParam("programName") String programName) {
-        String configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + programName;
-        return JsonData.setResultSuccess("success", JSONObject.parseObject(redisService.getStringKey(configKey)));
+    public ResponseBase getUserConfig(@RequestParam("mid") Integer mid) {
+        String configKey = Constants.USER_CONFIG + 5 + "/" + mid;
+        //模糊查询所有的key
+        Set configKeys = redisService.getKeys(configKey);
+        List<Object> userConfigList = new ArrayList<Object>();
+        for (Object key : configKeys) {
+            userConfigList.add(JSONObject.parseObject(redisService.getStringKey(key.toString())));
+        }
+        return JsonData.setResultSuccess("success", userConfigList);
     }
 
     /**

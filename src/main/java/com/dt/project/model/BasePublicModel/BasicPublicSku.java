@@ -11,7 +11,7 @@ public class BasicPublicSku extends ParentSysTemLog {
     private Long shopId;
     private Long siteId;
     private String sku;
-    private String fnsku;
+    private String fnSku;
     private String sAsin;
     private Integer productId;
     private Integer classId;
@@ -54,12 +54,12 @@ public class BasicPublicSku extends ParentSysTemLog {
         this.sku = sku;
     }
 
-    public String getFnsku() {
-        return fnsku;
+    public String getFnSku() {
+        return fnSku;
     }
 
-    public void setFnsku(String fnsku) {
-        this.fnsku = fnsku;
+    public void setFnSku(String fnSku) {
+        this.fnSku = fnSku;
     }
 
     public String getsAsin() {

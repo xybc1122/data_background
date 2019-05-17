@@ -73,10 +73,6 @@ public class SalesShipNoticeEntrySqlProvider {
             VALUES("re_date", "#{reDate,jdbcType=BIGINT}");
         }
 
-        if (record.getRemark() != null) {
-            VALUES("remark", "#{remark,jdbcType=VARCHAR}");
-        }
-
         if (record.getStatus() != null) {
             VALUES("status", "#{status,jdbcType=INTEGER}");
         }
@@ -101,7 +97,7 @@ public class SalesShipNoticeEntrySqlProvider {
         SQL sql = new SQL();
         sql.SELECT("`e_id`,`entry_id`,\n" +
                 "`ship_notice_id`,`sku_id`,`quantity`,`packages`,`ne_length_cm`,`ne_width_cm`,`ne_height_cm`,`ne_gw_kg`,\n" +
-                "`ne_nw_kg`,`ne_volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`remark`,`status`,\n" +
+                "`ne_nw_kg`,`ne_volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`ne_remark`,`status`,\n" +
                 "`close_date`,`close_user`,`version`\n" +
                 "FROM `sales_ship_notice_entry`");
         Field[] fields = nEntry.getClass().getDeclaredFields();
@@ -154,9 +150,6 @@ public class SalesShipNoticeEntrySqlProvider {
             SET("re_date = #{record.reDate,jdbcType=BIGINT}");
         }
 
-        if (record.getRemark() != null) {
-            SET("remark = #{record.remark,jdbcType=VARCHAR}");
-        }
 
         if (record.getStatus() != null) {
             SET("status = #{record.status,jdbcType=INTEGER}");

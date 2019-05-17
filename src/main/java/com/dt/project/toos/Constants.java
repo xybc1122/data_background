@@ -24,33 +24,34 @@ public interface Constants {
      */
     String ADMIN = "admin:";
     /**
-     * project key
+     * user key
      */
-    String USER = "project:";
+    String USER = "user:";
     /**
-     * 图片上传存放地址
+     * 用户配置缓存key
      */
-    String SAVE_IMAGE_PATH = "E:/imagePath/";
+    String USER_CONFIG = "userConfig:";
     /**
      * 文件上传存放地址
      */
     String SAVE_FILE_PATH = "E:/filePath/";
     /**
-     * 上传到ftp服务器上的地址
-     */
-    String UPLOAD_PATH = "/home/ftpuser/www/images";
-//    /**
-//     * Linux文件上传存放地址
-//     */
-//    String SAVE_FILE_PATH = "/usr/local/filter/filePath/";
-    /**
      * 文件写入存放地址
      */
     String WRITE_SAVE_FILE_PATH = "E:/filePathSkuNo/";
 //    /**
+//     * Linux文件上传存放地址
+//     */
+//    String SAVE_FILE_PATH = "/usr/local/filter/filePath/";
+//    /**
 //     * Linux文件写入存放地址
 //     */
 //    String WRITE_SAVE_FILE_PATH = "/usr/local/filter/filePathSkuNo/";
+
+    /**
+     * 上传到ftp服务器上的地址
+     */
+    String UPLOAD_PATH = "/home/ftpuser/www/images";
     /**
      * 响应请求成功
      */

@@ -1,5 +1,7 @@
 package com.dt.project.config;
 
+import java.util.Map;
+
 /**
  * 封装返回前端信息
  */
@@ -9,7 +11,6 @@ public class ResponseBase {
     private String msg;
     private Object data;
     private String type;
-
 
     @Override
     public String toString() {

@@ -65,6 +65,7 @@ public class BasicPublicSiteProvider {
         if (StringUtils.isNotBlank(siteDto.getEmployeeName())) {
             sql.WHERE("e.`employee_name`=#{employeeName}");
         }
+        sql.GROUP_BY("s.`site_id`");
         return sql.toString();
     }
 

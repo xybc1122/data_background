@@ -1,6 +1,7 @@
 package com.dt.project.controller.UserServiceController;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.UserInfo;
@@ -13,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,6 +29,42 @@ public class UserController {
     @Autowired
     private RedisService redisService;
 
+    /**
+     * 用户配置
+     *
+     * @return
+     */
+    @PostMapping("/saveUserConfig")
+    public ResponseBase setUserConfig(@RequestBody Map<String, Object> confMap) {
+        Integer mid = (Integer) confMap.get("mid");
+        String programName = (String) confMap.get("programName");
+        if (mid == null || programName == null) {
+            return JsonData.setResultError("error");
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("hiddenFieldsList", confMap.get("hiddenFieldsList"));
+        jsonObject.put("queryTwoList", confMap.get("queryTwoList"));
+        jsonObject.put("inputQueryData", confMap.get("inputQueryData"));
+        jsonObject.put("mid", mid);
+        jsonObject.put("uid", ReqUtils.getUid());
+        jsonObject.put("programName", programName);
+        jsonObject.put("createDate", new Date().getTime());
+        redisService.setString(Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + programName, jsonObject.toJSONString());
+        return JsonData.setResultSuccess("success");
+    }
+
+    /**
+     * 拿取用户配置
+     *
+     * @param mid
+     * @param programName
+     * @return
+     */
+    @GetMapping("/getUserConfig")
+    public ResponseBase getUserConfig(@RequestParam("mid") Integer mid, @RequestParam("programName") String programName) {
+        String configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + programName;
+        return JsonData.setResultSuccess("success", JSONObject.parseObject(redisService.getStringKey(configKey)));
+    }
 
     /**
      * 获得所有用户信息

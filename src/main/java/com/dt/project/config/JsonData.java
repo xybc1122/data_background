@@ -58,17 +58,17 @@ public class JsonData {
     }
 
     // 通用封装 code ,msg ,data
-    public static ResponseBase setResult(Integer code, String msg, Object data) {
+    private static ResponseBase setResult(Integer code, String msg, Object data) {
         return new ResponseBase(code, msg, data);
     }
 
     // 通用封装 code ,msg ,type
-    public static ResponseBase setResultType(Integer code, String msg, String type) {
+    private static ResponseBase setResultType(Integer code, String msg, String type) {
         return new ResponseBase(code, msg, type);
     }
 
     // 通用封装 code,msg
-    public static ResponseBase setResult(Integer code, String msg) {
+    private static ResponseBase setResult(Integer code, String msg) {
         return new ResponseBase(code, msg);
     }
 

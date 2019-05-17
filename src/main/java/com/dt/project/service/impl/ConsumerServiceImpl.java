@@ -1545,7 +1545,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                 }
                 index++;
-                sendRealTimeData(ctx, intMap, timeData, index + row);
+                sendRealTimeData(ctx, intMap, timeData, index);
             }
         } catch (Exception e) {
             if (e instanceof NullPointerException) {

@@ -1,32 +1,36 @@
 package com.dt.project.controller.BasePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.BasePublicModel.BasicPublicVatTaxrate;
-import com.dt.project.service.BasePublicService.BasicPublicVatSurTaxrateService;
-import com.dt.project.utils.PageInfoUtils;
+import com.dt.project.model.BasePublicModel.BasicPublicSurTaxrate;
+import com.dt.project.service.BasePublicService.BasicPublicSurTaxrateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @ClassName BasicPublicSurTaxrateController
  * Description TODO
  * @Author 陈恩惠
- * @Date 2019/3/19 9:15
+ * @Date 2019/5/17 11:30
  **/
 @RestController
 @RequestMapping("/api/v1/sur")
 public class BasicPublicSurTaxrateController {
 
     @Autowired
-    private BasicPublicVatSurTaxrateService sTRService;
+    private BasicPublicSurTaxrateService surService;
 
-
+    /**
+     * 查询附加税 接口
+     *
+     * @param surTaxrate
+     * @return
+     */
     @PostMapping("/findByListSur")
-    public ResponseBase findByListSur(@RequestBody BasicPublicVatTaxrate taxRate) {
-        PageInfoUtils.setPage(taxRate.getPageSize(), taxRate.getCurrentPage());
-        List<BasicPublicVatTaxrate> taxRateList = sTRService.serviceFindByListSurTaxrate(taxRate);
-        return PageInfoUtils.returnPage(taxRateList, taxRate.getCurrentPage());
+    public ResponseBase findByListSur(@RequestBody BasicPublicSurTaxrate surTaxrate) {
+        return surService.serviceSelectBySurTax(surTaxrate);
     }
+
 }

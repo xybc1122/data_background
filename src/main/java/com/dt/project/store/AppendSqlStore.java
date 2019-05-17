@@ -36,15 +36,7 @@ public class AppendSqlStore {
      * @param sql
      */
     public static void sqlWhere(Object k, String v, SQL sql, String status) {
-        String c = null;
-        if (StringUtils.isNotBlank(v)) {
-            if (v.contains("`")) {
-                c = v;
-            } else {
-                c = "`" + v + "`";
-            }
-
-        }
+        String c = vJudge(v);
         if (k != null && k != "") {
             if (status.equals(Constants.SELECT)) {
                 if (k instanceof String) {
@@ -62,11 +54,38 @@ public class AppendSqlStore {
         }
     }
 
+    /**
+     * sql 参数判断  拼接
+     *
+     * @param v
+     * @return
+     */
+    private static String vJudge(String v) {
+        if (StringUtils.isNotBlank(v)) {
+            //先进来看看有没有. 并且没有`的
+            if (v.contains(".") && !v.contains("`")) {
+                //截取
+                int index = v.indexOf(".");
+                //拿到左参数
+                String leftV = v.substring(0, index);
+                //拿到右参数
+                String rightV = v.substring(index + 1);
+                return leftV + "." + "`" + rightV + "`";
+                //这里是没有. 并且没有`
+            } else if (!v.contains(".") && !v.contains("`")) {
+                return "`" + v + "`";
+            } else {
+                return v;
+            }
+        }
+        //如果都符合
+        return null;
+    }
 
     /**
      * 设置sql 对应的表头
      *
-     * @param p
+     * @param sqlMode
      * @param v1
      * @param v2
      * @return

@@ -47,7 +47,7 @@ public class SalesShipNoticeEntry {
 
     private Long reDate;
 
-    private String remark;
+    private String neRemark;
 
     private Integer status;
 
@@ -235,12 +235,12 @@ public class SalesShipNoticeEntry {
         this.reDate = reDate;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getNeRemark() {
+        return neRemark;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
+    public void setNeRemark(String neRemark) {
+        this.neRemark = neRemark;
     }
 
     public Integer getStatus() {

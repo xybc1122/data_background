@@ -26,11 +26,11 @@ public class BasicPublicVatSurTaxrateProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(vatSurTaxrate.getSystemLogStatus(), Alias, sql);
         //公司名
-        if (vatSurTaxrate.getCompanyId() != null) {
+        if (vatSurTaxrate.getCompanyName() != null) {
             sql.WHERE("com.company_name=#{companyName}");
         }
         //国家名
-        if (vatSurTaxrate.getCountryId() != null) {
+        if (vatSurTaxrate.getCountryName() != null) {
             sql.WHERE("cou.country_name=#{countryName}");
         }
         //税率

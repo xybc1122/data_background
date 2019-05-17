@@ -14,24 +14,21 @@ public class BasicPublicExchangeRateProvider {
 
     public String findRate(ExchangeRateDto rateDto) {
         SQL sql = new SQL();
-        String Alias = "r";
+        String alias = "r";
         sql.SELECT("r.exchange_rate_id, c.currency_name,\n" +
                 "r.`to_rmb`,r.`to_usd`,r.status_id,r.version\n" +
-                "FROM `basic_public_exchange_rate` AS " + Alias + "");
+                "FROM `basic_public_exchange_rate` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_currency` AS c ON c.currency_id=r.`currency_id`");
         //状态数据查询
-        ProviderSqlStore.selectStatus(rateDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(rateDto.getSystemLogStatus(), alias, sql);
         //币别名称
         AppendSqlStore.sqlWhere(rateDto.getCurrencyName(), "c.currency_name", sql, Constants.SELECT);
         //兑人民币汇率
-        if (rateDto.getToRmb() != null) {
-            sql.WHERE(Alias + ".to_rmb=#{toRmb}");
-        }
+        AppendSqlStore.sqlWhere(rateDto.getToRmb(), alias + ".to_rmb", sql, Constants.SELECT);
         //兑美元汇率
-        if (rateDto.getToUsd() != null) {
-            sql.WHERE(Alias + ".to_usd=#{toUsd}");
-        }
-        sql.WHERE("r.del_or_not=0");
+        AppendSqlStore.sqlWhere(rateDto.getToUsd(), alias + ".to_usd", sql, Constants.SELECT);
+        //删除
+        ProviderSqlStore.del(alias, sql);
         return sql.toString();
     }
 

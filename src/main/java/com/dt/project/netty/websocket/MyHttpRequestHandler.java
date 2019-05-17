@@ -14,6 +14,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -23,7 +24,10 @@ import org.springframework.stereotype.Component;
  * @Date 2019/3/22 16:43
  **/
 @Component
-public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
+public class MyHttpRequestHandler extends SimpleChannelInboundHandler<Object> {
+
+
+    //这里会有点问题 上传到Linux上启动会报 NULL 注入失败  @Autowired注入的话 chatService是NULL
     private ChatService chatService = ApplicationContextRegister.getBean(ChatService.class);
 
     @Override

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/api/v1/login")
 public class LoginController extends JsonData {
     @Autowired
     private UserService userService;

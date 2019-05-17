@@ -34,6 +34,15 @@ public class ProviderSqlStore {
     }
 
     /**
+     * 通用删除
+     */
+
+    public static void del(String alias, SQL sql) {
+        sql.WHERE(alias + ".`del_or_not`=0");
+    }
+
+
+    /**
      * 通用 查询 系统类状态
      *
      * @param logStatus
@@ -199,6 +208,7 @@ public class ProviderSqlStore {
         }
         sql.WHERE(alias + ".del_or_not=0");
     }
+
     /**
      * 上传文件通用删除
      */

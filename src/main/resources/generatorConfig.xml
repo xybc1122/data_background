@@ -37,7 +37,7 @@
 		</javaClientGenerator>
 
 
-		<table tableName="`sales_ship_notice_packinglist_entry`">
+		<table tableName="`basic_public_sur_taxrate`">
 			<generatedKey column="id" sqlStatement="JDBC"/>
 		</table>
 

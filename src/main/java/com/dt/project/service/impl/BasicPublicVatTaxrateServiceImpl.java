@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.mapper.BasePublicMapper.BasicPublicVatTaxrateMapper;
 import com.dt.project.model.BasePublicModel.BasicPublicVatTaxrate;
-import com.dt.project.service.BasePublicService.BasicPublicVatSurTaxrateService;
+import com.dt.project.service.BasePublicService.BasicPublicVatTaxrateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import java.util.List;
  * @Date 2019/3/19 9:14
  **/
 @Service
-public class BasicPublicVatSurTaxrateServiceImpl implements BasicPublicVatSurTaxrateService {
+public class BasicPublicVatTaxrateServiceImpl implements BasicPublicVatTaxrateService {
     @Autowired
     private BasicPublicVatTaxrateMapper surTaxrateMapper;
 

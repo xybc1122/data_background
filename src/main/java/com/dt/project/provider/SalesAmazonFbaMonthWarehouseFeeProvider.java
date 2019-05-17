@@ -56,8 +56,9 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
             StrUtils.appBuider(sb, mWar.getProductSizeTier());
             sb.append(",").append(mWar.getAverageQuantityOnHand()).append(",").
                     append(mWar.getAverageQuantityPendingRemoval()).append(",")
-                    .append(mWar.getEstimatedTotalItemVolume()).append(",").append(mWar.getMonthOfCharge())
-                    .append(",").append(mWar.getStorageRate()).append(",");
+                    .append(mWar.getEstimatedTotalItemVolume()).append(",");
+            StrUtils.appBuider(sb, mWar.getMonthOfCharge());
+            sb.append(",").append(mWar.getStorageRate()).append(",");
             StrUtils.appBuider(sb, mWar.getCurrency());
             sb.append(",").append(mWar.getEstimatedMonthlyStorageFee()).append(",");
             //通用set 拼接

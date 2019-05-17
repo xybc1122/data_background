@@ -41,6 +41,11 @@ public class UserController {
         if (mid == null || programName == null) {
             return JsonData.setResultError("error");
         }
+        String configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + programName;
+        String redisValue = redisService.getStringKey(configKey);
+        if (redisValue != null) {
+            return JsonData.setResultError("保存方案名相同");
+        }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("hiddenFieldsList", confMap.get("hiddenFieldsList"));
         jsonObject.put("queryTwoList", confMap.get("queryTwoList"));

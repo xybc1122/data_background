@@ -13,7 +13,7 @@ public interface BasicLogisticsmgtTransportTypeMapper {
      */
     @Select("SELECT\n" +
             "`transport_type_id`,`path`,`transport_type_name`,\n" +
-            "`parent_id`,`transport_type_path`,`is_parent`\n" +
+            "`parent_id`,`parent_node_is`\n" +
             "FROM `basic_logisticsmgt_transport_type`")
     @Results({
             @Result(column = "transport_type_id", property = "treeId"),

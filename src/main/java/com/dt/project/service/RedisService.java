@@ -386,9 +386,7 @@ public class RedisService {
         // 存放list类型
         if (value instanceof List) {
             List<Object> listValue = (List<Object>) value;
-            if (listValue != null) {
-                stringRedisTemplate.opsForList().leftPush(key, listValue.toString());
-            }
+            stringRedisTemplate.opsForList().leftPush(key, listValue.toString());
         }
     }
 
@@ -403,6 +401,19 @@ public class RedisService {
             return this.ForValue().get(key);
         }
         return null;
+    }
+
+    /**
+     * 取keys
+     *
+     * @param key
+     * @return
+     */
+    public Boolean setNx(String key, String value) {
+        if (key != null) {
+            return stringRedisTemplate.opsForValue().setIfAbsent(key, value);
+        }
+        return false;
     }
 
     /**

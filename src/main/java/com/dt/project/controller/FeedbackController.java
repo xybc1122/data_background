@@ -38,12 +38,6 @@ public class FeedbackController {
     @GetMapping("/selProcess")
     public ResponseBase selProcess(@RequestParam("pageSize") Integer pageSize,
                                    @RequestParam("currentPage") Integer currentPage) {
-        if (pageSize == null) {
-            pageSize = 0;
-        }
-        if (currentPage == null) {
-            currentPage = 5;
-        }
         return fService.selThisProcess(ReqUtils.getUserName(), pageSize, currentPage);
     }
 
@@ -55,12 +49,6 @@ public class FeedbackController {
     @GetMapping("/selThisAudit")
     public ResponseBase selThisAudit(@RequestParam("pageSize") Integer pageSize,
                                      @RequestParam("currentPage") Integer currentPage) {
-        if (pageSize == null) {
-            pageSize = 0;
-        }
-        if (currentPage == null) {
-            currentPage = 5;
-        }
         return fService.selThisAudit(ReqUtils.getUserName(), pageSize, currentPage);
     }
 }

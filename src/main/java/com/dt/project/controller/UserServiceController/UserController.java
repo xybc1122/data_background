@@ -1,11 +1,11 @@
 package com.dt.project.controller.UserServiceController;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.UserInfo;
 import com.dt.project.service.RedisService;
+import com.dt.project.service.SystemService.SystemUserConfigService;
 import com.dt.project.service.UserService;
 import com.dt.project.store.SsoLoginStore;
 import com.dt.project.toos.Constants;
@@ -27,52 +27,39 @@ public class UserController {
     private UserService userService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private SystemUserConfigService configService;
 
     /**
-     * 用户配置
+     * 新增用户配置
      *
      * @return
      */
     @PostMapping("/saveUserConfig")
     public ResponseBase setUserConfig(@RequestBody Map<String, Object> confMap) {
-        Integer mid = (Integer) confMap.get("mid");
-        String programName = (String) confMap.get("programName");
-        if (mid == null || programName == null) {
-            return JsonData.setResultError("error");
-        }
-        String configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + programName;
-        String redisValue = redisService.getStringKey(configKey);
-        if (redisValue != null) {
-            return JsonData.setResultError("保存方案名相同");
-        }
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("hiddenFieldsList", confMap.get("hiddenFieldsList"));
-        jsonObject.put("queryTwoList", confMap.get("queryTwoList"));
-        jsonObject.put("inputQueryData", confMap.get("inputQueryData"));
-        jsonObject.put("mid", mid);
-        jsonObject.put("uid", ReqUtils.getUid());
-        jsonObject.put("programName", programName);
-        jsonObject.put("createDate", new Date().getTime());
-        redisService.setString(Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + programName, jsonObject.toJSONString());
-        return JsonData.setResultSuccess("success");
+        return configService.saveUserConfig(confMap);
     }
 
     /**
-     * 拿取用户配置
+     * 获取用户配置
      *
      * @param mid
      * @return
      */
     @GetMapping("/getUserConfig")
     public ResponseBase getUserConfig(@RequestParam("mid") Integer mid) {
-        String configKey = Constants.USER_CONFIG + 5 + "/" + mid;
-        //模糊查询所有的key
-        Set configKeys = redisService.getKeys(configKey);
-        List<Object> userConfigList = new ArrayList<Object>();
-        for (Object key : configKeys) {
-            userConfigList.add(JSONObject.parseObject(redisService.getStringKey(key.toString())));
-        }
-        return JsonData.setResultSuccess("success", userConfigList);
+        return configService.getConfig(mid);
+    }
+
+    /**
+     * 修改用户配置
+     *
+     * @param confMap
+     * @return
+     */
+    @PostMapping("/upUserConfig")
+    public ResponseBase upUserConfig(@RequestBody Map<String, Object> confMap) {
+        return configService.upConfig(confMap);
     }
 
     /**

@@ -22,7 +22,7 @@ public class BasicPublicProductController {
     private BasicPublicProductService productService;
 
     /**
-     * 获得产品信息
+     * 查询产品信息
      *
      * @return
      */

@@ -18,7 +18,7 @@ public interface BasicLogisticsmgtTransportFreightLevelMapper {
     @Select("SELECT\n" +
             "`transport_freight_level_id`,\n" +
             "`transport_freight_level_name`,\n" +
-            "`parent_id`,`path`,`is_parent`\n" +
+            "`parent_id`,`path`,`parent_node_is`\n" +
             "FROM `basic_logisticsmgt_transport_freight_level`")
     @Results({
             @Result(column = "transport_freight_level_id", property = "treeId"),

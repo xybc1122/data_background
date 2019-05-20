@@ -5,6 +5,7 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.oa.model.MyTask;
 import com.dt.project.oa.model.Feedback;
 import com.dt.project.oa.service.FeedbackImplService;
+import com.dt.project.utils.PageBean;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.UuIDUtils;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -82,27 +83,43 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
      *
      * @param userName
      * @param pageSize
-     * @param currentPage
+     * @param pageSize
      * @return
      */
     @Override
-    public ResponseBase selThisProcess(String userName, Integer pageSize, Integer currentPage) {
+    public ResponseBase selThisProcess(String userName, Integer pageSize, Integer page) {
+        //获得总行数
+        long total = runtimeService.createProcessInstanceQuery().startedBy(userName).count();
+        //总页数
+        long totalPage = PageBean.getPageCount(pageSize, total);
+        //获得当前页
+        int currentPage = PageBean.currentPage(page);
+        //当前页开始记录
+        int offset = PageBean.countOffset(pageSize, currentPage);
         //通过userId查看我的个人任务
         List<ProcessInstance> instanceList = runtimeService.createProcessInstanceQuery().startedBy(userName).
-                listPage(pageSize, currentPage);
+                listPage(offset, pageSize);
         List<Feedback> feeList = new ArrayList<>();
         for (ProcessInstance instance : instanceList) {
             Feedback fee = getFee(instance);
             feeList.add(fee);
         }
-        return JsonData.setResultSuccess("success", feeList);
+        return JsonData.setResultSuccess("success", new PageBean<>(feeList, currentPage, pageSize, total, totalPage));
     }
 
     @Override
-    public ResponseBase selThisAudit(String userName, Integer pageSize, Integer currentPage) {
+    public ResponseBase selThisAudit(String userName, Integer pageSize, Integer page) {
+        //获得总行数
+        long total = taskService.createTaskQuery().taskCandidateUser(userName).count();
+        //总页数
+        long totalPage = PageBean.getPageCount(pageSize, total);
+        //获得当前页
+        int currentPage = PageBean.currentPage(page);
+        //当前页开始记录
+        int offset = PageBean.countOffset(pageSize, currentPage);
         //根据用户查询任务
         List<Task> taskList = taskService.createTaskQuery().taskCandidateUser(userName)
-                .orderByTaskCreateTime().desc().listPage(pageSize, currentPage);
+                .orderByTaskCreateTime().desc().listPage(offset, pageSize);
         List<MyTask> feeTaskList = new ArrayList<>();
         for (Task task : taskList) {
             MyTask feeTask = new MyTask(task.getId(), task.getName(), task.getCreateTime());
@@ -111,7 +128,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
             feeTask.setFeedback(getFee(instance));
             feeTaskList.add(feeTask);
         }
-        return JsonData.setResultSuccess("success", feeTaskList);
+        return JsonData.setResultSuccess("success", new PageBean<>(feeTaskList, currentPage, pageSize, total, totalPage));
     }
 
     @Override

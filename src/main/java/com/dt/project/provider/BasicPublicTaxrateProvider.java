@@ -1,7 +1,9 @@
 package com.dt.project.provider;
 
 import com.dt.project.dto.TaxrateDto;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -15,26 +17,20 @@ public class BasicPublicTaxrateProvider {
 
     public String findTaxrate(TaxrateDto taxrateDto) {
         SQL sql = new SQL();
-        String Alias = "st";
+        String alias = "st";
         sql.SELECT("st.`duties_taxrate_id`,st.status_id,st.`tax_rate`," +
                 "c.`country_name`,p.`products_name`\n" +
-                "FROM `basic_public_duties_taxrate` AS " + Alias + "");
+                "FROM `basic_public_duties_taxrate` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_country` AS c ON c.`country_id`=st.`country_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_products` AS p ON p.`products_id`=st.`products_id`");
         //状态数据查询
-        ProviderSqlStore.selectStatus(taxrateDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(taxrateDto.getSystemLogStatus(), alias, sql);
         //国家名称
-        if (StringUtils.isNotBlank(taxrateDto.getCountryName())) {
-            sql.WHERE("c.country_name=#{countryName}");
-        }
+        AppendSqlStore.sqlWhere(taxrateDto.getCountryName(), "c.country_name", sql, Constants.SELECT);
         //税率
-        if (taxrateDto.getTaxRate() != null) {
-            sql.WHERE(Alias+".tax_rate=#{taxRate}");
-        }
+        AppendSqlStore.sqlWhere(taxrateDto.getTaxRate(), alias+".tax_rate", sql, Constants.SELECT);
         //产品类目
-        if (StringUtils.isNotBlank(taxrateDto.getProductsName())) {
-            sql.WHERE("p.products_name=#{productsName}");
-        }
+        AppendSqlStore.sqlWhere(taxrateDto.getProductsName(), "p.products_name", sql, Constants.SELECT);
         return sql.toString();
     }
 

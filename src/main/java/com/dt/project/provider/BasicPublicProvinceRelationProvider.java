@@ -1,7 +1,9 @@
 package com.dt.project.provider;
 
 import com.dt.project.model.BasePublicModel.BasicPublicProvinceRelation;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -24,17 +26,11 @@ public class BasicPublicProvinceRelationProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(relation.getSystemLogStatus(), alias, sql);
         //省州名称
-        if (StringUtils.isNotBlank(relation.getProvinceName())) {
-            sql.WHERE("p.`province_name`=#{provinceName}");
-        }
+        AppendSqlStore.sqlWhere(relation.getProvinceName(), "p.`province_name`", sql, Constants.SELECT);
         //编号
-        if (relation.getNumber() != null) {
-            sql.WHERE(alias + ".`number`=#{number}");
-        }
+        AppendSqlStore.sqlWhere(relation.getNumber(), alias + ".`number`", sql, Constants.SELECT);
         //省州关联名称
-        if (StringUtils.isNotBlank(relation.getProvinceRelationName())) {
-            sql.WHERE(alias + ".`province_relation_name`=#{provinceRelationName}");
-        }
+        AppendSqlStore.sqlWhere(relation.getProvinceRelationName(), alias + ".`province_relation_name`", sql, Constants.SELECT);
         return sql.toString();
     }
 }

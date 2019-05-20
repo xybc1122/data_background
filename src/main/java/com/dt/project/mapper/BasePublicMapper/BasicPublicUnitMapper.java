@@ -13,7 +13,7 @@ public interface BasicPublicUnitMapper {
      */
     @Select("SELECT\n" +
             "`unit_id`,`unit_name`,`path`,\n" +
-            "`parent_id`,`is_parent`\n" +
+            "`parent_id`,`parent_node_is`\n" +
             "FROM `basic_public_unit`")
     @Results({
             @Result(column = "unit_id", property = "treeId"),

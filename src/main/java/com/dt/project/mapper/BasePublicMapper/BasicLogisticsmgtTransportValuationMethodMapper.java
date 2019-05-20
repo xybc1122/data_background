@@ -19,7 +19,7 @@ public interface BasicLogisticsmgtTransportValuationMethodMapper {
     @Select("SELECT\n" +
             "`transport_valuation_method_id`,\n" +
             "`transport_valuation_method_name`,`parent_id`,\n" +
-            "`path`,`is_parent`\n" +
+            "`path`,`parent_node_is`\n" +
             "FROM`basic_logisticsmgt_transport_valuation_method`")
     @Results({
             @Result(column = "transport_valuation_method_id", property = "treeId"),

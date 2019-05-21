@@ -64,7 +64,7 @@ public class BasicPublicSiteProvider {
         sql.SELECT("se.`site_id`,se.`site_name`,se.site_short_name_eng \n" +
                 "FROM `basic_public_site` AS se");
         sql.LEFT_OUTER_JOIN("`basic_public_area_role_site` AS ars ON ars.`se_id` = se.`site_id`");
-        return sql.toString() + " WHERE " + StrUtils.in(arIds, "ars.`ar_id`");
+        return sql.toString() + " WHERE " + StrUtils.in(arIds, "ars.`ar_id`") + " GROUP BY se.`site_name`";
     }
 
     public String getSId(Map<String, String> sMap) {

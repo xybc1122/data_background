@@ -19,7 +19,7 @@ public interface BasicPublicSiteService {
     /**
      * 通过区域角色id 查询站点
      */
-    List<BasicPublicSite> serviceSelectSiteInfo(Integer arIds);
+    List<BasicPublicSite> serviceSelectSiteInfo(String arIds);
 
 
     /**

@@ -51,4 +51,9 @@ public class BasicPublicProductServiceImpl implements BasicPublicProductService 
         }
         return JsonData.setResultError("新增失败");
     }
+
+    @Override
+    public ResponseBase serviceGetPublicProduct(Integer skuId) {
+        return JsonData.setResultSuccess("success", productMapper.getPublicProduct(skuId));
+    }
 }

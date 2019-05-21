@@ -1,7 +1,10 @@
 package com.dt.project.provider;
 
 import com.dt.project.dto.SiteDto;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
+import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -11,60 +14,38 @@ public class BasicPublicSiteProvider {
 
     public String findSite(SiteDto siteDto) {
         SQL sql = new SQL();
-        String Alias = "s";
+        String alias = "s";
         sql.SELECT("s.`site_id`,s.`number`,s.`site_name`,s.`site_name_eng`,s.`site_short_name_eng`,s.`url`,s.`vat`," +
                 "s.`principal`,s.status_id, c.`country_name`, cu.currency_name,cu.currency_short_name_eng,a.`area_name`," +
-                "GROUP_CONCAT(e.employee_name) as employee_name FROM `basic_public_site` AS " + Alias + "");
+                "GROUP_CONCAT(e.employee_name) as employee_name FROM `basic_public_site` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_country` AS c ON c.`country_id`=s.`country_id`");
         sql.LEFT_OUTER_JOIN("`basic_public_area` AS a ON a.`area_id`=s.`area_id`");
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS e ON e.`dept_id`=s.`principal`");
         sql.LEFT_OUTER_JOIN("`basic_public_currency` AS cu ON cu.`currency_id`=s.country_id");
         //状态数据查询
-        ProviderSqlStore.selectStatus(siteDto.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(siteDto.getSystemLogStatus(), alias, sql);
         //站点编号
-        if (siteDto.getNumber() != null) {
-            sql.WHERE(Alias + ".number=#{number}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getNumber(), alias + ".number", sql, Constants.SELECT);
         //站点名称
-        if (StringUtils.isNotBlank(siteDto.getSiteName())) {
-            sql.WHERE(Alias + ".site_name=#{siteName}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getSiteName(), alias + ".site_name", sql, Constants.SELECT);
         //站点英文名称
-        if (StringUtils.isNotBlank(siteDto.getSiteNameEng())) {
-            sql.WHERE(Alias + ".site_name_eng=#{siteNameEng}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getSiteNameEng(), alias + ".site_name_eng", sql, Constants.SELECT);
         //站点英文简称
-        if (StringUtils.isNotBlank(siteDto.getSiteShortNameEng())) {
-            sql.WHERE(Alias + ".site_short_name_eng=#{siteShortNameEng}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getSiteShortNameEng(), alias + ".site_short_name_eng", sql, Constants.SELECT);
         //URL
-        if (StringUtils.isNotBlank(siteDto.getUrl())) {
-            sql.WHERE(Alias + ".url=#{url}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getUrl(), alias + ".url", sql, Constants.SELECT);
         //VAT税率
-        if (siteDto.getVat() != null) {
-            sql.WHERE(Alias + ".vat=#{vat}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getVat(), alias + ".vat", sql, Constants.SELECT);
         //币别英文名称
-        if (StringUtils.isNotBlank(siteDto.getCurrencyShortNameEng())) {
-            sql.WHERE("cu.currency_short_name_eng=#{currencyShortNameEng}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getCurrencyShortNameEng(), "cu.currency_short_name_eng", sql, Constants.SELECT);
         //币别名称
-        if (StringUtils.isNotBlank(siteDto.getCurrencyName())) {
-            sql.WHERE("cu.currency_name=#{currencyName}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getCurrencyName(), "cu.currency_name", sql, Constants.SELECT);
         //区域名称
-        if (StringUtils.isNotBlank(siteDto.getAreaName())) {
-            sql.WHERE("a.`area_name`=#{areaName}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getAreaName(), "a.`area_name`", sql, Constants.SELECT);
         //国家名称
-        if (StringUtils.isNotBlank(siteDto.getCountryName())) {
-            sql.WHERE("c.`country_name`=#{countryName}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getCountryName(), "c.`country_name`", sql, Constants.SELECT);
         //负责人
-        if (StringUtils.isNotBlank(siteDto.getEmployeeName())) {
-            sql.WHERE("e.`employee_name`=#{employeeName}");
-        }
+        AppendSqlStore.sqlWhere(siteDto.getEmployeeName(), "e.`employee_name`", sql, Constants.SELECT);
         sql.GROUP_BY("s.`site_id`");
         return sql.toString();
     }
@@ -79,12 +60,11 @@ public class BasicPublicSiteProvider {
 
     public String selectSiteInfo(Map<String, Object> seMap) {
         SQL sql = new SQL();
-        Integer arId = (Integer) seMap.get("arId");
+        String arIds = (String) seMap.get("arIds");
         sql.SELECT("se.`site_id`,se.`site_name`,se.site_short_name_eng \n" +
                 "FROM `basic_public_site` AS se");
         sql.LEFT_OUTER_JOIN("`basic_public_area_role_site` AS ars ON ars.`se_id` = se.`site_id`");
-        sql.WHERE("ars.`ar_id`=" + arId);
-        return sql.toString();
+        return sql.toString() + " WHERE " + StrUtils.in(arIds, "ars.`ar_id`");
     }
 
     public String getSId(Map<String, String> sMap) {

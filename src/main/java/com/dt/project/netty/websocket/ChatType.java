@@ -1,4 +1,4 @@
-package com.dt.project.netty;
+package com.dt.project.netty.websocket;
 
 public enum ChatType {
     /**

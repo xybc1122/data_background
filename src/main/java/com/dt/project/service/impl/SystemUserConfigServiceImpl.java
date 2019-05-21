@@ -30,12 +30,12 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
     private RedisService redisService;
 
     @Override
-    public Long serviceSaveUserConfig(SystemUserConfig userConfig) {
+    public Integer serviceSaveUserConfig(SystemUserConfig userConfig) {
         int result = configMapper.saveUserConfig(userConfig);
         if (result == 0) {
             throw new LsException("新增失败");
         }
-        return userConfig.getConfigId();
+        return userConfig.getConfigId().intValue();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
                 return JsonData.setResultError("方案名重复");
             }
         }
-        Long configId = serviceSaveUserConfig(new
+        Integer configId = serviceSaveUserConfig(new
                 SystemUserConfig(mid, new Date().getTime(), ReqUtils.getUserName()));
         String configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + configId + "," + programName;
         redisService.setString(configKey, setJSON(confMap, mid, configId, programName));
@@ -77,6 +77,7 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
     }
 
     @Override
+    @Transactional
     public ResponseBase delConfig(Map<String, Object> confMap) {
         Integer mid = (Integer) confMap.get("mid");
         String configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/";
@@ -87,7 +88,7 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
     @Override
     public ResponseBase upConfig(Map<String, Object> confMap) {
         String configKey;
-        Long configId = (Long) confMap.get("configId");
+        Integer configId = (Integer) confMap.get("configId");
         Integer mid = (Integer) confMap.get("mid");
         String programName = (String) confMap.get("programName");
         if (mid == null || programName == null || configId == null) {
@@ -102,11 +103,12 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
         return JsonData.setResultSuccess("success");
     }
 
-    private String setJSON(Map<String, Object> confMap, Integer mid, Long configId, String programName) {
+    private String setJSON(Map<String, Object> confMap, Integer mid, Integer configId, String programName) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("hiddenFieldsList", confMap.get("hiddenFieldsList"));
         jsonObject.put("queryTwoList", confMap.get("queryTwoList"));
         jsonObject.put("inputQueryData", confMap.get("inputQueryData"));
+        jsonObject.put("dropTable", confMap.get("dropTable"));
         jsonObject.put("mid", mid);
         jsonObject.put("configId", configId);
         jsonObject.put("uid", ReqUtils.getUid());

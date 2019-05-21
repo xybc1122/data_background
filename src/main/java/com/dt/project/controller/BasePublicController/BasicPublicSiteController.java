@@ -35,9 +35,8 @@ public class BasicPublicSiteController {
      * @return
      */
     @GetMapping("/getByShopIdListSite")
-    public ResponseBase getByShopIdListSite(@RequestParam("arId") String arId) {
-        List<BasicPublicSite> shopIdSiteList = siteService.serviceSelectSiteInfo(Integer.parseInt(arId));
-        return JsonData.setResultSuccess(shopIdSiteList);
+    public ResponseBase getByShopIdListSite(@RequestParam("arIds") String arIds) {
+        return JsonData.setResultSuccess(siteService.serviceSelectSiteInfo(Integer.parseInt(arIds)));
     }
 
 

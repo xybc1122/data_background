@@ -16,19 +16,17 @@ public class BasicSalesAmazonWarehouseProvider {
 
     public String findAmazonWarehouse(BasicSalesAmazonWarehouse amazonWarehouse) {
         SQL sql = new SQL();
-        String Alias = "w";
+        String alias = "w";
         sql.SELECT("w.`amazon_warehouse_id`,w.`number`,si.`site_name`,w.`warehouse_code`,w.`country`,\n" +
                 "  w.`address`,w.`city`, w.`state`,w.`zip`, w.`status_id`\n" +
-                "FROM `basic_sales_amazon_warehouse` AS " + Alias + "");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id`=" + Alias + ".`site_id`");
+                "FROM `basic_sales_amazon_warehouse` AS " + alias + "");
+        sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id`=" + alias + ".`site_id`");
         //状态数据查询
-        ProviderSqlStore.selectStatus(amazonWarehouse.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(amazonWarehouse.getSystemLogStatus(), alias, sql);
         //站点名称
         AppendSqlStore.sqlWhere(amazonWarehouse.getSiteName(), "si.site_name", sql, Constants.SELECT);
         //FBA仓库编号
-        if (amazonWarehouse.getNumber() != null) {
-            sql.WHERE(Alias + ".number=#{number}");
-        }
+        AppendSqlStore.sqlWhere(amazonWarehouse.getNumber(), alias + ".`number`", sql, Constants.SELECT);
         //FBA仓库代码
         AppendSqlStore.sqlWhere(amazonWarehouse.getWarehouseCode(), "w.warehouse_code", sql, Constants.SELECT);
         //国家

@@ -4,6 +4,7 @@ import com.dt.project.model.SalesAmazon.SalesAmazonFbaMonthWarehouseFee;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -71,7 +72,7 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
         SQL sql = new SQL();
         String alias = "mWar";
         sql.SELECT("ps.`sku`,s.`shop_name`, cs.`site_name`,aw.`warehouse_code`,\n" +
-                "`w_id`,`date`,`asin`,`fn_sku`,`product_name`,`fc`, `country_code`,\n" +
+                "`w_id`,`date`,`asin`," + alias + ". `fn_sku`, `product_name`, `fc`, `country_code`,\n " +
                 "`longest_side`,`median_side`,`shortest_side`,\n" +
                 "`measurement_units`, `weight`,`weight_units`,\n" +
                 "`item_volume`,`volume_units`,`product_size_tier`,`average_quantity_on_hand`,\n" +
@@ -83,10 +84,10 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
         sql.LEFT_OUTER_JOIN("`basic_sales_amazon_warehouse` AS aw ON aw.`amazon_warehouse_id` = " + alias + ".`aw_id`");
         //链表
         ProviderSqlStore.joinTable(sql, alias);
-        if (StringUtils.isNotBlank(mWar.getWarehouseCode()))
-            sql.WHERE("POSITION('" + mWar.getWarehouseCode() + "' IN aw.`warehouse_code`)");
-        if (StringUtils.isNotBlank(mWar.getSku()))
-            sql.WHERE("POSITION('" + mWar.getSku() + "' IN ps.`sku`)");
+        AppendSqlStore.sqlWhere(mWar.getWarehouseCode(), "aw.`warehouse_code`", sql, Constants.SELECT);
+
+        AppendSqlStore.sqlWhere(mWar.getSku(), "ps.`sku`", sql, Constants.SELECT);
+
         //反射拼接
         Field[] fields = mWar.getClass().getDeclaredFields();
         //查询

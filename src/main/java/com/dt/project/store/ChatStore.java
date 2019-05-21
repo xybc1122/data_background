@@ -1,8 +1,8 @@
 package com.dt.project.store;
 
 import com.dt.project.config.JsonData;
-import com.dt.project.netty.ChatServiceImpl;
-import com.dt.project.netty.ChatType;
+import com.dt.project.netty.service.ChatServiceImpl.ChatServiceImpl;
+import com.dt.project.netty.websocket.ChatType;
 import com.dt.project.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

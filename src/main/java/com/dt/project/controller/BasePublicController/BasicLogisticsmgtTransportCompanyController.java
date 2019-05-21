@@ -33,8 +33,7 @@ public class BasicLogisticsmgtTransportCompanyController {
     @PostMapping("/findByListFreight")
     public ResponseBase findByListFreight(@RequestBody BasicLogisticsmgtTransportCompany freight) {
         PageInfoUtils.setPage(freight.getPageSize(), freight.getCurrentPage());
-        List<BasicLogisticsmgtTransportCompany> freightList = companyService.serviceFindByListFreight(freight);
-        return PageInfoUtils.returnPage(freightList, freight.getCurrentPage());
+        return PageInfoUtils.returnPage(companyService.serviceFindByListFreight(freight), freight.getCurrentPage());
     }
 
 

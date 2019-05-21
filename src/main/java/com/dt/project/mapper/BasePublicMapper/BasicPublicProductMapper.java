@@ -28,6 +28,14 @@ public interface BasicPublicProductMapper {
 
 
     /**
+     * 关联查询skuId 获得fnSKU
+     */
+    @Select("SELECT cs.`fn_sku`,cp.`product_id`,cp.`qty_per_box`,cp.`length_cm`,cp.`width_cm`,cp.`height_cm`,cp.`gw_kg`,cp.`nw_kg` FROM `basic_public_product` AS cp\n" +
+            "LEFT JOIN `basic_public_sku` AS cs ON cs.`product_id` = cp.`product_id`\n" +
+            "WHERE cp.del_or_not=0 AND cs.`sku_id`=#{skuId}")
+    BasicPublicProduct getPublicProduct(@Param("skuId") Integer skuId);
+
+    /**
      * 更新产品信息 信息
      */
     @UpdateProvider(type = BasicPublicProductProvider.class, method = "upProductPro")

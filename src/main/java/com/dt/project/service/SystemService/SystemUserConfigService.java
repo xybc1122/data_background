@@ -17,7 +17,7 @@ public interface SystemUserConfigService {
     /**
      * 新增一个用户配置信息
      */
-    Long serviceSaveUserConfig(SystemUserConfig userConfig);
+    Integer serviceSaveUserConfig(SystemUserConfig userConfig);
 
     /**
      * 新增用户配置信息

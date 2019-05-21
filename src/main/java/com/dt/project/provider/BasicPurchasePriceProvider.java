@@ -1,7 +1,9 @@
 package com.dt.project.provider;
 
 import com.dt.project.model.BasePublicModel.BasicPurchasePrice;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -16,26 +18,20 @@ public class BasicPurchasePriceProvider {
 
     public String findPrice(BasicPurchasePrice price) {
         SQL sql = new SQL();
-        String Alias = "ep";
+        String alias = "ep";
         sql.SELECT("ep.`purchase_price_id`,\n" +
                 "ep.`not_tax_price`,p.`product_name`,\n" +
                 "ep.`tax_price`,ep.`status_id`\n" +
-                "FROM `basic_purchase_price` AS " + Alias + "");
-        sql.LEFT_OUTER_JOIN("`basic_public_product` as p on p.`products_id`= " + Alias + ".`product_id`");
+                "FROM `basic_purchase_price` AS " + alias + "");
+        sql.LEFT_OUTER_JOIN("`basic_public_product` as p on p.`products_id`= " + alias + ".`product_id`");
         //状态数据查询
-        ProviderSqlStore.selectStatus(price.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(price.getSystemLogStatus(), alias, sql);
         //不含税价格
-        if (price.getNotTaxPrice() != null) {
-            sql.WHERE(Alias + ".not_tax_price=#{notTaxPrice}");
-        }
+        AppendSqlStore.sqlWhere(price.getNotTaxPrice(), alias + ".not_tax_price", sql, Constants.SELECT);
         //含税价格
-        if (price.getTaxPrice() != null) {
-            sql.WHERE(Alias + ".tax_price=#{taxPrice}");
-        }
+        AppendSqlStore.sqlWhere(price.getTaxPrice(), alias + ".tax_price", sql, Constants.SELECT);
         //产品名称
-        if (StringUtils.isNotBlank(price.getProductName())) {
-            sql.WHERE("p.`product_name`=#{productName}");
-        }
+        AppendSqlStore.sqlWhere(price.getProductName(), "p.`product_name`", sql, Constants.SELECT);
         return sql.toString();
     }
 }

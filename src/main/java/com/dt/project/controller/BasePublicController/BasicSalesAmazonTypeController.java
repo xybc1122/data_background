@@ -30,7 +30,6 @@ public class BasicSalesAmazonTypeController {
     @PostMapping("/findByListAmazon")
     public ResponseBase findByListAmazon(@RequestBody BasicSalesAmazonType amazonType) {
         PageInfoUtils.setPage(amazonType.getPageSize(), amazonType.getCurrentPage());
-        List<BasicSalesAmazonType> amazonTypeList = typeService.serviceFindByListAmazonType(amazonType);
-        return PageInfoUtils.returnPage(amazonTypeList, amazonType.getCurrentPage());
+        return PageInfoUtils.returnPage(typeService.serviceFindByListAmazonType(amazonType), amazonType.getCurrentPage());
     }
 }

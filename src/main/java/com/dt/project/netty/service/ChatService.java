@@ -1,4 +1,4 @@
-package com.dt.project.netty;
+package com.dt.project.netty.service;
 
 import com.alibaba.fastjson.JSONObject;
 import io.netty.channel.ChannelHandlerContext;

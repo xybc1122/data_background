@@ -70,7 +70,7 @@ public interface TableHeadService {
      *
      * @return
      */
-    int upHeadSort(String[] newTopOrder, Long id);
+    int upHeadSort(String[] newTopOrder, Long id, Integer version);
 
     /**
      * 检查表中名字是否一致
@@ -81,4 +81,9 @@ public interface TableHeadService {
      * 检查表中topType是否一致
      */
     String isTopType(String topType);
+
+    /**
+     * 通过id in查询List数据
+     */
+    List<TableHead> serviceGetListTableHead(List<Integer> hidList);
 }

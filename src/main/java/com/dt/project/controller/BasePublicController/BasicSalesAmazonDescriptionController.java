@@ -32,8 +32,7 @@ public class BasicSalesAmazonDescriptionController {
     @PostMapping("/findByListDescription")
     public ResponseBase findByListDescription(@RequestBody BasicSalesAmazonDescription description) {
         PageInfoUtils.setPage(description.getPageSize(), description.getCurrentPage());
-        List<BasicSalesAmazonDescription> descriptionList = descriptionService.serviceGetDescription(description);
-        return PageInfoUtils.returnPage(descriptionList, description.getCurrentPage());
+        return PageInfoUtils.returnPage(descriptionService.serviceGetDescription(description), description.getCurrentPage());
     }
 
 

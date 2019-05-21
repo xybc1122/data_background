@@ -29,8 +29,7 @@ public class BasicSalesAmazonWarehouseController {
     @PostMapping("/findByListWarehouse")
     public ResponseBase findByListWarehouse(@RequestBody BasicSalesAmazonWarehouse amazonWarehouse) {
         PageInfoUtils.setPage(amazonWarehouse.getPageSize(), amazonWarehouse.getCurrentPage());
-        List<BasicSalesAmazonWarehouse> amazonWarehouseList = amazonWarehouseService.serviceFindByListAmazonWarehouse(amazonWarehouse);
-        return PageInfoUtils.returnPage(amazonWarehouseList, amazonWarehouse.getCurrentPage());
+        return PageInfoUtils.returnPage(amazonWarehouseService.serviceFindByListAmazonWarehouse(amazonWarehouse), amazonWarehouse.getCurrentPage());
     }
 
 

@@ -1,7 +1,9 @@
 package com.dt.project.provider;
 
 import com.dt.project.model.BasePublicModel.BasicSalesAmazonHandlingClass;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -15,30 +17,22 @@ public class BasicSalesAmazonHandlingClassProvider {
 
     public String getHandlingClass(BasicSalesAmazonHandlingClass handlingClass) {
         SQL sql = new SQL();
-        String Alias = "gc";
+        String alias = "gc";
         sql.SELECT("gc.`class_id`,gc.`class_name`,\n" +
                 " gc.`size`,`region`,\n" +
                 "  gc.`codex`,gc.`status_id`\n" +
-                "FROM `basic_sales_amazon_handling_class` as " + Alias + "");
+                "FROM `basic_sales_amazon_handling_class` as " + alias + "");
         //状态数据查询
-        ProviderSqlStore.selectStatus(handlingClass.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(handlingClass.getSystemLogStatus(), alias, sql);
 
         //处理类名称
-        if (StringUtils.isNotBlank(handlingClass.getClassName())) {
-            sql.WHERE(Alias + ".class_name=#{className}");
-        }
+        AppendSqlStore.sqlWhere(handlingClass.getClassName(), alias + ".class_name", sql, Constants.SELECT);
         //处理尺寸
-        if (StringUtils.isNotBlank(handlingClass.getSize())) {
-            sql.WHERE(Alias + ".size=#{size}");
-        }
+        AppendSqlStore.sqlWhere(handlingClass.getSize(), alias + ".size", sql, Constants.SELECT);
         //区域
-        if (StringUtils.isNotBlank(handlingClass.getRegion())) {
-            sql.WHERE(Alias + ".region=#{region}");
-        }
+        AppendSqlStore.sqlWhere(handlingClass.getRegion(), alias + ".region", sql, Constants.SELECT);
         //规则
-        if (StringUtils.isNotBlank(handlingClass.getCodex())) {
-            sql.WHERE(Alias + ".codex=#{codex}");
-        }
+        AppendSqlStore.sqlWhere(handlingClass.getCodex(), alias + ".codex", sql, Constants.SELECT);
         return sql.toString();
     }
 }

@@ -23,8 +23,7 @@ public class BasicPublicExchangeRateController {
     @PostMapping("/findByListRate")
     public ResponseBase findByListRate(@RequestBody ExchangeRateDto rateDto) {
         PageInfoUtils.setPage(rateDto.getPageSize(), rateDto.getCurrentPage());
-        List<ExchangeRateDto> basicPublicSiteList = rateService.getRateInfo(rateDto);
-        return PageInfoUtils.returnPage(basicPublicSiteList, rateDto.getCurrentPage());
+        return PageInfoUtils.returnPage(rateService.getRateInfo(rateDto), rateDto.getCurrentPage());
     }
 
 

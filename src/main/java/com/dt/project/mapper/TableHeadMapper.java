@@ -67,7 +67,7 @@ public interface TableHeadMapper {
      * @return
      */
     @UpdateProvider(type = TableHeadProvider.class, method = "upHeadSort")
-    int upHeadSort(@Param("newTopOrder") String[] newTopOrder, @Param("id") Long id);
+    int upHeadSort(@Param("newTopOrder") String[] newTopOrder, @Param("id") Long id, @Param("version") Integer version);
 
     /**
      * 修改/更新 head信息
@@ -94,4 +94,19 @@ public interface TableHeadMapper {
      */
     @Select("SELECT `top_type` FROM `system_user_table_head` WHERE top_type=#{topType}")
     String isTopType(@Param("topType") String topType);
+
+    /**
+     * 通过id in查询List数据
+     */
+    @SelectProvider(type = TableHeadProvider.class, method = "getListTableHead")
+    @Results({
+            //数据库字段映射 //数据库字段映射 column数据库字段 property Java 字段
+            @Result(column = "h_id", property = "statusOptions",
+                    one = @One(
+                            select = "com.dt.project.mapper.AccountStatusOptionsMapper.getAccountStatusOptionsInfo",
+                            fetchType = FetchType.EAGER
+                    )
+            )
+    })
+    List<TableHead> getListTableHead(@Param("hidList") List<Integer> hidList);
 }

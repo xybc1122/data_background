@@ -2,6 +2,8 @@ package com.dt.project.provider;
 
 
 import com.dt.project.dto.UserDto;
+import com.dt.project.store.AppendSqlStore;
+import com.dt.project.toos.Constants;
 import com.dt.project.utils.MD5Util;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,27 +16,21 @@ public class UserProvider {
 
     public String findUsers(UserDto userDto) {
         SQL sql = new SQL();
-        String Alias = "u";
+        String alias = "u";
         sql.SELECT("u.uid,u.name,u.computer_name,u.user_name,u.account_status,u.landing_time,u.version," +
                 "GROUP_CONCAT(r.`r_name`)as rName,GROUP_CONCAT(r.`rid`)as rid," +
                 "s.mobile_phone,u.user_expiration_date,u.pwd_validity_period,u.create_date,u.create_user,u.modify_date," +
                 "u.modify_user,u.audit_date,u.audit_user");
-        sql.FROM("system_user_info AS " + Alias + "");
+        sql.FROM("system_user_info AS " + alias + "");
         sql.LEFT_OUTER_JOIN("system_user_role_user AS ur ON(ur.u_id=u.uid)");
         sql.LEFT_OUTER_JOIN("system_user_role AS r ON(r.rid=ur.r_id)");
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS s ON(u.uid=s.u_id)");
         //用户账号
-        if (StringUtils.isNotBlank(userDto.getUserName())) {
-            sql.WHERE("POSITION('" + userDto.getUserName() + "' IN u.`user_name`)");
-        }
+        AppendSqlStore.sqlWhere(userDto.getUserName(), alias + ".`user_name`", sql, Constants.SELECT);
         //用户名
-        if (StringUtils.isNotBlank(userDto.getName())) {
-            sql.WHERE("POSITION('" + userDto.getName() + "' IN u.`name`)");
-        }
+        AppendSqlStore.sqlWhere(userDto.getName(), alias + ".`name`", sql, Constants.SELECT);
         //角色名字
-        if (StringUtils.isNotBlank(userDto.getrName())) {
-            sql.WHERE("POSITION('" + userDto.getrName() + "' IN r.r_name)");
-        }
+        AppendSqlStore.sqlWhere(userDto.getrName(), "r.r_name", sql, Constants.SELECT);
         //密码有效期
         if (userDto.getPwdValidityPeriods() != null && userDto.getPwdValidityPeriods().size() > 0) {
             sql.WHERE("u.pwd_validity_period BETWEEN  " + userDto.getPwdValidityPeriods().get(0) + " AND " + userDto.getPwdValidityPeriods().get(1) + "");
@@ -54,47 +50,33 @@ public class UserProvider {
             sql.WHERE("u.user_expiration_date=0");
         }
         //计算机名
-        if (StringUtils.isNotBlank(userDto.getComputerName())) {
-            sql.WHERE("POSITION('" + userDto.getComputerName() + "' IN u.computer_name)");
-        }
+        AppendSqlStore.sqlWhere(userDto.getComputerName(), alias + ".`computer_name`", sql, Constants.SELECT);
         //用户状态
-        if (userDto.getAccountStatus() != null) {
-            sql.WHERE("u.account_status=#{accountStatus}");
-        }
+        AppendSqlStore.sqlWhere(userDto.getAccountStatus(), "u.account_status", sql, Constants.SELECT);
         //用户手机
-        if (StringUtils.isNotBlank(userDto.getMobilePhone())) {
-            sql.WHERE("POSITION('" + userDto.getMobilePhone() + "' IN s.mobile_phone)");
-        }
+        AppendSqlStore.sqlWhere(userDto.getMobilePhone(), "s.mobile_phone", sql, Constants.SELECT);
         //备注
-        if (StringUtils.isNotBlank(userDto.getRemark())) {
-            sql.WHERE("u.remark=#{remark}");
-        }
+        AppendSqlStore.sqlWhere(userDto.getRemark(), alias + ".`remark`", sql, Constants.SELECT);
         //创建时间
         if (userDto.getCreateDates() != null && (userDto.getCreateDates().size() > 0)) {
             sql.WHERE("ls.create_date BETWEEN  " + userDto.getCreateDates().get(0) + " AND " + userDto.getCreateDates().get(1) + "");
         }
         //创建人
-        if (StringUtils.isNotBlank(userDto.getCreateUser())) {
-            sql.WHERE("u.create_user=#{createUser}");
-        }
+        AppendSqlStore.sqlWhere(userDto.getCreateUser(), alias + ".`create_user`", sql, Constants.SELECT);
         //修改日期
         if (userDto.getModifyDates() != null && (userDto.getModifyDates().size() > 0)) {
             sql.WHERE("u.modify_date BETWEEN  " + userDto.getModifyDates().get(0) + " AND " + userDto.getModifyDates().get(1) + "");
         }
         //修改人
-        if (StringUtils.isNotBlank(userDto.getModifyUser())) {
-            sql.WHERE("u.modify_user=#{modifyUser}");
-        }
+        AppendSqlStore.sqlWhere(userDto.getModifyUser(), alias + ".`modify_user`", sql, Constants.SELECT);
         //审核时间
         if (userDto.getAuditDates() != null && (userDto.getAuditDates().size() > 0)) {
             sql.WHERE("u.audit_date BETWEEN  " + userDto.getAuditDates().get(0) + " AND " + userDto.getAuditDates().get(1) + "");
         }
         //审核人
-        if (StringUtils.isNotBlank(userDto.getAuditUser())) {
-            sql.WHERE("u.audit_user=#{auditUser}");
-        }
-        sql.WHERE("u.del_or_not=0");
-        sql.GROUP_BY("u.uid");
+        AppendSqlStore.sqlWhere(userDto.getAuditUser(), alias + ".`audit_user`", sql, Constants.SELECT);
+        sql.WHERE(alias + ".del_or_not=0");
+        sql.GROUP_BY(alias + ".uid");
         return sql.toString();
     }
 

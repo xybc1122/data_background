@@ -187,7 +187,7 @@ public class TableHeadImpl implements TableHeadService {
                             //把他sort.getTopOrder
                             topOrderArr[i] = sort.getIndex().toString();
                             //更新数据
-                            upHeadSort(topOrderArr, sort.getId());
+                            upHeadSort(topOrderArr, sort.getId(), sort.getVersion());
                             break;
                         } else {
                             //如果不是-1 说明里面有长度
@@ -197,14 +197,14 @@ public class TableHeadImpl implements TableHeadService {
                                 //记录索引  数组替换
                                 Arrays.fill(strTopOrder, i, i + 1, sort.getIndex().toString());
                                 //更新数据
-                                upHeadSort(strTopOrder, sort.getId());
+                                upHeadSort(strTopOrder, sort.getId(), sort.getVersion());
                                 break;
                             } else {
                                 //如果不一样
                                 //创建一个新的数组
                                 strNewTopOrder = ArrUtils.getArr(strMid, strTopOrder, i, sort);
                                 //更新数据
-                                upHeadSort(strNewTopOrder, sort.getId());
+                                upHeadSort(strNewTopOrder, sort.getId(), sort.getVersion());
                                 break;
                             }
                         }
@@ -219,14 +219,14 @@ public class TableHeadImpl implements TableHeadService {
                         topOrderArr = new String[1];
                         topOrderArr[0] = sort.getIndex().toString();
                         //更新数据
-                        upHeadSort(topOrderArr, sort.getId());
+                        upHeadSort(topOrderArr, sort.getId(), sort.getVersion());
                     }
                 } else {
                     //如果是null  直接赋值
                     topOrderArr = new String[1];
                     topOrderArr[0] = sort.getIndex().toString();
                     //更新数据
-                    upHeadSort(topOrderArr, sort.getId());
+                    upHeadSort(topOrderArr, sort.getId(), sort.getVersion());
                 }
             }
         }
@@ -234,8 +234,12 @@ public class TableHeadImpl implements TableHeadService {
     }
 
     @Override
-    public int upHeadSort(String[] newTopOrder, Long id) {
-        return tableHeadMapper.upHeadSort(newTopOrder, id);
+    public int upHeadSort(String[] newTopOrder, Long id, Integer version) {
+        int result = tableHeadMapper.upHeadSort(newTopOrder, id, version);
+        if (result == 0) {
+            throw new LsException("更新失败");
+        }
+        return result;
     }
 
     @Override
@@ -246,6 +250,11 @@ public class TableHeadImpl implements TableHeadService {
     @Override
     public String isTopType(String topType) {
         return tableHeadMapper.isTopType(topType);
+    }
+
+    @Override
+    public List<TableHead> serviceGetListTableHead(List<Integer> hidList) {
+        return tableHeadMapper.getListTableHead(hidList);
     }
 
 

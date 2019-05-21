@@ -1,7 +1,9 @@
 package com.dt.project.provider;
 
 import com.dt.project.model.BasePublicModel.BasicExportElement;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -15,19 +17,15 @@ public class BasicExportElementProvider {
 
     public String findElement(BasicExportElement element) {
         SQL sql = new SQL();
-        String Alias = "e";
+        String alias = "e";
         sql.SELECT("e.`element_id`, e.`element_name`, e.`element_name_eng`, e.`status_id`\n" +
-                "FROM`basic_export_element` AS " + Alias + "");
+                "FROM`basic_export_element` AS " + alias + "");
         //状态数据查询
-        ProviderSqlStore.selectStatus(element.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(element.getSystemLogStatus(), alias, sql);
         //要素名称
-        if (StringUtils.isNotBlank(element.getElementName())) {
-            sql.WHERE(Alias + ".element_name=#{elementName}");
-        }
+        AppendSqlStore.sqlWhere(element.getElementName(), alias + ".element_name", sql, Constants.SELECT);
         //要素名称英文
-        if (StringUtils.isNotBlank(element.getElementNameEng())) {
-            sql.WHERE(Alias + ".element_name_eng=#{elementNameEng}");
-        }
+        AppendSqlStore.sqlWhere(element.getElementNameEng(), alias + ".element_name_eng", sql, Constants.SELECT);
         return sql.toString();
     }
 }

@@ -11,7 +11,7 @@ import com.dt.project.ssologin.SsoWebLoginHelper;
 import com.dt.project.mapper.UserMapper;
 import com.dt.project.model.UserInfo;
 import com.dt.project.model.UserRole;
-import com.dt.project.netty.ChatType;
+import com.dt.project.netty.websocket.ChatType;
 import com.dt.project.service.*;
 import com.dt.project.store.ChatStore;
 import com.dt.project.toos.Constant;
@@ -55,13 +55,13 @@ public class UserServiceImpl extends JsonData implements UserService {
 
     @Override
     public UserInfo getUserStatus(Long uid) {
-        String strRedis = redisService.getStringKey(Constants.USER + uid);
+        String strRedis = redisService.getStringKey(Constants.USER_STATUS + uid);
         JSONObject userJson = JSONObject.parseObject(strRedis);
         UserInfo redisUser = JSON.toJavaObject(userJson, UserInfo.class);
         if (redisUser == null) {
             UserInfo user = userMapper.getUserStatus(uid);
             if (uid != null) {
-                redisService.setString(Constants.USER + uid, JSONObject.toJSONString(user));
+                redisService.setString(Constants.USER_STATUS + uid, JSONObject.toJSONString(user));
                 return user;
             }
         }

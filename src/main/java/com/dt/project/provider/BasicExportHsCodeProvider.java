@@ -1,7 +1,9 @@
 package com.dt.project.provider;
 
 import com.dt.project.model.BasePublicModel.BasicExportHsCode;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -17,33 +19,23 @@ public class BasicExportHsCodeProvider {
 
     public String findHsCode(BasicExportHsCode hsCode) {
         SQL sql = new SQL();
-        String Alias = "hc";
+        String alias = "hc";
         sql.SELECT("hc.`hs_code_id`,hc.`hs_code`,\n" +
                 "hc.`product_name`,hc.`product_name_eng`,\n" +
                 "hc.`categories`,hc.`chapter`,hc.`status_id`\n" +
-                "FROM `basic_export_hs_code` AS " + Alias + "");
+                "FROM `basic_export_hs_code` AS " + alias + "");
         //状态数据查询
-        ProviderSqlStore.selectStatus(hsCode.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(hsCode.getSystemLogStatus(), alias, sql);
         //hs_code
-        if (StringUtils.isNotBlank(hsCode.getHsCode())) {
-            sql.WHERE(Alias + ".hs_code=#{hsCode}");
-        }
+        AppendSqlStore.sqlWhere(hsCode.getHsCode(), alias + ".hs_code", sql, Constants.SELECT);
         //品名
-        if (StringUtils.isNotBlank(hsCode.getProductName())) {
-            sql.WHERE(Alias + ".product_name=#{productName}");
-        }
+        AppendSqlStore.sqlWhere(hsCode.getProductName(), alias + ".product_name", sql, Constants.SELECT);
         //品名英文
-        if (StringUtils.isNotBlank(hsCode.getProductNameEng())) {
-            sql.WHERE(Alias + ".product_name_eng=#{productNameEng}");
-        }
+        AppendSqlStore.sqlWhere(hsCode.getProductNameEng(), alias + ".product_name_eng", sql, Constants.SELECT);
         //商品分类
-        if (hsCode.getCategories() != null) {
-            sql.WHERE(Alias + ".categories=#{categories}");
-        }
+        AppendSqlStore.sqlWhere(hsCode.getCategories(), alias + ".categories", sql, Constants.SELECT);
         //商品章节
-        if (hsCode.getChapter() != null) {
-            sql.WHERE(Alias + ".chapter=#{chapter}");
-        }
+        AppendSqlStore.sqlWhere(hsCode.getChapter(), alias + ".chapter", sql, Constants.SELECT);
         return sql.toString();
     }
 }

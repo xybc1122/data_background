@@ -107,6 +107,15 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         return JsonData.setResultSuccess("success", new PageBean<>(feeList, currentPage, pageSize, total, totalPage));
     }
 
+
+    /**
+     * 查询自己审批的流程
+     *
+     * @param userName
+     * @param pageSize
+     * @param page
+     * @return
+     */
     @Override
     public ResponseBase selThisAudit(String userName, Integer pageSize, Integer page) {
         //获得总行数

@@ -1,7 +1,9 @@
 package com.dt.project.provider;
 
 import com.dt.project.model.BasePublicModel.BasicSalesAmazonType;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -16,25 +18,19 @@ public class BasicSalesAmazonTypeProvider {
 
     public String findAmazonType(BasicSalesAmazonType amazonType) {
         SQL sql = new SQL();
-        String Alias = "t";
+        String alias = "t";
         sql.SELECT(" t.`order_type_id`,t.`order_type_name`,t.`order_type`," +
                 "t.`status_id`,si.`site_name`\n" +
-                "FROM `basic_sales_amazon_type` AS " + Alias + "");
-        sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id`=" + Alias + ".`site_id`");
+                "FROM `basic_sales_amazon_type` AS " + alias + "");
+        sql.LEFT_OUTER_JOIN("`basic_public_site` AS si ON si.`site_id`=" + alias + ".`site_id`");
         //状态数据查询
-        ProviderSqlStore.selectStatus(amazonType.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(amazonType.getSystemLogStatus(), alias, sql);
         //站点名称
-        if (StringUtils.isNotBlank(amazonType.getSiteName())) {
-            sql.WHERE("si.site_name=#{siteName}");
-        }
+        AppendSqlStore.sqlWhere(amazonType.getSiteName(), "si.site_name", sql, Constants.SELECT);
         //订单类型名称
-        if (StringUtils.isNotBlank(amazonType.getOrderTypeName())) {
-            sql.WHERE(Alias + ".order_type_name=#{orderTypeName}");
-        }
+        AppendSqlStore.sqlWhere(amazonType.getOrderTypeName(), alias + ".order_type_name", sql, Constants.SELECT);
         //order_type
-        if (StringUtils.isNotBlank(amazonType.getOrderType())) {
-            sql.WHERE(Alias + ".order_type=#{orderType}");
-        }
+        AppendSqlStore.sqlWhere(amazonType.getOrderType(), alias + ".order_type", sql, Constants.SELECT);
         return sql.toString();
     }
 

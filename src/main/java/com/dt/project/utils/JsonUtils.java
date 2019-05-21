@@ -3,7 +3,7 @@ package com.dt.project.utils;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.netty.ChatType;
+import com.dt.project.netty.websocket.ChatType;
 
 import java.util.List;
 

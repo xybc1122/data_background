@@ -63,6 +63,17 @@ public class UserController {
     }
 
     /**
+     * 删除用户配置
+     *
+     * @param confMap
+     * @return
+     */
+    @PostMapping("/delUserConfig")
+    public ResponseBase delUserConfig(@RequestBody Map<String, Object> confMap) {
+        return configService.delConfig(confMap);
+    }
+
+    /**
      * 获得所有用户信息
      *
      * @return

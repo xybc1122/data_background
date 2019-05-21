@@ -28,8 +28,7 @@ public class BasicPublicShopController {
     @PostMapping("/findByListShop")
     public ResponseBase findByListShop(@RequestBody ShopDto shopDto) {
         PageInfoUtils.setPage(shopDto.getPageSize(), shopDto.getCurrentPage());
-        List<ShopDto> basicPublicShopList = shopService.findByListShop();
-        return PageInfoUtils.returnPage(basicPublicShopList, shopDto.getCurrentPage());
+        return PageInfoUtils.returnPage(shopService.findByListShop(), shopDto.getCurrentPage());
     }
 
     /**

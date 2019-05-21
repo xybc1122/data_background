@@ -15,18 +15,24 @@ public class BasicPublicExchangeRateProvider {
     public String findRate(ExchangeRateDto rateDto) {
         SQL sql = new SQL();
         String alias = "r";
-        sql.SELECT("r.exchange_rate_id, c.currency_name,\n" +
-                "r.`to_rmb`,r.`to_usd`,r.status_id,r.version\n" +
+        sql.SELECT("c.currency_symbol,r.exchange_rate_id, c.currency_name,\n" +
+                "r.`to_rmb`,r.`to_usd`,r.e_date,r.status_id,r.version\n" +
                 "FROM `basic_public_exchange_rate` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_currency` AS c ON c.currency_id=r.`currency_id`");
         //状态数据查询
         ProviderSqlStore.selectStatus(rateDto.getSystemLogStatus(), alias, sql);
         //币别名称
         AppendSqlStore.sqlWhere(rateDto.getCurrencyName(), "c.currency_name", sql, Constants.SELECT);
+        //币别符号
+        AppendSqlStore.sqlWhere(rateDto.getCurrencySymbol(), "c.currency_symbol", sql, Constants.SELECT);
         //兑人民币汇率
         AppendSqlStore.sqlWhere(rateDto.getToRmb(), alias + ".to_rmb", sql, Constants.SELECT);
         //兑美元汇率
         AppendSqlStore.sqlWhere(rateDto.getToUsd(), alias + ".to_usd", sql, Constants.SELECT);
+        //有效日期
+        if (rateDto.geteDates() != null && (rateDto.geteDates().size() > 0)) {
+            sql.WHERE(alias + ".e_date BETWEEN  " + rateDto.geteDates().get(0) + " AND " + rateDto.geteDates().get(1) + "");
+        }
         //删除
         ProviderSqlStore.del(alias, sql);
         return sql.toString();

@@ -2,7 +2,7 @@ package com.dt.project.service;
 
 import com.dt.project.model.TbHeadMenu;
 
-public interface HeadMenuMapperService {
+public interface HeadMenuService {
 
     /**
      * 新增菜单关联数据

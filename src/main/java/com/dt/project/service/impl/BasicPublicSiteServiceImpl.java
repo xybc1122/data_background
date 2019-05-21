@@ -27,8 +27,8 @@ public class BasicPublicSiteServiceImpl implements BasicPublicSiteService {
     }
 
     @Override
-    public List<BasicPublicSite> serviceSelectSiteInfo(Integer arId) {
-        return siteMapper.selectSiteInfo(arId);
+    public List<BasicPublicSite> serviceSelectSiteInfo(Integer arIds) {
+        return siteMapper.selectSiteInfo(arIds);
     }
 
     @Override

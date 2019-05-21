@@ -27,7 +27,7 @@ public interface BasicPublicSiteMapper {
      * 通过区域角色 id 查询 站点信息
      */
     @SelectProvider(type = BasicPublicSiteProvider.class, method = "selectSiteInfo")
-    List<BasicPublicSite> selectSiteInfo(@Param("arId") Integer arId);
+    List<BasicPublicSite> selectSiteInfo(@Param("arIds") Integer arIds);
 
     /**
      * admin   配置 通过 aid 查询站点

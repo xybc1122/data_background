@@ -26,7 +26,7 @@ public interface Constants {
     /**
      * user key
      */
-    String USER = "user:";
+    String USER_STATUS = "user_status:";
     /**
      * 用户配置缓存key
      */

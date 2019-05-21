@@ -150,8 +150,7 @@ public class AdminController {
      */
     @GetMapping("/findByListRoles")
     public ResponseBase findByListRoles() {
-        List<Role> roles = roleService.getRoleList();
-        return JsonData.setResultSuccess(roles);
+        return JsonData.setResultSuccess(roleService.getRoleList());
     }
 
 

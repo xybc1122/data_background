@@ -5,11 +5,9 @@ import com.dt.project.dto.ProductDto;
 import com.dt.project.model.BasePublicModel.BasicPublicProduct;
 import com.dt.project.service.BasePublicService.BasicPublicProductService;
 import com.dt.project.utils.PageInfoUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -48,5 +46,10 @@ public class BasicPublicProductController {
     @PostMapping("/saveProduct")
     public ResponseBase saveProductInfo(@RequestBody BasicPublicProduct product) {
         return productService.serviceSaveProduct(product);
+    }
+
+    @GetMapping("/getProductAdnSku")
+    public ResponseBase getProductAdnSku(@Param("skuId") String skuId) {
+        return productService.serviceGetPublicProduct(Integer.parseInt(skuId));
     }
 }

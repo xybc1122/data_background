@@ -33,4 +33,11 @@ public interface BasicPublicProductService {
      * @return
      */
     ResponseBase serviceSaveProduct(BasicPublicProduct product);
+
+    /**
+     * 通过skuId查询部分产品信息
+     * @param skuId
+     * @return
+     */
+    ResponseBase serviceGetPublicProduct(Integer skuId);
 }

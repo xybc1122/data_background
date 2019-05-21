@@ -39,7 +39,18 @@ public class BasicPublicArea extends ParentSysTemLog {
      * 站点 名称
      */
     private String siteName;
+    /**
+     * 如果有多个角色 配置多个不同的站点 需要拿这个去查询站点
+     */
+    private String arIds;
 
+    public String getArIds() {
+        return arIds;
+    }
+
+    public void setArIds(String arIds) {
+        this.arIds = arIds;
+    }
 
     public Integer getSiteId() {
         return siteId;

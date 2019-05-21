@@ -84,7 +84,6 @@ public class LoginInterCenter implements HandlerInterceptor {
                     return true;
                 }
                 //如果请求的是超级管理员配置接口
-
                 if (request.getRequestURI().contains("/api/v1/admin")) {
                     String redisValue = redisService.getStringKey(Constants.ADMIN + uId);
                     if (StringUtils.isBlank(redisValue)) {

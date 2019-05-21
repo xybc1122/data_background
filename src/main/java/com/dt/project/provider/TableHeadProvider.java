@@ -2,6 +2,7 @@ package com.dt.project.provider;
 
 import com.dt.project.exception.LsException;
 import com.dt.project.model.TableHead;
+import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -30,6 +31,14 @@ public class TableHeadProvider {
         sql.append(")\n");
         sql.append("GROUP BY m.`menu_id`");
         return sql.toString();
+    }
+
+    public String getListTableHead(Map<String, Object> mapHead) {
+        SQL sql = new SQL();
+        sql.SELECT("`id`,`head_name`,`menu_id`,`top_type`,`top_order`,`is_must_in`,`is_fixed`,\n" +
+                "`input_type`,`is_reference`,`version`,`del_or_not`,`whether_cal`,`sub_field`\n" +
+                "FROM `system_user_table_head`");
+        return sql.toString() + " WHERE " + StrUtils.in(mapHead.get("hidList"), "id");
     }
 
     /**
@@ -105,19 +114,19 @@ public class TableHeadProvider {
                 SET("top_order=" + strTop[0]);
             } else {
                 StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < strTop.length; i++) {
-                    if (strTop[i] == null) {
+                for (String aStrTop : strTop) {
+                    if (aStrTop == null) {
                         sb.append(" ");
                     } else {
-                        sb.append(strTop[i]);
+                        sb.append(aStrTop);
                     }
                     sb.append(",");
                 }
                 SET("top_order=" + "'" + sb.toString().substring(0, sb.length() - 1) + "'");
             }
-//            int version = (int) mapHead.get("version");
-//            SET("version=" + version + "+1");
-//            WHERE("version=" + version);
+            int version = (int) mapHead.get("version");
+            SET("version=" + version + "+1");
+            WHERE("version=" + version);
             WHERE("id=" + id);
         }}.toString();
 

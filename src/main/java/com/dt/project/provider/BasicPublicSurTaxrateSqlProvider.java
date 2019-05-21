@@ -11,7 +11,9 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.BasePublicModel.BasicPublicSurTaxrate;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -68,33 +70,25 @@ public class BasicPublicSurTaxrateSqlProvider {
     }
 
     public String selectBySurTax(BasicPublicSurTaxrate record) {
-        String Alias = "sur";
+        String alias = "sur";
         SQL sql = new SQL();
         sql.SELECT(" cou.country_name,p.products_name,`taxrate_id`,`country_id`,`products_id`," +
-                "`all_cate_is`,`tax_rate`,`status_id`,`version` FROM`basic_public_sur_taxrate` AS " + Alias + "");
+                "`all_cate_is`,`tax_rate`,`status_id`,`version` FROM`basic_public_sur_taxrate` AS " + alias + "");
         //国家
-        sql.LEFT_OUTER_JOIN("`basic_public_country` AS cou ON cou.`country_id`=" + Alias + ".`country_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_country` AS cou ON cou.`country_id`=" + alias + ".`country_id`");
         //产品类目
-        sql.LEFT_OUTER_JOIN("`basic_public_products` AS p ON p.`products_id`=" + Alias + ".`products_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_products` AS p ON p.`products_id`=" + alias + ".`products_id`");
         //状态数据查询
-        ProviderSqlStore.selectStatus(record.getSystemLogStatus(), Alias, sql);
+        ProviderSqlStore.selectStatus(record.getSystemLogStatus(), alias, sql);
         //国家名
-        if (record.getCountryName() != null) {
-            sql.WHERE("POSITION('" + record.getCountryName() + "' IN cou.country_name)");
-        }
+        AppendSqlStore.sqlWhere(record.getCountryName(), "cou.country_name", sql, Constants.SELECT);
         //产品类目名称
-        if (record.getProductsName() != null) {
-            sql.WHERE("POSITION('" + record.getProductsName() + "' IN p.products_name)");
-        }
+        AppendSqlStore.sqlWhere(record.getProductsName(), "p.products_name", sql, Constants.SELECT);
         //是否全品类(0非全品类;1全品类;2部分品类;)
-        if (record.getAllCateIs() != null) {
-            sql.WHERE("all_cate_is=#{allCateIs}");
-        }
+        AppendSqlStore.sqlWhere(record.getAllCateIs(), alias + ".all_cate_is", sql, Constants.SELECT);
         //税率
-        if (record.getTaxRate() != null) {
-            sql.WHERE("tax_rate=#{taxRate}");
-        }
-        sql.WHERE("del_or_not=1");
+        AppendSqlStore.sqlWhere(record.getTaxRate(), alias + ".tax_rate", sql, Constants.SELECT);
+        sql.WHERE(alias + ".del_or_not=1");
         return sql.toString();
 
     }

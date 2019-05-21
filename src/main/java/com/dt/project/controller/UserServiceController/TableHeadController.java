@@ -61,8 +61,7 @@ public class TableHeadController {
      */
     @GetMapping("/head")
     public ResponseBase findByHead(@RequestParam("menu_id") Long mId) {
-        List<TableHead> headList = tableHeadService.findByMenuIdHeadList(mId);
-        return JsonData.setResultSuccess(headList);
+        return JsonData.setResultSuccess(tableHeadService.findByMenuIdHeadList(mId));
 
     }
 

@@ -36,7 +36,11 @@ public class PageBean<T> {
      * @param allRow   总记录数
      * @return 总页数
      */
-    public static Long getPageCount(final int pageSize, final Long allRow) {
+    public static Long getPageCount(int pageSize, final Long allRow) {
+        //这里为了不报错
+        if (pageSize == 0) {
+            pageSize = 1;
+        }
         return allRow % pageSize == 0 ? allRow / pageSize : allRow / pageSize + 1;
     }
 
@@ -69,6 +73,7 @@ public class PageBean<T> {
     public void setTotalPage(Long totalPage) {
         this.totalPage = totalPage;
     }
+
     public List<T> getDataList() {
         return dataList;
     }

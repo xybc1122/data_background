@@ -13,17 +13,17 @@ public class BasicPublicExchangeRate extends ParentSysTemLog {
     private Integer currencyId;
     private BigDecimal toRmb;
     private BigDecimal toUsd;
+    /**
+     * 有效日期
+     */
+    private Long eDate;
 
-
-    //汇率名称
-    private String currencyName;
-
-    public String getCurrencyName() {
-        return currencyName;
+    public Long geteDate() {
+        return eDate;
     }
 
-    public void setCurrencyName(String currencyName) {
-        this.currencyName = currencyName;
+    public void seteDate(Long eDate) {
+        this.eDate = eDate;
     }
 
     public Integer getExchangeRateId() {

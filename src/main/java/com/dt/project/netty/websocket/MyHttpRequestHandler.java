@@ -1,9 +1,8 @@
 package com.dt.project.netty.websocket;
 
 import com.alibaba.fastjson.JSONObject;
-import com.dt.project.config.ApplicationContextRegister;
 import com.dt.project.config.JsonData;
-import com.dt.project.netty.ChatService;
+import com.dt.project.netty.service.ChatService;
 import com.dt.project.toos.Constant;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -17,6 +16,8 @@ import io.netty.util.CharsetUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 /**
  * @ClassName TextWebSocketFrameHandler
  * Description TODO
@@ -28,7 +29,17 @@ public class MyHttpRequestHandler extends SimpleChannelInboundHandler<Object> {
 
 
     //这里会有点问题 上传到Linux上启动会报 NULL 注入失败  @Autowired注入的话 chatService是NULL
-    private ChatService chatService = ApplicationContextRegister.getBean(ChatService.class);
+    @Autowired
+    private ChatService chatService;
+
+    private static MyHttpRequestHandler myHttpRequestHandler;
+
+    //通过@PostConstruct实现初始化bean之前进行的操作
+    @PostConstruct
+    public void init() {
+        myHttpRequestHandler = this;
+        myHttpRequestHandler.chatService = this.chatService;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object o) {
@@ -106,7 +117,7 @@ public class MyHttpRequestHandler extends SimpleChannelInboundHandler<Object> {
         String type = (String) param.get("type");
         switch (type) {
             case "REGISTER":
-                chatService.register(param, ctx);
+                myHttpRequestHandler.chatService.register(param, ctx);
                 break;
         }
     }
@@ -138,7 +149,7 @@ public class MyHttpRequestHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) {
         System.out.println("移除用户" + ctx.channel());
-        chatService.remove(ctx);
+        myHttpRequestHandler.chatService.remove(ctx);
     }
 
 

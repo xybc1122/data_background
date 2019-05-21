@@ -81,7 +81,4 @@ public interface BasicPublicSkuMapper {
     List<BasicPublicSku> selAllSku();
 
 
-
-
-
 }

@@ -26,7 +26,6 @@ public class BasicPublicVatTaxrateController {
     @PostMapping("/findByListVat")
     public ResponseBase findByListVA(@RequestBody BasicPublicVatTaxrate taxRate) {
         PageInfoUtils.setPage(taxRate.getPageSize(), taxRate.getCurrentPage());
-        List<BasicPublicVatTaxrate> taxRateList = sTRService.serviceFindByListSurTaxrate(taxRate);
-        return PageInfoUtils.returnPage(taxRateList, taxRate.getCurrentPage());
+        return PageInfoUtils.returnPage(sTRService.serviceFindByListSurTaxrate(taxRate), taxRate.getCurrentPage());
     }
 }

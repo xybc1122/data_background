@@ -29,7 +29,18 @@ public class BasicPublicProduct extends ParentSysTemLog {
     private Double volumeCuft;
     private String madeIn;
     private Long hsCodeId;
+    /**
+     * FNSKU
+     */
+    private String fnSku;
 
+    public String getFnSku() {
+        return fnSku;
+    }
+
+    public void setFnSku(String fnSku) {
+        this.fnSku = fnSku;
+    }
 
     public Integer getProductId() {
         return productId;

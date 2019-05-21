@@ -4,7 +4,7 @@ import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.dto.UserDto;
 import com.dt.project.exception.LsException;
-import com.dt.project.netty.ChatService;
+import com.dt.project.netty.service.ChatService;
 import com.dt.project.service.UserService;
 import com.dt.project.store.SsoLoginStore;
 import com.dt.project.toos.Constant;

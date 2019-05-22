@@ -30,11 +30,11 @@ public class Constant {
      */
     public static Map<String, WebSocketServerHandshaker> webSocketHandShakerMap =
             new ConcurrentHashMap<String, WebSocketServerHandshaker>();
-
-    /**
-     * 记录用户密码输错次数
-     */
-    public static ConcurrentHashMap<String, Integer> errorPwdMap = new ConcurrentHashMap<>();
+//
+//    /**
+//     * 记录用户密码输错次数
+//     */
+//    public static ConcurrentHashMap<String, Integer> errorPwdMap = new ConcurrentHashMap<>();
 
 
 

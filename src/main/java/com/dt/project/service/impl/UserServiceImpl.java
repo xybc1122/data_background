@@ -103,10 +103,9 @@ public class UserServiceImpl extends JsonData implements UserService {
             //设置token  Cookie
             JSONObject uJson = put(response, user, userDto.isRememberMe());
 
-            //登陆成功后 删除Map指定元素
-            if (Constant.errorPwdMap.get(user.getUserName()) != null) {
-                Constant.errorPwdMap.entrySet().removeIf(entry -> entry.getKey().equals(user.getUserName()));
-            }
+            //登陆成功后 删除Redis指定数据
+            String errKey = Constants.ERROR_LOGIN + userDto.getUserName();
+            redisService.delKey(errKey);
             return JsonData.setResultSuccess(uJson);
         } catch (LsException ls) {
             return setLockingTime(userDto);
@@ -135,32 +134,40 @@ public class UserServiceImpl extends JsonData implements UserService {
     private ResponseBase setLockingTime(UserDto userDto) {
         int errorNumber = 0;
         errorNumber++;
-        Long lockingTime = null;
-        //报错后 先进来看看 这个账号有没有在hashMap里 ---如果里面有 进去
-        if (Constant.errorPwdMap.get(userDto.getUserName()) != null) {
-            Constant.errorPwdMap.put(userDto.getUserName(), errorNumber + Constant.errorPwdMap.get(userDto.getUserName()));
+        int errorFre;
+        long lockingTime;
+        String errKey = Constants.ERROR_LOGIN + userDto.getUserName();
+        String redisErrorNumber = redisService.getStringKey(errKey);
+        //报错后 先进来看看 这个账号有没有在Redis里 ---如果里面有 进去
+        if (redisErrorNumber != null) {
+            errorFre = (Integer.parseInt(redisErrorNumber) + errorNumber);
+            redisService.setString(errKey, Integer.toString(errorFre));
         } else {
-            Constant.errorPwdMap.put(userDto.getUserName(), errorNumber);
+            //如果是null  只会走这里
+            redisService.setString(errKey, Integer.toString(errorNumber));
+            return JsonData.setResultError("账号或密码错误/你还有" + (4 - errorNumber + "次机会"));
         }
-        if (Constant.errorPwdMap.get(userDto.getUserName()) >= 4) {
-            switch (Constant.errorPwdMap.get(userDto.getUserName())) {
+        if (errorFre >= 4) {
+            switch (errorFre) {
                 case 4:
-                    lockingTime = 6L * 5;
+                    lockingTime = (long) 5;
                     break;
                 case 5:
-                    lockingTime = 60L * 5;
+                    lockingTime = 5L * 5;
                     break;
                 case 6:
-                    lockingTime = 60L * 15;
+                    lockingTime = 10L * 5;
                     break;
                 case 7:
-                    lockingTime = 60L * 60 * 24;
+                    lockingTime = 15L * 5;
                     break;
+                default:
+                    lockingTime = 60L * 60 * 24;
             }
-            redisService.setString(userDto.getUserName() + "error", "error", lockingTime);
+            redisService.setString(Constants.TTL_DATE + userDto.getUserName(), "error", lockingTime);
             return JsonData.setResultError("账号被锁定!" + lockingTime + "秒");
         }
-        return JsonData.setResultError("账号或密码错误/你还有" + (4 - Constant.errorPwdMap.get(userDto.getUserName()) + "次机会"));
+        return JsonData.setResultError("账号或密码错误/你还有" + (4 - errorFre + "次机会"));
     }
 
     @Override

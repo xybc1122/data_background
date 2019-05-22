@@ -2,6 +2,7 @@ package com.dt.project.controller;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.oa.model.Feedback;
+import com.dt.project.oa.model.MyTask;
 import com.dt.project.oa.service.FeedbackImplService;
 import com.dt.project.utils.ReqUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +43,38 @@ public class FeedbackController {
     }
 
     /**
+     * 查看自己已经审批结束的记录
+     *
+     * @return
+     */
+    @GetMapping("/selProcessHistory")
+    public ResponseBase selProcessHistory(@RequestParam("pageSize") Integer pageSize,
+                                          @RequestParam("currentPage") Integer currentPage){
+        return fService.selThisProcessHistory(ReqUtils.getUserName(), pageSize, currentPage);
+    }
+
+
+    /**
      * 查看正在审核的流程状态
      *
      * @return
      */
     @GetMapping("/selThisAudit")
     public ResponseBase selThisAudit(@RequestParam("pageSize") Integer pageSize,
-                                     @RequestParam("currentPage") Integer currentPage) {
-        return fService.selThisAudit(ReqUtils.getUserName(), pageSize, currentPage);
+                                     @RequestParam("currentPage") Integer currentPage, @RequestParam("uuidNumber") String uuidNumber) {
+        return fService.selThisAudit(ReqUtils.getUserName(), pageSize, currentPage, uuidNumber);
     }
+
+    /**
+     * 具体角色审核流程
+     *
+     * @param myTask
+     * @return
+     */
+    @PostMapping("/review")
+    public ResponseBase review(@RequestBody MyTask myTask) {
+        return fService.review(ReqUtils.getUserName(), myTask);
+    }
+
+
 }

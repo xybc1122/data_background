@@ -1,6 +1,7 @@
 package com.dt.project.service;
 
 
+import com.dt.project.exception.LsException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
@@ -354,13 +355,13 @@ public class RedisService {
     }
 
     // String方法无time
-    public void setString(String key, Object value) {
-        this.setObject(key, value, null);
+    public boolean setString(String key, Object value) {
+        return setObject(key, value, null);
     }
 
     // String方法有time
-    public void setString(String key, Object value, Long time) {
-        this.setObject(key, value, time);
+    public boolean setString(String key, Object value, Long time) {
+        return setObject(key, value, time);
     }
 
     // List方法
@@ -368,26 +369,33 @@ public class RedisService {
         this.setObject(key, value, null);
     }
 
-    public void setObject(String key, Object value, Long time) {
-        // redis几张有效期限 string list set zset hash
-        if (StringUtils.isEmpty(key) || value == null) {
-            return;
-        }
-        // 判断类型 存放string
-        if (value instanceof String) {
-            String strValue = (String) value;
-            if (time != null) {
-                stringRedisTemplate.opsForValue().set(key, strValue, time, TimeUnit.SECONDS);// 存入模板
-            } else {
-                stringRedisTemplate.opsForValue().set(key, strValue);    // 存入模板
+    private boolean setObject(String key, Object value, Long time) {
+        try {
+            // redis几张有效期限 string list set zset hash
+            if (StringUtils.isEmpty(key) || value == null) {
+                throw new LsException("存入失败");
             }
-            return;
+            // 判断类型 存放string
+            if (value instanceof String) {
+                String strValue = (String) value;
+                if (time != null) {
+                    stringRedisTemplate.opsForValue().set(key, strValue, time, TimeUnit.SECONDS);// 存入模板
+                    return true;
+                } else {
+                    stringRedisTemplate.opsForValue().set(key, strValue);    // 存入模板
+                    return true;
+                }
+            }
+            // 存放list类型
+            if (value instanceof List) {
+                List<Object> listValue = (List<Object>) value;
+                stringRedisTemplate.opsForList().leftPush(key, listValue.toString());
+                return true;
+            }
+        } catch (Exception e) {
+            throw new LsException("存入失败");
         }
-        // 存放list类型
-        if (value instanceof List) {
-            List<Object> listValue = (List<Object>) value;
-            stringRedisTemplate.opsForList().leftPush(key, listValue.toString());
-        }
+        throw new LsException("存入失败");
     }
 
     /**
@@ -460,15 +468,14 @@ public class RedisService {
     }
 
     //redis 删除数据
-    public int delKey(String key) {
+    public Boolean delKey(String key) {
         try {
             if (key != null) {
-                stringRedisTemplate.delete(key);
-                return 1;
+                return stringRedisTemplate.delete(key);
             }
-            return -1;
         } catch (Exception e) {
-            return -1;
+            return false;
         }
+        return false;
     }
 }

@@ -8,17 +8,21 @@ public interface Constants {
     String TOKEN = "token";
 
     /**
-     * 通过模型去条件查询 key
+     * 动态WHERE查询 的redis key  如果更改字段 都要手动去redis删除这个key
      */
     String MODEL = "model:";
-
-
     /**
-     * 站点KEY
+     * 设置限制登陆时间key
      */
-    String SITE_INFO = "se_ino:";
-
-    String STATUS_ID = "sId:";
+    String TTL_DATE = "ttlDate:";
+    /**
+     * admin   配置 通过 aid 查询站点  缓存站点KEY
+     */
+    String SITE_INFO = "se_info:";
+    /**
+     * 登陆次数超时redis key
+     */
+    String ERROR_LOGIN = "error_login:";
     /**
      * 管理员reid key
      */
@@ -31,22 +35,22 @@ public interface Constants {
      * 用户配置缓存key
      */
     String USER_CONFIG = "userConfig:";
-    /**
-     * 文件上传存放地址
-     */
-    String SAVE_FILE_PATH = "E:/filePath/";
-    /**
-     * 文件写入存放地址
-     */
-    String WRITE_SAVE_FILE_PATH = "E:/filePathSkuNo/";
 //    /**
-//     * Linux文件上传存放地址
+//     * 文件上传存放地址
 //     */
-//    String SAVE_FILE_PATH = "/usr/local/filter/filePath/";
+//    String SAVE_FILE_PATH = "E:/filePath/";
 //    /**
-//     * Linux文件写入存放地址
+//     * 文件写入存放地址
 //     */
-//    String WRITE_SAVE_FILE_PATH = "/usr/local/filter/filePathSkuNo/";
+//    String WRITE_SAVE_FILE_PATH = "E:/filePathSkuNo/";
+    /**
+     * Linux文件上传存放地址
+     */
+    String SAVE_FILE_PATH = "/usr/local/filter/filePath/";
+    /**
+     * Linux文件写入存放地址
+     */
+    String WRITE_SAVE_FILE_PATH = "/usr/local/filter/filePathSkuNo/";
 
     /**
      * 上传到ftp服务器上的地址

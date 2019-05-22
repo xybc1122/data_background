@@ -25,6 +25,19 @@ public class Auditor {
      */
     private Date auditTime;
 
+    /**
+     * 审核备注
+     */
+    private String auditNote;
+
+    public String getAuditNote() {
+        return auditNote;
+    }
+
+    public void setAuditNote(String auditNote) {
+        this.auditNote = auditNote;
+    }
+
     public String getAuditorName() {
         return auditorName;
     }

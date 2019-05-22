@@ -41,8 +41,18 @@ public class Feedback {
      */
     private String ApplyStatus;
 
+    /**
+     * 审核人反馈信息
+     */
+    private Auditor auditor;
 
+    public Auditor getAuditor() {
+        return auditor;
+    }
 
+    public void setAuditor(Auditor auditor) {
+        this.auditor = auditor;
+    }
 
     public String getApplyStatus() {
         return ApplyStatus;

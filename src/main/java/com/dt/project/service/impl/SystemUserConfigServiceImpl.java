@@ -43,7 +43,8 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
     public ResponseBase saveUserConfig(Map<String, Object> confMap) {
         Integer mid = (Integer) confMap.get("mid");
         String programName = (String) confMap.get("programName");
-        if (mid == null || programName == null) {
+        List dropTableList = (List) confMap.get("dropTable");
+        if (mid == null || programName == null || dropTableList == null || dropTableList.size() == 0) {
             return JsonData.setResultError("error");
         }
         String keys = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid;
@@ -60,7 +61,7 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
         Integer configId = serviceSaveUserConfig(new
                 SystemUserConfig(mid, new Date().getTime(), ReqUtils.getUserName()));
         String configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + configId + "," + programName;
-        redisService.setString(configKey, setJSON(confMap, mid, configId, programName));
+        redisService.setString(configKey, setJSON(confMap, mid, configId, programName, dropTableList));
         return JsonData.setResultSuccess("success");
     }
 
@@ -90,8 +91,9 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
         String configKey;
         Integer configId = (Integer) confMap.get("configId");
         Integer mid = (Integer) confMap.get("mid");
+        List dropTableList = (List) confMap.get("dropTable");
         String programName = (String) confMap.get("programName");
-        if (mid == null || programName == null || configId == null) {
+        if (mid == null || programName == null || configId == null || dropTableList == null || dropTableList.size() == 0) {
             return JsonData.setResultError("error");
         }
         configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + configId;
@@ -99,16 +101,16 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
         for (Object key : configKeys) {
             redisService.delKey(key.toString());
         }
-        redisService.setString(configKey + "," + programName, setJSON(confMap, mid, configId, programName));
+        redisService.setString(configKey + "," + programName, setJSON(confMap, mid, configId, programName, dropTableList));
         return JsonData.setResultSuccess("success");
     }
 
-    private String setJSON(Map<String, Object> confMap, Integer mid, Integer configId, String programName) {
+    private String setJSON(Map<String, Object> confMap, Integer mid, Integer configId, String programName, List dropTableList) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("hiddenFieldsList", confMap.get("hiddenFieldsList"));
         jsonObject.put("queryTwoList", confMap.get("queryTwoList"));
         jsonObject.put("inputQueryData", confMap.get("inputQueryData"));
-        jsonObject.put("dropTable", confMap.get("dropTable"));
+        jsonObject.put("dropTable", dropTableList);
         jsonObject.put("mid", mid);
         jsonObject.put("configId", configId);
         jsonObject.put("uid", ReqUtils.getUid());

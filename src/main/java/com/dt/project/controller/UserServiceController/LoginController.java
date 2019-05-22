@@ -31,13 +31,13 @@ public class LoginController extends JsonData {
 
 
     /**
-     * 每天6点清除 hashMap中的元素
+     * 每天6点清除 redis中账号的key
      */
     @Async("executor")
     @Scheduled(cron = "0 0 6 * * ?")
     public void clearHashMap() {
-        System.out.println("删除元素");
-        Constant.errorPwdMap.clear();
+        System.out.println("删除key");
+        //Constant.errorPwdMap.clear();
     }
 
     /**
@@ -58,11 +58,10 @@ public class LoginController extends JsonData {
      */
     @PostMapping("/ajaxLogin")
     public ResponseBase login(HttpServletResponse response, @RequestBody UserDto userDto) {
-        String userKey = userDto.getUserName() + "error";
-        String strRedis = redisService.getStringKey(userKey);
+        String ttlDateKey = Constants.TTL_DATE + userDto.getUserName();
+        Long ttlDate = redisService.getTtl(ttlDateKey);
         //如果不等于null
-        if (StringUtils.isNotEmpty(strRedis)) {
-            Long ttlDate = redisService.getTtl(userKey);
+        if (ttlDate != -1 && ttlDate != -2) {
             return JsonData.setResultError("账号/或密码错误被锁定/" + ttlDate + "秒后到期!");
         }
         return userService.doGetAuthenticationInfo(response, userDto);
@@ -76,21 +75,16 @@ public class LoginController extends JsonData {
      */
     @GetMapping("/logout")
     public ResponseBase logout(HttpServletRequest request, HttpServletResponse response) {
-        String uName = ReqUtils.getUserName();
-        Long uId = ReqUtils.getUid();
-        if (uName == null || uId == null) {
-            throw new LsException("注销失败");
-        }
         //删除redis token
-        int result = redisService.delKey(uName + Constants.TOKEN);
+        Boolean result = redisService.delKey(Constants.TOKEN + ":" + ReqUtils.getUid());
         //删除 cookie里的  token
         SsoLoginStore.removeTokenByCookie(request, response);
         //删除webSocket
-        ChannelHandlerContext ctx = chatService.getCtx(uId);
+        ChannelHandlerContext ctx = chatService.getCtx(ReqUtils.getUid());
         if (ctx != null) {
             ctx.channel().close();
         }
-        if (result == 1) {
+        if (result) {
             return JsonData.setResultSuccess("注销成功!");
         }
         throw new LsException("注销失败");

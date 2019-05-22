@@ -30,12 +30,21 @@ public interface FeedbackImplService {
 
 
     /**
+     * 审核查询历史
+     *
+     * @param userName
+     * @return
+     */
+    ResponseBase selThisProcessHistory(String userName, Integer pageSize, Integer currentPage);
+
+
+    /**
      * 查询待我审核的
      *
      * @param userName
      * @return
      */
-    ResponseBase selThisAudit(String userName, Integer pageSize, Integer currentPage);
+    ResponseBase selThisAudit(String userName, Integer pageSize, Integer currentPage, String uuidNumber);
 
 
     /**

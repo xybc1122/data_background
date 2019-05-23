@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +55,19 @@ public class BasicPublicProductServiceImpl implements BasicPublicProductService 
 
     @Override
     public ResponseBase serviceGetPublicProduct(Integer skuId) {
-        return JsonData.setResultSuccess("success", productMapper.getPublicProduct(skuId));
+        BasicPublicProduct product = productMapper.getPublicProduct(skuId);
+        Map<String, Object> pMap = new HashMap<>();
+        pMap.put("QtyPerBox", product.getQtyPerBox());
+        pMap.put("neGwKg", product.getGwKg());
+        pMap.put("neHeightCm", product.getHeightCm());
+        pMap.put("neHeightIn", product.getHeightIn());
+        pMap.put("neLengthCm", product.getLengthCm());
+        pMap.put("neLengthIn", product.getLengthIn());
+        pMap.put("ProductId", product.getProductId());
+        pMap.put("neWidthCm", product.getWidthCm());
+        pMap.put("neWidthIn", product.getWidthIn());
+        pMap.put("FnSku", product.getFnSku());
+        pMap.put("neVolumeM3", product.getVolumeM3());
+        return JsonData.setResultSuccess("success", pMap);
     }
 }

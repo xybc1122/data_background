@@ -30,10 +30,10 @@ public class FieldStore {
         }
         for (Field rfModel : fields) {
             rfModel.setAccessible(true);
-            for (JavaSqlName javaSqlName : info) {
-                if (javaSqlName.getjName().equals(rfModel.getName())) {
+            for (JavaSqlName jSName : info) {
+                if (jSName.getjName().equals(rfModel.getName())) {
                     //这里主要做查询
-                    AppendSqlStore.sqlWhere(rfModel.get(v), javaSqlName.getSqlName(), sql, Constants.SELECT);
+                    AppendSqlStore.sqlWhere(rfModel.get(v), jSName.getSqlName(), sql, Constants.SELECT);
                     break;
                 }
             }

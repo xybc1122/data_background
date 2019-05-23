@@ -3,6 +3,7 @@ package com.dt.project.service;
 
 import com.dt.project.exception.LsException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
@@ -326,19 +327,6 @@ public class RedisService {
 //    }
 
 
-    public String setLock(String lockKey, String requestId, int expireTime) {
-        String result = null;
-        try {
-
-        } catch (Exception e) {
-            System.out.println("redis连接异常");
-        } finally {
-
-        }
-        return result;
-    }
-
-
     // stringRedisTemplate.opsForValue();//操作字符串
     // stringRedisTemplate.opsForHash();//操作hash
     // stringRedisTemplate.opsForList();//操作list
@@ -411,6 +399,12 @@ public class RedisService {
         return null;
     }
 
+
+    public StringRedisTemplate stringRedisTemplate() {
+        return stringRedisTemplate;
+    }
+
+
     /**
      * 取keys
      *
@@ -451,8 +445,8 @@ public class RedisService {
     }
 
     //redis 删除当前库的所有数据
-    public void delAll() {
-        Set<String> keys = stringRedisTemplate.keys("*");
+    public void delKeyAll(String key) {
+        Set<String> keys = stringRedisTemplate.keys(key + "*");
         if (keys != null) {
             stringRedisTemplate.delete(keys);
         }

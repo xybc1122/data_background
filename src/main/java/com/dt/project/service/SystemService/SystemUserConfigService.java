@@ -3,7 +3,9 @@ package com.dt.project.service.SystemService;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.System.SystemUserConfig;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @ClassName SystemUserConfigService
@@ -34,7 +36,6 @@ public interface SystemUserConfigService {
      * @return
      */
     ResponseBase getConfig(Integer mid);
-
 
     /**
      * 删除用户配置

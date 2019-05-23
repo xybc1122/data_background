@@ -44,6 +44,11 @@ public class PageBean<T> {
         return allRow % pageSize == 0 ? allRow / pageSize : allRow / pageSize + 1;
     }
 
+    public static int setPSize(final int pageSize) {
+
+        return (pageSize <= 0 ? 1 : pageSize);
+    }
+
     /**
      * 计算当前页开始的记录
      *
@@ -63,7 +68,7 @@ public class PageBean<T> {
      * @return
      */
     public static int currentPage(int page) {
-        return (page == 0 ? 1 : page);
+        return (page <= 0 ? 1 : page);
     }
 
     public Long getTotalPage() {

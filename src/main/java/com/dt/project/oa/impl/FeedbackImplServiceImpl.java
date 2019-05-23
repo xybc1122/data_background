@@ -14,6 +14,7 @@ import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.activiti.engine.HistoryService;
@@ -62,6 +63,10 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
      */
     @Override
     public ResponseBase startProcess(Feedback feedback) {
+
+        if (StringUtils.isBlank(feedback.getmName())) {
+            return JsonData.setResultError("发起流程失败");
+        }
         identityService.setAuthenticatedUserId(ReqUtils.getUserName());
         // 开始流程
         ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(FEEDBACK_KEY);
@@ -103,7 +108,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         int offset = PageBean.countOffset(pageSize, currentPage);
         //通过userId查看我的个人任务
         List<ProcessInstance> instanceList = runtimeService.createProcessInstanceQuery().startedBy(userName).
-                listPage(offset, pageSize);
+                listPage(offset, PageBean.setPSize(pageSize));
         List<Feedback> feeList = new ArrayList<>();
         for (ProcessInstance instance : instanceList) {
             Feedback fee = getFee(instance);
@@ -113,10 +118,11 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
     }
 
     @Override
-    public ResponseBase selThisProcessHistory(String userName, Integer pageSize, Integer page){
+    public ResponseBase selThisProcessHistory(String userName, Integer pageSize, Integer page) {
         //获得总行数
         long total = historyService.createHistoricProcessInstanceQuery().
-                processDefinitionKey(FEEDBACK_KEY).startedBy(userName).count();
+                processDefinitionKey(FEEDBACK_KEY).startedBy(userName).finished()
+                .orderByProcessInstanceEndTime().desc().count();
         //总页数
         long totalPage = PageBean.getPageCount(pageSize, total);
         //获得当前页
@@ -125,7 +131,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         int offset = PageBean.countOffset(pageSize, currentPage);
         List<HistoricProcessInstance> hisProInstance = historyService.createHistoricProcessInstanceQuery()
                 .processDefinitionKey(FEEDBACK_KEY).startedBy(userName).finished()
-                .orderByProcessInstanceEndTime().desc().listPage(offset, currentPage);
+                .orderByProcessInstanceEndTime().desc().listPage(offset, PageBean.setPSize(pageSize));
         List<Feedback> feeList = new ArrayList<>();
         for (HistoricProcessInstance hisInstance : hisProInstance) {
             Feedback feedback = new Feedback();
@@ -134,7 +140,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
             feedback.setApplyStatus("申请结束");
             List<HistoricVariableInstance> varInstanceList = historyService.createHistoricVariableInstanceQuery()
                     .processInstanceId(hisInstance.getId()).list();
-            feedback.setAuditor( ActivitiUtil.setVars(feedback, varInstanceList));
+            feedback.setAuditor(ActivitiUtil.setVars(feedback, varInstanceList));
             feeList.add(feedback);
         }
         return JsonData.setResultSuccess("success", new PageBean<>(feeList, currentPage, pageSize, total, totalPage));
@@ -157,7 +163,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         int offset = PageBean.countOffset(pageSize, currentPage);
         long total;
         List<Task> taskList;
-        if (uuidNumber == null) {
+        if (StringUtils.isBlank(uuidNumber)) {
             total = taskService.createTaskQuery().taskCandidateUser(userName).count();
             //根据用户查询任务
             taskList = taskService.createTaskQuery().taskCandidateUser(userName)
@@ -190,7 +196,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         String auditNote = myTask.getAuditor().getAuditNote();
         Map<String, Object> auditorMap = new HashMap<>();
         auditorMap.put("result", result);
-        auditorMap.put("auditor", userName);
+        auditorMap.put("auditorName", userName);
         auditorMap.put("auditNote", auditNote);
         auditorMap.put("auditTime", new Date());
         //签收任务

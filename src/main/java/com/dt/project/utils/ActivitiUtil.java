@@ -21,21 +21,39 @@ public class ActivitiUtil {
      */
 
     public static <T> Auditor setVars(T entity, List<HistoricVariableInstance> varInstanceList) {
-        Class<?> tClass = entity.getClass();
+        Object p1 = null;
         try {
+            Class<?> tClass = entity.getClass();
+            Class<?> aClass = Auditor.class;
+            p1 = aClass.newInstance();
             for (HistoricVariableInstance varInstance : varInstanceList) {
-                String v = varInstance.getVariableName();
-                Field field = tClass.getDeclaredField(v);
-                if (field == null) {
+                Field[] tFields = tClass.getDeclaredFields();
+                String varName = varInstance.getVariableName();
+                Object varV = varInstance.getValue();
+                //先设置传进来的bean
+                if (setObj(tFields, varName, varV, tClass, entity)) {
                     continue;
                 }
-                field.setAccessible(true);
-                System.out.println(varInstance.getValue());
-                field.set(entity, varInstance.getValue());
+                //然后在设置 对象 里面的对象的bean
+                Field[] aFields = aClass.getDeclaredFields();
+                setObj(aFields, varName, varV, aClass, p1);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return (Auditor) p1;
+    }
+
+    private static <T> boolean setObj(Field[] fields, String varName, Object varV, Class<?> c, T entity) throws NoSuchFieldException, IllegalAccessException {
+        for (Field t : fields) {
+            if (t.getName().equals(varName)) {
+                Field field = c.getDeclaredField(varName);
+                field.setAccessible(true);
+                //System.out.println(varV);
+                field.set(entity, varV);
+                return true;
+            }
+        }
+        return false;
     }
 }

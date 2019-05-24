@@ -171,7 +171,7 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
      * @return
      */
     private Set keys(Integer mid) {
-        String configKey = Constants.USER_CONFIG + 5 + "/" + 76;
+        String configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid;
         //模糊查询所有configKey开头的 key
         return redisService.getKeys(configKey);
     }

@@ -37,10 +37,12 @@
 		</javaClientGenerator>
 
 
-		<table tableName="`basic_public_sur_taxrate`">
+		<table tableName="`purchase_po_order`">
 			<generatedKey column="id" sqlStatement="JDBC"/>
 		</table>
 
-
+		<table tableName="`purchase_po_order_entry`">
+			<generatedKey column="id" sqlStatement="JDBC"/>
+		</table>
 	</context>
 </generatorConfiguration>

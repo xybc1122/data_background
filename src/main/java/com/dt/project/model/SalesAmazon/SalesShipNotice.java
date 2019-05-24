@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 发货通知单
  */
-//作用是在 json 序列化时忽略 bean 中的一些不需要转化的属性
 public class SalesShipNotice extends ParentUploadInfo {
     private Long shipNoticeId;
 

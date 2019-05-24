@@ -25,7 +25,7 @@ public class CSVUtil {
                 if (mid == 85 || mid == 104) {
                     //CSV格式文件为逗号分隔符文件，这里根据逗号切分
                     String item[] = line.split(",");
-                    String itemHead = item[0].replace("\"", "");
+                    String itemHead = StrUtils.specialUnicode(item[0].replace("\"", ""));
                     //1美国
                     if (itemHead.equals("date/time") && site == 1) {
                         return headJson(readJson, line, index);

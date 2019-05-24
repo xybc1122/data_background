@@ -59,6 +59,7 @@ public class BasicPublicProductServiceImpl implements BasicPublicProductService 
         Map<String, Object> pMap = new HashMap<>();
         pMap.put("QtyPerBox", product.getQtyPerBox());
         pMap.put("neGwKg", product.getGwKg());
+        pMap.put("neNwKg", product.getNwKg());
         pMap.put("neHeightCm", product.getHeightCm());
         pMap.put("neHeightIn", product.getHeightIn());
         pMap.put("neLengthCm", product.getLengthCm());

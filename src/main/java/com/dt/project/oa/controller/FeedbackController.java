@@ -1,4 +1,4 @@
-package com.dt.project.controller;
+package com.dt.project.oa.controller;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.oa.model.Feedback;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/fee")
 public class FeedbackController {
+
     @Autowired
     private FeedbackImplService fService;
 
@@ -49,7 +50,7 @@ public class FeedbackController {
      */
     @GetMapping("/selProcessHistory")
     public ResponseBase selProcessHistory(@RequestParam("pageSize") Integer pageSize,
-                                          @RequestParam("currentPage") Integer currentPage){
+                                          @RequestParam("currentPage") Integer currentPage) {
         return fService.selThisProcessHistory(ReqUtils.getUserName(), pageSize, currentPage);
     }
 
@@ -61,8 +62,8 @@ public class FeedbackController {
      */
     @GetMapping("/selThisAudit")
     public ResponseBase selThisAudit(@RequestParam("pageSize") Integer pageSize,
-                                     @RequestParam("currentPage") Integer currentPage, @RequestParam("uuidNumber") String uuidNumber) {
-        return fService.selThisAudit(ReqUtils.getUserName(), pageSize, currentPage, uuidNumber);
+                                     @RequestParam("currentPage") Integer currentPage, @RequestParam("strQuery") String strQuery) {
+        return fService.selThisAudit(ReqUtils.getUserName(), pageSize, currentPage, strQuery);
     }
 
     /**
@@ -76,5 +77,25 @@ public class FeedbackController {
         return fService.review(ReqUtils.getUserName(), myTask);
     }
 
+    /**
+     * 我的审核记录查看
+     *
+     * @return
+     */
+    @GetMapping("/getAuditRecord")
+    public ResponseBase getAuditRecord(@RequestParam("pageSize") Integer pageSize,
+                                       @RequestParam("currentPage") Integer currentPage) {
+        return fService.auditRecord(ReqUtils.getUserName(), pageSize, currentPage);
+    }
+
+    /**
+     * 撤回
+     *
+     * @return
+     */
+    @GetMapping("/getBackApply")
+    public ResponseBase getBackApply(@RequestParam("tackId") String tackId) {
+        return fService.backApply(ReqUtils.getUserName(), tackId);
+    }
 
 }

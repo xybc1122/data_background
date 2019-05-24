@@ -2,7 +2,7 @@ package com.dt.project.oa.impl;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.oa.model.Auditor;
+import com.dt.project.exception.LsException;
 import com.dt.project.oa.model.MyTask;
 import com.dt.project.oa.model.Feedback;
 import com.dt.project.oa.service.FeedbackImplService;
@@ -10,17 +10,17 @@ import com.dt.project.utils.ActivitiUtil;
 import com.dt.project.utils.PageBean;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.UuIDUtils;
+import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.identity.Group;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.activiti.engine.HistoryService;
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -37,11 +37,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
      */
     @Autowired
     private RuntimeService runtimeService;
-    /**
-     * 组织机构管理
-     */
-    @Autowired
-    private IdentityService identityService;
+
     /**
      * 任务管理
      */
@@ -53,7 +49,11 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
     @Autowired
     private HistoryService historyService;
 
+
     private static final String FEEDBACK_KEY = "feedbackProcess";
+
+    @Autowired
+    private ActivitiServiceImpl activitiService;
 
     /**
      * 开始 反馈流程
@@ -62,30 +62,32 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
      * @return
      */
     @Override
+    @Transactional
     public ResponseBase startProcess(Feedback feedback) {
-
         if (StringUtils.isBlank(feedback.getmName())) {
             return JsonData.setResultError("发起流程失败");
         }
-        identityService.setAuthenticatedUserId(ReqUtils.getUserName());
-        // 开始流程
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(FEEDBACK_KEY);
-
-        // 查询当前任务
-        Task task = taskService.createTaskQuery().processInstanceId(processInstance.getId()).singleResult();
-
-        // 签收任务
-        taskService.claim(task.getId(), ReqUtils.getUserName());
-
-        Map<String, Object> feedbackMap = new HashMap<>();
-        feedbackMap.put("applyUser", ReqUtils.getUserName());
-        feedbackMap.put("imageUrl", feedback.getImageUrl());
-        feedbackMap.put("reason", feedback.getReason());
-        feedbackMap.put("mName", feedback.getmName());
-        feedbackMap.put("uuidNumber", UuIDUtils.uuId());
-        //完成任务
-        taskService.complete(task.getId(), feedbackMap);
-        return JsonData.setResultSuccess("发起流程成功");
+        try {
+            ProcessInstance processInstance = activitiService.startProcess(FEEDBACK_KEY, ReqUtils.getUserName());
+            Map<String, Object> feedbackMap = new HashMap<>();
+            feedbackMap.put("applyUser", ReqUtils.getUserName());
+            feedbackMap.put("imageUrl", feedback.getImageUrl());
+            feedbackMap.put("reason", feedback.getReason());
+            feedbackMap.put("mName", feedback.getmName());
+            feedbackMap.put("uuidNumber", UuIDUtils.uuId());
+            //流程状态
+            feedbackMap.put("status", 1);
+            Task task = activitiService.getTask(processInstance.getId());
+            /**
+             * 签收
+             */
+            activitiService.t().claim(task.getId(), ReqUtils.getUserName());
+            //完成任务
+            activitiService.t().complete(task.getId(), feedbackMap);
+            return JsonData.setResultSuccess("发起流程成功");
+        } catch (Exception e) {
+            throw new LsException("发起流程失败");
+        }
     }
 
     /**
@@ -106,11 +108,13 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         int currentPage = PageBean.currentPage(page);
         //当前页开始记录
         int offset = PageBean.countOffset(pageSize, currentPage);
+
         //通过userId查看我的个人任务
-        List<ProcessInstance> instanceList = runtimeService.createProcessInstanceQuery().startedBy(userName).
-                listPage(offset, PageBean.setPSize(pageSize));
+        List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().startedBy(userName).
+                listPage(offset, pageSize);
+
         List<Feedback> feeList = new ArrayList<>();
-        for (ProcessInstance instance : instanceList) {
+        for (ProcessInstance instance : processInstances) {
             Feedback fee = getFee(instance);
             feeList.add(fee);
         }
@@ -131,7 +135,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         int offset = PageBean.countOffset(pageSize, currentPage);
         List<HistoricProcessInstance> hisProInstance = historyService.createHistoricProcessInstanceQuery()
                 .processDefinitionKey(FEEDBACK_KEY).startedBy(userName).finished()
-                .orderByProcessInstanceEndTime().desc().listPage(offset, PageBean.setPSize(pageSize));
+                .orderByProcessInstanceEndTime().desc().listPage(offset, pageSize);
         List<Feedback> feeList = new ArrayList<>();
         for (HistoricProcessInstance hisInstance : hisProInstance) {
             Feedback feedback = new Feedback();
@@ -156,28 +160,32 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
      * @return
      */
     @Override
-    public ResponseBase selThisAudit(String userName, Integer pageSize, Integer page, String uuidNumber) {
+    public ResponseBase selThisAudit(String userName, Integer pageSize, Integer page, String strQuery) {
         //获得当前页
         int currentPage = PageBean.currentPage(page);
         //当前页开始记录
         int offset = PageBean.countOffset(pageSize, currentPage);
         long total;
+        long totalPage;
         List<Task> taskList;
-        if (StringUtils.isBlank(uuidNumber)) {
-            total = taskService.createTaskQuery().taskCandidateUser(userName).count();
+        //这里暂时先这样写
+        if (StringUtils.isBlank(strQuery)) {
+            total = activitiService.t().createTaskQuery().taskCandidateUser(userName).count();
             //根据用户查询任务
-            taskList = taskService.createTaskQuery().taskCandidateUser(userName)
+            //总页数
+            totalPage = PageBean.getPageCount(pageSize, total);
+            taskList = activitiService.t().createTaskQuery().taskCandidateUser(userName)
                     .orderByTaskCreateTime().desc().listPage(offset, pageSize);
         } else {
             //获得总行数
-            total = taskService.createTaskQuery().taskCandidateUser(userName).
-                    processVariableValueEquals(uuidNumber).count();
+            total = activitiService.t().createTaskQuery().taskCandidateUser(userName).
+                    processVariableValueEquals(strQuery).count();
             //根据用户查询任务
-            taskList = taskService.createTaskQuery().taskCandidateUser(userName)
-                    .orderByTaskCreateTime().desc().processVariableValueEquals(uuidNumber).listPage(offset, pageSize);
+            totalPage = PageBean.getPageCount(pageSize, total);
+            taskList = activitiService.t().createTaskQuery().taskCandidateUser(userName)
+                    .orderByTaskCreateTime().desc().processVariableValueEquals(strQuery).listPage(offset, pageSize);
         }
-        //总页数
-        long totalPage = PageBean.getPageCount(pageSize, total);
+
         List<MyTask> feeTaskList = new ArrayList<>();
         for (Task task : taskList) {
             MyTask feeTask = new MyTask(task.getId(), task.getName(), task.getCreateTime());
@@ -190,6 +198,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
     }
 
     @Override
+    @Transactional
     public ResponseBase review(String userName, MyTask myTask) {
         String taskId = myTask.getTid();
         String result = myTask.getAuditor().getResult();
@@ -200,11 +209,66 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         auditorMap.put("auditNote", auditNote);
         auditorMap.put("auditTime", new Date());
         //签收任务
-        taskService.claim(taskId, userName);
+        activitiService.t().claim(taskId, userName);
         //完成流程
-        taskService.complete(taskId, auditorMap);
+        activitiService.t().complete(taskId, auditorMap);
         return JsonData.setResultSuccess("success");
     }
+
+    @Override
+    public ResponseBase auditRecord(String userName, Integer pageSize, Integer page) {
+        //获得当前页
+        int currentPage = PageBean.currentPage(page);
+        //当前页开始记录
+        int offset = PageBean.countOffset(pageSize, currentPage);
+        long total = historyService.createHistoricProcessInstanceQuery()
+                .processDefinitionKey(FEEDBACK_KEY).involvedUser(userName).finished()
+                .orderByProcessInstanceEndTime().desc().count();
+        //总页数
+        long totalPage = PageBean.getPageCount(pageSize, total);
+        List<HistoricProcessInstance> hisProInstance = historyService.createHistoricProcessInstanceQuery()
+                .processDefinitionKey(FEEDBACK_KEY).involvedUser(userName).finished()
+                .orderByProcessInstanceEndTime().desc().listPage(offset, pageSize);
+
+        //通过user 名去查找角色组信息
+        List<Group> groups = activitiService.identity().createGroupQuery().groupMember(userName).list();
+        List<String> auditTaskNameList = new ArrayList<>();
+        for (Group g : groups) {
+            auditTaskNameList.add(g.getName());
+        }
+        List<Feedback> feeList = new ArrayList<>();
+        for (HistoricProcessInstance hisInstance : hisProInstance) {
+            List<HistoricTaskInstance> hisTaskInstanceList = historyService.createHistoricTaskInstanceQuery()
+                    .processInstanceId(hisInstance.getId()).processFinished()
+                    .taskAssignee(userName)
+                    .taskNameIn(auditTaskNameList)
+                    .orderByHistoricTaskInstanceEndTime().desc().list();
+            boolean isMyAudit = false;
+            for (HistoricTaskInstance taskInstance : hisTaskInstanceList) {
+                if (taskInstance.getAssignee().equals(userName)) {
+                    isMyAudit = true;
+                }
+            }
+            if (!isMyAudit) {
+                continue;
+            }
+            Feedback feedback = new Feedback();
+            feedback.setApplyUser(hisInstance.getStartUserId());
+            feedback.setApplyStatus("申请结束");
+            feedback.setApplyTime(hisInstance.getStartTime());
+            List<HistoricVariableInstance> varInstanceList = historyService.createHistoricVariableInstanceQuery()
+                    .processInstanceId(hisInstance.getId()).list();
+            feedback.setAuditor(ActivitiUtil.setVars(feedback, varInstanceList));
+            feeList.add(feedback);
+        }
+        return JsonData.setResultSuccess("success", new PageBean<>(feeList, currentPage, pageSize, total, totalPage));
+    }
+
+    @Override
+    public ResponseBase backApply(String userName, String taskId) {
+        return JsonData.setResultSuccess("success");
+    }
+
 
     private Feedback getFee(ProcessInstance instance) {
         String imageUrl = runtimeService.getVariable(instance.getId(), "imageUrl", String.class);

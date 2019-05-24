@@ -12,6 +12,7 @@ import com.dt.project.oa.model.Feedback;
  **/
 public interface FeedbackImplService {
 
+
     /**
      * 开始流程
      *
@@ -44,7 +45,7 @@ public interface FeedbackImplService {
      * @param userName
      * @return
      */
-    ResponseBase selThisAudit(String userName, Integer pageSize, Integer currentPage, String uuidNumber);
+    ResponseBase selThisAudit(String userName, Integer pageSize, Integer currentPage, String strQuery);
 
 
     /**
@@ -54,4 +55,21 @@ public interface FeedbackImplService {
      * @return
      */
     ResponseBase review(String userName, MyTask feeTask);
+
+
+    /**
+     * 我的审核记录查看
+     *
+     * @param userName
+     * @return
+     */
+    ResponseBase auditRecord(String userName, Integer pageSize, Integer page);
+
+
+    /**
+     * 撤销流程
+     *
+     * @return
+     */
+    ResponseBase backApply(String userName, String taskId);
 }

@@ -1438,7 +1438,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     private ResponseBase threadCsv(String uuIdName, String saveFilePath, String fileName, Integer
             siteId, Integer
                                            shopId, Long uid, Integer
-                                           pId, Long recordingId, Integer tbId, String businessTime, String closingDate) throws Exception {
+                                           pId, Long recordingId, Integer mid, String businessTime, String closingDate) throws Exception {
 
         List<String> csvHeadList;
         String filePath = saveFilePath + uuIdName;
@@ -1448,7 +1448,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         // 创建CSV读对象
         CsvReader csvReader = null;
         //获得头信息长度
-        csvJson = CSVUtil.startReadLine(filePath, siteId, tbId);
+        csvJson = CSVUtil.startReadLine(filePath, siteId, mid);
         rowJson = JSONObject.parseObject(csvJson);
         row = (Integer) rowJson.get("index");
         if (row == -1) {
@@ -1458,7 +1458,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         //拿到之前的表头信息
         csvHeadList = JSONObject.parseArray(rowJson.get("head").toString(), String.class);
         //拿到数据库的表头 进行校验
-        List<String> sqlHeadList = getHeadInfo(siteId, tbId, null, shopId);
+        List<String> sqlHeadList = getHeadInfo(siteId, mid, null, shopId);
         //表头转换
         List<String> newCsvHeadList = UploadStore.conversionList(csvHeadList);
         //对比表头是否一致
@@ -1471,7 +1471,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             csvReader = new CsvReader(isr);
             //创建对象设置文件总数
             RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
-            ResponseBase responseCsv = saveCsv(csvReader, row, shopId, siteId, uid, pId, recordingId, tbId, businessTime, newCsvHeadList, timeData, closingDate);
+            ResponseBase responseCsv = saveCsv(csvReader, row, shopId, siteId, uid, pId, recordingId, mid, businessTime, newCsvHeadList, timeData, closingDate);
             return saveUserUploadInfo(responseCsv, recordingId, fileName, newCsvHeadList, 2, saveFilePath, uuIdName);
         } finally {
             if (csvReader != null) {

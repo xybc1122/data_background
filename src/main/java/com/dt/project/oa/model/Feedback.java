@@ -41,10 +41,31 @@ public class Feedback {
      */
     private String ApplyStatus;
 
+    private String processInstanceId; // 流程实例Id
+
+    private String status;//撤销0,删除2，否则是1
+
     /**
      * 审核人反馈信息
      */
     private Auditor auditor;
+
+
+    public String getProcessInstanceId() {
+        return processInstanceId;
+    }
+
+    public void setProcessInstanceId(String processInstanceId) {
+        this.processInstanceId = processInstanceId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Auditor getAuditor() {
         return auditor;

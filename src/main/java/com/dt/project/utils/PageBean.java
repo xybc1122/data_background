@@ -29,6 +29,14 @@ public class PageBean<T> {
         this.totalPage = totalPage;
     }
 
+
+    public PageBean(Integer currentPage, Integer pageSize, Long totalCount, Long totalPage) {
+        this.currentPage = currentPage;
+        this.pageSize = pageSize;
+        this.totalCount = totalCount;
+        this.totalPage = totalPage;
+    }
+
     /**
      * 计算总页数  静态方法
      *
@@ -38,7 +46,7 @@ public class PageBean<T> {
      */
     public static Long getPageCount(int pageSize, final Long allRow) {
         //这里为了不报错
-        if (pageSize == 0) {
+        if (pageSize <= 0) {
             pageSize = 1;
         }
         return allRow % pageSize == 0 ? allRow / pageSize : allRow / pageSize + 1;

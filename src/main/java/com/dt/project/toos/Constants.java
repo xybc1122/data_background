@@ -35,22 +35,22 @@ public interface Constants {
      * 用户配置缓存key
      */
     String USER_CONFIG = "userConfig:";
-//    /**
-//     * 文件上传存放地址
-//     */
-//    String SAVE_FILE_PATH = "E:/filePath/";
-//    /**
-//     * 文件写入存放地址
-//     */
-//    String WRITE_SAVE_FILE_PATH = "E:/filePathSkuNo/";
     /**
-     * Linux文件上传存放地址
+     * 文件上传存放地址
      */
-    String SAVE_FILE_PATH = "/usr/local/filter/filePath/";
+    String SAVE_FILE_PATH = "E:/filePath/";
     /**
-     * Linux文件写入存放地址
+     * 文件写入存放地址
      */
-    String WRITE_SAVE_FILE_PATH = "/usr/local/filter/filePathSkuNo/";
+    String WRITE_SAVE_FILE_PATH = "E:/filePathSkuNo/";
+//    /**
+//     * Linux文件上传存放地址
+//     */
+//    String SAVE_FILE_PATH = "/usr/local/filter/filePath/";
+//    /**
+//     * Linux文件写入存放地址
+//     */
+//    String WRITE_SAVE_FILE_PATH = "/usr/local/filter/filePathSkuNo/";
 
     /**
      * 上传到ftp服务器上的地址

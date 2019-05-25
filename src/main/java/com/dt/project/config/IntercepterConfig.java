@@ -15,7 +15,7 @@ public class IntercepterConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterCenter()).addPathPatterns("/**").excludePathPatterns("/api/v1/login/uCount", "/api/v1/login/ajaxLogin", "/druid/*");
+        registry.addInterceptor(new LoginInterCenter()).addPathPatterns("/**").excludePathPatterns("/api/v1/login/uCount", "/api/v1/login/ajaxLogin","/api/v1/fee/startFee","/druid/*");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 }

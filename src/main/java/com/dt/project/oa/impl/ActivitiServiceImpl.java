@@ -3,10 +3,7 @@ package com.dt.project.oa.impl;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.oa.service.ActivitiService;
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.engine.*;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,39 +21,35 @@ import java.util.zip.ZipInputStream;
  **/
 @Service
 public class ActivitiServiceImpl implements ActivitiService {
+//    /**
+//     * 操作流程定义
+//     */
+//    @Autowired
+//    RepositoryService repositoryService;
+//    /**
+//     * 操作流程实例
+//     */
+//    @Autowired
+//    RuntimeService runtimeService;
+//    /**
+//     * 操作任务管理
+//     */
+//    @Autowired
+//    private TaskService taskService;
+//    /**
+//     * 操作用户或组
+//     */
+//    @Autowired
+//    private IdentityService identityService;
+
 
     @Autowired
-    RepositoryService repositoryService;
+    private ProcessEngine processEngine;
 
-    @Autowired
-    RuntimeService runtimeService;
-    /**
-     * 任务管理
-     */
-    @Autowired
-    private TaskService taskService;
-    /**
-     * 组织机构管理
-     */
-    @Autowired
-    private IdentityService identityService;
 
-    /**
-     * 返回 IdentityService
-     *
-     * @return
-     */
-    public IdentityService identity() {
-        return identityService;
-    }
-
-    /**
-     * 返回 TaskService
-     *
-     * @return
-     */
-    public TaskService t() {
-        return taskService;
+    @Override
+    public ProcessEngine get() {
+        return processEngine;
     }
 
     /**
@@ -70,7 +63,7 @@ public class ActivitiServiceImpl implements ActivitiService {
     public ResponseBase deploy(InputStream fileInputStream, String fileName) {
         ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
         //使用deploy方法发布流程
-        repositoryService.createDeployment()
+        get().getRepositoryService().createDeployment()
                 .addZipInputStream(zipInputStream)
                 .name(fileName)
                 .deploy();
@@ -79,13 +72,10 @@ public class ActivitiServiceImpl implements ActivitiService {
 
     @Override
     public ProcessInstance startProcess(String instanceKey, String uName) {
-        identityService.setAuthenticatedUserId(uName);
-        return runtimeService.startProcessInstanceByKey(instanceKey);
+        get().getIdentityService().setAuthenticatedUserId(uName);
+        return get().getRuntimeService().startProcessInstanceByKey(instanceKey);
     }
 
 
-    public Task getTask(String proId) {
-        return t().createTaskQuery().processInstanceId(proId).singleResult();
 
-    }
 }

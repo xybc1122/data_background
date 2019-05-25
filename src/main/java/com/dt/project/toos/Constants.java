@@ -1,7 +1,23 @@
 package com.dt.project.toos;
 
-public interface Constants {
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+public interface Constants {
+    /**
+     * 保存webSocket连接对象 用户绑定
+     */
+    public static Map<Long, ChannelHandlerContext> onLineUserMap =
+            new ConcurrentHashMap<Long, ChannelHandlerContext>();
+
+    /**
+     * 保存webSocket 握手对象
+     */
+    public static Map<String, WebSocketServerHandshaker> webSocketHandShakerMap =
+            new ConcurrentHashMap<String, WebSocketServerHandshaker>();
     /**
      * token
      */

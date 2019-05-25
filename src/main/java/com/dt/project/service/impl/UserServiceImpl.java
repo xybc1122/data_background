@@ -7,14 +7,13 @@ import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.dto.UserDto;
 import com.dt.project.exception.LsException;
-import com.dt.project.ssologin.SsoWebLoginHelper;
 import com.dt.project.mapper.UserMapper;
 import com.dt.project.model.UserInfo;
 import com.dt.project.model.UserRole;
 import com.dt.project.netty.websocket.ChatType;
 import com.dt.project.service.*;
 import com.dt.project.store.ChatStore;
-import com.dt.project.toos.Constant;
+import com.dt.project.store.SsoLoginStore;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.*;
 import org.apache.commons.lang3.StringUtils;
@@ -99,7 +98,7 @@ public class UserServiceImpl extends JsonData implements UserService {
 
             String pwd = MD5Util.saltMd5(userDto.getUserName(), userDto.getPwd());
             // 登陆校验
-            SsoWebLoginHelper.login(user, pwd);
+            SsoLoginStore.login(user, pwd);
             //设置token  Cookie
             JSONObject uJson = put(response, user, userDto.isRememberMe());
 

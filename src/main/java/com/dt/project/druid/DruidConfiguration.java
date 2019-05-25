@@ -1,4 +1,4 @@
-package com.dt.project.config.druid;
+package com.dt.project.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;

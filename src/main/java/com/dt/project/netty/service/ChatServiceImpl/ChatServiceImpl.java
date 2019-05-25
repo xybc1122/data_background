@@ -3,7 +3,7 @@ package com.dt.project.netty.service.ChatServiceImpl;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.project.netty.websocket.ChatType;
 import com.dt.project.netty.service.ChatService;
-import com.dt.project.toos.Constant;
+import com.dt.project.toos.Constants;
 import com.dt.project.utils.JsonUtils;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -28,11 +28,11 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void register(JSONObject object, ChannelHandlerContext ctx) {
         Integer uId = (Integer) object.get("uId");
-        Constant.onLineUserMap.put(uId.longValue(), ctx);
+        Constants.onLineUserMap.put(uId.longValue(), ctx);
         System.out.println("绑定用户" + uId + "----" + ctx.channel());
         sendMessage(ctx, JsonUtils.getJsonTypeSuccess("连接成功 绑定用户" + uId + "----" + ctx.channel(), ChatType.REGISTER));
         LOGGER.info(MessageFormat.format("userId为 {0} 的用户登记到在线用户表，当前在线人数为：{1}"
-                , uId, Constant.onLineUserMap.size()));
+                , uId, Constants.onLineUserMap.size()));
     }
 
     @Override
@@ -43,17 +43,17 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void remove(ChannelHandlerContext ctx) {
         Iterator<Map.Entry<Long, ChannelHandlerContext>> iterator =
-                Constant.onLineUserMap.entrySet().iterator();
+                Constants.onLineUserMap.entrySet().iterator();
         while (iterator.hasNext()) {
             Map.Entry<Long, ChannelHandlerContext> entry = iterator.next();
             if (entry.getValue() == ctx) {
                 LOGGER.info("正在移除握手实例...");
-                Constant.webSocketHandShakerMap.remove(ctx.channel().id().asLongText());
+                Constants.webSocketHandShakerMap.remove(ctx.channel().id().asLongText());
                 LOGGER.info(MessageFormat.format("已移除握手实例，当前握手实例总数为：{0}"
-                        , Constant.webSocketHandShakerMap.size()));
+                        , Constants.webSocketHandShakerMap.size()));
                 iterator.remove();
                 LOGGER.info(MessageFormat.format("userId为 {0} 的用户已退出聊天，当前在线人数为：{1}"
-                        , entry.getKey(), Constant.onLineUserMap.size()));
+                        , entry.getKey(), Constants.onLineUserMap.size()));
                 break;
             }
         }
@@ -61,8 +61,8 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public ChannelHandlerContext getCtx(Long uId) {
-        if (Constant.onLineUserMap.get(uId) != null) {
-            return Constant.onLineUserMap.get(uId);
+        if (Constants.onLineUserMap.get(uId) != null) {
+            return Constants.onLineUserMap.get(uId);
         }
         return null;
     }

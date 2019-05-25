@@ -1,11 +1,10 @@
 package com.dt.project.oa.service;
 
 import com.dt.project.config.ResponseBase;
+import org.activiti.engine.ProcessEngine;
 import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
 
 import java.io.InputStream;
-import java.util.Map;
 
 /**
  * @ClassName ActivitiService
@@ -14,6 +13,12 @@ import java.util.Map;
  * @Date 2019/5/24 13:04
  **/
 public interface ActivitiService {
+    /**
+     * 获得流程门面
+     *
+     * @return
+     */
+    ProcessEngine get();
 
     /**
      * 发布规则

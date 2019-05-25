@@ -1,4 +1,4 @@
-package com.dt.project.config.druid;
+package com.dt.project.druid;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 

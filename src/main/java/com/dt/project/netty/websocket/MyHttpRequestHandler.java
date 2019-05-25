@@ -3,7 +3,7 @@ package com.dt.project.netty.websocket;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.project.config.JsonData;
 import com.dt.project.netty.service.ChatService;
-import com.dt.project.toos.Constant;
+import com.dt.project.toos.Constants;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
@@ -68,7 +68,7 @@ public class MyHttpRequestHandler extends SimpleChannelInboundHandler<Object> {
         WebSocketServerHandshakerFactory wsFactory = new WebSocketServerHandshakerFactory(
                 "ws:/" + ctx.channel() + "/ws", null, false);
         WebSocketServerHandshaker handShaker = wsFactory.newHandshaker(req);
-        Constant.webSocketHandShakerMap.put(ctx.channel().id().asLongText(), handShaker);
+        Constants.webSocketHandShakerMap.put(ctx.channel().id().asLongText(), handShaker);
         if (handShaker == null) {
             WebSocketServerHandshakerFactory.sendUnsupportedVersionResponse(ctx.channel());
         } else {
@@ -88,7 +88,7 @@ public class MyHttpRequestHandler extends SimpleChannelInboundHandler<Object> {
         //判断是否是链路关闭消息
         if (frame instanceof CloseWebSocketFrame) {
             WebSocketServerHandshaker handShaker =
-                    Constant.webSocketHandShakerMap.get(ctx.channel().id().asLongText());
+                    Constants.webSocketHandShakerMap.get(ctx.channel().id().asLongText());
             if (handShaker == null) {
                 sendErrorMessage(ctx, "不存在的客户端连接！");
             } else {
@@ -115,6 +115,7 @@ public class MyHttpRequestHandler extends SimpleChannelInboundHandler<Object> {
             return;
         }
         String type = (String) param.get("type");
+        //webSocket接收的频道
         switch (type) {
             case "REGISTER":
                 myHttpRequestHandler.chatService.register(param, ctx);

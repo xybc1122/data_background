@@ -5,12 +5,12 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.exception.LsException;
 import com.dt.project.oa.model.MyTask;
 import com.dt.project.oa.model.Feedback;
+import com.dt.project.oa.service.ActivitiService;
 import com.dt.project.oa.service.FeedbackImplService;
 import com.dt.project.utils.ActivitiUtil;
 import com.dt.project.utils.PageBean;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.UuIDUtils;
-import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
@@ -32,28 +32,12 @@ import java.util.*;
  **/
 @Service
 public class FeedbackImplServiceImpl implements FeedbackImplService {
-    /**
-     * 执行管理，包括启动、推进、删除流程实例等操作
-     */
-    @Autowired
-    private RuntimeService runtimeService;
-
-    /**
-     * 任务管理
-     */
-    @Autowired
-    private TaskService taskService;
-    /**
-     * 历史管理(执行完的数据的管理)
-     */
-    @Autowired
-    private HistoryService historyService;
 
 
     private static final String FEEDBACK_KEY = "feedbackProcess";
 
     @Autowired
-    private ActivitiServiceImpl activitiService;
+    private ActivitiService activitiService;
 
     /**
      * 开始 反馈流程
@@ -64,6 +48,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
     @Override
     @Transactional
     public ResponseBase startProcess(Feedback feedback) {
+        System.out.println( activitiService.get());
         if (StringUtils.isBlank(feedback.getmName())) {
             return JsonData.setResultError("发起流程失败");
         }
@@ -77,13 +62,17 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
             feedbackMap.put("uuidNumber", UuIDUtils.uuId());
             //流程状态
             feedbackMap.put("status", 1);
-            Task task = activitiService.getTask(processInstance.getId());
+            Task task = activitiService.get()
+                    .getTaskService()
+                    .createTaskQuery()
+                    .processInstanceId(processInstance.getId())
+                    .singleResult();
             /**
              * 签收
              */
-            activitiService.t().claim(task.getId(), ReqUtils.getUserName());
+            activitiService.get().getTaskService().claim(task.getId(), ReqUtils.getUserName());
             //完成任务
-            activitiService.t().complete(task.getId(), feedbackMap);
+            activitiService.get().getTaskService().complete(task.getId(), feedbackMap);
             return JsonData.setResultSuccess("发起流程成功");
         } catch (Exception e) {
             throw new LsException("发起流程失败");
@@ -101,7 +90,11 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
     @Override
     public ResponseBase selThisProcess(String userName, Integer pageSize, Integer page) {
         //获得总行数
-        long total = runtimeService.createProcessInstanceQuery().startedBy(userName).count();
+        long total = activitiService.get()
+                .getRuntimeService()
+                .createProcessInstanceQuery()
+                .startedBy(userName)
+                .count();
         //总页数
         long totalPage = PageBean.getPageCount(pageSize, total);
         //获得当前页
@@ -110,8 +103,11 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         int offset = PageBean.countOffset(pageSize, currentPage);
 
         //通过userId查看我的个人任务
-        List<ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().startedBy(userName).
-                listPage(offset, pageSize);
+        List<ProcessInstance> processInstances = activitiService.get()
+                .getRuntimeService()
+                .createProcessInstanceQuery()
+                .startedBy(userName)
+                .listPage(offset, pageSize);
 
         List<Feedback> feeList = new ArrayList<>();
         for (ProcessInstance instance : processInstances) {
@@ -124,25 +120,35 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
     @Override
     public ResponseBase selThisProcessHistory(String userName, Integer pageSize, Integer page) {
         //获得总行数
-        long total = historyService.createHistoricProcessInstanceQuery().
-                processDefinitionKey(FEEDBACK_KEY).startedBy(userName).finished()
-                .orderByProcessInstanceEndTime().desc().count();
+        long total = activitiService.get().getHistoryService()
+                .createHistoricProcessInstanceQuery()
+                .processDefinitionKey(FEEDBACK_KEY)
+                .startedBy(userName).finished()
+                .orderByProcessInstanceEndTime()
+                .desc()
+                .count();
         //总页数
         long totalPage = PageBean.getPageCount(pageSize, total);
         //获得当前页
         int currentPage = PageBean.currentPage(page);
         //当前页开始记录
         int offset = PageBean.countOffset(pageSize, currentPage);
-        List<HistoricProcessInstance> hisProInstance = historyService.createHistoricProcessInstanceQuery()
-                .processDefinitionKey(FEEDBACK_KEY).startedBy(userName).finished()
-                .orderByProcessInstanceEndTime().desc().listPage(offset, pageSize);
+        List<HistoricProcessInstance> hisProInstance =  activitiService.get()
+                .getHistoryService()
+                .createHistoricProcessInstanceQuery()
+                .processDefinitionKey(FEEDBACK_KEY)
+                .startedBy(userName).finished()
+                .orderByProcessInstanceEndTime()
+                .desc()
+                .listPage(offset, pageSize);
         List<Feedback> feeList = new ArrayList<>();
         for (HistoricProcessInstance hisInstance : hisProInstance) {
             Feedback feedback = new Feedback();
             feedback.setApplyUser(hisInstance.getStartUserId());
             feedback.setApplyTime(hisInstance.getStartTime());
             feedback.setApplyStatus("申请结束");
-            List<HistoricVariableInstance> varInstanceList = historyService.createHistoricVariableInstanceQuery()
+            List<HistoricVariableInstance> varInstanceList = activitiService.get()
+                    .getHistoryService().createHistoricVariableInstanceQuery()
                     .processInstanceId(hisInstance.getId()).list();
             feedback.setAuditor(ActivitiUtil.setVars(feedback, varInstanceList));
             feeList.add(feedback);
@@ -170,19 +176,19 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         List<Task> taskList;
         //这里暂时先这样写
         if (StringUtils.isBlank(strQuery)) {
-            total = activitiService.t().createTaskQuery().taskCandidateUser(userName).count();
+            total = activitiService.get().getTaskService().createTaskQuery().taskCandidateUser(userName).count();
             //根据用户查询任务
             //总页数
             totalPage = PageBean.getPageCount(pageSize, total);
-            taskList = activitiService.t().createTaskQuery().taskCandidateUser(userName)
+            taskList = activitiService.get().getTaskService().createTaskQuery().taskCandidateUser(userName)
                     .orderByTaskCreateTime().desc().listPage(offset, pageSize);
         } else {
             //获得总行数
-            total = activitiService.t().createTaskQuery().taskCandidateUser(userName).
+            total = activitiService.get().getTaskService().createTaskQuery().taskCandidateUser(userName).
                     processVariableValueEquals(strQuery).count();
             //根据用户查询任务
             totalPage = PageBean.getPageCount(pageSize, total);
-            taskList = activitiService.t().createTaskQuery().taskCandidateUser(userName)
+            taskList = activitiService.get().getTaskService().createTaskQuery().taskCandidateUser(userName)
                     .orderByTaskCreateTime().desc().processVariableValueEquals(strQuery).listPage(offset, pageSize);
         }
 
@@ -190,7 +196,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         for (Task task : taskList) {
             MyTask feeTask = new MyTask(task.getId(), task.getName(), task.getCreateTime());
             String instanceId = task.getProcessInstanceId();
-            ProcessInstance instance = runtimeService.createProcessInstanceQuery().processInstanceId(instanceId).singleResult();
+            ProcessInstance instance = activitiService.get().getRuntimeService().createProcessInstanceQuery().processInstanceId(instanceId).singleResult();
             feeTask.setFeedback(getFee(instance));
             feeTaskList.add(feeTask);
         }
@@ -209,9 +215,9 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         auditorMap.put("auditNote", auditNote);
         auditorMap.put("auditTime", new Date());
         //签收任务
-        activitiService.t().claim(taskId, userName);
+        activitiService.get().getTaskService().claim(taskId, userName);
         //完成流程
-        activitiService.t().complete(taskId, auditorMap);
+        activitiService.get().getTaskService().complete(taskId, auditorMap);
         return JsonData.setResultSuccess("success");
     }
 
@@ -221,24 +227,26 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         int currentPage = PageBean.currentPage(page);
         //当前页开始记录
         int offset = PageBean.countOffset(pageSize, currentPage);
-        long total = historyService.createHistoricProcessInstanceQuery()
+        long total = activitiService.get().getHistoryService().createHistoricProcessInstanceQuery()
                 .processDefinitionKey(FEEDBACK_KEY).involvedUser(userName).finished()
                 .orderByProcessInstanceEndTime().desc().count();
         //总页数
         long totalPage = PageBean.getPageCount(pageSize, total);
-        List<HistoricProcessInstance> hisProInstance = historyService.createHistoricProcessInstanceQuery()
+        List<HistoricProcessInstance> hisProInstance = activitiService.get().getHistoryService().createHistoricProcessInstanceQuery()
                 .processDefinitionKey(FEEDBACK_KEY).involvedUser(userName).finished()
                 .orderByProcessInstanceEndTime().desc().listPage(offset, pageSize);
 
         //通过user 名去查找角色组信息
-        List<Group> groups = activitiService.identity().createGroupQuery().groupMember(userName).list();
+        List<Group> groups = activitiService.get().getIdentityService().
+                createGroupQuery().groupMember(userName).list();
         List<String> auditTaskNameList = new ArrayList<>();
         for (Group g : groups) {
             auditTaskNameList.add(g.getName());
         }
         List<Feedback> feeList = new ArrayList<>();
         for (HistoricProcessInstance hisInstance : hisProInstance) {
-            List<HistoricTaskInstance> hisTaskInstanceList = historyService.createHistoricTaskInstanceQuery()
+            List<HistoricTaskInstance> hisTaskInstanceList = activitiService.get().getHistoryService()
+                    .createHistoricTaskInstanceQuery()
                     .processInstanceId(hisInstance.getId()).processFinished()
                     .taskAssignee(userName)
                     .taskNameIn(auditTaskNameList)
@@ -256,7 +264,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
             feedback.setApplyUser(hisInstance.getStartUserId());
             feedback.setApplyStatus("申请结束");
             feedback.setApplyTime(hisInstance.getStartTime());
-            List<HistoricVariableInstance> varInstanceList = historyService.createHistoricVariableInstanceQuery()
+            List<HistoricVariableInstance> varInstanceList = activitiService.get().getHistoryService().createHistoricVariableInstanceQuery()
                     .processInstanceId(hisInstance.getId()).list();
             feedback.setAuditor(ActivitiUtil.setVars(feedback, varInstanceList));
             feeList.add(feedback);
@@ -271,10 +279,10 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
 
 
     private Feedback getFee(ProcessInstance instance) {
-        String imageUrl = runtimeService.getVariable(instance.getId(), "imageUrl", String.class);
-        String reason = runtimeService.getVariable(instance.getId(), "reason", String.class);
-        String mName = runtimeService.getVariable(instance.getId(), "mName", String.class);
-        String uuidNumber = runtimeService.getVariable(instance.getId(), "uuidNumber", String.class);
+        String imageUrl = activitiService.get().getRuntimeService().getVariable(instance.getId(), "imageUrl", String.class);
+        String reason = activitiService.get().getRuntimeService().getVariable(instance.getId(), "reason", String.class);
+        String mName = activitiService.get().getRuntimeService().getVariable(instance.getId(), "mName", String.class);
+        String uuidNumber = activitiService.get().getRuntimeService().getVariable(instance.getId(), "uuidNumber", String.class);
         Feedback feedback = new Feedback();
         feedback.setApplyUser(instance.getStartUserId());
         feedback.setImageUrl(imageUrl);

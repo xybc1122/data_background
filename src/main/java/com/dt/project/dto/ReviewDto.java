@@ -1,6 +1,6 @@
 package com.dt.project.dto;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaReview;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaReview;
 
 /**
  * @ClassName ReviewDto

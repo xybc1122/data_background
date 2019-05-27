@@ -10,12 +10,11 @@ import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.SalesAmazon.SalesShipNotice;
+import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 public class SalesShipNoticeSqlProvider {
@@ -166,8 +165,7 @@ public class SalesShipNoticeSqlProvider {
                 "`ttl_gw_kg`,`source_type_id`,`source_no`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_ship_notice AS " + alias);
         ProviderSqlStore.joinTable(sql, alias);
-        Field[] fields = notice.getClass().getDeclaredFields();
-        FieldStore.query(fields, notice.getNameList(), notice, sql);
+        FieldStore.query(notice.getClass(), notice.getNameList(), notice, sql);
         ProviderSqlStore.selectUploadStatus(sql, notice, alias);
         return sql.toString();
     }

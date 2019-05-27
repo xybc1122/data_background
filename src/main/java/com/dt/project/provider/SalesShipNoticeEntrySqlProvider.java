@@ -10,12 +10,11 @@ import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.SalesAmazon.SalesShipNoticeEntry;
+import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
 import com.dt.project.store.FieldStore;
 import com.dt.project.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 public class SalesShipNoticeEntrySqlProvider {
@@ -100,8 +99,7 @@ public class SalesShipNoticeEntrySqlProvider {
                 "`ne_nw_kg`,`ne_volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`ne_remark`,`status`,\n" +
                 "`close_date`,`close_user`,`version`\n" +
                 "FROM `sales_ship_notice_entry`");
-        Field[] fields = nEntry.getClass().getDeclaredFields();
-        FieldStore.query(fields, nEntry.getNameList(), nEntry, sql);
+        FieldStore.query(nEntry.getClass(), nEntry.getNameList(), nEntry, sql);
         sql.WHERE("del_or_not=0");
         if (nEntry.getInShipNoticeList() != null && nEntry.getInShipNoticeList().size() > 0) {
             return sql.toString() + " AND " + StrUtils.in(nEntry.getInShipNoticeList(), "ship_notice_id");

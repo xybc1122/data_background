@@ -15,9 +15,10 @@ import java.util.List;
  **/
 public class JsonUtils {
 
-    public static String json(List<String> sqlHead) {
+    public static String json(List<String> sqlHead, List<String> fileHead) {
         JSONObject object = new JSONObject();
-        object.put("设置的信息", sqlHead);
+        object.put("sqlHead", sqlHead);
+        object.put("fileHead", fileHead);
         return object.toJSONString();
     }
 

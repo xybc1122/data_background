@@ -1,16 +1,14 @@
-package com.dt.project.controller.BasePublicController;
+package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.BasePublicModel.BasicSalesAmazonType;
-import com.dt.project.service.BasePublicService.BasicSalesAmazonTypeService;
+import com.dt.project.model.basePublicModel.BasicSalesAmazonType;
+import com.dt.project.service.basePublicService.BasicSalesAmazonTypeService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.dt.project.controller.Admin;
+package com.dt.project.controller.admin;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
@@ -6,17 +6,16 @@ import com.dt.project.customize.PermissionCheck;
 import com.dt.project.dto.AreaRoleDto;
 import com.dt.project.dto.RoleDto;
 import com.dt.project.dto.UserDto;
-import com.dt.project.model.BasePublicModel.BasicPublicShop;
-import com.dt.project.model.Role;
-import com.dt.project.model.System.SystemInfoCompany;
+import com.dt.project.model.basePublicModel.BasicPublicShop;
+import com.dt.project.model.system.SystemInfoCompany;
 import com.dt.project.model.UserInfo;
-import com.dt.project.service.BasePublicService.BasicPublicAreaRoleService;
-import com.dt.project.service.BasePublicService.BasicPublicAreaService;
-import com.dt.project.service.BasePublicService.BasicPublicShopService;
-import com.dt.project.service.BasePublicService.BasicPublicSiteService;
+import com.dt.project.service.basePublicService.BasicPublicAreaRoleService;
+import com.dt.project.service.basePublicService.BasicPublicAreaService;
+import com.dt.project.service.basePublicService.BasicPublicShopService;
+import com.dt.project.service.basePublicService.BasicPublicSiteService;
 import com.dt.project.service.RoleMenuService;
 import com.dt.project.service.RoleService;
-import com.dt.project.service.SystemService.SystemInfoCompanyService;
+import com.dt.project.service.systemService.SystemInfoCompanyService;
 import com.dt.project.service.UserService;
 import com.dt.project.utils.PageInfoUtils;
 import com.github.pagehelper.PageHelper;
@@ -60,24 +59,110 @@ public class AdminController {
     private SystemInfoCompanyService cService;
 
     /**
-     * 获取用户管理信息的一些信息
-     *
-     * @param pageDto
-     * @return
-     * @PermissionCheck 自定义权限 需要show 才能查看
+     * @api {POST} /api/v1/admin/show 获取用户管理信息
+     * @apiHeaderExample {json} 请求头Header
+     * {
+     * "token":"用户令牌"
+     * }
+     * @apiGroup Admin
+     * @apiVersion 0.0.1
+     * @apiDescription 获取用户管理信息
+     * @apiParam {Integer} currentPage 当前页 :必填
+     * @apiParam {Integer} pageSize 显示的页数 :必填
+     * @apiParam {Long} [uid] 用户ID
+     * @apiParam {String} [userName]  账号
+     * @apiParam {String} [rName]  角色名称
+     * @apiParam {String} [rid]  角色ID
+     * @apiParam {String} [name] 昵称
+     * @apiParam {Long} [landingTime] 登陆时间戳
+     * @apiParam {String}[computerName] 计算机名
+     * @apiParam {String}[remark] 备注
+     * @apiParam {Long} [createDate] 创建时间
+     * @apiParam {String}[createUser] 创建人
+     * @apiParam {Long} [modifyDate] 修改日期
+     * @apiParam {String}[modifyUser] 修改人
+     * @apiParam {Long} [auditDate] 审核时间
+     * @apiParam {String}[auditUser] 审核人
+     * @apiParam {Integer}[version] 版本标识
+     * @apiParam {Integer}[accountStatus] 账户状态，被锁定之类的，默认为0，表示正常
+     * @apiParamExample {json} 请求样例：
+     * {
+     * "userName": "tt",
+     * "accountStatus": 0,
+     * "userExpirationDates": [1551283200000,1551283200000],
+     * "pwdValidityPeriods": [1552060800000,1552060800000],
+     * "rName": "超级管理员",
+     * "landingTimes": [1558940570136,1558940570136],
+     * "mobilePhone": "13515874497",
+     * "computerName": "cccc",
+     * "remark": null,
+     * "createDates": [1558940570136,1558940570136],
+     * "createUser": "1",
+     * "modifyDates": [1558940570136,1558940570136],
+     * "auditDates":  [1558940570136,1558940570136],
+     * "modifyUser": "1",
+     * "auditUser": "1",
+     * "pwdAlways":false,
+     * "uAlways":false
+     * }
+     * @apiSuccess (success) {Object} data 请求的数据
+     * @apiSuccess (success) {String} msg 信息
+     * @apiSuccess (success) {int} code -1 代表错误 200代表请求成功
+     * @apiSuccessExample {json} 成功返回样列:
+     * {"code":"200","msg":"success","data":"{}"}
+     * @apiErrorExample {json} 失败返回样例子:
+     * {"code":"-1","msg":"error","data":"{}"}
      */
     @PostMapping("/show")
     @PermissionCheck("show")
     public ResponseBase showUsers(@RequestBody UserDto pageDto) {
         PageInfoUtils.setPage(pageDto.getPageSize(), pageDto.getCurrentPage());
-        List<UserInfo> listUser = userService.findByUsers(pageDto);
-        return PageInfoUtils.returnPage(listUser, pageDto.getCurrentPage());
+        return PageInfoUtils.returnPage(userService.findByUsers(pageDto), pageDto.getCurrentPage());
     }
 
     /**
-     * 更新用户信息
-     *
-     * @return
+     * @api {POST} /api/v1/admin/upUserInfo 更新用户信息
+     * @apiHeaderExample {json} 请求头Header
+     * {
+     * "token":"用户令牌"
+     * }
+     * @apiGroup Admin
+     * @apiVersion 0.0.1
+     * @apiDescription 用于更新用户信息
+     * @apiParam {String} userName 账号
+     * @apiParam {Integer} version 更新用户版本
+     * @apiParam {Integer} uid 更新用户ID
+     * @apiParam {String} [mobilePhone] 手机号码
+     * @apiParam {String} [name] 用户昵称
+     * @apiParam {String} [pwd] 密码
+     * @apiParam {Boolean} [pwdAlways] 如果勾选用户始终有效
+     * @apiParam {Long} [userExpirationDate] 设置用户有效时间
+     * @apiParam {Boolean} [uAlways] 如果勾选密码始终有效
+     * @apiParam {Long} [pwdValidityPeriod] 设置密码有效时间
+     * @apiParam {Boolean} [checkedUpPwd] 首次登陆修改密码
+     * @apiParam {Integer} [accountStatus] 账户状态，被锁定之类的，默认为0，表示正常
+     * @apiParamExample {json} 请求样例：
+     * {
+     * "userName": "tttt",
+     * "version": 10,
+     * "uid": 8,
+     * "mobilePhone": "13515874497",
+     * "name": "测试7",
+     * "pwd":"86887075",
+     * "pwdAlways": false,
+     * "userExpirationDate": 1552009258000,
+     * "uAlways": false,
+     * "pwdValidityPeriod": 1572570379000,
+     * "checkedUpPwd": true,
+     * "accountStatus": 0
+     * }
+     * @apiSuccess (success) {Object} data 请求的数据
+     * @apiSuccess (success) {String} msg 信息
+     * @apiSuccess (success) {int} code -1 代表错误 200代表请求成功
+     * @apiSuccessExample {json} 成功返回样列:
+     * {"code":"200","msg":"更新成功","data":"{}"}
+     * @apiErrorExample {json} 失败返回样例子:
+     * {"code":"-1","msg":"error","data":"{}"}
      */
     @PostMapping("/upUserInfo")
     public ResponseBase userInfoUp(@RequestBody Map<String, Object> userMap) {
@@ -222,7 +307,6 @@ public class AdminController {
     public ResponseBase setAreaRole(@RequestBody AreaRoleDto areaRoleDto) {
         return JsonData.setResultSuccess(areaRoleService.serviceInsertARole(areaRoleDto));
     }
-
 
 
     /**

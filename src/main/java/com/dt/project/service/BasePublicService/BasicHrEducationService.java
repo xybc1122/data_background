@@ -1,6 +1,6 @@
-package com.dt.project.service.BasePublicService;
+package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.BasePublicModel.BasicHrEducation;
+import com.dt.project.model.basePublicModel.BasicHrEducation;
 
 import java.util.List;
 

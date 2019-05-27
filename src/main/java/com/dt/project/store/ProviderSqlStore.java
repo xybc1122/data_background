@@ -1,6 +1,6 @@
 package com.dt.project.store;
 
-import com.dt.project.model.Parent.ParentUploadInfo;
+import com.dt.project.model.parent.ParentUploadInfo;
 import com.dt.project.model.SystemLogStatus;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.StrUtils;
@@ -88,7 +88,7 @@ public class ProviderSqlStore {
     }
 
     /**
-     * 设置通过用链表
+     * 设置 角色 链表查询
      */
     public static void joinTable(SQL sql, String alias) {
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");

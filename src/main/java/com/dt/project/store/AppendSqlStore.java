@@ -1,6 +1,6 @@
 package com.dt.project.store;
 
-import com.dt.project.model.Parent.ParentUploadInfo;
+import com.dt.project.model.parent.ParentUploadInfo;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +36,7 @@ public class AppendSqlStore {
      * @param sql
      */
     public static void sqlWhere(Object k, String v, SQL sql, String status) {
+        System.out.println(k);
         String c = vJudge(v);
         if (k != null && k != "") {
             if (status.equals(Constants.SELECT)) {

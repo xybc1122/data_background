@@ -1,6 +1,6 @@
-package com.dt.project.model.HrArchives;
+package com.dt.project.model.hrArchives;
 
-import com.dt.project.model.Parent.ParentTree;
+import com.dt.project.model.parent.ParentTree;
 
 /**
  * 部门管理

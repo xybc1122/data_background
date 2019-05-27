@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicSalesDeliveryTypeMapper;
-import com.dt.project.model.BasePublicModel.BasicSalesDeliveryType;
-import com.dt.project.service.BasePublicService.BasicSalesDeliveryTypeService;
+import com.dt.project.mapper.basePublicMapper.BasicSalesDeliveryTypeMapper;
+import com.dt.project.model.basePublicModel.BasicSalesDeliveryType;
+import com.dt.project.service.basePublicService.BasicSalesDeliveryTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

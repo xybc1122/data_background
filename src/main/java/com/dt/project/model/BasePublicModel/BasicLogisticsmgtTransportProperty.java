@@ -1,5 +1,5 @@
-package com.dt.project.model.BasePublicModel;
-import com.dt.project.model.Parent.ParentSysTemLog;
+package com.dt.project.model.basePublicModel;
+import com.dt.project.model.parent.ParentSysTemLog;
 
 /**
  * 运输性质

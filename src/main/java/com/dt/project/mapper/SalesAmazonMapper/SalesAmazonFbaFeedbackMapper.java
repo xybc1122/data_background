@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SalesAmazonMapper;
+package com.dt.project.mapper.salesAmazonMapper;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaFeedback;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaFeedback;
 
 import java.util.List;
 

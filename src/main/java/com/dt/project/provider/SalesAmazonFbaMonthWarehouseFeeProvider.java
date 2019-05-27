@@ -1,15 +1,13 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaMonthWarehouseFee;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaMonthWarehouseFee;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.StrUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -88,10 +86,8 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
 
         AppendSqlStore.sqlWhere(mWar.getSku(), "ps.`sku`", sql, Constants.SELECT);
 
-        //反射拼接
-        Field[] fields = mWar.getClass().getDeclaredFields();
         //查询
-        FieldStore.query(fields, mWar.getNameList(), mWar, sql);
+        FieldStore.query(mWar.getClass(), mWar.getNameList(), mWar, sql);
         ProviderSqlStore.selectUploadStatus(sql, mWar, alias);
         return sql.toString();
     }

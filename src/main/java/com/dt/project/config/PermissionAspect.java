@@ -36,7 +36,7 @@ public class PermissionAspect {
     //前置通知（不需要获取输入参数）
     @Before("doAspect()")
     public void doBefore(JoinPoint joinPoint) {
-       // System.out.println("开始前置通知");
+       // system.out.println("开始前置通知");
         //获取注解
         String v = Objects.requireNonNull(giveController(joinPoint)).value();
         //权限校验
@@ -46,28 +46,28 @@ public class PermissionAspect {
     //最终通知
 //    @After("doAspect()")
 //    public void doAfter(JoinPoint joinPoint) {
-//        System.out.println("最终通知");
+//        system.out.println("最终通知");
 //
 //    }
 
     //后置通知(不需要获取返回值)
 //    @AfterReturning("doAspect()")
 //    public void doAfterReturning(JoinPoint joinPoint) {
-//        System.out.println("后置【try】通知");
+//        system.out.println("后置【try】通知");
 //    }
 
     //例外通知(不需要异常信息)
 //    @AfterThrowing("doAspect()")
 //    public void doAfterThrowing() {
-//        System.out.println("后置【catch】通知");
+//        system.out.println("后置【catch】通知");
 //    }
 
     //环绕通知
 //    @Around("doAspect()")
 //    public Object doBasicProfiling(ProceedingJoinPoint pjp) throws Throwable {
-//        System.out.println("环绕通知进入方法");
+//        system.out.println("环绕通知进入方法");
 //        Object object = pjp.proceed();
-//        System.out.println("环绕通知退出方法");
+//        system.out.println("环绕通知退出方法");
 //        return object;
 //    }
 

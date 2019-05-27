@@ -1,6 +1,6 @@
 package com.dt.project.model;
 
-import com.dt.project.model.Parent.ConfTableParent;
+import com.dt.project.model.parent.ConfTableParent;
 
 import java.util.List;
 

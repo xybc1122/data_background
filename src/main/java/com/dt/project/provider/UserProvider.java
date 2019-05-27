@@ -127,9 +127,10 @@ public class UserProvider {
                 SET("is_first_login=" + checkedUpPwd);
             }
             Integer version = (Integer) userMap.get("version");
+            Integer uid = (Integer) userMap.get("uid");
+
             SET("version=" + version + "+1");
             WHERE("version=" + version);
-            Integer uid = (Integer) userMap.get("uid");
             WHERE("uid=" + uid);
         }}.toString();
     }

@@ -1,7 +1,10 @@
-package com.dt.project.model.Parent;
+package com.dt.project.model.parent;
 
 
+import com.dt.project.model.JavaSqlName;
 import com.dt.project.model.SystemLogStatus;
+
+import java.util.List;
 
 /**
  * 其余一些有statusId类的父类
@@ -32,6 +35,33 @@ public class ParentSysTemLog {
      * 版本标识
      */
     private Integer version;
+
+    /**
+     * 前端查询参数封装对象
+     */
+    private List<JavaSqlName> javaSqlName;
+
+    /**
+     * in查询存储id
+     */
+    private List<Long> inList;
+
+
+    public List<Long> getInList() {
+        return inList;
+    }
+
+    public void setInList(List<Long> inList) {
+        this.inList = inList;
+    }
+
+    public List<JavaSqlName> getJavaSqlName() {
+        return javaSqlName;
+    }
+
+    public void setJavaSqlName(List<JavaSqlName> javaSqlName) {
+        this.javaSqlName = javaSqlName;
+    }
 
     public Integer getVersion() {
         return version;

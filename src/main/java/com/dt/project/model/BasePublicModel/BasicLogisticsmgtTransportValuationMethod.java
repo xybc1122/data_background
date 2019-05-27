@@ -1,5 +1,5 @@
-package com.dt.project.model.BasePublicModel;
-import com.dt.project.model.Parent.ParentTree;
+package com.dt.project.model.basePublicModel;
+import com.dt.project.model.parent.ParentTree;
 
 /**
  * 计价方式

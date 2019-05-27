@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicLogisticsmgtTransportCompanyMapper;
-import com.dt.project.model.BasePublicModel.BasicLogisticsmgtTransportCompany;
-import com.dt.project.service.BasePublicService.BasicLogisticsmgtTransportCompanyService;
+import com.dt.project.mapper.basePublicMapper.BasicLogisticsmgtTransportCompanyMapper;
+import com.dt.project.model.basePublicModel.BasicLogisticsmgtTransportCompany;
+import com.dt.project.service.basePublicService.BasicLogisticsmgtTransportCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

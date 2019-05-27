@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicExportInspectionQuarantineMapper;
-import com.dt.project.model.BasePublicModel.BasicExportInspectionQuarantine;
-import com.dt.project.service.BasePublicService.BasicExportInspectionQuarantineService;
+import com.dt.project.mapper.basePublicMapper.BasicExportInspectionQuarantineMapper;
+import com.dt.project.model.basePublicModel.BasicExportInspectionQuarantine;
+import com.dt.project.service.basePublicService.BasicExportInspectionQuarantineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

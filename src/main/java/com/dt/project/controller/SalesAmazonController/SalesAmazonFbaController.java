@@ -1,10 +1,10 @@
-package com.dt.project.controller.SalesAmazonController;
+package com.dt.project.controller.salesAmazonController;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.dto.ReviewDto;
-import com.dt.project.model.SalesAmazon.*;
+import com.dt.project.model.salesAmazon.*;
 import com.dt.project.service.JavaSqlNameService;
-import com.dt.project.service.SalesAmazonService.*;
+import com.dt.project.service.salesAmazonService.*;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

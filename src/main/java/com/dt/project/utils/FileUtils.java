@@ -151,7 +151,7 @@ public class FileUtils {
             // 清空response
             response.reset();
             // 设置response的Header
-            // System.out.println("Download DocFile's ORGIN----" + request.getHeader("Origin"));
+            // system.out.println("Download DocFile's ORGIN----" + request.getHeader("Origin"));
             response.setHeader("Content-Length", "" + downloadFile.length());
             response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
             response.addHeader("Content-Disposition", "attachment;filename=" + fileName + "");

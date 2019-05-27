@@ -1,4 +1,4 @@
-package com.dt.project.service.BasePublicService;
+package com.dt.project.service.basePublicService;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.dto.AreaRoleDto;

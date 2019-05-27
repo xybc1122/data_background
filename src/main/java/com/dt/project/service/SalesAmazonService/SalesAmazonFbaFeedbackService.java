@@ -1,7 +1,7 @@
-package com.dt.project.service.SalesAmazonService;
+package com.dt.project.service.salesAmazonService;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaFeedback;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaFeedback;
 
 import java.util.List;
 

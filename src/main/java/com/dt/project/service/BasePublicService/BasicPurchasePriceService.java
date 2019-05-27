@@ -1,6 +1,6 @@
-package com.dt.project.service.BasePublicService;
+package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.BasePublicModel.BasicPurchasePrice;
+import com.dt.project.model.basePublicModel.BasicPurchasePrice;
 
 import java.util.List;
 

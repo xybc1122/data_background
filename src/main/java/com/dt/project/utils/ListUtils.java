@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ArrUtils {
+public class ListUtils {
     /**
      * 引用 拼接新数据
      *
@@ -66,6 +66,13 @@ public class ArrUtils {
     }
 
     /**
+     * 判断 List是否为空 或者 size小于0
+     */
+    public static boolean isList(List<?> objList) {
+        return objList != null && objList.size() > 0;
+    }
+
+    /**
      * 泛型List
      *
      * @param <T>
@@ -88,7 +95,7 @@ public class ArrUtils {
         String[] strNewTopOrder = new String[strMid.length];
         for (int j = 0; j < strNewTopOrder.length; j++) {
             //把 strTopOrder 赋值给strNewTopOrder
-            //  System.out.println(strTopOrder.length);
+            //  system.out.println(strTopOrder.length);
             if (strTopOrder.length > j) {
                 strNewTopOrder[j] = strTopOrder[j];
             } else {

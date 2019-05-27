@@ -1,10 +1,10 @@
-package com.dt.project.controller.BasePublicController;
+package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.BasePublicModel.BasicPublicProducts;
-import com.dt.project.model.Parent.ParentTree;
-import com.dt.project.service.BasePublicService.BasicPublicProductsService;
+import com.dt.project.model.basePublicModel.BasicPublicProducts;
+import com.dt.project.model.parent.ParentTree;
+import com.dt.project.service.basePublicService.BasicPublicProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.SalesAmazonMapper.SalesAmazonAHlMapper;
-import com.dt.project.model.SalesAmazon.SalesAmazonAdHl;
-import com.dt.project.service.SalesAmazonService.SalesAmazonAHlService;
+import com.dt.project.mapper.salesAmazonMapper.SalesAmazonAHlMapper;
+import com.dt.project.model.salesAmazon.SalesAmazonAdHl;
+import com.dt.project.service.salesAmazonService.SalesAmazonAHlService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

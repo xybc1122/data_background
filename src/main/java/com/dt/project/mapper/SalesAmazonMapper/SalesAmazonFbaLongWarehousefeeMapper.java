@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SalesAmazonMapper;
+package com.dt.project.mapper.salesAmazonMapper;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaLongWarehouseFee;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaLongWarehouseFee;
 import com.dt.project.provider.SalesAmazonFbaLongWarehousefeeProvider;
 import org.apache.ibatis.annotations.*;
 

@@ -2,9 +2,9 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.mapper.SystemMapper.SystemShopRoleMapper;
-import com.dt.project.model.System.SystemShopRole;
-import com.dt.project.service.SystemService.SystemShopRoleService;
+import com.dt.project.mapper.systemMapper.SystemShopRoleMapper;
+import com.dt.project.model.system.SystemShopRole;
+import com.dt.project.service.systemService.SystemShopRoleService;
 import com.dt.project.utils.ReqUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

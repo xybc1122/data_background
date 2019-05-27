@@ -74,11 +74,11 @@ public class FTPCUtils {
                     }
                 }
             }
-           // System.out.println(ftpPath);
+           // system.out.println(ftpPath);
             System.out.println(ftpClient.printWorkingDirectory());
             // 上传文件
             boolean b = ftpClient.storeFile(fileName, input);
-           // System.out.println(ftpClient.getReplyCode());
+           // system.out.println(ftpClient.getReplyCode());
             return b;
         } catch (IOException e) {
             e.printStackTrace();

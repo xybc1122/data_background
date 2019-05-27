@@ -1,6 +1,6 @@
-package com.dt.project.model.HrArchives;
+package com.dt.project.model.hrArchives;
 
-import com.dt.project.model.Parent.ParentSysTemLog;
+import com.dt.project.model.parent.ParentSysTemLog;
 
 import java.io.Serializable;
 

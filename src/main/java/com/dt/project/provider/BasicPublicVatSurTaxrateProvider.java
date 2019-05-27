@@ -1,10 +1,9 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.BasePublicModel.BasicPublicVatTaxrate;
+import com.dt.project.model.basePublicModel.BasicPublicVatTaxrate;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.toos.Constants;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 /**

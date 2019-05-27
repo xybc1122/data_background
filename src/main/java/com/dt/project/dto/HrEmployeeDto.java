@@ -1,6 +1,6 @@
 package com.dt.project.dto;
 
-import com.dt.project.model.HrArchives.HrArchivesEmployee;
+import com.dt.project.model.hrArchives.HrArchivesEmployee;
 
 /**
  * @ClassName HrEmployeeDto

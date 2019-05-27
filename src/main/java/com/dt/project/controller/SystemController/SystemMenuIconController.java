@@ -1,4 +1,4 @@
-package com.dt.project.controller.SystemController;
+package com.dt.project.controller.systemController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;

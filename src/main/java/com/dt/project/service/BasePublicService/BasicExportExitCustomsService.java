@@ -1,6 +1,6 @@
-package com.dt.project.service.BasePublicService;
+package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.BasePublicModel.BasicExportExitCustoms;
+import com.dt.project.model.basePublicModel.BasicExportExitCustoms;
 
 import java.util.List;
 

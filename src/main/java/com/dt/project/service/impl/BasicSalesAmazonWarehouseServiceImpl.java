@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicSalesAmazonWarehouseMapper;
-import com.dt.project.model.BasePublicModel.BasicSalesAmazonWarehouse;
-import com.dt.project.service.BasePublicService.BasicSalesAmazonWarehouseService;
+import com.dt.project.mapper.basePublicMapper.BasicSalesAmazonWarehouseMapper;
+import com.dt.project.model.basePublicModel.BasicSalesAmazonWarehouse;
+import com.dt.project.service.basePublicService.BasicSalesAmazonWarehouseService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

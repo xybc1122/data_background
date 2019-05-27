@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicHrLeaveTypeMapper;
-import com.dt.project.model.BasePublicModel.BasicHrLeaveType;
-import com.dt.project.service.BasePublicService.BasicHrLeaveTypeService;
+import com.dt.project.mapper.basePublicMapper.BasicHrLeaveTypeMapper;
+import com.dt.project.model.basePublicModel.BasicHrLeaveType;
+import com.dt.project.service.basePublicService.BasicHrLeaveTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

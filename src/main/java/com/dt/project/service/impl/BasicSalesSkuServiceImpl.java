@@ -1,9 +1,9 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.dto.SkuDto;
-import com.dt.project.mapper.BasePublicMapper.BasicPublicSkuMapper;
-import com.dt.project.model.BasePublicModel.BasicPublicSku;
-import com.dt.project.service.BasePublicService.BasicPublicSkuService;
+import com.dt.project.mapper.basePublicMapper.BasicPublicSkuMapper;
+import com.dt.project.model.basePublicModel.BasicPublicSku;
+import com.dt.project.service.basePublicService.BasicPublicSkuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

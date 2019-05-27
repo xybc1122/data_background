@@ -1,4 +1,4 @@
-package com.dt.project.model.SalesAmazon;
+package com.dt.project.model.salesAmazon;
 
 import com.dt.project.model.JavaSqlName;
 

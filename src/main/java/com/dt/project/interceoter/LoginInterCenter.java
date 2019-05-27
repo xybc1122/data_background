@@ -36,7 +36,7 @@ public class LoginInterCenter implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        System.out.println("监听器过滤");
+//        system.out.println("监听器过滤");
         System.out.println(request.getRequestURL());
         UserService userService = ApplicationContextRegister.getBean(UserService.class);
         RedisService redisService = ApplicationContextRegister.getBean(RedisService.class);

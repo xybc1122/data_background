@@ -1,4 +1,4 @@
-package com.dt.project.controller.UserServiceController;
+package com.dt.project.controller.userServiceController;
 
 
 import org.springframework.web.bind.annotation.*;

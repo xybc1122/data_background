@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SalesAmazonMapper;
+package com.dt.project.mapper.salesAmazonMapper;
 
-import com.dt.project.model.SalesAmazon.SalesShipNoticePackingListEntry;
+import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
 
 import java.util.List;
 

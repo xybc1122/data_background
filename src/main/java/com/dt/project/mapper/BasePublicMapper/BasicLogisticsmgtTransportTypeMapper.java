@@ -1,6 +1,6 @@
-package com.dt.project.mapper.BasePublicMapper;
+package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.Parent.ParentTree;
+import com.dt.project.model.parent.ParentTree;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

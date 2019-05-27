@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaLongWarehouseFee;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaLongWarehouseFee;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
@@ -8,7 +8,6 @@ import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -75,9 +74,7 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
         ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(wFee.getSku()))
             sql.WHERE("POSITION('" + wFee.getSku() + "' IN ps.`sku`)");
-
-        Field[] fields = wFee.getClass().getDeclaredFields();
-        FieldStore.query(fields, wFee.getNameList(), wFee, sql);
+        FieldStore.query(wFee.getClass(), wFee.getNameList(), wFee, sql);
         ProviderSqlStore.selectUploadStatus(sql, wFee, alias);
         return sql.toString();
     }

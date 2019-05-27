@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicSalesPublicStarlevelMapper;
-import com.dt.project.model.BasePublicModel.BasicSalesPublicStarlevel;
-import com.dt.project.service.BasePublicService.BasicSalesPublicStarlevelService;
+import com.dt.project.mapper.basePublicMapper.BasicSalesPublicStarlevelMapper;
+import com.dt.project.model.basePublicModel.BasicSalesPublicStarlevel;
+import com.dt.project.service.basePublicService.BasicSalesPublicStarlevelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

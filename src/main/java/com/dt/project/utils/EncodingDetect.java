@@ -54,7 +54,7 @@ public class EncodingDetect {
 //				    flag++;
 //			    }
 //				// 每一行创建一个Student对象，并存入数组中
-//				System.out.println(line);
+//				system.out.println(line);
 //			}
 //			fr.close();
 //
@@ -115,7 +115,7 @@ class BytesEncodingDetect extends Encoding {
 //	        try {
 //	          result = sinodetector.detectEncoding(new URL(argc[i]));
 //	        } catch (Exception e) {
-//	          System.err.println("Bad URL " + e.toString());
+//	          system.err.println("Bad URL " + e.toString());
 //	        }
 //	      } else if (argc[i].equals("-d")) {
 //	        sinodetector.debug = true;
@@ -123,7 +123,7 @@ class BytesEncodingDetect extends Encoding {
 //	      } else {
 //	        result = sinodetector.detectEncoding(new File(argc[i]));
 //	      }
-//	      System.out.println(nicename[result]);
+//	      system.out.println(nicename[result]);
 //	    }
 //	  }
 //
@@ -146,7 +146,7 @@ class BytesEncodingDetect extends Encoding {
 //            chinesestream.close();
 //            guess = detectEncoding(rawtext);
 //        } catch (Exception e) {
-//            System.err.println("Error loading or using URL " + e.toString());
+//            system.err.println("Error loading or using URL " + e.toString());
 //            guess = -1;
 //        }
 //        return guess;
@@ -233,7 +233,7 @@ class BytesEncodingDetect extends Encoding {
         // Stage 1: Check to see if characters fit into acceptable ranges
         rawtextlen = rawtext.length;
         for (i = 0; i < rawtextlen - 1; i++) {
-            // System.err.println(rawtext[i]);
+            // system.err.println(rawtext[i]);
             if (rawtext[i] >= 0) {
                 // asciichars++;
             } else {
@@ -272,7 +272,7 @@ class BytesEncodingDetect extends Encoding {
         // Stage 1: Check to see if characters fit into acceptable ranges
         rawtextlen = rawtext.length;
         for (i = 0; i < rawtextlen - 1; i++) {
-            // System.err.println(rawtext[i]);
+            // system.err.println(rawtext[i]);
             if (rawtext[i] >= 0) {
                 // asciichars++;
             } else {
@@ -283,7 +283,7 @@ class BytesEncodingDetect extends Encoding {
                     totalfreq += 500;
                     row = rawtext[i] + 256 - 0xA1;
                     column = rawtext[i + 1] + 256 - 0xA1;
-                    // System.out.println("original row " + row + " column " + column);
+                    // system.out.println("original row " + row + " column " + column);
                     if (GBFreq[row][column] != 0) {
                         gbfreq += GBFreq[row][column];
                     } else if (15 <= row && row < 55) {
@@ -301,7 +301,7 @@ class BytesEncodingDetect extends Encoding {
                     } else {
                         column = rawtext[i + 1] + 256 - 0x40;
                     }
-                    // System.out.println("extended row " + row + " column " + column + " rawtext[i] " + rawtext[i]);
+                    // system.out.println("extended row " + row + " column " + column + " rawtext[i] " + rawtext[i]);
                     if (GBKFreq[row][column] != 0) {
                         gbfreq += GBKFreq[row][column];
                     }
@@ -328,7 +328,7 @@ class BytesEncodingDetect extends Encoding {
         // Stage 1: Check to see if characters fit into acceptable ranges
         rawtextlen = rawtext.length;
         for (i = 0; i < rawtextlen - 1; i++) {
-            // System.err.println(rawtext[i]);
+            // system.err.println(rawtext[i]);
             if (rawtext[i] >= 0) {
                 // asciichars++;
             } else {
@@ -339,7 +339,7 @@ class BytesEncodingDetect extends Encoding {
                     totalfreq += 500;
                     row = rawtext[i] + 256 - 0xA1;
                     column = rawtext[i + 1] + 256 - 0xA1;
-                    // System.out.println("original row " + row + " column " + column);
+                    // system.out.println("original row " + row + " column " + column);
                     if (GBFreq[row][column] != 0) {
                         gbfreq += GBFreq[row][column];
                     } else if (15 <= row && row < 55) {
@@ -357,7 +357,7 @@ class BytesEncodingDetect extends Encoding {
                     } else {
                         column = rawtext[i + 1] + 256 - 0x40;
                     }
-                    // System.out.println("extended row " + row + " column " + column + " rawtext[i] " + rawtext[i]);
+                    // system.out.println("extended row " + row + " column " + column + " rawtext[i] " + rawtext[i]);
                     if (GBKFreq[row][column] != 0) {
                         gbfreq += GBKFreq[row][column];
                     }
@@ -370,7 +370,7 @@ class BytesEncodingDetect extends Encoding {
                     gbchars++;
                     /*
                      * totalfreq += 500; row = rawtext[i] + 256 - 0x81; if (0x40 <= rawtext[i+1] && rawtext[i+1] <= 0x7E) { column =
-                     * rawtext[i+1] - 0x40; } else { column = rawtext[i+1] + 256 - 0x40; } //System.out.println("extended row " + row + "
+                     * rawtext[i+1] - 0x40; } else { column = rawtext[i+1] + 256 - 0x40; } //system.out.println("extended row " + row + "
                      * column " + column + " rawtext[i] " + rawtext[i]); if (GBKFreq[row][column] != 0) { gbfreq += GBKFreq[row][column]; }
                      */
                 }
@@ -507,7 +507,7 @@ class BytesEncodingDetect extends Encoding {
 //        // Stage 1: Check to see if characters fit into acceptable ranges
 //        rawtextlen = rawtext.length;
 //        for (i = 0; i < rawtextlen - 1; i++) {
-//            // System.err.println(rawtext[i]);
+//            // system.err.println(rawtext[i]);
 //            if (rawtext[i] >= 128) {
 //                // asciichars++;
 //            } else {
@@ -522,7 +522,7 @@ class BytesEncodingDetect extends Encoding {
 //                    } else {
 //                        column = rawtext[i + 1] - 0x61;
 //                    }
-//                    // System.out.println("original row " + row + " column " + column);
+//                    // system.out.println("original row " + row + " column " + column);
 //                    if (Big5Freq[row][column] != 0) {
 //                        bffreq += Big5Freq[row][column];
 //                    } else if (3 <= row && row < 37) {
@@ -538,7 +538,7 @@ class BytesEncodingDetect extends Encoding {
 //                    } else {
 //                        column = rawtext[i + 1] - 0x40;
 //                    }
-//                    // System.out.println("extended row " + row + " column " + column + " rawtext[i] " + rawtext[i]);
+//                    // system.out.println("extended row " + row + " column " + column + " rawtext[i] " + rawtext[i]);
 //                    if (Big5PFreq[row][column] != 0) {
 //                        bffreq += Big5PFreq[row][column];
 //                    }
@@ -574,7 +574,7 @@ class BytesEncodingDetect extends Encoding {
                         && (byte) 0xA1 <= rawtext[i + 2] && rawtext[i + 2] <= (byte) 0xFE && (byte) 0xA1 <= rawtext[i + 3]
                         && rawtext[i + 3] <= (byte) 0xFE) { // Planes 1 - 16
                     cnschars++;
-                    // System.out.println("plane 2 or above CNS char");
+                    // system.out.println("plane 2 or above CNS char");
                     // These are all less frequent chars so just ignore freq
                     i += 3;
                 } else if ((byte) 0xA1 <= rawtext[i] && rawtext[i] <= (byte) 0xFE && // Plane 1
@@ -661,7 +661,7 @@ class BytesEncodingDetect extends Encoding {
         }
         rangeval = 50 * ((float) isochars / (float) dbchars);
         freqval = 50 * ((float) isofreq / (float) totalfreq);
-        // System.out.println("isochars dbchars isofreq totalfreq " + isochars + " " + dbchars + " " + isofreq + " " + totalfreq + "
+        // system.out.println("isochars dbchars isofreq totalfreq " + isochars + " " + dbchars + " " + isofreq + " " + totalfreq + "
         // " + rangeval + " " + freqval);
         return (int) (rangeval + freqval);
         // return 0;
@@ -698,7 +698,7 @@ class BytesEncodingDetect extends Encoding {
             return 0;
         }
         score = (int) (100 * ((float) goodbytes / (float) (rawtextlen - asciibytes)));
-        // System.out.println("rawtextlen " + rawtextlen + " goodbytes " + goodbytes + " asciibytes " + asciibytes + " score " +
+        // system.out.println("rawtextlen " + rawtextlen + " goodbytes " + goodbytes + " asciibytes " + asciibytes + " score " +
         // score);
         // If not above 98, reduce to zero to prevent coincidental matches
         // Allows for some (few) bad formed sequences
@@ -771,7 +771,7 @@ class BytesEncodingDetect extends Encoding {
         // Stage 1: Check to see if characters fit into acceptable ranges
         rawtextlen = rawtext.length;
         for (i = 0; i < rawtextlen - 1; i++) {
-            // System.err.println(rawtext[i]);
+            // system.err.println(rawtext[i]);
             if (rawtext[i] >= 0) {
                 // asciichars++;
             } else {
@@ -809,7 +809,7 @@ class BytesEncodingDetect extends Encoding {
         // Stage 1: Check to see if characters fit into acceptable ranges
         rawtextlen = rawtext.length;
         for (i = 0; i < rawtextlen - 1; i++) {
-            // System.err.println(rawtext[i]);
+            // system.err.println(rawtext[i]);
             if (rawtext[i] >= 0) {
                 // asciichars++;
             } else {
@@ -861,7 +861,7 @@ class BytesEncodingDetect extends Encoding {
         // Stage 1: Check to see if characters fit into acceptable ranges
         rawtextlen = rawtext.length;
         for (i = 0; i < rawtextlen - 1; i++) {
-            // System.err.println(rawtext[i]);
+            // system.err.println(rawtext[i]);
             if (rawtext[i] >= 0) {
                 // asciichars++;
             } else {
@@ -909,7 +909,7 @@ class BytesEncodingDetect extends Encoding {
         // Stage 1: Check to see if characters fit into acceptable ranges
         rawtextlen = rawtext.length;
         for (i = 0; i < rawtextlen - 1; i++) {
-            // System.err.println(rawtext[i]);
+            // system.err.println(rawtext[i]);
             if (rawtext[i] >= 0) {
                 // asciichars++;
             } else {
@@ -939,7 +939,7 @@ class BytesEncodingDetect extends Encoding {
                     }
                     row -= 0x20;
                     column = 0x20;
-                    // System.out.println("original row " + row + " column " + column);
+                    // system.out.println("original row " + row + " column " + column);
                     if (row < JPFreq.length && column < JPFreq[row].length && JPFreq[row][column] != 0) {
                         jpfreq += JPFreq[row][column];
                     }

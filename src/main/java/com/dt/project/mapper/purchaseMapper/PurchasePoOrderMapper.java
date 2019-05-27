@@ -1,6 +1,6 @@
-package com.dt.project.mapper.PurchasePoOrderMapper;
+package com.dt.project.mapper.purchaseMapper;
 
-import com.dt.project.model.PurchasePo.PurchasePoOrder;
+import com.dt.project.model.purchasePo.PurchasePoOrder;
 
 import java.util.List;
 
@@ -9,11 +9,8 @@ import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
-import org.apache.ibatis.type.JdbcType;
 
 public interface PurchasePoOrderMapper {
     @SelectProvider(type = PurchasePoOrderSqlProvider.class, method = "countByExample")
@@ -73,7 +70,8 @@ public interface PurchasePoOrderMapper {
      * @return
      */
     @SelectProvider(type = PurchasePoOrderSqlProvider.class, method = "selectByPoOrder")
-    List<PurchasePoOrder> selectByExample(PurchasePoOrder record);
+    List<PurchasePoOrder> selectByPoOrder(PurchasePoOrder record);
+
 
     @UpdateProvider(type = PurchasePoOrderSqlProvider.class, method = "updateByExampleSelective")
     int updateByExampleSelective(@Param("record") PurchasePoOrder record);

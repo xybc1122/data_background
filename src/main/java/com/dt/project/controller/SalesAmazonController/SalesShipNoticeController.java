@@ -1,14 +1,16 @@
-package com.dt.project.controller.SalesAmazonController;
+package com.dt.project.controller.salesAmazonController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.SalesAmazon.SalesShipNotice;
+import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.service.JavaSqlNameService;
-import com.dt.project.service.SalesAmazonService.SalesShipNoticeService;
+import com.dt.project.service.salesAmazonService.SalesShipNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 /**
  * @ClassName SalesShipNoticeController
@@ -30,11 +32,20 @@ public class SalesShipNoticeController {
      * @return
      */
     @PostMapping("/getNotice")
-    public ResponseBase getBusInfo(@RequestBody SalesShipNotice notice) {
+    public ResponseBase getNotice(@RequestBody SalesShipNotice notice) {
         //这里放入缓存
         notice.setNameList(nameService.get("shipNotice"));
         return noticeService.selectSelectByNotice(notice);
     }
 
+    /**
+     * 新增发货通知单
+     *
+     * @return
+     */
+    @PostMapping("/saveNotice")
+    public ResponseBase saveNotice(@RequestBody Map<String, Object> noMap) {
+        return noticeService.saveNotice(noMap);
+    }
 
 }

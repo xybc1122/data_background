@@ -1,6 +1,6 @@
-package com.dt.project.model.System;
+package com.dt.project.model.system;
 
-import com.dt.project.model.Parent.ConfTableParent;
+import com.dt.project.model.parent.ConfTableParent;
 
 /**
  * 角色店铺配置类

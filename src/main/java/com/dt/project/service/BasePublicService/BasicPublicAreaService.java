@@ -1,7 +1,7 @@
-package com.dt.project.service.BasePublicService;
+package com.dt.project.service.basePublicService;
 
 import com.dt.project.dto.AreaDto;
-import com.dt.project.model.BasePublicModel.BasicPublicArea;
+import com.dt.project.model.basePublicModel.BasicPublicArea;
 
 import java.util.List;
 

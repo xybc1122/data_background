@@ -1,7 +1,7 @@
 package com.dt.project.service;
 
 import com.dt.project.dto.HrEmployeeDto;
-import com.dt.project.model.HrArchives.HrArchivesEmployee;
+import com.dt.project.model.hrArchives.HrArchivesEmployee;
 
 import java.util.List;
 import java.util.Map;

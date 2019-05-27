@@ -1,6 +1,6 @@
 package com.dt.project.dto;
 
-import com.dt.project.model.BasePublicModel.BasicPublicExchangeRate;
+import com.dt.project.model.basePublicModel.BasicPublicExchangeRate;
 
 import java.util.List;
 

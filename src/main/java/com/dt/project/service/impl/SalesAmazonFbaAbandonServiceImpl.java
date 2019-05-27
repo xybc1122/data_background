@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.SalesAmazonMapper.SalesAmazonFbaAbandonMapper;
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaAbandon;
-import com.dt.project.service.SalesAmazonService.SalesAmazonFbaAbandonService;
+import com.dt.project.mapper.salesAmazonMapper.SalesAmazonFbaAbandonMapper;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaAbandon;
+import com.dt.project.service.salesAmazonService.SalesAmazonFbaAbandonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

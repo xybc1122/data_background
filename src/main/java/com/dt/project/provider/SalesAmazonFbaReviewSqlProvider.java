@@ -1,13 +1,12 @@
 package com.dt.project.provider;
 
 import com.dt.project.dto.ReviewDto;
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaReview;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaReview;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import static org.apache.ibatis.jdbc.SqlBuilder.*;
@@ -40,8 +39,7 @@ public class SalesAmazonFbaReviewSqlProvider {
         ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(reviewDto.getStarLevelName()))
             sql.WHERE("POSITION('" + reviewDto.getStarLevelName() + "' IN lev.`star_level_name`)");
-        Field[] fields = SalesAmazonFbaReview.class.getDeclaredFields();
-        FieldStore.query(fields, reviewDto.getNameList(), reviewDto, sql);
+        FieldStore.query(SalesAmazonFbaReview.class, reviewDto.getNameList(), reviewDto, sql);
         ProviderSqlStore.selectUploadStatus(sql, reviewDto, alias);
         return sql.toString();
     }

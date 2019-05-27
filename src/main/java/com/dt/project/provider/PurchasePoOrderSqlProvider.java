@@ -4,15 +4,15 @@ import static org.apache.ibatis.jdbc.SqlBuilder.BEGIN;
 import static org.apache.ibatis.jdbc.SqlBuilder.DELETE_FROM;
 import static org.apache.ibatis.jdbc.SqlBuilder.FROM;
 import static org.apache.ibatis.jdbc.SqlBuilder.INSERT_INTO;
-import static org.apache.ibatis.jdbc.SqlBuilder.ORDER_BY;
 import static org.apache.ibatis.jdbc.SqlBuilder.SELECT;
-import static org.apache.ibatis.jdbc.SqlBuilder.SELECT_DISTINCT;
 import static org.apache.ibatis.jdbc.SqlBuilder.SET;
 import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.PurchasePo.PurchasePoOrder;
+import com.dt.project.model.purchasePo.PurchasePoOrder;
+import com.dt.project.store.FieldStore;
+import com.dt.project.store.ProviderSqlStore;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -193,20 +193,28 @@ public class PurchasePoOrderSqlProvider {
         return SQL();
     }
 
-    public String selectByPoOrder(PurchasePoOrder poOrder) {
+    public String selectByPoOrder(PurchasePoOrder poOrder) throws IllegalAccessException {
+        String alias = "po";
         SQL sql = new SQL();
+        sql.SELECT("cu.`currency_name`,dep.`dept_name`,se.`employee_name` AS empName," +
+                "se1.`employee_name` AS mangerName,`po_id`,`date`,`po_no`,`po_style_id`,`explanation`,\n" +
+                "`fetch_add`,`emp_id`,\n" +
+                "`manger_id`,`exchange_rate`,`children`,`closed`,\n" +
+                "`supplier_id`,`contact_person`,`tel_phone`,`pre_pay_no`,\n" +
+                "`pre_pay_amt`,`class_type_id`,`settlement_date`,\n" +
+                "`settlement_method_id`,`po_amt`,`inbound_amt`,`invoice_company_id`,\n" +
+                "`invoice_type_id`,`pay_no`,`pay_amt`,`erase_amt`,`tran_type`, `tran_status`,`total_cost_for`,\n" +
+                "`order_confirm`,`source_type_id`,`source_id`,`print_count`,\n" +
+                "po.`status_id`,po.`version` FROM `purchase_po_order` AS " + alias + "");
+        sql.LEFT_OUTER_JOIN("basic_public_currency AS cu ON cu.`currency_id` = " + alias + ".`currency_id`");
+        sql.LEFT_OUTER_JOIN("hr_archives_department AS dep ON dep.`dept_id`=" + alias + ".`dept_id`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se ON se.`s_id` = " + alias + ".`emp_id`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se1 ON se1.`s_id` = " + alias + ".`manger_id`");
+        //sql动态查询
+        FieldStore.query(poOrder.getClass(), poOrder.getJavaSqlName(), poOrder, sql);
 
 
-
-
-
-
-
-
-
-
-
-
+        ProviderSqlStore.selectStatus(poOrder.getSystemLogStatus(), alias, sql);
         return sql.toString();
     }
 

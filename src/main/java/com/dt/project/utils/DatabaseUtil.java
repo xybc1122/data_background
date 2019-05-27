@@ -205,7 +205,7 @@ public class DatabaseUtil {
             }
         }
 
-        //            System.out.println("ColumnTypes:" + getColumnTypes(tableName));
-//            System.out.println("ColumnComments:" + getColumnComments(tableName));
+        //            system.out.println("ColumnTypes:" + getColumnTypes(tableName));
+//            system.out.println("ColumnComments:" + getColumnComments(tableName));
     }
 }

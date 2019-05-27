@@ -1,7 +1,7 @@
-package com.dt.project.mapper.BasePublicMapper;
+package com.dt.project.mapper.basePublicMapper;
 
 import com.dt.project.provider.BasicPublicAreaRoleSiteSqlProvider;
-import com.dt.project.model.BasePublicModel.BasicPublicAreaRoleSite;
+import com.dt.project.model.basePublicModel.BasicPublicAreaRoleSite;
 
 import java.util.List;
 

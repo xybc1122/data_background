@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SystemMapper;
+package com.dt.project.mapper.systemMapper;
 
-import com.dt.project.model.System.SystemInfoCompany;
+import com.dt.project.model.system.SystemInfoCompany;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public interface SystemInfoCompanyMapper {
             @Result(column = "logo_url", property = "logoUrl", jdbcType = JdbcType.VARCHAR),
             @Result(column = "status_id", property = "systemLogStatus",
                     one = @One(
-                            select = "com.dt.project.mapper.SystemMapper.SystemLogStatusMapper.findSysStatusInfo",
+                            select = "com.dt.project.mapper.systemMapper.SystemLogStatusMapper.findSysStatusInfo",
                             fetchType = FetchType.EAGER
                     )
             )

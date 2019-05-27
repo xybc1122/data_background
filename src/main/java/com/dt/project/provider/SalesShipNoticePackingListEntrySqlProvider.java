@@ -10,11 +10,10 @@ import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.SalesAmazon.SalesShipNoticePackingListEntry;
+import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
 import com.dt.project.store.FieldStore;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 public class SalesShipNoticePackingListEntrySqlProvider {
@@ -106,8 +105,7 @@ public class SalesShipNoticePackingListEntrySqlProvider {
                 "`height_cm`,`gw_kg`,\n" +
                 "`nw_kg`,`volume_m3`,`remark`,`version`" +
                 " FROM `sales_ship_notice_packing_list_entry`");
-        Field[] fields = pLEntry.getClass().getDeclaredFields();
-        FieldStore.query(fields, pLEntry.getNameList(), pLEntry, sql);
+        FieldStore.query(pLEntry.getClass(), pLEntry.getNameList(), pLEntry, sql);
         return sql.toString();
     }
 

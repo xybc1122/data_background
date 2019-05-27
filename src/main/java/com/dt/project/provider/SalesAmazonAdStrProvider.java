@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonAdStr;
+import com.dt.project.model.salesAmazon.SalesAmazonAdStr;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.utils.StrUtils;

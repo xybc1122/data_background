@@ -1,6 +1,6 @@
-package com.dt.project.service.SalesAmazonService;
+package com.dt.project.service.salesAmazonService;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonAdStr;
+import com.dt.project.model.salesAmazon.SalesAmazonAdStr;
 
 import java.util.List;
 

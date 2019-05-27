@@ -1,5 +1,5 @@
-package com.dt.project.mapper.SalesAmazonMapper;
-import com.dt.project.model.SalesAmazon.SalesAmazonAdStr;
+package com.dt.project.mapper.salesAmazonMapper;
+import com.dt.project.model.salesAmazon.SalesAmazonAdStr;
 import com.dt.project.provider.SalesAmazonAdStrProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;

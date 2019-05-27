@@ -7,7 +7,7 @@ import com.dt.project.exception.LsException;
 import com.dt.project.mapper.TableHeadMapper;
 import com.dt.project.model.TableHead;
 import com.dt.project.service.TableHeadService;
-import com.dt.project.utils.ArrUtils;
+import com.dt.project.utils.ListUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -202,7 +202,7 @@ public class TableHeadImpl implements TableHeadService {
                             } else {
                                 //如果不一样
                                 //创建一个新的数组
-                                strNewTopOrder = ArrUtils.getArr(strMid, strTopOrder, i, sort);
+                                strNewTopOrder = ListUtils.getArr(strMid, strTopOrder, i, sort);
                                 //更新数据
                                 upHeadSort(strNewTopOrder, sort.getId(), sort.getVersion());
                                 break;

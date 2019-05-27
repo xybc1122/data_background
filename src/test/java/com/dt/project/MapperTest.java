@@ -1,14 +1,13 @@
 package com.dt.project;
 
 
-import com.dt.project.mapper.BasePublicMapper.BasicPublicShopMapper;
-import com.dt.project.mapper.FinancialImportMapper.FinancialSalesBalanceMapper;
-import com.dt.project.mapper.SalesAmazonMapper.SalesShipNoticeMapper;
-import com.dt.project.mapper.SystemMapper.SystemFinalProcessingMapper;
+import com.dt.project.mapper.basePublicMapper.BasicPublicShopMapper;
+import com.dt.project.mapper.financialImportMapper.FinancialSalesBalanceMapper;
+import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeMapper;
+import com.dt.project.mapper.systemMapper.SystemFinalProcessingMapper;
 import com.dt.project.model.JavaSqlName;
-import com.dt.project.model.PurchasePo.PurchasePoOrder;
-import com.dt.project.model.SalesAmazon.SalesShipNotice;
-import com.dt.project.model.SalesAmazon.SalesShipNoticePackingListEntry;
+import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
+import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.utils.DatabaseUtil;
 import org.apache.commons.net.ftp.FTPClient;
@@ -23,7 +22,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,12 +45,12 @@ public class MapperTest {
         List<String> c = null;
         System.out.println("tableNames:" + tableNames);
         for (String tableName : tableNames) {
-            if (tableName.equals("sales_ship_notice_packing_list_entry")) {
+            if (tableName.equals("purchase_po_order_entry")) {
                 c = DatabaseUtil.getColumnNames(tableName);
             }
         }
         //设置动态查询
-        SalesShipNoticePackingListEntry f = new SalesShipNoticePackingListEntry();
+        PurchasePoOrderEntry f = new PurchasePoOrderEntry();
         Field[] field = f.getClass().getDeclaredFields();
         for (int i = 0; i < field.length; i++) {
             Field s = field[i];
@@ -60,7 +58,7 @@ public class MapperTest {
             System.out.println(s.getName());
             JavaSqlName b = new JavaSqlName();
             b.setjName(s.getName());
-            b.setModel("pLEntry");
+            b.setModel("pOEntry");
             b.setSqlName(c.get(i));
             service.serviceSet(b);
         }

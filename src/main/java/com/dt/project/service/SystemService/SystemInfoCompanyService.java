@@ -1,7 +1,7 @@
-package com.dt.project.service.SystemService;
+package com.dt.project.service.systemService;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.System.SystemInfoCompany;
+import com.dt.project.model.system.SystemInfoCompany;
 
 /**
  * @ClassName SystemInfoCompanyService

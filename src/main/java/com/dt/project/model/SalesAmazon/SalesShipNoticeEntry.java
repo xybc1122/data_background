@@ -1,4 +1,4 @@
-package com.dt.project.model.SalesAmazon;
+package com.dt.project.model.salesAmazon;
 
 import com.dt.project.model.JavaSqlName;
 
@@ -101,10 +101,6 @@ public class SalesShipNoticeEntry {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
-    }
-
-    public SalesShipNoticeEntry() {
-
     }
 
     public Long getEid() {
@@ -273,6 +269,10 @@ public class SalesShipNoticeEntry {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public SalesShipNoticeEntry() {
+
     }
 
 

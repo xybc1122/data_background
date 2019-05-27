@@ -9,7 +9,7 @@ import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.BasePublicModel.BasicPublicAreaRole;
+import com.dt.project.model.basePublicModel.BasicPublicAreaRole;
 
 import java.util.Map;
 

@@ -1,11 +1,9 @@
-package com.dt.project.service.SystemService;
+package com.dt.project.service.systemService;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.System.SystemUserConfig;
+import com.dt.project.model.system.SystemUserConfig;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * @ClassName SystemUserConfigService

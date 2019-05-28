@@ -1,13 +1,13 @@
 package com.dt.project.model;
 
-import com.dt.project.model.parent.ConfTableParent;
+import com.dt.project.model.parent.ParentConfTable;
 
 import java.util.List;
 
 /**
  * 用户关联角色实体类
  */
-public class UserRole extends ConfTableParent {
+public class UserRole extends ParentConfTable {
     /**
      * user_info  id
      */

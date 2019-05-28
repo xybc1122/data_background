@@ -28,4 +28,9 @@ public class SalesShipNoticeEntryServiceImpl implements SalesShipNoticeEntryServ
         noticeEntry.setNameList(nameService.get("nEntry"));
         return nEMapper.selectByNoticeEntry(noticeEntry);
     }
+
+    @Override
+    public boolean serviceIsItRedundant(Long shipNoticeId, Long skuId) {
+        return nEMapper.isItRedundant(shipNoticeId, skuId) != null;
+    }
 }

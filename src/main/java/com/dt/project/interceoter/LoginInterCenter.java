@@ -3,7 +3,7 @@ package com.dt.project.interceoter;
 import com.dt.project.config.ApplicationContextRegister;
 import com.dt.project.config.JsonData;
 import com.dt.project.model.UserInfo;
-import com.dt.project.service.RedisService;
+import com.dt.project.service.impl.RedisService;
 import com.dt.project.service.UserService;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.JwtUtils;

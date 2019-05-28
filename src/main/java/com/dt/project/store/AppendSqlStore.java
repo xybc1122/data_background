@@ -36,7 +36,6 @@ public class AppendSqlStore {
      * @param sql
      */
     public static void sqlWhere(Object k, String v, SQL sql, String status) {
-        System.out.println(k);
         String c = vJudge(v);
         if (k != null && k != "") {
             if (status.equals(Constants.SELECT)) {
@@ -79,7 +78,7 @@ public class AppendSqlStore {
                 return v;
             }
         }
-        //如果都符合
+        //如果是null
         return null;
     }
 

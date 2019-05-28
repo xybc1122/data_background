@@ -5,7 +5,7 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.model.Menu;
 import com.dt.project.model.UserInfo;
 import com.dt.project.service.MenuService;
-import com.dt.project.service.RedisService;
+import com.dt.project.service.impl.RedisService;
 import com.dt.project.utils.CookieUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

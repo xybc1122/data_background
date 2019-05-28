@@ -22,4 +22,12 @@ public interface SalesShipNoticeEntryService {
     List<SalesShipNoticeEntry> serviceSelectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
 
 
+    /**
+     * 查询是否有重复的
+     *
+     * @return
+     */
+    boolean serviceIsItRedundant(Long shipNoticeId, Long skuId);
+
+
 }

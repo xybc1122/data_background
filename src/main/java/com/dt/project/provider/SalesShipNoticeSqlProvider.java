@@ -162,7 +162,7 @@ public class SalesShipNoticeSqlProvider {
                 "`delivery_date`,`arrive_date`," + alias + ".`transport_type_id`,\n" +
                 "" + alias + ".`shop_id`," + alias + ".`site_id`," + alias + ".`fba_shipment_id`,\n" +
                 "" + alias + ".`aw_id`," + alias + ".`warehouse_id`,`ttl_qty`,`ttl_packages`,`ttl_volume`,\n" +
-                "`ttl_gw_kg`,`source_type_id`,`source_no`," + ProviderSqlStore.statusV(alias) + "");
+                "`ttl_gw_kg`,`source_type_id`,`source_id`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_ship_notice AS " + alias);
         ProviderSqlStore.joinTable(sql, alias);
         FieldStore.query(notice.getClass(), notice.getNameList(), notice, sql);

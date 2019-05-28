@@ -2,10 +2,14 @@ package com.dt.project.exception;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.DuplicateFormatFlagsException;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -33,6 +37,10 @@ public class LsExceptionHandler {
             return JsonData.setResultError("多线程数据处理中断" + e.getMessage());
         } else if (e instanceof NullPointerException) {
             return JsonData.setResultError("空指针异常,请检查参数" + e.getMessage());
+        } else if (e instanceof DuplicateKeyException) {
+            return JsonData.setResultError("重复名字异常");
+        } else if (e instanceof DataIntegrityViolationException) {
+            return JsonData.setResultError("参数缺少异常");
         }
         System.out.println(e.getMessage());
         return JsonData.setResultError("全局异常，未知错误");

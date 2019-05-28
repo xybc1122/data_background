@@ -41,7 +41,7 @@ public class SalesShipNotice extends ParentUploadInfo {
 
     private Long sourceTypeId;
 
-    private Long sourceNo;
+    private Long sourceId;
 
     private Long closeDate;
 
@@ -246,12 +246,12 @@ public class SalesShipNotice extends ParentUploadInfo {
         this.sourceTypeId = sourceTypeId;
     }
 
-    public Long getSourceNo() {
-        return sourceNo;
+    public Long getSourceId() {
+        return sourceId;
     }
 
-    public void setSourceNo(Long sourceNo) {
-        this.sourceNo = sourceNo;
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
     }
 
     public Long getCloseDate() {

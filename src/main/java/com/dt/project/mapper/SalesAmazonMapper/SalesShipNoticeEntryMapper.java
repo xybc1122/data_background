@@ -38,8 +38,8 @@ public interface SalesShipNoticeEntryMapper {
     })
     int insert(SalesShipNoticeEntry record);
 
-    @InsertProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "insertSelective")
-    int insertSelective(SalesShipNoticeEntry record);
+    @InsertProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "insertShipNoticeEntry")
+    int insertShipNoticeEntry(@Param("noticeEntryList") List<SalesShipNoticeEntry> noticeEntryList);
 
 
     /**
@@ -49,6 +49,15 @@ public interface SalesShipNoticeEntryMapper {
      */
     @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "selectByNoticeEntry")
     List<SalesShipNoticeEntry> selectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
+
+
+    /**
+     * 查询是否有重复的
+     *
+     * @return
+     */
+    @Select("SELECT `e_id` FROM `sales_ship_notice_entry` WHERE ship_notice_id =#{shipNoticeId} AND  skuId=#{skuId} LIMIT 1")
+    Long isItRedundant(@Param("shipNoticeId") Long shipNoticeId, @Param("skuId") Long skuId);
 
 
     @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByExampleSelective")

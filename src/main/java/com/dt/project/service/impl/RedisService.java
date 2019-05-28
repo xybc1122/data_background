@@ -1,7 +1,8 @@
-package com.dt.project.service;
+package com.dt.project.service.impl;
 
 
 import com.dt.project.exception.LsException;
+import com.dt.project.utils.UuIDUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -332,6 +333,72 @@ public class RedisService {
     // stringRedisTemplate.opsForList();//操作list
     // stringRedisTemplate.opsForSet();//操作set
     // stringRedisTemplate.opsForZSet();//操作有序set
+
+    /**
+     * 分布式 加锁
+     *
+     * @return
+     */
+    public String lockRedis(String lockKey, Long acquireTimeout, Long timeOut) {
+        String retIdentifierValue;
+        // 随机生成一个value
+        String identifierValue = UuIDUtils.uuId();
+        // 定义锁的名称
+        String lockName = "redis_lock" + lockKey;
+        //获得锁的超时时间
+        int expireLock = (int) (timeOut / 1000);
+        // 定义在没有获取锁之前,锁的超时时间
+        long endTime = System.currentTimeMillis() + acquireTimeout;
+        while (System.currentTimeMillis() < endTime) {
+            // 6.使用setNx方法设置锁值
+            if (setNx(lockName, identifierValue)) {
+                System.out.println("上锁成功......");
+                // 7.判断返回结果如果为1,则可以成功获取锁,并且设置锁的超时时间
+                stringRedisTemplate.expire(lockName, expireLock, TimeUnit.SECONDS);
+                retIdentifierValue = identifierValue;
+                return retIdentifierValue;
+            }
+            // 8.否则情况下继续循环等待
+        }
+        return null;
+    }
+
+    /**
+     * 释放锁
+     *
+     * @return
+     */
+    public boolean releaseLock(String lockKey, String identifier) {
+        // 2.定义锁的名称
+        String lockName = "redis_lock" + lockKey;
+        // 3.如果value与redis中一直直接删除，否则等待超时
+        if (identifier.equals(getStringKey(lockName))) {
+            if (delKey(lockName)) {
+                System.out.println(identifier + "-------解锁成功......");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 解锁
+     *
+     * @param target
+     * @param timeStamp
+     */
+    public void unlock(String target, String timeStamp) {
+        try {
+            String currentValue = stringRedisTemplate.opsForValue().get(target);
+            if (StringUtils.isNotBlank(currentValue) && currentValue.equals(timeStamp)) {
+                // 删除锁状态
+                stringRedisTemplate.opsForValue().getOperations().delete(target);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("警报！警报！警报！解锁异常{}");
+        }
+    }
 
     /**
      * 定义成功一个方法调用

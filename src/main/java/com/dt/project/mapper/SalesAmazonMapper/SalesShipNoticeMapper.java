@@ -8,8 +8,18 @@ import java.util.List;
 import org.apache.ibatis.annotations.*;
 
 public interface SalesShipNoticeMapper {
+
+    /**
+     * 查询是否有重复的
+     *
+     * @return
+     */
+    @Select("SELECT `ship_notice_id` FROM `sales_ship_notice` WHERE `date`=#{date} " +
+            "AND platform_type_id=#{platformTypeId} AND shop_id=#{shopId} AND site_id=#{siteId} LIMIT 1")
+    Long isItRedundant(SalesShipNotice shipNotice);
+
     @SelectProvider(type = SalesShipNoticeSqlProvider.class, method = "countByExample")
-    int countByExample(SalesShipNotice example);
+    long countByExample(SalesShipNotice example);
 
     @DeleteProvider(type = SalesShipNoticeSqlProvider.class, method = "deleteByExample")
     int deleteByExample(SalesShipNotice example);
@@ -21,7 +31,7 @@ public interface SalesShipNoticeMapper {
      * @return
      */
     @Insert({
-            "insert into sales_ship_notice (no, ",
+            "insert into sales_ship_notice (no,",
             "date, platform_type_id, ",
             "delivery_date, arrive_date, ",
             "transport_type_id, shop_id, ",
@@ -35,7 +45,7 @@ public interface SalesShipNoticeMapper {
             "modify_date, modify_user, ",
             "audit_date, audit_user, ",
             "close_date, close_user)",
-            "values (jdbcType=BIGINT}, #{no,jdbcType=VARCHAR},",
+            "values(#{no,jdbcType=VARCHAR},",
             "#{date,jdbcType=BIGINT}, #{platformTypeId,jdbcType=INTEGER}, ",
             "#{deliveryDate,jdbcType=BIGINT}, #{arriveDate,jdbcType=BIGINT}, ",
             "#{transportTypeId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, ",
@@ -50,7 +60,8 @@ public interface SalesShipNoticeMapper {
             "#{auditDate,jdbcType=BIGINT}, #{auditUser,jdbcType=BIGINT}, ",
             "#{closeDate,jdbcType=BIGINT}, #{closeUser,jdbcType=BIGINT})"
     })
-    int insert(SalesShipNotice record);
+    @Options(useGeneratedKeys = true, keyProperty = "shipNoticeId", keyColumn = "ship_notice_id")
+    int insertShipNotice(SalesShipNotice record);
 
     @InsertProvider(type = SalesShipNoticeSqlProvider.class, method = "insertSelective")
     int insertSelective(SalesShipNotice record);

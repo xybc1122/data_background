@@ -9,6 +9,7 @@ import com.dt.project.model.JavaSqlName;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.service.LockService;
 import com.dt.project.utils.DatabaseUtil;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -38,6 +39,8 @@ public class MapperTest {
     private BasicPublicShopMapper shopMapper;
     @Autowired
     private SalesShipNoticeMapper noticeMapper;
+
+
 
     @Test
     public void add() {

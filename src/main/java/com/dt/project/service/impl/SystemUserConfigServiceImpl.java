@@ -6,7 +6,6 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.exception.LsException;
 import com.dt.project.mapper.systemMapper.SystemUserConfigMapper;
 import com.dt.project.model.system.SystemUserConfig;
-import com.dt.project.service.RedisService;
 import com.dt.project.service.systemService.SystemUserConfigService;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.ReqUtils;

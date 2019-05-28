@@ -6,7 +6,6 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.JavaSqlNameMapper;
 import com.dt.project.model.JavaSqlName;
 import com.dt.project.service.JavaSqlNameService;
-import com.dt.project.service.RedisService;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;

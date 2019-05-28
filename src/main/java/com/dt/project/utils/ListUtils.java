@@ -4,6 +4,7 @@ import com.dt.project.model.TableHead;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class ListUtils {
@@ -106,5 +107,15 @@ public class ListUtils {
             }
         }
         return strNewTopOrder;
+    }
+
+    /**
+     * 来比较一个List中是否有一样的值
+     *
+     * @param list
+     * @return
+     */
+    public static boolean isRepeat(List<?> list) {
+        return list.size() != new HashSet<>(list).size();
     }
 }

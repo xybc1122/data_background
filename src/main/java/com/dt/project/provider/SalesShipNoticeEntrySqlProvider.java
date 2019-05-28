@@ -45,13 +45,17 @@ public class SalesShipNoticeEntrySqlProvider {
                 "`close_date`, `close_user`)values");
         for (SalesShipNoticeEntry noticeEntry : noticeEntryList) {
             sb.append("(").append(noticeEntry.getEntryId()).append(",").append(noticeEntry.getShipNoticeId()).
-                    append(",").append(noticeEntry.getSkuId()).append(",").append(noticeEntry.getQuantity());
+                    append(",").append(noticeEntry.getSkuId()).append(",").append(noticeEntry.getQuantity()).append(",");
             StrUtils.appBuider(sb, noticeEntry.getPackages());
             sb.append(",").append(noticeEntry.getNeLengthCm()).append(",").append(noticeEntry.getNeWidthCm()).
                     append(",").append(noticeEntry.getNeHeightCm()).append(",").
                     append(noticeEntry.getNeGwKg()).append(",").append(noticeEntry.getNeNwKg()).append(",").
                     append(noticeEntry.getNeVolumeM3()).append(",").append(noticeEntry.getPackingStatus()).append(",").
-                    append(noticeEntry.getSeQuantity()).append(",");
+                    append(noticeEntry.getSeQuantity()).append(",").append(noticeEntry.getReQuantity()).append(",").
+                    append(noticeEntry.getReDate()).append(",");
+            StrUtils.appBuider(sb, noticeEntry.getNeRemark());
+            sb.append(",").append(noticeEntry.getStatus()).append(",").append(noticeEntry.getCloseDate()).append(",");
+            StrUtils.appBuider(sb, noticeEntry.getCloseUser());
             sb.append("),");
         }
         return sb.toString().substring(0, sb.length() - 1);

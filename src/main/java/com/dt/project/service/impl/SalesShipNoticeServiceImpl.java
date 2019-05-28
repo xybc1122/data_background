@@ -21,10 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Date;
+import java.util.*;
 
 /**
  * @ClassName SalesShipNoticeServiceImpl
@@ -118,14 +115,23 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
 
             List<SalesShipNoticeEntry> shipNoticeEntryList = new ArrayList<>();
             Long shipNoticeId = salesShipNotice.getShipNoticeId();
+            //用来判断里面的skuId是否有相同的
+            List<Long> listSkuId = new ArrayList<>();
             for (Object obj : noticeEntryArr) {
                 SalesShipNoticeEntry shipNoticeEntry = (SalesShipNoticeEntry) JsonUtils.objConversion(obj, SalesShipNoticeEntry.class);
-                if (nEService.serviceIsItRedundant(shipNoticeId, shipNoticeEntry.getSkuId())) {
-                    throw new LsException("表体数据重复");
+                //如果长度大于1 这里就要拿到集合里的SKU
+                if (noticeEntryArr.size() > 1) {
+                    listSkuId.add(shipNoticeEntry.getSkuId());
                 }
                 shipNoticeEntry.setShipNoticeId(shipNoticeId);
                 shipNoticeEntryList.add(shipNoticeEntry);
             }
+
+            if (ListUtils.isRepeat(listSkuId)) {
+                throw new LsException("表体数据SKU重复");
+            }
+
+            nEService.insertShipNoticeEntry(shipNoticeEntryList);
             return JsonData.setResultSuccess("success");
         } finally {
             if (StringUtils.isNotBlank(identifier)) {
@@ -134,5 +140,14 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
         }
     }
 
+
+//
+//    public static void main(String[] args) {
+//        List<Integer> list = new ArrayList<>();
+//        list.add(1);
+//        list.add(2);
+//        boolean isRepeat = ListUtils.isRepeat(list);
+//        System.out.println("list中包含重复元素：" + isRepeat);
+//    }
 
 }

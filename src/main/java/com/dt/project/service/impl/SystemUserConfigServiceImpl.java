@@ -148,11 +148,12 @@ public class SystemUserConfigServiceImpl implements SystemUserConfigService {
             configKey = Constants.USER_CONFIG + ReqUtils.getUid() + "/" + mid + "/" + configId;
             redisService.stringRedisTemplate().execute(new SessionCallback<List<Object>>() {
                 public List<Object> execute(RedisOperations operations) throws DataAccessException {
-                    operations.multi();
                     Set<String> keys = operations.keys(configKey + "*");
-                    if (keys != null) {
-                        operations.delete(keys);
+                    operations.multi();
+                    if (keys == null) {
+                        throw new LsException("警告异常key找不到");
                     }
+                    operations.delete(keys);
                     operations.opsForValue().set(configKey + "," + programName, setJSON(confMap, mid, configId, programName, dropTableList));
                     return operations.exec();
                 }

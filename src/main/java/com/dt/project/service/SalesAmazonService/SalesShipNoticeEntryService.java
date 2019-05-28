@@ -23,11 +23,12 @@ public interface SalesShipNoticeEntryService {
 
 
     /**
-     * 查询是否有重复的
+     * 批量插入出库通知单子表数据
      *
+     * @param noticeEntryList
      * @return
      */
-    boolean serviceIsItRedundant(Long shipNoticeId, Long skuId);
+    int insertShipNoticeEntry(List<SalesShipNoticeEntry> noticeEntryList);
 
 
 }

@@ -6,6 +6,7 @@ import com.dt.project.oa.service.ActivitiService;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.UuIDUtils;
 import org.activiti.engine.*;
+import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +78,7 @@ public class ActivitiServiceImpl implements ActivitiService {
 
     @Override
     public ResponseBase startProcess(String instanceKey, String uName, Map<String, Object> objectMap) {
-        get().getIdentityService().setAuthenticatedUserId(uName);
+        Authentication.setAuthenticatedUserId(uName);
         ProcessInstance processInstance = get().getRuntimeService().startProcessInstanceByKey(instanceKey);
         Task task = get()
                 .getTaskService()
@@ -89,6 +90,7 @@ public class ActivitiServiceImpl implements ActivitiService {
         objectMap.put("uuidNumber", UuIDUtils.uuId());
         //完成任务
         get().getTaskService().complete(task.getId(), objectMap);
+        Authentication.setAuthenticatedUserId(null);
         return JsonData.setResultSuccess("发起流程成功");
     }
 

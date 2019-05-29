@@ -147,23 +147,10 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
     public ResponseBase serviceDeleteByShipNoticesAndNoticeEntry(Map<String, List<Integer>> objectMap) {
         List<Integer> delShipNoticeObj = objectMap.get("delShipNotice");
         List<Integer> delShipNoticeEntryObj = objectMap.get("delShipNoticeEntry");
-        if (delShipNoticeObj != null && delShipNoticeObj.size() > 0) {
-            //如果更新父表 先去查询子表下面有没有数据
-            List<Integer> idList = nEService.serviceSelIsNull(delShipNoticeObj);
-            //如果 idList 长度大于0 说明有值
-            if (idList != null && idList.size() > 0) {
-                //比较取出不一样的值
-                Map<String, List<Integer>> listMap = ListUtils.listCompare(delShipNoticeObj, idList);
-                //删除不一样的值
-                int result = gPService.serviceDeleteByGeneral(listMap.get("1"), "sales_ship_notice",
-                        "ship_notice_id");
-                JsonUtils.saveResult(result);
-            } else {
-                int result = gPService.serviceDeleteByGeneral(delShipNoticeObj, "sales_ship_notice",
-                        "ship_notice_id");
-                JsonUtils.saveResult(result);
-            }
-        }
+
+        Map<String, List<Integer>> thisSet = set(delShipNoticeObj, "sales_ship_notice", "ship_notice_id");
+
+
         if (delShipNoticeEntryObj != null) {
 
         }
@@ -171,7 +158,26 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
 
     }
 
-
+    public Map<String, List<Integer>> set(List<Integer> printList, String table, String thisId) {
+        if (printList == null || printList.size() <= 0) {
+            return null;
+        }
+        List<Integer> idList = nEService.serviceSelIsNull(printList);
+        if (idList != null && idList.size() > 0) {
+            //比较取出不一样的值
+            Map<String, List<Integer>> listMap = ListUtils.listCompare(printList, idList);
+            //删除不一样的值
+            int result = gPService.serviceDeleteByGeneral(listMap.get("1"), table,
+                    thisId);
+            JsonUtils.saveResult(result);
+            return listMap;
+        } else {
+            int result = gPService.serviceDeleteByGeneral(printList, table,
+                    thisId);
+            JsonUtils.saveResult(result);
+            return null;
+        }
+    }
 //
 //    public static void main(String[] args) {
 //        List<Integer> list = new ArrayList<>();

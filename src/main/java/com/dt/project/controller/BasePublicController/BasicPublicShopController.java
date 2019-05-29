@@ -2,7 +2,7 @@ package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.ShopDto;
+import com.dt.project.model.dto.ShopDto;
 import com.dt.project.model.basePublicModel.BasicPublicShop;
 import com.dt.project.service.basePublicService.BasicPublicShopService;
 import com.dt.project.utils.PageInfoUtils;

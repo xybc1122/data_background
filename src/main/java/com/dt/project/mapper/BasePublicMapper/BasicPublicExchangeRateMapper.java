@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.dto.ExchangeRateDto;
+import com.dt.project.model.dto.ExchangeRateDto;
 import com.dt.project.model.basePublicModel.BasicPublicExchangeRate;
 import com.dt.project.provider.BasicPublicExchangeRateProvider;
 import org.apache.ibatis.annotations.*;

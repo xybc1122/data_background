@@ -1,7 +1,7 @@
 package com.dt.project.service;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.TableHeadDto;
+import com.dt.project.model.dto.TableHeadDto;
 import com.dt.project.model.TableHead;
 import org.apache.ibatis.annotations.Param;
 

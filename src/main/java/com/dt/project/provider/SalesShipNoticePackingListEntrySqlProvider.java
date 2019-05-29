@@ -12,6 +12,7 @@ import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
 import com.dt.project.store.FieldStore;
+import com.dt.project.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -57,42 +58,6 @@ public class SalesShipNoticePackingListEntrySqlProvider {
             VALUES("packages_end", "#{packagesEnd,jdbcType=INTEGER}");
         }
 
-        if (record.getLengthCm() != null) {
-            VALUES("length_cm", "#{lengthCm,jdbcType=DECIMAL}");
-        }
-
-        if (record.getWidthCm() != null) {
-            VALUES("width_cm", "#{widthCm,jdbcType=DECIMAL}");
-        }
-
-        if (record.getHeightCm() != null) {
-            VALUES("height_cm", "#{heightCm,jdbcType=DECIMAL}");
-        }
-
-        if (record.getGwKg() != null) {
-            VALUES("gw_kg", "#{gwKg,jdbcType=DECIMAL}");
-        }
-
-        if (record.getNwKg() != null) {
-            VALUES("nw_kg", "#{nwKg,jdbcType=DECIMAL}");
-        }
-
-        if (record.getVolumeM3() != null) {
-            VALUES("volume_m3", "#{volumeM3,jdbcType=DECIMAL}");
-        }
-
-        if (record.getRemark() != null) {
-            VALUES("remark", "#{remark,jdbcType=VARCHAR}");
-        }
-
-        if (record.getVersion() != null) {
-            VALUES("version", "#{version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            VALUES("del_or_not", "#{delOrNot,jdbcType=BIT}");
-        }
-
         return SQL();
     }
 
@@ -106,6 +71,10 @@ public class SalesShipNoticePackingListEntrySqlProvider {
                 "`nw_kg`,`volume_m3`,`remark`,`version`" +
                 " FROM `sales_ship_notice_packing_list_entry`");
         FieldStore.query(pLEntry.getClass(), pLEntry.getNameList(), pLEntry, sql);
+        sql.WHERE("del_or_not=0");
+        if (pLEntry.getInShipNoticeList() != null && pLEntry.getInShipNoticeList().size() > 0) {
+            return sql.toString() + " AND " + StrUtils.in(pLEntry.getInShipNoticeList(), "packing_list_id");
+        }
         return sql.toString();
     }
 
@@ -135,42 +104,6 @@ public class SalesShipNoticePackingListEntrySqlProvider {
 
         if (record.getPackagesEnd() != null) {
             SET("packages_end = #{record.packagesEnd,jdbcType=INTEGER}");
-        }
-
-        if (record.getLengthCm() != null) {
-            SET("length_cm = #{record.lengthCm,jdbcType=DECIMAL}");
-        }
-
-        if (record.getWidthCm() != null) {
-            SET("width_cm = #{record.widthCm,jdbcType=DECIMAL}");
-        }
-
-        if (record.getHeightCm() != null) {
-            SET("height_cm = #{record.heightCm,jdbcType=DECIMAL}");
-        }
-
-        if (record.getGwKg() != null) {
-            SET("gw_kg = #{record.gwKg,jdbcType=DECIMAL}");
-        }
-
-        if (record.getNwKg() != null) {
-            SET("nw_kg = #{record.nwKg,jdbcType=DECIMAL}");
-        }
-
-        if (record.getVolumeM3() != null) {
-            SET("volume_m3 = #{record.volumeM3,jdbcType=DECIMAL}");
-        }
-
-        if (record.getRemark() != null) {
-            SET("remark = #{record.remark,jdbcType=VARCHAR}");
-        }
-
-        if (record.getVersion() != null) {
-            SET("version = #{record.version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
         }
 
 

@@ -8,6 +8,7 @@ import com.dt.project.mapper.systemMapper.SystemFinalProcessingMapper;
 import com.dt.project.model.JavaSqlName;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
+import com.dt.project.model.salesAmazon.SalesShipNoticePackingList;
 import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.utils.DatabaseUtil;
 import org.apache.commons.net.ftp.FTPClient;
@@ -47,12 +48,12 @@ public class MapperTest {
         List<String> c = null;
         System.out.println("tableNames:" + tableNames);
         for (String tableName : tableNames) {
-            if (tableName.equals("purchase_po_order_entry")) {
+            if (tableName.equals("sales_ship_notice_packing_list")) {
                 c = DatabaseUtil.getColumnNames(tableName);
             }
         }
         //设置动态查询
-        PurchasePoOrderEntry f = new PurchasePoOrderEntry();
+        SalesShipNoticePackingList f = new SalesShipNoticePackingList();
         Field[] field = f.getClass().getDeclaredFields();
         for (int i = 0; i < field.length; i++) {
             Field s = field[i];
@@ -60,7 +61,7 @@ public class MapperTest {
             System.out.println(s.getName());
             JavaSqlName b = new JavaSqlName();
             b.setjName(s.getName());
-            b.setModel("pOEntry");
+            b.setModel("nPList");
             b.setSqlName(c.get(i));
             service.serviceSet(b);
         }

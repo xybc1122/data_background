@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.TableHeadDto;
+import com.dt.project.model.dto.TableHeadDto;
 import com.dt.project.exception.LsException;
 import com.dt.project.mapper.TableHeadMapper;
 import com.dt.project.model.TableHead;

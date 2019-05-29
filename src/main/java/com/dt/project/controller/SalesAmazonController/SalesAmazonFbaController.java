@@ -1,7 +1,7 @@
 package com.dt.project.controller.salesAmazonController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.ReviewDto;
+import com.dt.project.model.dto.ReviewDto;
 import com.dt.project.model.salesAmazon.*;
 import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.service.salesAmazonService.*;

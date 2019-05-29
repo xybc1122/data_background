@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.ExchangeRateDto;
+import com.dt.project.model.dto.ExchangeRateDto;
 import com.dt.project.model.basePublicModel.BasicPublicExchangeRate;
 import com.dt.project.service.basePublicService.BasicPublicExchangeRateService;
 import com.dt.project.utils.PageInfoUtils;

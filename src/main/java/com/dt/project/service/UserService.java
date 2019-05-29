@@ -2,7 +2,7 @@ package com.dt.project.service;
 
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.UserDto;
+import com.dt.project.model.dto.UserDto;
 import com.dt.project.model.UserInfo;
 import org.apache.ibatis.annotations.Param;
 

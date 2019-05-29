@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.dto.SkuDto;
+import com.dt.project.model.dto.SkuDto;
 import com.dt.project.model.basePublicModel.BasicPublicSku;
 import com.dt.project.provider.BasicPublicSkuProvider;
 import org.apache.ibatis.annotations.*;

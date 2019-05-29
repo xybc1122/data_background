@@ -1,6 +1,6 @@
 package com.dt.project.mapper.salesAmazonMapper;
 
-import com.dt.project.dto.ReviewDto;
+import com.dt.project.model.dto.ReviewDto;
 import com.dt.project.model.salesAmazon.SalesAmazonFbaReview;
 
 import java.util.List;

@@ -1,10 +1,16 @@
 package com.dt.project.model.salesAmazon;
 
-import com.dt.project.model.parent.ParentUploadInfo;
+import com.dt.project.model.parent.ParentConfTable;
 
 import java.math.BigDecimal;
+import java.util.List;
 
-public class SalesShipNoticePackingList extends ParentUploadInfo {
+/**
+ * 出货装箱外表
+ */
+public class SalesShipNoticePackingList extends ParentConfTable {
+
+
     private Long packinglistId;
 
     private Long shipNoticeId;
@@ -25,6 +31,30 @@ public class SalesShipNoticePackingList extends ParentUploadInfo {
 
     private Long sourceId;
 
+    /**
+     * 接收存储对象
+     */
+    private SalesShipNoticePackingListEntry shipNoticePackingListEntry;
+    /**
+     * 设置SalesShipNoticePackingListEntry 一对多
+     */
+    private List<SalesShipNoticePackingListEntry> listEntries;
+
+    public SalesShipNoticePackingListEntry getShipNoticePackingListEntry() {
+        return shipNoticePackingListEntry;
+    }
+
+    public void setShipNoticePackingListEntry(SalesShipNoticePackingListEntry shipNoticePackingListEntry) {
+        this.shipNoticePackingListEntry = shipNoticePackingListEntry;
+    }
+
+    public List<SalesShipNoticePackingListEntry> getListEntries() {
+        return listEntries;
+    }
+
+    public void setListEntries(List<SalesShipNoticePackingListEntry> listEntries) {
+        this.listEntries = listEntries;
+    }
 
     public Long getPackinglistId() {
         return packinglistId;

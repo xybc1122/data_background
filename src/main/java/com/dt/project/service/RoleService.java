@@ -1,7 +1,7 @@
 package com.dt.project.service;
 
 
-import com.dt.project.dto.RoleDto;
+import com.dt.project.model.dto.RoleDto;
 import com.dt.project.model.Role;
 
 import java.util.List;

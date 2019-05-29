@@ -39,9 +39,9 @@ public class SalesShipNoticeEntrySqlProvider {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO `sales_ship_notice_entry`\n" +
                 "(`entry_id`,`ship_notice_id`,`sku_id`,`quantity`,\n" +
-                "`packages`,`ne_length_cm`,`ne_width_cm`,`ne_height_cm`,\n" +
-                "`ne_gw_kg`,`ne_nw_kg`,`ne_volume_m3`,`packing_status`,\n" +
-                "`se_quantity`,`re_quantity`,`re_date`,`ne_remark`, `status`,\n" +
+                "`packages`,`length_cm`,`width_cm`,`height_cm`,\n" +
+                "`gw_kg`,`nw_kg`,`volume_m3`,`packing_status`,\n" +
+                "`se_quantity`,`re_quantity`,`re_date`,`remark`, `status`,\n" +
                 "`close_date`, `close_user`)values");
         for (SalesShipNoticeEntry noticeEntry : noticeEntryList) {
             sb.append("(").append(noticeEntry.getEntryId()).append(",").append(noticeEntry.getShipNoticeId()).
@@ -63,15 +63,18 @@ public class SalesShipNoticeEntrySqlProvider {
 
     public String selectByNoticeEntry(SalesShipNoticeEntry nEntry) throws IllegalAccessException {
         SQL sql = new SQL();
-        sql.SELECT("`e_id`,`entry_id`,\n" +
-                "`ship_notice_id`,`sku_id`,`quantity`,`packages`,`ne_length_cm`,`ne_width_cm`,`ne_height_cm`,`ne_gw_kg`,\n" +
-                "`ne_nw_kg`,`ne_volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`ne_remark`,`status`,\n" +
-                "`close_date`,`close_user`,`version`\n" +
-                "FROM `sales_ship_notice_entry`");
+        String alias = "sne";
+        sql.SELECT("sku.sku,`e_id`,`entry_id`,\n" +
+                "`ship_notice_id`," + alias + ".`sku_id`,`quantity`,`packages`," + alias + ".`length_cm`," +
+                "" + alias + ".`width_cm`," + alias + ".`height_cm`," + alias + ".`gw_kg`,\n" +
+                "" + alias + ".`nw_kg`," + alias + ".`volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`remark`,`status`,\n" +
+                "`close_date`,`close_user`," + alias + ".`version`\n" +
+                "FROM `sales_ship_notice_entry` AS  " + alias + "");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS sku on sku.sku_id= " + alias + ".sku_id");
         FieldStore.query(nEntry.getClass(), nEntry.getNameList(), nEntry, sql);
-        sql.WHERE("del_or_not=0");
+        sql.WHERE(alias + ".del_or_not=0");
         if (nEntry.getInShipNoticeList() != null && nEntry.getInShipNoticeList().size() > 0) {
-            return sql.toString() + " AND " + StrUtils.in(nEntry.getInShipNoticeList(), "ship_notice_id");
+            return sql.toString() + " AND " + StrUtils.in(nEntry.getInShipNoticeList(), alias + ".ship_notice_id");
         }
         return sql.toString();
     }

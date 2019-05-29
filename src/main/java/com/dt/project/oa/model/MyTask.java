@@ -1,6 +1,7 @@
 package com.dt.project.oa.model;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * 接收task查询需要审核记录 对象类型
@@ -28,6 +29,16 @@ public class MyTask {
      * 创建时间
      */
     private Date createTime;
+
+    private Map<String, Object> variables;
+
+    public Map<String, Object> getVariables() {
+        return variables;
+    }
+
+    public void setVariables(Map<String, Object> variables) {
+        this.variables = variables;
+    }
 
     public MyTask(String tid, String tName, Date createTime) {
         this.tid = tid;

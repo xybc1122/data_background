@@ -55,6 +55,15 @@ public interface SalesShipNoticeEntryMapper {
      * @return
      */
     @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "selectByNoticeEntry")
+    @Results({
+            @Result(property = "neLengthCm", column = "length_cm"),
+            @Result(property = "neWidthCm", column = "width_cm"),
+            @Result(property = "neHeightCm", column = "height_cm"),
+            @Result(property = "neGwKg", column = "gw_kg"),
+            @Result(property = "neNwKg", column = "nw_kg"),
+            @Result(property = "neVolumeM3", column = "volume_m3"),
+            @Result(property = "neRemark", column = "remark")
+    })
     List<SalesShipNoticeEntry> selectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
 
     @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByExampleSelective")

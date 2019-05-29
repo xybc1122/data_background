@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.dto.TaxrateDto;
+import com.dt.project.model.dto.TaxrateDto;
 import com.dt.project.provider.BasicPublicTaxrateProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

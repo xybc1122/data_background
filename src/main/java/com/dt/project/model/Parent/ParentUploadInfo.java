@@ -1,6 +1,5 @@
 package com.dt.project.model.parent;
 
-import com.dt.project.model.JavaSqlName;
 
 import java.util.List;
 
@@ -13,12 +12,11 @@ import java.util.List;
  * @Date 2019/3/26 16:33
  **/
 public class ParentUploadInfo extends ParentConfTable {
+
     /**
      * 通过这个判断查询周数据表 还是普通数据表  1是代表查询周表
      */
     private Integer sqlMode;
-
-
     /**
      * 站点名称
      */
@@ -43,12 +41,6 @@ public class ParentUploadInfo extends ParentConfTable {
      * 角色ids
      */
     private String rid;
-
-    /**
-     * 前端查询参数封装对象
-     */
-    private List<JavaSqlName> nameList;
-
 
     /**
      * 文件表已有时间
@@ -146,14 +138,6 @@ public class ParentUploadInfo extends ParentConfTable {
 
     public void setRecordingId(Long recordingId) {
         this.recordingId = recordingId;
-    }
-
-    public List<JavaSqlName> getNameList() {
-        return nameList;
-    }
-
-    public void setNameList(List<JavaSqlName> nameList) {
-        this.nameList = nameList;
     }
 
     public List<Long> getDates() {

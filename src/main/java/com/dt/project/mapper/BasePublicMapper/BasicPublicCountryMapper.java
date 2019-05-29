@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.dto.CountryDto;
+import com.dt.project.model.dto.CountryDto;
 import com.dt.project.provider.BasicPublicCountryProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

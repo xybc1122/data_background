@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.dto.AreaRoleDto;
+import com.dt.project.model.dto.AreaRoleDto;
 import com.dt.project.provider.BasicPublicAreaRoleSqlProvider;
 import com.dt.project.model.basePublicModel.BasicPublicAreaRole;
 

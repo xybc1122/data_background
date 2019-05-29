@@ -7,6 +7,8 @@ package com.dt.project.model.parent;
  * @Date 2019/4/24 16:07
  **/
 
+import com.dt.project.model.JavaSqlName;
+
 import java.util.List;
 
 /**
@@ -23,6 +25,22 @@ public class ParentConfTable {
     private String modifyUser;
     private Long auditDate;
     private String auditUser;
+    private Long closeDate;
+    private String closeUser;
+
+    private Integer delOrNot;
+
+    /**
+     * 关闭时间范围查询
+     */
+    private List<Long> closeDates;
+
+    /**
+     * 前端查询参数封装对象
+     */
+    private List<JavaSqlName> nameList;
+
+
     /**
      * 当前页
      */
@@ -53,6 +71,14 @@ public class ParentConfTable {
      */
     private Integer version;
 
+    public Integer getDelOrNot() {
+        return delOrNot;
+    }
+
+    public void setDelOrNot(Integer delOrNot) {
+        this.delOrNot = delOrNot;
+    }
+
     public ParentConfTable() {
 
 
@@ -61,6 +87,30 @@ public class ParentConfTable {
     public ParentConfTable(Long createDate, String createUser) {
         this.createDate = createDate;
         this.createUser = createUser;
+    }
+
+    public Long getCloseDate() {
+        return closeDate;
+    }
+
+    public void setCloseDate(Long closeDate) {
+        this.closeDate = closeDate;
+    }
+
+    public String getCloseUser() {
+        return closeUser;
+    }
+
+    public void setCloseUser(String closeUser) {
+        this.closeUser = closeUser;
+    }
+
+    public List<Long> getCloseDates() {
+        return closeDates;
+    }
+
+    public void setCloseDates(List<Long> closeDates) {
+        this.closeDates = closeDates;
     }
 
     public Integer getCurrentPage() {
@@ -173,5 +223,13 @@ public class ParentConfTable {
 
     public void setAuditUser(String auditUser) {
         this.auditUser = auditUser;
+    }
+
+    public List<JavaSqlName> getNameList() {
+        return nameList;
+    }
+
+    public void setNameList(List<JavaSqlName> nameList) {
+        this.nameList = nameList;
     }
 }

@@ -2,7 +2,7 @@ package com.dt.project.controller.userServiceController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.HrEmployeeDto;
+import com.dt.project.model.dto.HrEmployeeDto;
 import com.dt.project.model.basePublicModel.*;
 import com.dt.project.model.hrArchives.HrArchivesEmployee;
 import com.dt.project.model.parent.ParentTree;

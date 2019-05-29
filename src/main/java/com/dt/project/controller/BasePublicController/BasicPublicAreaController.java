@@ -2,7 +2,7 @@ package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.AreaDto;
+import com.dt.project.model.dto.AreaDto;
 import com.dt.project.service.basePublicService.BasicPublicAreaService;
 import com.dt.project.utils.PageInfoUtils;
 import com.dt.project.utils.ReqUtils;

@@ -1,6 +1,6 @@
 package com.dt.project.mapper;
 
-import com.dt.project.dto.HrEmployeeDto;
+import com.dt.project.model.dto.HrEmployeeDto;
 import com.dt.project.model.hrArchives.HrArchivesEmployee;
 import com.dt.project.provider.HrArchivesEmployeeProvider;
 import org.apache.ibatis.annotations.*;

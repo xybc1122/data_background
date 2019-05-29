@@ -3,6 +3,8 @@ package com.dt.project.service.purchaseService;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 
+import java.util.Map;
+
 /**
  * @ClassName PurchasePoOrderService
  * Description TODO
@@ -18,4 +20,12 @@ public interface PurchasePoOrderService {
      * @return
      */
     ResponseBase serviceSelectByPoOrder(PurchasePoOrder record);
+
+
+    /**
+     * 查询采购订单表
+     *
+     * @return
+     */
+    int serviceSavePoOrder(Map<String, Object> objectMap);
 }

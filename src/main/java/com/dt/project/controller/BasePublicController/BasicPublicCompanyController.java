@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.CompanyDto;
+import com.dt.project.model.dto.CompanyDto;
 import com.dt.project.model.basePublicModel.BasicPublicCompany;
 import com.dt.project.service.basePublicService.BasicPublicCompanyService;
 import com.dt.project.utils.PageInfoUtils;

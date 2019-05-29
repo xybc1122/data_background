@@ -1,6 +1,6 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.dto.SkuDto;
+import com.dt.project.model.dto.SkuDto;
 import com.dt.project.mapper.basePublicMapper.BasicPublicSkuMapper;
 import com.dt.project.model.basePublicModel.BasicPublicSku;
 import com.dt.project.service.basePublicService.BasicPublicSkuService;

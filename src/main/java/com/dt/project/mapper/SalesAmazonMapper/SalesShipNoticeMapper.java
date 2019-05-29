@@ -77,8 +77,14 @@ public interface SalesShipNoticeMapper {
     List<SalesShipNotice> selectByNotice(SalesShipNotice record);
 
 
-    @UpdateProvider(type = SalesShipNoticeSqlProvider.class, method = "updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") SalesShipNotice record);
+    /**
+     * 更新出货通知单外单
+     *
+     * @param record
+     * @return
+     */
+    @UpdateProvider(type = SalesShipNoticeSqlProvider.class, method = "updateBySalesShipNotice")
+    int updateBySalesShipNotice(SalesShipNotice record);
 
     @UpdateProvider(type = SalesShipNoticeSqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") SalesShipNotice record);

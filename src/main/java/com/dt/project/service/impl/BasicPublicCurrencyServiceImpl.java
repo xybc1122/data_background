@@ -1,6 +1,6 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.dto.CurrencyDto;
+import com.dt.project.model.dto.CurrencyDto;
 import com.dt.project.mapper.basePublicMapper.BasicPublicCurrencyMapper;
 import com.dt.project.service.basePublicService.BasicPublicCurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;

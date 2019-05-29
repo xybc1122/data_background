@@ -99,7 +99,6 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
             if (StringUtils.isEmpty(identifier)) {
                 return JsonData.setResultError("请等待有人正在操作");
             }
-
             //拿到出库通知单的最外层表数据
             SalesShipNotice salesShipNotice = (SalesShipNotice) JsonUtils.objConversion(salesShipNoticeObj, SalesShipNotice.class);
             //先查询重复数据

@@ -1,6 +1,6 @@
 package com.dt.project.mapper;
 
-import com.dt.project.dto.RoleDto;
+import com.dt.project.model.dto.RoleDto;
 import com.dt.project.model.Role;
 import com.dt.project.provider.RoleProvider;
 import org.apache.ibatis.annotations.Param;

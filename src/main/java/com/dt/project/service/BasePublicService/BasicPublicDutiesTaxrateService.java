@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.dto.TaxrateDto;
+import com.dt.project.model.dto.TaxrateDto;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.dto.ProductDto;
+import com.dt.project.model.dto.ProductDto;
 import com.dt.project.model.basePublicModel.BasicPublicProduct;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;

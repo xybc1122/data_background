@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.dto.ReviewDto;
+import com.dt.project.model.dto.ReviewDto;
 import com.dt.project.model.salesAmazon.SalesAmazonFbaReview;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
@@ -78,7 +78,7 @@ public class SalesAmazonFbaReviewSqlProvider {
         Long reId = (Long) reMap.get("reId");
         Integer version = (Integer) reMap.get("version");
         SQL sql = new SQL();
-        ProviderSqlStore.upDel(sql, "sales_amazon_fba_review", "re", version);
+        ProviderSqlStore.uploadDel(sql, "sales_amazon_fba_review", "re", version);
         sql.WHERE("re_id = " + reId);
         return sql.toString();
     }

@@ -1,4 +1,4 @@
-package com.dt.project.dto;
+package com.dt.project.model.dto;
 
 
 import java.util.List;

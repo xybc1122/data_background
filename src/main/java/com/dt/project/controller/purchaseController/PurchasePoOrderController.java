@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @ClassName PurchasePoOrderController
  * Description TODO
@@ -40,5 +42,15 @@ public class PurchasePoOrderController {
         return poOrderService.serviceSelectByPoOrder(poOrder);
     }
 
+    /**
+     * 采购订单信息新增消息
+     *
+     * @return
+     */
+    @PostMapping("/savePoOrder")
+    public ResponseBase savePoOrder(@RequestBody Map<String, Object> objectMap) {
+        poOrderService.serviceSavePoOrder(objectMap);
+        return null;
+    }
 
 }

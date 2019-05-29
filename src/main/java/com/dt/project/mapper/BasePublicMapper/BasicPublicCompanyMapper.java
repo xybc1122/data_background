@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.dto.CompanyDto;
+import com.dt.project.model.dto.CompanyDto;
 import com.dt.project.model.basePublicModel.BasicPublicCompany;
 import com.dt.project.provider.BasicPublicCompanyProvider;
 import org.apache.ibatis.annotations.*;

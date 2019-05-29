@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.ProductDto;
+import com.dt.project.model.dto.ProductDto;
 import com.dt.project.mapper.basePublicMapper.BasicPublicProductMapper;
 import com.dt.project.model.basePublicModel.BasicPublicProduct;
 import com.dt.project.service.basePublicService.BasicPublicProductService;

@@ -1,6 +1,6 @@
 package com.dt.project.service;
 
-import com.dt.project.dto.HrEmployeeDto;
+import com.dt.project.model.dto.HrEmployeeDto;
 import com.dt.project.model.hrArchives.HrArchivesEmployee;
 
 import java.util.List;

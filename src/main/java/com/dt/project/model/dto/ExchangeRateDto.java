@@ -1,4 +1,4 @@
-package com.dt.project.dto;
+package com.dt.project.model.dto;
 
 import com.dt.project.model.basePublicModel.BasicPublicExchangeRate;
 

@@ -1,7 +1,7 @@
 package com.dt.project.provider;
 
 
-import com.dt.project.dto.UserDto;
+import com.dt.project.model.dto.UserDto;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.MD5Util;

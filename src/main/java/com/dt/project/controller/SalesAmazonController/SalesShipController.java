@@ -2,7 +2,11 @@ package com.dt.project.controller.salesAmazonController;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
+import com.dt.project.model.salesAmazon.SalesShipNoticePackingList;
+import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
 import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.service.SalesShipNoticePackingListEntryService;
+import com.dt.project.service.salesAmazonService.SalesShipNoticePackingListService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +23,14 @@ import java.util.Map;
  * @Date 2019/5/10 17:23
  **/
 @RestController
-@RequestMapping("/api/v1/no")
-public class SalesShipNoticeController {
+@RequestMapping("/api/v1/ship")
+public class SalesShipController {
     @Autowired
     private SalesShipNoticeService noticeService;
     @Autowired
     private JavaSqlNameService nameService;
+    @Autowired
+    private SalesShipNoticePackingListService packingListService;
 
     /**
      * 查询发货通知单信息
@@ -40,7 +46,7 @@ public class SalesShipNoticeController {
 
 
     /**
-     * @api {POST} /api/v1/no/saveNotice 新增发货通知单
+     * @api {POST} /api/v1/ship/saveNotice 新增发货通知单
      * @apiHeaderExample {json} 请求头Header
      * {
      * "token":"用户令牌"
@@ -75,6 +81,47 @@ public class SalesShipNoticeController {
     @PostMapping("/saveNotice")
     public ResponseBase saveNotice(@RequestBody Map<String, Object> noMap) {
         return noticeService.saveNotice(noMap);
+    }
+
+    /**
+     * 修改出货通知单据
+     *
+     * @param noMap
+     * @return
+     */
+    @PostMapping("/upNotice")
+    public ResponseBase upNotice(@RequestBody Map<String, Object> noMap) {
+        return null;
+    }
+
+
+    /**
+     * @api {POST} /api/v1/ship/getSNPList 查询出货装箱单
+     * @apiHeaderExample {json} 请求头Header
+     * {
+     * "token":"用户令牌"
+     * }
+     * @apiGroup Admin
+     * @apiVersion 0.0.1
+     * @apiDescription 查询出货装箱单
+     * @apiParamExample {json} 请求样例：
+     * {"currentPage":"0",
+     * "pageSize":"10",
+     * "shipNoticePackingListEntry":{
+     * }
+     * @apiSuccess (success) {Object} data 请求的数据
+     * @apiSuccess (success) {String} msg 信息
+     * @apiSuccess (success) {int} code -1 代表错误 200代表请求成功
+     * @apiSuccessExample {json} 成功返回样列:
+     * {"code":"200","msg":"success","data":"{}"}
+     * @apiErrorExample {json} 失败返回样例子:
+     * {"code":"-1","msg":"error","data":"{}"}
+     */
+    @PostMapping("/getSNPList")
+    public ResponseBase getSNPList(@RequestBody SalesShipNoticePackingList packingList) {
+        //这里放入缓存
+        packingList.setNameList(nameService.get("nPList"));
+        return packingListService.serviceSelectNoticePackingList(packingList);
     }
 
 }

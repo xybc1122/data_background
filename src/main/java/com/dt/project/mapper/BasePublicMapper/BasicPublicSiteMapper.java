@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.dto.SiteDto;
+import com.dt.project.model.dto.SiteDto;
 import com.dt.project.model.basePublicModel.BasicPublicSite;
 import com.dt.project.provider.BasicPublicSiteProvider;
 import org.apache.ibatis.annotations.*;

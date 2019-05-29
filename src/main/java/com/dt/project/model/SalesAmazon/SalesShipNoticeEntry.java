@@ -56,6 +56,8 @@ public class SalesShipNoticeEntry {
     private String closeUser;
 
     private Integer version;
+
+    private String sku;
     /**
      * 当前页
      */
@@ -70,6 +72,14 @@ public class SalesShipNoticeEntry {
      * 前端查询参数封装对象
      */
     private List<JavaSqlName> nameList;
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
 
     public List<JavaSqlName> getNameList() {
         return nameList;

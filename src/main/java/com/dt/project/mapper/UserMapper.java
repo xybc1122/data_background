@@ -1,6 +1,6 @@
 package com.dt.project.mapper;
 
-import com.dt.project.dto.UserDto;
+import com.dt.project.model.dto.UserDto;
 import com.dt.project.model.UserInfo;
 import com.dt.project.provider.UserProvider;
 import org.apache.ibatis.annotations.*;

@@ -1,6 +1,6 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.dto.AreaDto;
+import com.dt.project.model.dto.AreaDto;
 import com.dt.project.mapper.basePublicMapper.BasicPublicAreaMapper;
 import com.dt.project.model.basePublicModel.BasicPublicArea;
 import com.dt.project.service.basePublicService.BasicPublicAreaService;

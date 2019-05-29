@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.AreaRoleDto;
+import com.dt.project.model.dto.AreaRoleDto;
 import com.dt.project.exception.LsException;
 import com.dt.project.mapper.basePublicMapper.BasicPublicAreaRoleMapper;
 import com.dt.project.model.basePublicModel.BasicPublicAreaRoleSite;

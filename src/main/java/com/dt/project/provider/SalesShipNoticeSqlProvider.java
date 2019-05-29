@@ -65,14 +65,6 @@ public class SalesShipNoticeSqlProvider {
             VALUES("transport_type_id", "#{transportTypeId,jdbcType=INTEGER}");
         }
 
-        if (record.getShopId() != null) {
-            VALUES("shop_id", "#{shopId,jdbcType=INTEGER}");
-        }
-
-        if (record.getSiteId() != null) {
-            VALUES("site_id", "#{siteId,jdbcType=INTEGER}");
-        }
-
         if (record.getFbaShipmentId() != null) {
             VALUES("fba_shipment_id", "#{fbaShipmentId,jdbcType=VARCHAR}");
         }
@@ -162,127 +154,80 @@ public class SalesShipNoticeSqlProvider {
         sql.FROM("sales_ship_notice AS " + alias);
         ProviderSqlStore.joinTable(sql, alias);
         FieldStore.query(notice.getClass(), notice.getNameList(), notice, sql);
-        ProviderSqlStore.selectUploadStatus(sql, notice, alias);
+        ProviderSqlStore.selectDocumentStatus(sql, notice, alias);
         return sql.toString();
     }
 
-    public String updateByExampleSelective(Map<String, Object> parameter) {
-        SalesShipNotice record = (SalesShipNotice) parameter.get("record");
-
-
-        BEGIN();
-        UPDATE("sales_ship_notice");
-
-        if (record.getShipNoticeId() != null) {
-            SET("ship_notice_id = #{record.shipNoticeId,jdbcType=BIGINT}");
-        }
-
+    public String updateBySalesShipNotice(SalesShipNotice record) {
+        SQL sql = new SQL();
+        sql.UPDATE("sales_ship_notice");
         if (record.getNo() != null) {
-            SET("no = #{record.no,jdbcType=VARCHAR}");
+            sql.SET("no = #{no,jdbcType=VARCHAR}");
         }
 
         if (record.getDate() != null) {
-            SET("date = #{record.date,jdbcType=BIGINT}");
+            sql.SET("date = #{date,jdbcType=BIGINT}");
         }
 
         if (record.getPlatformTypeId() != null) {
-            SET("platform_type_id = #{record.platformTypeId,jdbcType=INTEGER}");
+            sql.SET("platform_type_id = #{platformTypeId,jdbcType=INTEGER}");
         }
 
         if (record.getDeliveryDate() != null) {
-            SET("delivery_date = #{record.deliveryDate,jdbcType=BIGINT}");
+            sql.SET("delivery_date = #{deliveryDate,jdbcType=BIGINT}");
         }
 
         if (record.getArriveDate() != null) {
-            SET("arrive_date = #{record.arriveDate,jdbcType=BIGINT}");
+            sql.SET("arrive_date = #{arriveDate,jdbcType=BIGINT}");
         }
 
         if (record.getTransportTypeId() != null) {
-            SET("transport_type_id = #{record.transportTypeId,jdbcType=INTEGER}");
-        }
-
-        if (record.getShopId() != null) {
-            SET("shop_id = #{record.shopId,jdbcType=INTEGER}");
-        }
-
-        if (record.getSiteId() != null) {
-            SET("site_id = #{record.siteId,jdbcType=INTEGER}");
+            sql.SET("transport_type_id = #{transportTypeId,jdbcType=INTEGER}");
         }
 
         if (record.getFbaShipmentId() != null) {
-            SET("fba_shipment_id = #{record.fbaShipmentId,jdbcType=VARCHAR}");
+            sql.SET("fba_shipment_id = #{fbaShipmentId,jdbcType=VARCHAR}");
         }
 
         if (record.getAwId() != null) {
-            SET("aw_id = #{record.awId,jdbcType=INTEGER}");
+            sql.SET("aw_id = #{awId,jdbcType=INTEGER}");
         }
 
         if (record.getWarehouseId() != null) {
-            SET("warehouse_id = #{record.warehouseId,jdbcType=BIGINT}");
+            sql.SET("warehouse_id = #{warehouseId,jdbcType=BIGINT}");
         }
 
         if (record.getTtlQty() != null) {
-            SET("ttl_qty = #{record.ttlQty,jdbcType=INTEGER}");
+            sql.SET("ttl_qty = #{ttlQty,jdbcType=INTEGER}");
         }
 
         if (record.getTtlPackages() != null) {
-            SET("ttl_packages = #{record.ttlPackages,jdbcType=INTEGER}");
+            sql.SET("ttl_packages = #{ttlPackages,jdbcType=INTEGER}");
         }
 
         if (record.getTtlVolume() != null) {
-            SET("ttl_volume = #{record.ttlVolume,jdbcType=DECIMAL}");
+            sql.SET("ttl_volume = #{ttlVolume,jdbcType=DECIMAL}");
         }
 
         if (record.getTtlGwKg() != null) {
-            SET("ttl_gw_kg = #{record.ttlGwKg,jdbcType=DECIMAL}");
+            sql.SET("ttl_gw_kg = #{ttlGwKg,jdbcType=DECIMAL}");
         }
 
         if (record.getSourceTypeId() != null) {
-            SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getRemark() != null) {
-            SET("remark = #{record.remark,jdbcType=VARCHAR}");
-        }
-
-        if (record.getStatus() != null) {
-            SET("status = #{record.status,jdbcType=INTEGER}");
-        }
-
-        if (record.getCreateDate() != null) {
-            SET("create_date = #{record.createDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getCreateUser() != null) {
-            SET("create_user = #{record.createUser,jdbcType=VARCHAR}");
-        }
-
-        if (record.getModifyDate() != null) {
-            SET("modify_date = #{record.modifyDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getModifyUser() != null) {
-            SET("modify_user = #{record.modifyUser,jdbcType=BIGINT}");
-        }
-
-        if (record.getAuditDate() != null) {
-            SET("audit_date = #{record.auditDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getAuditUser() != null) {
-            SET("audit_user = #{record.auditUser,jdbcType=BIGINT}");
+            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
         }
 
         if (record.getCloseDate() != null) {
-            SET("close_date = #{record.closeDate,jdbcType=BIGINT}");
+            sql.SET("close_date = #{closeDate,jdbcType=BIGINT}");
         }
-
         if (record.getCloseUser() != null) {
-            SET("close_user = #{record.closeUser,jdbcType=BIGINT}");
+            sql.SET("close_user = #{closeUser,jdbcType=BIGINT}");
         }
-
-        return SQL();
+        ProviderSqlStore.setStatus(sql, record);
+        SET("ship_notice_id = #{shipNoticeId,jdbcType=BIGINT}");
+        return sql.toString();
     }
+
 
     public String updateByExample(Map<String, Object> parameter) {
         BEGIN();

@@ -1,6 +1,5 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticePackingListEntryMapper;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
 import com.dt.project.service.JavaSqlNameService;
@@ -25,13 +24,9 @@ public class SalesShipNoticePackingListEntryServiceImpl implements SalesShipNoti
     private JavaSqlNameService nameService;
 
     @Override
-    public ResponseBase serviceSelectPackingListEntry(SalesShipNoticePackingListEntry pLEntry) {
+    public List<SalesShipNoticePackingListEntry> serviceSelectPackingListEntry(SalesShipNoticePackingListEntry pLEntry) {
         //这里放入缓存
         pLEntry.setNameList(nameService.get("pLEntry"));
-        List<SalesShipNoticePackingListEntry> pLEs = pLEMapper.selectPackingListEntry(pLEntry);
-        if (pLEs == null || pLEs.size() == 0) {
-            return null;
-        }
-        return PageInfoUtils.returnPage(pLEs, pLEntry.getCurrentPage());
+        return pLEMapper.selectPackingListEntry(pLEntry);
     }
 }

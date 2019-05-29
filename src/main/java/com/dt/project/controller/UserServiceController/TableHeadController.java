@@ -2,7 +2,7 @@ package com.dt.project.controller.userServiceController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.TableHeadDto;
+import com.dt.project.model.dto.TableHeadDto;
 import com.dt.project.model.TableHead;
 import com.dt.project.service.TableHeadService;
 import org.springframework.beans.factory.annotation.Autowired;

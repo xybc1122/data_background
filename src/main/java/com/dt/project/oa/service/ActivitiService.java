@@ -14,7 +14,7 @@ import java.io.InputStream;
  **/
 public interface ActivitiService {
     /**
-     * 获得流程门面
+     * 获得流程引擎
      *
      * @return
      */

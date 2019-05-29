@@ -1,4 +1,4 @@
-package com.dt.project.model.BasePublicModel;
+package com.dt.project.model.basePublicModel;
 
 public class BasicPublicAreaRole {
     private Integer arId;

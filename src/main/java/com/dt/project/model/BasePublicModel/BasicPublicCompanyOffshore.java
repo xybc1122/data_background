@@ -1,4 +1,4 @@
-package com.dt.project.model.BasePublicModel;
+package com.dt.project.model.basePublicModel;
 
 /**
  *离岸公司

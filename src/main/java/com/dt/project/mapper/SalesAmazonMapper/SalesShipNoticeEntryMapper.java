@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SalesAmazonMapper;
+package com.dt.project.mapper.salesAmazonMapper;
 
-import com.dt.project.model.SalesAmazon.SalesShipNoticeEntry;
+import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
 
 import java.util.List;
 
@@ -38,8 +38,15 @@ public interface SalesShipNoticeEntryMapper {
     })
     int insert(SalesShipNoticeEntry record);
 
-    @InsertProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "insertSelective")
-    int insertSelective(SalesShipNoticeEntry record);
+
+    /**
+     * 批量插入出库通知单子表数据
+     *
+     * @param noticeEntryList
+     * @return
+     */
+    @InsertProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "insertShipNoticeEntry")
+    int insertShipNoticeEntry(@Param("noticeEntryList") List<SalesShipNoticeEntry> noticeEntryList);
 
 
     /**
@@ -48,8 +55,16 @@ public interface SalesShipNoticeEntryMapper {
      * @return
      */
     @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "selectByNoticeEntry")
+    @Results({
+            @Result(property = "neLengthCm", column = "length_cm"),
+            @Result(property = "neWidthCm", column = "width_cm"),
+            @Result(property = "neHeightCm", column = "height_cm"),
+            @Result(property = "neGwKg", column = "gw_kg"),
+            @Result(property = "neNwKg", column = "nw_kg"),
+            @Result(property = "neVolumeM3", column = "volume_m3"),
+            @Result(property = "neRemark", column = "remark")
+    })
     List<SalesShipNoticeEntry> selectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
-
 
     @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByExampleSelective")
     int updateByExampleSelective(@Param("record") SalesShipNoticeEntry record);

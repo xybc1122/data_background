@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.dto.TaxrateDto;
-import com.dt.project.mapper.BasePublicMapper.BasicPublicDutiesTaxrateMapper;
-import com.dt.project.service.BasePublicService.BasicPublicDutiesTaxrateService;
+import com.dt.project.model.dto.TaxrateDto;
+import com.dt.project.mapper.basePublicMapper.BasicPublicDutiesTaxrateMapper;
+import com.dt.project.service.basePublicService.BasicPublicDutiesTaxrateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

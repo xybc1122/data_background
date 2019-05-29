@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SalesAmazonMapper;
+package com.dt.project.mapper.salesAmazonMapper;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaReceivestock;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaReceivestock;
 import com.dt.project.provider.SalesAmazonFbaReceivestockProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Param;

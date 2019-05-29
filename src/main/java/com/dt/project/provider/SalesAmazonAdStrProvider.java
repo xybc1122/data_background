@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonAdStr;
+import com.dt.project.model.salesAmazon.SalesAmazonAdStr;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.utils.StrUtils;
@@ -62,14 +62,6 @@ public class SalesAmazonAdStrProvider {
                 "FROM `sales_amazon_ad_str` AS " + alias);
         ProviderSqlStore.joinTable(sql, alias);
 
-        //店铺名称
-        if (StringUtils.isNotBlank(str.getShopName())) {
-            sql.WHERE("POSITION('" + str.getShopName() + "' IN s.`shop_name`)");
-        }
-        //站点名称
-        if (StringUtils.isNotBlank(str.getSiteName())) {
-            sql.WHERE("POSITION('" + str.getSiteName() + "' IN cs.`site_name`)");
-        }
         //广告活动
         if (StringUtils.isNotBlank(str.getCampaignName())) {
             sql.WHERE("POSITION('" + str.getCampaignName() + "' IN `campaign_name`)");

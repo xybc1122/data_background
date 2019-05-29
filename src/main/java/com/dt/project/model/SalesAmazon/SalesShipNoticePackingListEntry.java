@@ -1,4 +1,4 @@
-package com.dt.project.model.SalesAmazon;
+package com.dt.project.model.salesAmazon;
 
 import com.dt.project.model.JavaSqlName;
 
@@ -9,6 +9,7 @@ import java.util.List;
  * 装箱单-表体
  */
 public class SalesShipNoticePackingListEntry {
+
     private Long peId;
 
     private Long packingListId;
@@ -23,24 +24,27 @@ public class SalesShipNoticePackingListEntry {
 
     private Integer packagesEnd;
 
-    private BigDecimal lengthCm;
+    private BigDecimal plLengthCm;
 
-    private BigDecimal widthCm;
+    private BigDecimal plWidthCm;
 
-    private BigDecimal heightCm;
+    private BigDecimal plHeightCm;
 
-    private BigDecimal gwKg;
+    private BigDecimal plGwKg;
 
-    private BigDecimal nwKg;
+    private BigDecimal plNwKg;
 
-    private BigDecimal volumeM3;
+    private BigDecimal plVolumeM3;
 
-    private String remark;
+    private String plRemark;
 
     private Integer version;
 
     private Boolean delOrNot;
-
+    /**
+     * in查询存储id
+     */
+    private List<Long> inShipNoticeList;
     /**
      * 当前页
      */
@@ -55,6 +59,15 @@ public class SalesShipNoticePackingListEntry {
      * 前端查询参数封装对象
      */
     private List<JavaSqlName> nameList;
+
+
+    public List<Long> getInShipNoticeList() {
+        return inShipNoticeList;
+    }
+
+    public void setInShipNoticeList(List<Long> inShipNoticeList) {
+        this.inShipNoticeList = inShipNoticeList;
+    }
 
     public List<JavaSqlName> getNameList() {
         return nameList;
@@ -136,60 +149,69 @@ public class SalesShipNoticePackingListEntry {
         this.packagesEnd = packagesEnd;
     }
 
-    public BigDecimal getLengthCm() {
-        return lengthCm;
+
+    public Boolean getDelOrNot() {
+        return delOrNot;
     }
 
-    public void setLengthCm(BigDecimal lengthCm) {
-        this.lengthCm = lengthCm;
+    public void setDelOrNot(Boolean delOrNot) {
+        this.delOrNot = delOrNot;
     }
 
-    public BigDecimal getWidthCm() {
-        return widthCm;
+    public BigDecimal getPlLengthCm() {
+        return plLengthCm;
     }
 
-    public void setWidthCm(BigDecimal widthCm) {
-        this.widthCm = widthCm;
+    public void setPlLengthCm(BigDecimal plLengthCm) {
+        this.plLengthCm = plLengthCm;
     }
 
-    public BigDecimal getHeightCm() {
-        return heightCm;
+    public BigDecimal getPlWidthCm() {
+        return plWidthCm;
     }
 
-    public void setHeightCm(BigDecimal heightCm) {
-        this.heightCm = heightCm;
+    public void setPlWidthCm(BigDecimal plWidthCm) {
+        this.plWidthCm = plWidthCm;
     }
 
-    public BigDecimal getGwKg() {
-        return gwKg;
+    public BigDecimal getPlHeightCm() {
+        return plHeightCm;
     }
 
-    public void setGwKg(BigDecimal gwKg) {
-        this.gwKg = gwKg;
+    public void setPlHeightCm(BigDecimal plHeightCm) {
+        this.plHeightCm = plHeightCm;
     }
 
-    public BigDecimal getNwKg() {
-        return nwKg;
+    public BigDecimal getPlGwKg() {
+        return plGwKg;
     }
 
-    public void setNwKg(BigDecimal nwKg) {
-        this.nwKg = nwKg;
+    public void setPlGwKg(BigDecimal plGwKg) {
+        this.plGwKg = plGwKg;
     }
 
-    public BigDecimal getVolumeM3() {
-        return volumeM3;
+    public BigDecimal getPlNwKg() {
+        return plNwKg;
     }
 
-    public void setVolumeM3(BigDecimal volumeM3) {
-        this.volumeM3 = volumeM3;
+    public void setPlNwKg(BigDecimal plNwKg) {
+        this.plNwKg = plNwKg;
     }
 
-    public String getRemark() {
-        return remark;
+    public BigDecimal getPlVolumeM3() {
+        return plVolumeM3;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setPlVolumeM3(BigDecimal plVolumeM3) {
+        this.plVolumeM3 = plVolumeM3;
+    }
+
+    public String getPlRemark() {
+        return plRemark;
+    }
+
+    public void setPlRemark(String plRemark) {
+        this.plRemark = plRemark;
     }
 
     public Integer getVersion() {
@@ -198,13 +220,5 @@ public class SalesShipNoticePackingListEntry {
 
     public void setVersion(Integer version) {
         this.version = version;
-    }
-
-    public Boolean getDelOrNot() {
-        return delOrNot;
-    }
-
-    public void setDelOrNot(Boolean delOrNot) {
-        this.delOrNot = delOrNot;
     }
 }

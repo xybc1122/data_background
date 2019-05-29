@@ -2,8 +2,8 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.mapper.SystemMapper.SystemFinalProcessingMapper;
-import com.dt.project.service.SystemService.SystemFinalProcessingService;
+import com.dt.project.mapper.systemMapper.SystemFinalProcessingMapper;
+import com.dt.project.service.systemService.SystemFinalProcessingService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

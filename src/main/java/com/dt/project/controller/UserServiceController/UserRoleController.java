@@ -1,9 +1,9 @@
-package com.dt.project.controller.UserServiceController;
+package com.dt.project.controller.userServiceController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.UserRole;
-import com.dt.project.service.RedisService;
+import com.dt.project.service.impl.RedisService;
 import com.dt.project.service.UserRoleService;
 import com.dt.project.toos.Constants;
 import org.springframework.beans.factory.annotation.Autowired;

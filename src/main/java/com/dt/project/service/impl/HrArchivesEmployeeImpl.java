@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.dto.HrEmployeeDto;
+import com.dt.project.model.dto.HrEmployeeDto;
 import com.dt.project.mapper.HrArchivesEmployeeMapper;
-import com.dt.project.model.HrArchives.HrArchivesEmployee;
+import com.dt.project.model.hrArchives.HrArchivesEmployee;
 import com.dt.project.service.HrArchivesEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.dt.project.model.SalesAmazon;
+package com.dt.project.model.salesAmazon;
 
 import com.dt.project.model.JavaSqlName;
 
@@ -56,6 +56,8 @@ public class SalesShipNoticeEntry {
     private String closeUser;
 
     private Integer version;
+
+    private String sku;
     /**
      * 当前页
      */
@@ -70,6 +72,14 @@ public class SalesShipNoticeEntry {
      * 前端查询参数封装对象
      */
     private List<JavaSqlName> nameList;
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
 
     public List<JavaSqlName> getNameList() {
         return nameList;
@@ -101,10 +111,6 @@ public class SalesShipNoticeEntry {
 
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
-    }
-
-    public SalesShipNoticeEntry() {
-
     }
 
     public Long getEid() {
@@ -273,6 +279,10 @@ public class SalesShipNoticeEntry {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public SalesShipNoticeEntry() {
+
     }
 
 

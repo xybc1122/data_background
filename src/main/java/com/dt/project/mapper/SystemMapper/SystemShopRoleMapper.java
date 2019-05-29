@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SystemMapper;
+package com.dt.project.mapper.systemMapper;
 
-import com.dt.project.model.System.SystemShopRole;
+import com.dt.project.model.system.SystemShopRole;
 
 import java.util.List;
 

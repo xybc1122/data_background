@@ -1,11 +1,11 @@
-package com.dt.project.model.System;
+package com.dt.project.model.system;
 
-import com.dt.project.model.Parent.ConfTableParent;
+import com.dt.project.model.parent.ParentConfTable;
 
 /**
  * 角色店铺配置类
  */
-public class SystemShopRole  extends ConfTableParent {
+public class SystemShopRole  extends ParentConfTable {
     private Integer sid;
 
     private Integer rid;

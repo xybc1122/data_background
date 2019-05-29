@@ -53,7 +53,7 @@ public class JwtUtils {
                 .claim("status", user.getStatus())
                 .claim("rId", user.getRid())
                 .setIssuedAt(new Date())//设置新的时间
-//                .setExpiration(new Date(System.currentTimeMillis() + EXPIRE))//过期时间
+//                .setExpiration(new Date(system.currentTimeMillis() + EXPIRE))//过期时间
                 .signWith(SignatureAlgorithm.HS256, APPSECRET).compact();
         return token;
     }

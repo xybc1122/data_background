@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicLogisticsmgtTransportValuationRangeMapper;
-import com.dt.project.model.BasePublicModel.BasicLogisticsmgtTransportValuationRange;
-import com.dt.project.service.BasePublicService.BasicLogisticsmgtTransportValuationRangeService;
+import com.dt.project.mapper.basePublicMapper.BasicLogisticsmgtTransportValuationRangeMapper;
+import com.dt.project.model.basePublicModel.BasicLogisticsmgtTransportValuationRange;
+import com.dt.project.service.basePublicService.BasicLogisticsmgtTransportValuationRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

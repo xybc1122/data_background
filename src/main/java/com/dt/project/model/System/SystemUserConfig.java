@@ -1,4 +1,4 @@
-package com.dt.project.model.System;
+package com.dt.project.model.system;
 
 /**
  * 用户配置表

@@ -1,6 +1,7 @@
 package com.dt.project.store;
 
-import com.dt.project.model.Parent.ParentUploadInfo;
+import com.dt.project.model.parent.ParentConfTable;
+import com.dt.project.model.parent.ParentUploadInfo;
 import com.dt.project.model.SystemLogStatus;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.StrUtils;
@@ -88,7 +89,7 @@ public class ProviderSqlStore {
     }
 
     /**
-     * 设置通过用链表
+     * 设置 角色 链表查询
      */
     public static void joinTable(SQL sql, String alias) {
         sql.INNER_JOIN("`basic_public_shop` AS s ON s.`shop_id`=" + alias + ".`shop_id`");
@@ -126,43 +127,34 @@ public class ProviderSqlStore {
 //        return s;
 //    }
 
+
     /**
      * 通用更新 数据状态
      *
      * @param sql
      * @param p
      */
-    public static void setStatus(SQL sql, ParentUploadInfo p) {
+    public static void setStatus(SQL sql, ParentConfTable p) {
         if (StringUtils.isNotBlank(p.getRemark())) {
             sql.SET("`remark` = #{remark,jdbcType=VARCHAR}");
         }
-
         if (p.getStatus() != null) {
             sql.SET("`status` = #{status,jdbcType=INTEGER}");
         }
-
-
         if (StringUtils.isNotBlank(p.getCreateUser())) {
             sql.SET("`create_user` = #{createUser,jdbcType=BIGINT}");
-
         }
         if (p.getCreateDate() != null) {
             sql.SET("`create_date` = #{createDate,jdbcType=BIGINT}");
         }
-
-
         if (StringUtils.isNotBlank(p.getModifyUser())) {
             sql.SET("`modify_user` = #{modifyUser,jdbcType=BIGINT}");
-
         }
         if (p.getModifyDate() != null) {
             sql.SET("`modify_date` = #{modifyDate,jdbcType=BIGINT}");
         }
-
-
         if (StringUtils.isNotBlank(p.getAuditUser())) {
             sql.SET("`audit_user` = #{auditUser,jdbcType=BIGINT}");
-
         }
         if (p.getAuditDate() != null) {
             sql.SET("`audit_date` = #{auditDate,jdbcType=BIGINT}");
@@ -172,6 +164,60 @@ public class ProviderSqlStore {
         sql.WHERE("version=" + version);
     }
 
+
+    /**
+     * 通用查询 出货单
+     *
+     * @param sql
+     * @param p
+     */
+    public static void selectDocumentStatus(SQL sql, ParentConfTable p, String alias) {
+        //备注
+        if (StringUtils.isNotBlank(p.getRemark())) {
+            sql.WHERE("POSITION('" + p.getRemark() + "' IN " + alias + ".`remark`)");
+        }
+        //状态
+        if (p.getStatus() != null) {
+            sql.WHERE(alias + ".status=#{status}");
+        }
+        //创建时间
+        if (p.getCreateDates() != null && (p.getCreateDates().size() > 0)) {
+            sql.WHERE(alias + ".create_date BETWEEN  " + p.getCreateDates().get(0) + " AND " + p.getCreateDates().get(1) + "");
+        }
+        //创建人
+        if (StringUtils.isNotBlank(p.getCreateUser())) {
+            sql.WHERE(alias + ".create_user=#{createUser}");
+        }
+        //修改日期
+        if (p.getModifyDates() != null && (p.getModifyDates().size() > 0)) {
+            sql.WHERE(alias + ".modify_date BETWEEN  " + p.getModifyDates().get(0) + " AND " + p.getModifyDates().get(1) + "");
+        }
+        //修改人
+        if (StringUtils.isNotBlank(p.getModifyUser())) {
+            sql.WHERE(alias + ".modify_user=#{modifyUser}");
+        }
+        //审核时间
+        if (p.getAuditDates() != null && (p.getAuditDates().size() > 0)) {
+            sql.WHERE(alias + ".audit_date BETWEEN  " + p.getAuditDates().get(0) + " AND " + p.getAuditDates().get(1) + "");
+        }
+        //审核人
+        if (StringUtils.isNotBlank(p.getAuditUser())) {
+            sql.WHERE(alias + ".audit_user=#{auditUser}");
+        }
+
+        //关闭时间
+        if (p.getCreateDates() != null && (p.getCreateDates().size() > 0)) {
+            sql.WHERE(alias + ".close_date BETWEEN  " + p.getCreateDates().get(0) + " AND " + p.getCreateDates().get(1) + "");
+        }
+        //关闭人
+        if (StringUtils.isNotBlank(p.getCloseUser())) {
+            sql.WHERE(alias + ".close_user=#{closeUser}");
+        }
+
+        sql.WHERE(alias + ".del_or_not=0");
+    }
+
+
     /**
      * 通用查询 文件类 数据状态
      *
@@ -179,12 +225,13 @@ public class ProviderSqlStore {
      * @param p
      */
     public static void selectUploadStatus(SQL sql, ParentUploadInfo p, String alias) {
+        //店铺名称
         if (StringUtils.isNotBlank(p.getShopName())) {
-            sql.WHERE(alias + ".`shop_id`=#{shopId}");
+            sql.WHERE("POSITION('" + p.getShopName() + "' IN s.`shop_name`)");
         }
         //站点名称
         if (StringUtils.isNotBlank(p.getSiteName())) {
-            sql.WHERE(alias + ".`site_id`=#{siteId}");
+            sql.WHERE("POSITION('" + p.getSiteName() + "' IN cs.`site_name`)");
         }
         //文件已有时间
         if (p.getDates() != null && (p.getDates().size() > 0)) {
@@ -206,15 +253,14 @@ public class ProviderSqlStore {
     }
 
     /**
-     * 上传文件通用删除
+     * 上传文件通用 物理删除 更新 del_or_not=1
      */
-    public static String upDel(SQL sql, String table, String alias, int version) {
+    public static void uploadDel(SQL sql, String table, String alias, int version) {
         sql.UPDATE(table + " AS " + alias);
         sql.SET(alias + ".`del_or_not` = 1");
         sql.SET(alias + ".`modify_date` =" + new Date().getTime());
         sql.SET(alias + ".`modify_user` = " + "'" + ReqUtils.getUserName() + "'");
         sql.SET("version=" + version + "+1");
         sql.WHERE("version=" + version);
-        return sql.toString();
     }
 }

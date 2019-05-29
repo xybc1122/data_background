@@ -1,7 +1,9 @@
 package com.dt.project.service;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.SalesAmazon.SalesShipNoticePackingListEntry;
+import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
+
+import java.util.List;
 
 /**
  * @ClassName SalesShipNoticePackingListEntryService
@@ -17,6 +19,6 @@ public interface SalesShipNoticePackingListEntryService {
      * @param
      * @return
      */
-    ResponseBase serviceSelectPackingListEntry(SalesShipNoticePackingListEntry pLEntry);
+    List<SalesShipNoticePackingListEntry> serviceSelectPackingListEntry(SalesShipNoticePackingListEntry pLEntry);
 
 }

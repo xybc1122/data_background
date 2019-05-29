@@ -3,6 +3,8 @@ package com.dt.project.oa.impl;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.oa.service.ActivitiService;
+import com.dt.project.utils.ReqUtils;
+import com.dt.project.utils.UuIDUtils;
 import org.activiti.engine.*;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
@@ -70,12 +74,56 @@ public class ActivitiServiceImpl implements ActivitiService {
         return JsonData.setResultSuccess("success");
     }
 
+
     @Override
-    public ProcessInstance startProcess(String instanceKey, String uName) {
+    public ResponseBase startProcess(String instanceKey, String uName, Map<String, Object> objectMap) {
         get().getIdentityService().setAuthenticatedUserId(uName);
-        return get().getRuntimeService().startProcessInstanceByKey(instanceKey);
+        ProcessInstance processInstance = get().getRuntimeService().startProcessInstanceByKey(instanceKey);
+        Task task = get()
+                .getTaskService()
+                .createTaskQuery()
+                .processInstanceId(processInstance.getId())
+                .singleResult();
+        get().getTaskService().claim(task.getId(), ReqUtils.getUserName());
+        objectMap.put("applyUser", ReqUtils.getUserName());
+        objectMap.put("uuidNumber", UuIDUtils.uuId());
+        //完成任务
+        get().getTaskService().complete(task.getId(), objectMap);
+        return JsonData.setResultSuccess("发起流程成功");
     }
 
+    @Override
+    public ResponseBase selThisProcess() {
+        //通过userId查看我的个人任务
+        List<ProcessInstance> processInstances = get()
+                .getRuntimeService()
+                .createProcessInstanceQuery().list();
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        for (ProcessInstance instance : processInstances) {
+            Map<String, Object> variables = get().getRuntimeService().getVariables(instance.getId());
+            variables.put("ApplyStatus", instance.isEnded() ? "申请结束" : "等待审批");
+            mapList.add(variables);
+        }
+        return JsonData.setResultSuccess(mapList);
+    }
+
+    @Override
+    public ResponseBase selThisAudit() {
+        List<Task> taskList = get().getTaskService().createTaskQuery().taskCandidateUser(ReqUtils.getUserName())
+                .orderByTaskCreateTime().desc().list();
+        List<Map<String, Object>> mapList = new ArrayList<>();
+        for (Task task : taskList) {
+            String instanceId = task.getProcessInstanceId();
+            ProcessInstance instance = get().getRuntimeService().
+                    createProcessInstanceQuery().processInstanceId(instanceId).singleResult();
+            Map<String, Object> variables = get().getRuntimeService().getVariables(instance.getId());
+            variables.put("tkId", task.getId());
+            variables.put("tkName", task.getName());
+            variables.put("tkCreateTime", task.getCreateTime());
+            mapList.add(variables);
+        }
+        return JsonData.setResultSuccess(mapList);
+    }
 
 
 }

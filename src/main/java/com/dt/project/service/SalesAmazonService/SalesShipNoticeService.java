@@ -1,7 +1,9 @@
-package com.dt.project.service.SalesAmazonService;
+package com.dt.project.service.salesAmazonService;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.SalesAmazon.SalesShipNotice;
+import com.dt.project.model.salesAmazon.SalesShipNotice;
+
+import java.util.Map;
 
 /**
  * @ClassName SalesShipNoticeService
@@ -20,4 +22,10 @@ public interface SalesShipNoticeService {
      */
 
     ResponseBase selectSelectByNotice(SalesShipNotice notice);
+
+    /**
+     * 新增出货通知单
+     * @return
+     */
+    ResponseBase saveNotice(Map<String, Object> noMap);
 }

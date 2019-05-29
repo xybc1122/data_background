@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SystemMapper;
+package com.dt.project.mapper.systemMapper;
 
-import com.dt.project.model.System.SystemUserConfig;
+import com.dt.project.model.system.SystemUserConfig;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 

@@ -18,6 +18,11 @@ public interface Constants {
      */
     public static Map<String, WebSocketServerHandshaker> webSocketHandShakerMap =
             new ConcurrentHashMap<String, WebSocketServerHandshaker>();
+
+    /**
+     * 设置出库通知单
+     */
+    String SAVE_SHIPNOTICE = "save_shipNotice";
     /**
      * token
      */

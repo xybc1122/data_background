@@ -1,6 +1,6 @@
-package com.dt.project.model.System;
+package com.dt.project.model.system;
 
-import com.dt.project.model.Parent.ParentSysTemLog;
+import com.dt.project.model.parent.ParentSysTemLog;
 
 /**
  * 保存公司信息

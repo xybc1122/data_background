@@ -1,8 +1,8 @@
-package com.dt.project.controller.FinancialImportController;
+package com.dt.project.controller.financialImportController;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.FinancialSalesBalance;
-import com.dt.project.service.FinancialImportService.FinancialSalesBalanceService;
+import com.dt.project.service.financialImportService.FinancialSalesBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

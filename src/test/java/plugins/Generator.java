@@ -65,7 +65,7 @@ public class Generator {
                 * Saving file DemoMapper.java
                 * Saving file DemoSqlProvider.java
                  */
-                // System.out.println(taskName);
+                // system.out.println(taskName);
                 taskNames.add( taskName);
             }
 
@@ -130,7 +130,7 @@ public class Generator {
             System.out.println(warning);
         }
         System.out.println("------- generator end -------");
-        // System.out.println(config.getClassPathEntries());
+        // system.out.println(config.getClassPathEntries());
     }
 
     private static void addMysqlLimit(File sqlProviderFile) throws Exception {
@@ -183,7 +183,7 @@ public class Generator {
 //        }
         
 //        for (String line : newLines) {
-//            System.out.println(line);
+//            system.out.println(line);
 //        }
 //        FileOutputStream writer = new FileOutputStream(sqlProviderFile);
 //        IOUtils.writeLines(newLines, "\n",writer,"UTF-8");

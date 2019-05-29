@@ -1,7 +1,7 @@
-package com.dt.project.model.SalesAmazon;
+package com.dt.project.model.salesAmazon;
 
 
-import com.dt.project.model.Parent.ParentUploadInfo;
+import com.dt.project.model.parent.ParentUploadInfo;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -1,9 +1,10 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.SalesAmazonMapper.SalesShipNoticeEntryMapper;
-import com.dt.project.model.SalesAmazon.SalesShipNoticeEntry;
+import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeEntryMapper;
+import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
 import com.dt.project.service.JavaSqlNameService;
-import com.dt.project.service.SalesAmazonService.SalesShipNoticeEntryService;
+import com.dt.project.service.salesAmazonService.SalesShipNoticeEntryService;
+import com.dt.project.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +27,14 @@ public class SalesShipNoticeEntryServiceImpl implements SalesShipNoticeEntryServ
     public List<SalesShipNoticeEntry> serviceSelectByNoticeEntry(SalesShipNoticeEntry noticeEntry) {
         //这里放入缓存
         noticeEntry.setNameList(nameService.get("nEntry"));
-        List<SalesShipNoticeEntry> entryList = nEMapper.selectByNoticeEntry(noticeEntry);
-        if (entryList == null || entryList.size() == 0) {
-            return null;
-        }
-        return entryList;
+        return nEMapper.selectByNoticeEntry(noticeEntry);
+    }
+
+    @Override
+    public int insertShipNoticeEntry(List<SalesShipNoticeEntry> noticeEntryList) {
+        int result = nEMapper.insertShipNoticeEntry(noticeEntryList);
+        //校验是否成功
+        JsonUtils.saveResult(result);
+        return result;
     }
 }

@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicHrEmploymentTypeMapper;
-import com.dt.project.model.BasePublicModel.BasicHrEmploymentType;
-import com.dt.project.service.BasePublicService.BasicHrEmploymentTypeService;
+import com.dt.project.mapper.basePublicMapper.BasicHrEmploymentTypeMapper;
+import com.dt.project.model.basePublicModel.BasicHrEmploymentType;
+import com.dt.project.service.basePublicService.BasicHrEmploymentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

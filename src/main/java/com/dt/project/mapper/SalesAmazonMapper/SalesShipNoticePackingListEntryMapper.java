@@ -1,6 +1,6 @@
-package com.dt.project.mapper.SalesAmazonMapper;
+package com.dt.project.mapper.salesAmazonMapper;
 
-import com.dt.project.model.SalesAmazon.SalesShipNoticePackingListEntry;
+import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
 
 import java.util.List;
 
@@ -44,8 +44,16 @@ public interface SalesShipNoticePackingListEntryMapper {
      * @return
      */
     @SelectProvider(type = SalesShipNoticePackingListEntrySqlProvider.class, method = "selectPackingListEntry")
+    @Results({
+            @Result(property = "plLengthCm", column = "length_cm"),
+            @Result(property = "plWidthCm", column = "width_cm"),
+            @Result(property = "plHeightCm", column = "height_cm"),
+            @Result(property = "plGwKg", column = "gw_kg"),
+            @Result(property = "plNwKg", column = "nw_kg"),
+            @Result(property = "plVolumeM3", column = "volume_m3"),
+            @Result(property = "plRemark", column = "remark")
+    })
     List<SalesShipNoticePackingListEntry> selectPackingListEntry(SalesShipNoticePackingListEntry pLEntry);
-
 
 
     @UpdateProvider(type = SalesShipNoticePackingListEntrySqlProvider.class, method = "updateByExampleSelective")

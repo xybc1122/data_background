@@ -1,4 +1,6 @@
-package com.dt.project.model.PurchasePo;
+package com.dt.project.model.purchasePo;
+
+import com.dt.project.model.parent.ParentSysTemLog;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -6,7 +8,7 @@ import java.util.List;
 /**
  * 采购订单表
  */
-public class PurchasePoOrder {
+public class PurchasePoOrder extends ParentSysTemLog {
     private Long poId;
 
     private Long date;
@@ -76,14 +78,70 @@ public class PurchasePoOrder {
     private Long sourceId;
 
     private Integer printCount;
-
-    private Long statusId;
-
-    private Integer version;
-
-    private Boolean delOrNot;
-
+    /**
+     * 币别名称
+     */
+    private String currencyName;
+    /**
+     * 部门名称
+     */
+    private String deptName;
+    /**
+     * 业务员名称
+     */
+    private String empName;
+    /**
+     * 主管名称
+     */
+    private String mangerName;
+    /**
+     * 一对多 接收对象  查询
+     */
+    private PurchasePoOrderEntry poOrderEntry;
+    /**
+     * 一对多对象存储
+     */
     private List<PurchasePoOrderEntry> poOrderEntryList;
+
+    public PurchasePoOrderEntry getPoOrderEntry() {
+        return poOrderEntry;
+    }
+
+    public void setPoOrderEntry(PurchasePoOrderEntry poOrderEntry) {
+        this.poOrderEntry = poOrderEntry;
+    }
+
+    public String getCurrencyName() {
+        return currencyName;
+    }
+
+    public void setCurrencyName(String currencyName) {
+        this.currencyName = currencyName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getEmpName() {
+        return empName;
+    }
+
+    public void setEmpName(String empName) {
+        this.empName = empName;
+    }
+
+    public String getMangerName() {
+        return mangerName;
+    }
+
+    public void setMangerName(String mangerName) {
+        this.mangerName = mangerName;
+    }
 
     public Long getPoId() {
         return poId;
@@ -363,30 +421,6 @@ public class PurchasePoOrder {
 
     public void setPrintCount(Integer printCount) {
         this.printCount = printCount;
-    }
-
-    public Long getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Boolean getDelOrNot() {
-        return delOrNot;
-    }
-
-    public void setDelOrNot(Boolean delOrNot) {
-        this.delOrNot = delOrNot;
     }
 
     public List<PurchasePoOrderEntry> getPoOrderEntryList() {

@@ -1,4 +1,4 @@
-package com.dt.project.mapper.BasePublicMapper;
+package com.dt.project.mapper.basePublicMapper;
 
 public interface BasicPublicProvinceMapper {
 

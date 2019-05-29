@@ -1,4 +1,4 @@
-package com.dt.project.service.BasePublicService;
+package com.dt.project.service.basePublicService;
 
 public interface BasicPublicProvinceCityService {
 }

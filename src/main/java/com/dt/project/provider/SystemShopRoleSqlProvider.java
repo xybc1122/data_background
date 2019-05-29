@@ -9,7 +9,7 @@ import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.System.SystemShopRole;
+import com.dt.project.model.system.SystemShopRole;
 import com.dt.project.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 

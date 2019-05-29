@@ -18,7 +18,7 @@ public class LogisticsController {
      */
 //    @PostMapping("/info")
 //    public ResponseBase getWayInfo(@RequestBody LogisticsPage logisticsPage) {
-//            System.out.println(logisticsPage);
+//            system.out.println(logisticsPage);
 //        return logisticsClient.wayInfo(logisticsPage);
 //    }
 }

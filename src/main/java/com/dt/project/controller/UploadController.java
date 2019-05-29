@@ -181,28 +181,28 @@ public class UploadController {
         }
         int baseNum = upload.getUploadSuccessList().size();
         ResponseBase responseBase;
-        if (baseNum > 0) {
-            for (int i = 0; i < baseNum; i++) {
-                UserUpload userUpload = upload.getUploadSuccessList().get(i);
-                int fileIndex = userUpload.getName().lastIndexOf(".");
-                String typeFile = userUpload.getName().substring(fileIndex + 1);
-                switch (typeFile) {
-                    case "csv":
-                        responseBase = consumerService.importCsv(userUpload).get();
-                        responseBaseList.add(responseBase);
-                        break;
-                    case "xlsx":
-                    case "xls":
-                        responseBase = consumerService.importXls(userUpload).get();
-                        responseBaseList.add(responseBase);
-                        break;
-                    case "txt":
-                        responseBase = consumerService.importTxt(userUpload).get();
-                        responseBaseList.add(responseBase);
-                        break;
+            if (baseNum > 0) {
+                for (int i = 0; i < baseNum; i++) {
+                    UserUpload userUpload = upload.getUploadSuccessList().get(i);
+                    int fileIndex = userUpload.getName().lastIndexOf(".");
+                    String typeFile = userUpload.getName().substring(fileIndex + 1);
+                    switch (typeFile) {
+                        case "csv":
+                            responseBase = consumerService.importCsv(userUpload).get();
+                            responseBaseList.add(responseBase);
+                            break;
+                        case "xlsx":
+                        case "xls":
+                            responseBase = consumerService.importXls(userUpload).get();
+                            responseBaseList.add(responseBase);
+                            break;
+                        case "txt":
+                            responseBase = consumerService.importTxt(userUpload).get();
+                            responseBaseList.add(responseBase);
+                            break;
+                    }
                 }
             }
-        }
         return JsonData.setResultSuccess(responseBaseList);
     }
 

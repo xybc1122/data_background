@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicPublicVatTaxrateMapper;
-import com.dt.project.model.BasePublicModel.BasicPublicVatTaxrate;
-import com.dt.project.service.BasePublicService.BasicPublicVatTaxrateService;
+import com.dt.project.mapper.basePublicMapper.BasicPublicVatTaxrateMapper;
+import com.dt.project.model.basePublicModel.BasicPublicVatTaxrate;
+import com.dt.project.service.basePublicService.BasicPublicVatTaxrateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

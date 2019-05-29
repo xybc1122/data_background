@@ -1,6 +1,6 @@
-package com.dt.project.service.SalesAmazonService;
+package com.dt.project.service.salesAmazonService;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaAbandon;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaAbandon;
 
 import java.util.List;
 

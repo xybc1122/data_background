@@ -1,9 +1,9 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.mapper.SalesAmazonMapper.SalesAmazonFbaFeedbackMapper;
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaFeedback;
-import com.dt.project.service.SalesAmazonService.SalesAmazonFbaFeedbackService;
+import com.dt.project.mapper.salesAmazonMapper.SalesAmazonFbaFeedbackMapper;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaFeedback;
+import com.dt.project.service.salesAmazonService.SalesAmazonFbaFeedbackService;
 import com.dt.project.utils.JsonUtils;
 import com.dt.project.utils.ReqUtils;
 import org.springframework.beans.factory.annotation.Autowired;

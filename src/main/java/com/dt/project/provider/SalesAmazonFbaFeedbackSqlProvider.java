@@ -1,12 +1,10 @@
 package com.dt.project.provider;
 
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaFeedback;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaFeedback;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
 import org.apache.ibatis.jdbc.SQL;
-
-import java.lang.reflect.Field;
 
 
 public class SalesAmazonFbaFeedbackSqlProvider {
@@ -68,8 +66,7 @@ public class SalesAmazonFbaFeedbackSqlProvider {
         sql.SELECT("s.`shop_name`, cs.`site_name`,`date`,`add`,`move`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_amazon_fba_feedback AS " + alias);
         ProviderSqlStore.joinTable(sql, alias);
-        Field[] fields = record.getClass().getDeclaredFields();
-        FieldStore.query(fields, record.getNameList(), record, sql);
+        FieldStore.query(record.getClass(), record.getNameList(), record, sql);
         ProviderSqlStore.selectUploadStatus(sql, record, alias);
         return sql.toString();
     }

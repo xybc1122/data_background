@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicSalesAmazonCsvTxtXslHeaderMapper;
-import com.dt.project.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
-import com.dt.project.service.BasePublicService.BasicSalesAmazonCsvTxtXslHeaderService;
+import com.dt.project.mapper.basePublicMapper.BasicSalesAmazonCsvTxtXslHeaderMapper;
+import com.dt.project.model.basePublicModel.BasicSalesAmazonCsvTxtXslHeader;
+import com.dt.project.service.basePublicService.BasicSalesAmazonCsvTxtXslHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

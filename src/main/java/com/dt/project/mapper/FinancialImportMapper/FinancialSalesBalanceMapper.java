@@ -1,4 +1,4 @@
-package com.dt.project.mapper.FinancialImportMapper;
+package com.dt.project.mapper.financialImportMapper;
 
 import com.dt.project.model.FinancialSalesBalance;
 import com.dt.project.provider.FinancialSalesBalanceProvider;

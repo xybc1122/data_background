@@ -1,9 +1,9 @@
-package com.dt.project.controller.SystemController;
+package com.dt.project.controller.systemController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.System.SystemInfoCompany;
-import com.dt.project.service.SystemService.SystemInfoCompanyService;
+import com.dt.project.model.system.SystemInfoCompany;
+import com.dt.project.service.systemService.SystemInfoCompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

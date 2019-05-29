@@ -1,11 +1,11 @@
-package com.dt.project.controller.UserServiceController;
+package com.dt.project.controller.userServiceController;
 
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.UserInfo;
-import com.dt.project.service.RedisService;
-import com.dt.project.service.SystemService.SystemUserConfigService;
+import com.dt.project.service.impl.RedisService;
+import com.dt.project.service.systemService.SystemUserConfigService;
 import com.dt.project.service.UserService;
 import com.dt.project.store.SsoLoginStore;
 import com.dt.project.toos.Constants;

@@ -1,6 +1,6 @@
-package com.dt.project.service.BasePublicService;
+package com.dt.project.service.basePublicService;
 
-import com.dt.project.dto.CurrencyDto;
+import com.dt.project.model.dto.CurrencyDto;
 
 import java.util.List;
 

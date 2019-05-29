@@ -1,14 +1,14 @@
-package com.dt.project.controller.SalesAmazonController;
+package com.dt.project.controller.salesAmazonController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.SalesAmazon.SalesAmazonAdCpr;
-import com.dt.project.model.SalesAmazon.SalesAmazonAdHl;
-import com.dt.project.model.SalesAmazon.SalesAmazonAdOar;
-import com.dt.project.model.SalesAmazon.SalesAmazonAdStr;
-import com.dt.project.service.SalesAmazonService.SalesAmazonAHlService;
-import com.dt.project.service.SalesAmazonService.SalesAmazonAdCprService;
-import com.dt.project.service.SalesAmazonService.SalesAmazonAdOarService;
-import com.dt.project.service.SalesAmazonService.SalesAmazonAdStrService;
+import com.dt.project.model.salesAmazon.SalesAmazonAdCpr;
+import com.dt.project.model.salesAmazon.SalesAmazonAdHl;
+import com.dt.project.model.salesAmazon.SalesAmazonAdOar;
+import com.dt.project.model.salesAmazon.SalesAmazonAdStr;
+import com.dt.project.service.salesAmazonService.SalesAmazonAHlService;
+import com.dt.project.service.salesAmazonService.SalesAmazonAdCprService;
+import com.dt.project.service.salesAmazonService.SalesAmazonAdOarService;
+import com.dt.project.service.salesAmazonService.SalesAmazonAdStrService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -5,7 +5,6 @@ import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.RoleMenuMapper;
 import com.dt.project.model.RoleMenu;
-import com.dt.project.service.RedisService;
 import com.dt.project.service.RoleMenuService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

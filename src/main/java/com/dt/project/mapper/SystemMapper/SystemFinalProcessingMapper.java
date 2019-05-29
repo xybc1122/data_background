@@ -1,7 +1,7 @@
-package com.dt.project.mapper.SystemMapper;
+package com.dt.project.mapper.systemMapper;
 
 import com.dt.project.provider.SystemFinalProcessingSqlProvider;
-import com.dt.project.model.System.SystemFinalProcessing;
+import com.dt.project.model.system.SystemFinalProcessing;
 
 import java.util.List;
 

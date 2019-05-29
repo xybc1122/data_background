@@ -2,12 +2,12 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.AreaRoleDto;
+import com.dt.project.model.dto.AreaRoleDto;
 import com.dt.project.exception.LsException;
-import com.dt.project.mapper.BasePublicMapper.BasicPublicAreaRoleMapper;
-import com.dt.project.model.BasePublicModel.BasicPublicAreaRoleSite;
-import com.dt.project.service.BasePublicService.BasicPublicAreaRoleService;
-import com.dt.project.service.BasePublicService.BasicPublicAreaRoleSiteService;
+import com.dt.project.mapper.basePublicMapper.BasicPublicAreaRoleMapper;
+import com.dt.project.model.basePublicModel.BasicPublicAreaRoleSite;
+import com.dt.project.service.basePublicService.BasicPublicAreaRoleService;
+import com.dt.project.service.basePublicService.BasicPublicAreaRoleSiteService;
 import com.dt.project.utils.ReqUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

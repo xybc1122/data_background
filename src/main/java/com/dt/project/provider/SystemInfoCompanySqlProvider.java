@@ -10,7 +10,7 @@ import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.System.SystemInfoCompany;
+import com.dt.project.model.system.SystemInfoCompany;
 import com.dt.project.store.ProviderSqlStore;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;

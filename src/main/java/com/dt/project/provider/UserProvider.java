@@ -1,7 +1,7 @@
 package com.dt.project.provider;
 
 
-import com.dt.project.dto.UserDto;
+import com.dt.project.model.dto.UserDto;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.MD5Util;
@@ -127,9 +127,10 @@ public class UserProvider {
                 SET("is_first_login=" + checkedUpPwd);
             }
             Integer version = (Integer) userMap.get("version");
+            Integer uid = (Integer) userMap.get("uid");
+
             SET("version=" + version + "+1");
             WHERE("version=" + version);
-            Integer uid = (Integer) userMap.get("uid");
             WHERE("uid=" + uid);
         }}.toString();
     }

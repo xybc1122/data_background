@@ -10,12 +10,12 @@ import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.SalesAmazon.SalesShipNoticeEntry;
+import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
 import com.dt.project.store.FieldStore;
 import com.dt.project.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 
 public class SalesShipNoticeEntrySqlProvider {
@@ -33,78 +33,48 @@ public class SalesShipNoticeEntrySqlProvider {
         return SQL();
     }
 
-    public String insertSelective(SalesShipNoticeEntry record) {
-        BEGIN();
-        INSERT_INTO("sales_ship_notice_entry");
-
-        if (record.getEntryId() != null) {
-            VALUES("entry_id", "#{entryId,jdbcType=INTEGER}");
+    @SuppressWarnings("unchecked")
+    public String insertShipNoticeEntry(Map<String, Object> neMap) {
+        List<SalesShipNoticeEntry> noticeEntryList = (List<SalesShipNoticeEntry>) neMap.get("noticeEntryList");
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO `sales_ship_notice_entry`\n" +
+                "(`entry_id`,`ship_notice_id`,`sku_id`,`quantity`,\n" +
+                "`packages`,`length_cm`,`width_cm`,`height_cm`,\n" +
+                "`gw_kg`,`nw_kg`,`volume_m3`,`packing_status`,\n" +
+                "`se_quantity`,`re_quantity`,`re_date`,`remark`, `status`,\n" +
+                "`close_date`, `close_user`)values");
+        for (SalesShipNoticeEntry noticeEntry : noticeEntryList) {
+            sb.append("(").append(noticeEntry.getEntryId()).append(",").append(noticeEntry.getShipNoticeId()).
+                    append(",").append(noticeEntry.getSkuId()).append(",").append(noticeEntry.getQuantity()).append(",");
+            StrUtils.appBuider(sb, noticeEntry.getPackages());
+            sb.append(",").append(noticeEntry.getNeLengthCm()).append(",").append(noticeEntry.getNeWidthCm()).
+                    append(",").append(noticeEntry.getNeHeightCm()).append(",").
+                    append(noticeEntry.getNeGwKg()).append(",").append(noticeEntry.getNeNwKg()).append(",").
+                    append(noticeEntry.getNeVolumeM3()).append(",").append(noticeEntry.getPackingStatus()).append(",").
+                    append(noticeEntry.getSeQuantity()).append(",").append(noticeEntry.getReQuantity()).append(",").
+                    append(noticeEntry.getReDate()).append(",");
+            StrUtils.appBuider(sb, noticeEntry.getNeRemark());
+            sb.append(",").append(noticeEntry.getStatus()).append(",").append(noticeEntry.getCloseDate()).append(",");
+            StrUtils.appBuider(sb, noticeEntry.getCloseUser());
+            sb.append("),");
         }
-
-        if (record.getShipNoticeId() != null) {
-            VALUES("ship_notice_id", "#{shipNoticeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSkuId() != null) {
-            VALUES("sku_id", "#{skuId,jdbcType=BIGINT}");
-        }
-
-        if (record.getQuantity() != null) {
-            VALUES("quantity", "#{quantity,jdbcType=INTEGER}");
-        }
-
-        if (record.getPackages() != null) {
-            VALUES("packages", "#{packages,jdbcType=VARCHAR}");
-        }
-
-        if (record.getPackingStatus() != null) {
-            VALUES("packing_status", "#{packingStatus,jdbcType=BIT}");
-        }
-
-        if (record.getSeQuantity() != null) {
-            VALUES("se_quantity", "#{seQuantity,jdbcType=INTEGER}");
-        }
-
-        if (record.getReQuantity() != null) {
-            VALUES("re_quantity", "#{reQuantity,jdbcType=INTEGER}");
-        }
-
-        if (record.getReDate() != null) {
-            VALUES("re_date", "#{reDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getStatus() != null) {
-            VALUES("status", "#{status,jdbcType=INTEGER}");
-        }
-
-        if (record.getCloseDate() != null) {
-            VALUES("close_date", "#{closeDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getCloseUser() != null) {
-            VALUES("close_user", "#{closeUser,jdbcType=VARCHAR}");
-        }
-
-        if (record.getVersion() != null) {
-            VALUES("version", "#{version,jdbcType=INTEGER}");
-        }
-
-
-        return SQL();
+        return sb.toString().substring(0, sb.length() - 1);
     }
 
     public String selectByNoticeEntry(SalesShipNoticeEntry nEntry) throws IllegalAccessException {
         SQL sql = new SQL();
-        sql.SELECT("`e_id`,`entry_id`,\n" +
-                "`ship_notice_id`,`sku_id`,`quantity`,`packages`,`ne_length_cm`,`ne_width_cm`,`ne_height_cm`,`ne_gw_kg`,\n" +
-                "`ne_nw_kg`,`ne_volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`ne_remark`,`status`,\n" +
-                "`close_date`,`close_user`,`version`\n" +
-                "FROM `sales_ship_notice_entry`");
-        Field[] fields = nEntry.getClass().getDeclaredFields();
-        FieldStore.query(fields, nEntry.getNameList(), nEntry, sql);
-        sql.WHERE("del_or_not=0");
+        String alias = "sne";
+        sql.SELECT("sku.sku,`e_id`,`entry_id`,\n" +
+                "`ship_notice_id`," + alias + ".`sku_id`,`quantity`,`packages`," + alias + ".`length_cm`," +
+                "" + alias + ".`width_cm`," + alias + ".`height_cm`," + alias + ".`gw_kg`,\n" +
+                "" + alias + ".`nw_kg`," + alias + ".`volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`remark`,`status`,\n" +
+                "`close_date`,`close_user`," + alias + ".`version`\n" +
+                "FROM `sales_ship_notice_entry` AS  " + alias + "");
+        sql.LEFT_OUTER_JOIN("`basic_public_sku` AS sku on sku.sku_id= " + alias + ".sku_id");
+        FieldStore.query(nEntry.getClass(), nEntry.getNameList(), nEntry, sql);
+        sql.WHERE(alias + ".del_or_not=0");
         if (nEntry.getInShipNoticeList() != null && nEntry.getInShipNoticeList().size() > 0) {
-            return sql.toString() + " AND " + StrUtils.in(nEntry.getInShipNoticeList(), "ship_notice_id");
+            return sql.toString() + " AND " + StrUtils.in(nEntry.getInShipNoticeList(), alias + ".ship_notice_id");
         }
         return sql.toString();
     }

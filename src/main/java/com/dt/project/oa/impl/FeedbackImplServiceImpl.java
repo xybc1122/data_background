@@ -48,12 +48,11 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
     @Override
     @Transactional
     public ResponseBase startProcess(Feedback feedback) {
-        System.out.println( activitiService.get());
+        System.out.println(activitiService.get());
         if (StringUtils.isBlank(feedback.getmName())) {
             return JsonData.setResultError("发起流程失败");
         }
         try {
-            ProcessInstance processInstance = activitiService.startProcess(FEEDBACK_KEY, ReqUtils.getUserName());
             Map<String, Object> feedbackMap = new HashMap<>();
             feedbackMap.put("applyUser", ReqUtils.getUserName());
             feedbackMap.put("imageUrl", feedback.getImageUrl());
@@ -62,18 +61,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
             feedbackMap.put("uuidNumber", UuIDUtils.uuId());
             //流程状态
             feedbackMap.put("status", 1);
-            Task task = activitiService.get()
-                    .getTaskService()
-                    .createTaskQuery()
-                    .processInstanceId(processInstance.getId())
-                    .singleResult();
-            /**
-             * 签收
-             */
-            activitiService.get().getTaskService().claim(task.getId(), ReqUtils.getUserName());
-            //完成任务
-            activitiService.get().getTaskService().complete(task.getId(), feedbackMap);
-            return JsonData.setResultSuccess("发起流程成功");
+            return activitiService.startProcess(FEEDBACK_KEY, ReqUtils.getUserName(), feedbackMap);
         } catch (Exception e) {
             throw new LsException("发起流程失败");
         }
@@ -133,7 +121,7 @@ public class FeedbackImplServiceImpl implements FeedbackImplService {
         int currentPage = PageBean.currentPage(page);
         //当前页开始记录
         int offset = PageBean.countOffset(pageSize, currentPage);
-        List<HistoricProcessInstance> hisProInstance =  activitiService.get()
+        List<HistoricProcessInstance> hisProInstance = activitiService.get()
                 .getHistoryService()
                 .createHistoricProcessInstanceQuery()
                 .processDefinitionKey(FEEDBACK_KEY)

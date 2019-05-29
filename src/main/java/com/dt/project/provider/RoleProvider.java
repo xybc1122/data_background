@@ -1,7 +1,7 @@
 package com.dt.project.provider;
 
 
-import com.dt.project.dto.RoleDto;
+import com.dt.project.model.dto.RoleDto;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 

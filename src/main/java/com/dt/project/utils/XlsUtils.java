@@ -54,7 +54,7 @@ public class XlsUtils {
     public static Workbook getWorkbook(InputStream in, File file) throws IOException {
         Workbook wb = null;
         if (file.getName().endsWith(EXCEL_XLS)) {  //Excel 2003
-            wb = new HSSFWorkbook(in);
+            throw new LsException("版本为2003请升级到2007");
         } else if (file.getName().endsWith(EXCEL_XLSX)) {  // Excel 2007/2010
             wb = new XSSFWorkbook(in);
         }

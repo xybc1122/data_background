@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.UserDto;
+import com.dt.project.model.dto.UserDto;
 import com.dt.project.exception.LsException;
 import com.dt.project.mapper.UserMapper;
 import com.dt.project.model.UserInfo;

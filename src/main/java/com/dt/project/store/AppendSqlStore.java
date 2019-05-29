@@ -1,6 +1,6 @@
 package com.dt.project.store;
 
-import com.dt.project.model.Parent.ParentUploadInfo;
+import com.dt.project.model.parent.ParentUploadInfo;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -78,7 +78,7 @@ public class AppendSqlStore {
                 return v;
             }
         }
-        //如果都符合
+        //如果是null
         return null;
     }
 

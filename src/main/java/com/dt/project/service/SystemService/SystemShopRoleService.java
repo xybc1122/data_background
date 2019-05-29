@@ -1,4 +1,4 @@
-package com.dt.project.service.SystemService;
+package com.dt.project.service.systemService;
 
 import com.dt.project.config.ResponseBase;
 

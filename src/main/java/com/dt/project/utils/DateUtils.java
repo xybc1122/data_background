@@ -67,8 +67,8 @@ public class DateUtils {
                 return null;
         }
         if (checkingTime(fsb.getDate(), closingDate) == null) return null;
-//        System.out.println(thisFileDate);
-//        System.out.println(closingDate);
+//        system.out.println(thisFileDate);
+//        system.out.println(closingDate);
         return "ok";
     }
 
@@ -253,7 +253,7 @@ public class DateUtils {
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 //        String c = sdf.format(new Date());
 //        Date date2 = sdf.parse(c);//调用parse()方法时 注意 传入的格式必须符合simpleDateFormat对象的格式，即"yyyy-MM-dd HH:mm:ss:SSS" 否则会报错！！
-//        System.out.println(date2.getTime());
+//        system.out.println(date2.getTime());
 
 
         String stringDate = "2019-04";
@@ -261,9 +261,9 @@ public class DateUtils {
         Date d2 = sdfc.parse(stringDate);
         System.out.println(d2.compareTo(new Date()));
 //        Long time = sdf.parse(stringDate).getTime();
-//        System.out.println(time);
-//        System.out.println(getXlsStrTime(stringDate, "dd-MM-yyyy"));
-//        System.out.println(DateUtils.getFranceTime(stringDate, Constants.FRANCE_TIME));
+//        system.out.println(time);
+//        system.out.println(getXlsStrTime(stringDate, "dd-MM-yyyy"));
+//        system.out.println(DateUtils.getFranceTime(stringDate, Constants.FRANCE_TIME));
 
     }
 }

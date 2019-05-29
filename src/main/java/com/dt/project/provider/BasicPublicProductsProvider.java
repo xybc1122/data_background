@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.BasePublicModel.BasicPublicProducts;
+import com.dt.project.model.basePublicModel.BasicPublicProducts;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ParentTreeStore;
 import com.dt.project.toos.Constants;

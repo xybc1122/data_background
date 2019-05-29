@@ -2,7 +2,7 @@ package com.dt.project.provider;
 
 
 import com.dt.project.store.ProviderSqlStore;
-import com.dt.project.model.System.SystemFinalProcessing;
+import com.dt.project.model.system.SystemFinalProcessing;
 
 import org.apache.ibatis.jdbc.SQL;
 

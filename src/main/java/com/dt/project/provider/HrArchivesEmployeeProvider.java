@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.dto.HrEmployeeDto;
+import com.dt.project.model.dto.HrEmployeeDto;
 import com.dt.project.store.ProviderSqlStore;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;

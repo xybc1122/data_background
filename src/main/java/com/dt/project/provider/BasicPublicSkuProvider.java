@@ -1,9 +1,7 @@
 package com.dt.project.provider;
 
-import com.dt.project.dto.SkuDto;
+import com.dt.project.model.dto.SkuDto;
 import com.dt.project.store.AppendSqlStore;
-import com.dt.project.store.FieldStore;
-import com.dt.project.store.FsbStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;

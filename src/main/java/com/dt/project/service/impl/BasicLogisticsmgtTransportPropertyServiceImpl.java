@@ -1,8 +1,8 @@
 package com.dt.project.service.impl;
 
-import com.dt.project.mapper.BasePublicMapper.BasicLogisticsmgtTransportPropertyMapper;
-import com.dt.project.model.BasePublicModel.BasicLogisticsmgtTransportProperty;
-import com.dt.project.service.BasePublicService.BasicLogisticsmgtTransportPropertyService;
+import com.dt.project.mapper.basePublicMapper.BasicLogisticsmgtTransportPropertyMapper;
+import com.dt.project.model.basePublicModel.BasicLogisticsmgtTransportProperty;
+import com.dt.project.service.basePublicService.BasicLogisticsmgtTransportPropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package com.dt.project.service.BasePublicService;
+package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.BasePublicModel.BasicExportPackingType;
+import com.dt.project.model.basePublicModel.BasicExportPackingType;
 
 import java.util.List;
 

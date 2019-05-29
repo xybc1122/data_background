@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.SalesAmazon.SalesAmazonFbaAbandon;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaAbandon;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
@@ -8,7 +8,6 @@ import com.dt.project.toos.Constants;
 import com.dt.project.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
@@ -75,8 +74,7 @@ public class SalesAmazonFbaAbandonProvider {
         if (abandon.getLastUpdatedDates() != null && (abandon.getLastUpdatedDates().size() > 0)) {
             sql.WHERE("date  " + abandon.getLastUpdatedDates().get(0) + " AND " + abandon.getLastUpdatedDates().get(1) + "");
         }
-        Field[] fields = abandon.getClass().getDeclaredFields();
-        FieldStore.query(fields, abandon.getNameList(), abandon, sql);
+        FieldStore.query(abandon.getClass(), abandon.getNameList(), abandon, sql);
         ProviderSqlStore.selectUploadStatus(sql, abandon, alias);
         return sql.toString();
     }

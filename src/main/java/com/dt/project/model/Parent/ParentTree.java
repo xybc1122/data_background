@@ -1,4 +1,4 @@
-package com.dt.project.model.Parent;
+package com.dt.project.model.parent;
 
 import com.dt.project.model.SystemLogStatus;
 

@@ -1,6 +1,6 @@
 package com.dt.project.store;
 
-import com.dt.project.model.Parent.ParentTree;
+import com.dt.project.model.parent.ParentTree;
 import com.dt.project.toos.Constants;
 import org.apache.ibatis.jdbc.SQL;
 

@@ -1,7 +1,7 @@
-package com.dt.project.controller.SystemController;
+package com.dt.project.controller.systemController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.service.SystemService.SystemFinalProcessingService;
+import com.dt.project.service.systemService.SystemFinalProcessingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

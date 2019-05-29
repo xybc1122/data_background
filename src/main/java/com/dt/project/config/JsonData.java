@@ -1,6 +1,6 @@
 package com.dt.project.config;
 
-import com.dt.project.service.RedisService;
+import com.dt.project.service.impl.RedisService;
 import com.dt.project.toos.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

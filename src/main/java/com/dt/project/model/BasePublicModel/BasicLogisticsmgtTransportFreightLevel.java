@@ -1,6 +1,6 @@
-package com.dt.project.model.BasePublicModel;
+package com.dt.project.model.basePublicModel;
 
-import com.dt.project.model.Parent.ParentTree;
+import com.dt.project.model.parent.ParentTree;
 
 /**
  * 运价等级

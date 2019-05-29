@@ -1,6 +1,7 @@
-package com.dt.project.model.SalesAmazon;
+package com.dt.project.model.salesAmazon;
 
-import com.dt.project.model.Parent.ParentUploadInfo;
+import com.dt.project.model.parent.ParentConfTable;
+import com.dt.project.model.parent.ParentUploadInfo;
 
 
 import java.math.BigDecimal;
@@ -9,7 +10,9 @@ import java.util.List;
 /**
  * 发货通知单
  */
-public class SalesShipNotice extends ParentUploadInfo {
+public class SalesShipNotice extends ParentConfTable {
+
+
     private Long shipNoticeId;
 
     private String no;
@@ -41,11 +44,25 @@ public class SalesShipNotice extends ParentUploadInfo {
 
     private Long sourceTypeId;
 
-    private Long sourceNo;
+    private Long sourceId;
 
-    private Long closeDate;
+    /**
+     * 站点名称
+     */
+    private String siteName;
+    /**
+     * 店铺名称
+     */
+    private String shopName;
 
-    private Long closeUser;
+    private Integer shopId;
+    private Integer siteId;
+
+    /**
+     * 单据日期范围查询
+     */
+    private List<Long> dates;
+
     /**
      * 付款类型名称
      */
@@ -67,10 +84,55 @@ public class SalesShipNotice extends ParentUploadInfo {
      * 最迟到达日期返回查询
      */
     private List<Long> arriveDates;
-    /**
-     * 关闭时间范围查询
-     */
-    private List<Long> closeDates;
+
+
+    public String getSiteName() {
+        return siteName;
+    }
+
+    public void setSiteName(String siteName) {
+        this.siteName = siteName;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public Integer getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
+    }
+
+    public Integer getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(Integer siteId) {
+        this.siteId = siteId;
+    }
+
+    public List<Long> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<Long> dates) {
+        this.dates = dates;
+    }
+
+    public Long getDate() {
+        return date;
+    }
+
+    public void setDate(Long date) {
+        this.date = date;
+    }
 
     public SalesShipNotice() {
 
@@ -82,14 +144,6 @@ public class SalesShipNotice extends ParentUploadInfo {
 
     public void setShipNoticeEntry(SalesShipNoticeEntry shipNoticeEntry) {
         this.shipNoticeEntry = shipNoticeEntry;
-    }
-
-    public List<Long> getCloseDates() {
-        return closeDates;
-    }
-
-    public void setCloseDates(List<Long> closeDates) {
-        this.closeDates = closeDates;
     }
 
     public List<Long> getDeliveryDates() {
@@ -138,16 +192,6 @@ public class SalesShipNotice extends ParentUploadInfo {
 
     public void setNo(String no) {
         this.no = no;
-    }
-
-    @Override
-    public Long getDate() {
-        return date;
-    }
-
-    @Override
-    public void setDate(Long date) {
-        this.date = date;
     }
 
     public Integer getPlatformTypeId() {
@@ -246,27 +290,11 @@ public class SalesShipNotice extends ParentUploadInfo {
         this.sourceTypeId = sourceTypeId;
     }
 
-    public Long getSourceNo() {
-        return sourceNo;
+    public Long getSourceId() {
+        return sourceId;
     }
 
-    public void setSourceNo(Long sourceNo) {
-        this.sourceNo = sourceNo;
-    }
-
-    public Long getCloseDate() {
-        return closeDate;
-    }
-
-    public void setCloseDate(Long closeDate) {
-        this.closeDate = closeDate;
-    }
-
-    public Long getCloseUser() {
-        return closeUser;
-    }
-
-    public void setCloseUser(Long closeUser) {
-        this.closeUser = closeUser;
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
     }
 }

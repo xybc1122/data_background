@@ -51,9 +51,9 @@ public class LogisticsClient {
            System.out.println(token);
            Long time = new Date().getTime();
            String md = appKye + time+currentPage + pageSize;
-          // System.out.println(MD5Util.MD5(md));
+          // system.out.println(MD5Util.MD5(md));
           // String data = LogisticsClient.packageData(currentPage, pageSize, time, appKye, token, MD5Util.MD5(md));
-           //System.out.println(LogisticsClient.postData(url,data,5000));
+           //system.out.println(LogisticsClient.postData(url,data,5000));
        }
     }
 

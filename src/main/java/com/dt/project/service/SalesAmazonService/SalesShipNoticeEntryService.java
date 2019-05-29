@@ -1,6 +1,6 @@
-package com.dt.project.service.SalesAmazonService;
+package com.dt.project.service.salesAmazonService;
 
-import com.dt.project.model.SalesAmazon.SalesShipNoticeEntry;
+import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
 
 import java.util.List;
 
@@ -20,6 +20,15 @@ public interface SalesShipNoticeEntryService {
      * @return
      */
     List<SalesShipNoticeEntry> serviceSelectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
+
+
+    /**
+     * 批量插入出库通知单子表数据
+     *
+     * @param noticeEntryList
+     * @return
+     */
+    int insertShipNoticeEntry(List<SalesShipNoticeEntry> noticeEntryList);
 
 
 }

@@ -1,6 +1,6 @@
-package com.dt.project.mapper.BasePublicMapper;
+package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.BasePublicModel.BasicExportMonitoringCondition;
+import com.dt.project.model.basePublicModel.BasicExportMonitoringCondition;
 import com.dt.project.provider.BasicExportMonitoringConditionProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
@@ -22,7 +22,7 @@ public interface BasicExportMonitoringConditionMapper {
     @Results({
             @Result(column = "status_id", property = "systemLogStatus",
                     one = @One(
-                            select = "com.dt.project.mapper.SystemMapper.SystemLogStatusMapper.findSysStatusInfo",
+                            select = "com.dt.project.mapper.systemMapper.SystemLogStatusMapper.findSysStatusInfo",
                             fetchType = FetchType.EAGER
                     )
             )

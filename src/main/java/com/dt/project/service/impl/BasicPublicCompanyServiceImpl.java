@@ -2,10 +2,10 @@ package com.dt.project.service.impl;
 
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.dto.CompanyDto;
-import com.dt.project.mapper.BasePublicMapper.BasicPublicCompanyMapper;
-import com.dt.project.model.BasePublicModel.BasicPublicCompany;
-import com.dt.project.service.BasePublicService.BasicPublicCompanyService;
+import com.dt.project.model.dto.CompanyDto;
+import com.dt.project.mapper.basePublicMapper.BasicPublicCompanyMapper;
+import com.dt.project.model.basePublicModel.BasicPublicCompany;
+import com.dt.project.service.basePublicService.BasicPublicCompanyService;
 import com.dt.project.service.SystemLogStatusService;
 import com.dt.project.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;

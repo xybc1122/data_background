@@ -1,4 +1,4 @@
-package com.dt.project.service.FinancialImportService;
+package com.dt.project.service.financialImportService;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.FinancialSalesBalance;

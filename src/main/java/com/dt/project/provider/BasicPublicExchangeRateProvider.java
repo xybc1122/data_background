@@ -1,7 +1,7 @@
 package com.dt.project.provider;
 
-import com.dt.project.dto.ExchangeRateDto;
-import com.dt.project.model.BasePublicModel.BasicPublicExchangeRate;
+import com.dt.project.model.dto.ExchangeRateDto;
+import com.dt.project.model.basePublicModel.BasicPublicExchangeRate;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.toos.Constants;

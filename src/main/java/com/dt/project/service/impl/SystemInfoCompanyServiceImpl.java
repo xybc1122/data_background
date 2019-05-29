@@ -1,10 +1,10 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.mapper.SystemMapper.SystemInfoCompanyMapper;
-import com.dt.project.model.System.SystemInfoCompany;
+import com.dt.project.mapper.systemMapper.SystemInfoCompanyMapper;
+import com.dt.project.model.system.SystemInfoCompany;
 import com.dt.project.service.SystemLogStatusService;
-import com.dt.project.service.SystemService.SystemInfoCompanyService;
+import com.dt.project.service.systemService.SystemInfoCompanyService;
 import com.dt.project.utils.JsonUtils;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;

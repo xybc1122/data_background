@@ -5,19 +5,19 @@ import com.csvreader.CsvReader;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.exception.LsException;
-import com.dt.project.model.BasePublicModel.BasicSalesAmazonCsvTxtXslHeader;
-import com.dt.project.model.BasePublicModel.BasicSalesAmazonWarehouse;
+import com.dt.project.model.basePublicModel.BasicSalesAmazonCsvTxtXslHeader;
+import com.dt.project.model.basePublicModel.BasicSalesAmazonWarehouse;
 import com.dt.project.model.FinancialSalesBalance;
-import com.dt.project.model.Parent.ParentUploadInfo;
+import com.dt.project.model.parent.ParentUploadInfo;
 import com.dt.project.model.RealTimeData;
-import com.dt.project.model.SalesAmazon.*;
+import com.dt.project.model.salesAmazon.*;
 import com.dt.project.model.UserUpload;
 import com.dt.project.netty.service.ChatServiceImpl.ChatServiceImpl;
 import com.dt.project.netty.websocket.ChatType;
-import com.dt.project.service.BasePublicService.*;
+import com.dt.project.service.basePublicService.*;
 import com.dt.project.service.ConsumerService;
-import com.dt.project.service.FinancialImportService.FinancialSalesBalanceService;
-import com.dt.project.service.SalesAmazonService.*;
+import com.dt.project.service.financialImportService.FinancialSalesBalanceService;
+import com.dt.project.service.salesAmazonService.*;
 import com.dt.project.service.UserService;
 import com.dt.project.service.UserUploadService;
 import com.dt.project.store.FsbStore;
@@ -177,10 +177,10 @@ public class ConsumerServiceImpl implements ConsumerService {
             String lineHead = br.readLine();
             List<String> txtHead = Arrays.asList(lineHead.split("\t"));
             //对比头部
-            boolean isFlg = ArrUtils.eqOrderList(head, txtHead);
+            boolean isFlg = ListUtils.eqOrderList(head, txtHead);
             if (!isFlg) {
                 //更新信息
-                return setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(head));
+                return setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(head, txtHead));
             }
             //创建对象设置文件总数
             RealTimeData timeData = RealTimeDataStore.getTimeData(filePath);
@@ -238,7 +238,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 switch (menuId) {
                     //订单报告
                     case 109:
-                        safTradList = ArrUtils.listT(tList);
+                        safTradList = ListUtils.listT(tList);
                         SalesAmazonFbaTradeReport sftPort = setTraPort(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
@@ -253,7 +253,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         break;
                     //退货报告
                     case 110:
-                        safRefundList = ArrUtils.listT(tList);
+                        safRefundList = ListUtils.listT(tList);
                         SalesAmazonFbaRefund sfRefund = setRefund(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
@@ -268,7 +268,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         break;
                     //接收库存
                     case 113:
-                        sfReceivesList = ArrUtils.listT(tList);
+                        sfReceivesList = ListUtils.listT(tList);
                         SalesAmazonFbaReceivestock sfReceives = setReceives(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
@@ -283,7 +283,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         break;
                     //期末库存
                     case 114:
-                        safEndList = ArrUtils.listT(tList);
+                        safEndList = ListUtils.listT(tList);
                         SalesAmazonFbaInventoryEnd sfEnd = setEnd(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
@@ -298,7 +298,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         break;
                     //月度仓储费用
                     case 269:
-                        mWarList = ArrUtils.listT(tList);
+                        mWarList = ListUtils.listT(tList);
                         SalesAmazonFbaMonthWarehouseFee mWar = setMWar(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
@@ -313,7 +313,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         break;
                     //长期仓储费用
                     case 270:
-                        lwList = ArrUtils.listT(tList);
+                        lwList = ListUtils.listT(tList);
                         SalesAmazonFbaLongWarehouseFee lWar = setLWar(shopId, uName, recordingId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
@@ -328,7 +328,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                         break;
                     case 325:
                         //FBA遗弃
-                        abandonList = ArrUtils.listT(tList);
+                        abandonList = ListUtils.listT(tList);
                         SalesAmazonFbaAbandon abandon = setAbandon(shopId, uName, recordingId, aId);
                         for (int i = 0; i < newLine.length; i++) {
                             k = i;
@@ -875,7 +875,7 @@ public class ConsumerServiceImpl implements ConsumerService {
             boolean isFlg = compareHeadXls(xlsListHead, sqlHead);
             //如果表头对比失败
             if (!isFlg) {
-                return setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(sqlHead));
+                return setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(sqlHead, xlsListHead));
             }
             ResponseBase responseXls = saveXls(shopId, siteId, uid, recordingId, totalNumber, sqlHead, menuId, sheet, xlsListHead, closingDate);
             return saveUserUploadInfo(responseXls, recordingId, fileName, null, 1, filePath, uuIdName);
@@ -929,7 +929,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                 row = sheet.getRow(i);
                 // 105 cpr
                 if (menuId == 105) {
-                    cprList = ArrUtils.listT(tList);
+                    cprList = ListUtils.listT(tList);
                     SalesAmazonAdCpr saCpr = setCpr(shopId, siteId, uName, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
@@ -946,7 +946,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                     //107 str
                 } else if (menuId == 107) {
-                    strList = ArrUtils.listT(tList);
+                    strList = ListUtils.listT(tList);
                     SalesAmazonAdStr adStr = setStr(shopId, siteId, uName, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
@@ -964,7 +964,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                     //106 oar
                 } else if (menuId == 106) {
-                    oarList = ArrUtils.listT(tList);
+                    oarList = ListUtils.listT(tList);
                     SalesAmazonAdOar adOar = setOar(shopId, siteId, uName, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
@@ -980,7 +980,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                     //HL
                 } else if (menuId == 125) {
-                    hlList = ArrUtils.listT(tList);
+                    hlList = ListUtils.listT(tList);
                     SalesAmazonAdHl adHl = setHl(shopId, siteId, uName, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
@@ -997,7 +997,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                     //订单处理费
                 } else if (menuId == 271) {
-                    hFeesList = ArrUtils.listT(tList);
+                    hFeesList = ListUtils.listT(tList);
                     SalesAmazonFbaHandlingFee hLFee = setHLFee(uName, recordingId);
                     for (int j = 0; j < totalNumber; j++) {
                         k = j;
@@ -1410,7 +1410,7 @@ public class ConsumerServiceImpl implements ConsumerService {
      * @return
      */
     public boolean compareHeadXls(List<String> xlsListHead, List<String> slqHead) {
-        return ArrUtils.eqOrderList(slqHead, xlsListHead);
+        return ListUtils.eqOrderList(slqHead, xlsListHead);
     }
     //#######################Xls
 
@@ -1465,7 +1465,7 @@ public class ConsumerServiceImpl implements ConsumerService {
         boolean isFlg = compareHeadCsv(sqlHeadList, newCsvHeadList);
         if (!isFlg) {
             //返回错误信息
-            return setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(sqlHeadList));
+            return setErrorInfo(recordingId, Constants.HEADER_EXCEPTION, JsonUtils.json(sqlHeadList, newCsvHeadList));
         }
         try (InputStreamReader isr = FileUtils.streamReader(filePath)) {
             csvReader = new CsvReader(isr);
@@ -1515,7 +1515,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     ThreadLocalUtils.inCreateNumberLong(count);
                     //85 == 财务上传ID | 104 运营上传
                     if (menuId == Constants.FINANCE_ID || menuId == Constants.FINANCE_ID_YY) {
-                        fsbList = ArrUtils.listT(tList);
+                        fsbList = ListUtils.listT(tList);
                         FinancialSalesBalance fb = setFsb(sId, seId, uName, pId, recordingId);
                         for (int j = 0; j < csvReader.getColumnCount(); j++) {
                             k = j;
@@ -1530,7 +1530,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                     }
                     //108 == 业务上传ID
                     else if (menuId == Constants.BUSINESS_ID) {
-                        sfbList = ArrUtils.listT(tList);
+                        sfbList = ListUtils.listT(tList);
                         SalesAmazonFbaBusinessreport sfb = setBusPort(sId, seId, uName, recordingId);
                         for (int j = 0; j < csvReader.getColumnCount(); j++) {
                             k = j;
@@ -1586,7 +1586,7 @@ public class ConsumerServiceImpl implements ConsumerService {
                                                              businessTime, List<String> csvHeadList, List<BasicSalesAmazonCsvTxtXslHeader> importHead, int j) throws
             IOException {
         sfb.setDate(businessTime);
-        //(Parent) ASIN == (Parent) ASIN
+        //(parent) ASIN == (parent) ASIN
         if (csvHeadList.get(j).equals(importHead.get(0).getImportTemplet()) && importHead.get(0).getOpenClose())
             sfb.setfAsin(StrUtils.repString(csvReader.get(j)));
         else if (csvHeadList.get(j).equals(importHead.get(1).getImportTemplet()) && importHead.get(1).getOpenClose()) {
@@ -1748,7 +1748,7 @@ public class ConsumerServiceImpl implements ConsumerService {
     public boolean compareHeadCsv
     (List<String> headList, List<String> sqlHeadList) {
         //如果不一致返回false
-        return ArrUtils.eqOrderList(headList, sqlHeadList);
+        return ListUtils.eqOrderList(headList, sqlHeadList);
     }
 
     /**

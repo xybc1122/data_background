@@ -8,6 +8,7 @@ import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeMapper;
 import com.dt.project.model.basePublicModel.BasicSalesAmazonPaymentType;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
+import com.dt.project.service.GeneralPurposeService;
 import com.dt.project.service.basePublicService.BasicSalesAmazonPaymentTypeService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeEntryService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeService;
@@ -39,6 +40,8 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
     private SalesShipNoticeEntryService nEService;
     @Autowired
     private RedisService redisService;
+    @Autowired
+    private GeneralPurposeService gPService;
 
     @Override
     @SuppressWarnings("unchecked")  //(HashMap<String, Object>) result.getData(); 确认是这类型
@@ -139,6 +142,35 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
         }
     }
 
+    @Override
+    @Transactional
+    public ResponseBase serviceDeleteByShipNoticesAndNoticeEntry(Map<String, List<Integer>> objectMap) {
+        List<Integer> delShipNoticeObj = objectMap.get("delShipNotice");
+        List<Integer> delShipNoticeEntryObj = objectMap.get("delShipNoticeEntry");
+        if (delShipNoticeObj != null && delShipNoticeObj.size() > 0) {
+            //如果更新父表 先去查询子表下面有没有数据
+            List<Integer> idList = nEService.serviceSelIsNull(delShipNoticeObj);
+            //如果 idList 长度大于0 说明有值
+            if (idList != null && idList.size() > 0) {
+                //比较取出不一样的值
+                Map<String, List<Integer>> listMap = ListUtils.listCompare(delShipNoticeObj, idList);
+                //删除不一样的值
+                int result = gPService.serviceDeleteByGeneral(listMap.get("1"), "sales_ship_notice",
+                        "ship_notice_id");
+                JsonUtils.saveResult(result);
+            } else {
+                int result = gPService.serviceDeleteByGeneral(delShipNoticeObj, "sales_ship_notice",
+                        "ship_notice_id");
+                JsonUtils.saveResult(result);
+            }
+        }
+        if (delShipNoticeEntryObj != null) {
+
+        }
+        return JsonData.setResultSuccess("success");
+
+    }
+
 
 //
 //    public static void main(String[] args) {
@@ -146,7 +178,7 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
 //        list.add(1);
 //        list.add(2);
 //        boolean isRepeat = ListUtils.isRepeat(list);
-//        System.out.println("list中包含重复元素：" + isRepeat);
+//        system.out.println("list中包含重复元素：" + isRepeat);
 //    }
 
 }

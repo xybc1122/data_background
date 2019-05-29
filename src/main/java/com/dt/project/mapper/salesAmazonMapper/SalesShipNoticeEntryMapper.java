@@ -8,11 +8,14 @@ import com.dt.project.provider.SalesShipNoticeEntrySqlProvider;
 import org.apache.ibatis.annotations.*;
 
 public interface SalesShipNoticeEntryMapper {
-    @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "countByExample")
-    int countByExample(SalesShipNoticeEntry example);
+    /**
+     * 用父ID查询子ID下面是否还有节点
+     *
+     * @return
+     */
+    @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "selIsNull")
+    List<Integer> selIsNull(@Param("snIds") List snIds);
 
-    @DeleteProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "deleteByExample")
-    int deleteByExample(SalesShipNoticeEntry example);
 
     @Insert({
             "insert into sales_ship_notice_entry (e_id, entry_id, ",

@@ -30,5 +30,11 @@ public interface SalesShipNoticeEntryService {
      */
     int insertShipNoticeEntry(List<SalesShipNoticeEntry> noticeEntryList);
 
+    /**
+     * 用父ID查询子ID下面是否还有节点
+     *
+     * @return
+     */
+    List<Integer> serviceSelIsNull(List snIds);
 
 }

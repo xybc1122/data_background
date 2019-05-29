@@ -109,7 +109,7 @@ public class JsonUtils {
      */
     public static void saveResult(int result) {
         if (result == 0) {
-            throw new LsException("新增失败");
+            throw new LsException("error");
         }
     }
 }

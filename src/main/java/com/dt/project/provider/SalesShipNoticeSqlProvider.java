@@ -13,8 +13,11 @@ import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.utils.StrUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
 import java.util.Map;
 
 public class SalesShipNoticeSqlProvider {
@@ -26,12 +29,6 @@ public class SalesShipNoticeSqlProvider {
         return SQL();
     }
 
-    public String deleteByExample(SalesShipNotice example) {
-        BEGIN();
-        DELETE_FROM("sales_ship_notice");
-
-        return SQL();
-    }
 
     public String insertSelective(SalesShipNotice record) {
         BEGIN();

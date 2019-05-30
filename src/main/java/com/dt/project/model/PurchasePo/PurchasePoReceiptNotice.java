@@ -1,6 +1,11 @@
 package com.dt.project.model.purchasePo;
 
-public class PurchasePoReceiptNotice {
+import com.dt.project.model.parent.ParentSysTemLog;
+
+/**
+ * 收货通知单表
+ */
+public class PurchasePoReceiptNotice extends ParentSysTemLog {
     private Long rnId;
 
     private Long date;
@@ -29,11 +34,7 @@ public class PurchasePoReceiptNotice {
 
     private Integer printCount;
 
-    private Long statusId;
 
-    private Integer version;
-
-    private Boolean delOrNot;
 
     public Long getRnId() {
         return rnId;
@@ -145,56 +146,5 @@ public class PurchasePoReceiptNotice {
 
     public void setPrintCount(Integer printCount) {
         this.printCount = printCount;
-    }
-
-    public Long getStatusId() {
-        return statusId;
-    }
-
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Boolean getDelOrNot() {
-        return delOrNot;
-    }
-
-    public void setDelOrNot(Boolean delOrNot) {
-        this.delOrNot = delOrNot;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", rnId=").append(rnId);
-        sb.append(", date=").append(date);
-        sb.append(", rnNo=").append(rnNo);
-        sb.append(", explanation=").append(explanation);
-        sb.append(", fetchAdd=").append(fetchAdd);
-        sb.append(", deptId=").append(deptId);
-        sb.append(", empId=").append(empId);
-        sb.append(", mangerId=").append(mangerId);
-        sb.append(", children=").append(children);
-        sb.append(", closed=").append(closed);
-        sb.append(", orderConfirm=").append(orderConfirm);
-        sb.append(", sourceTypeId=").append(sourceTypeId);
-        sb.append(", sourceId=").append(sourceId);
-        sb.append(", printCount=").append(printCount);
-        sb.append(", statusId=").append(statusId);
-        sb.append(", version=").append(version);
-        sb.append(", delOrNot=").append(delOrNot);
-        sb.append("]");
-        return sb.toString();
     }
 }

@@ -46,7 +46,8 @@ public class ActivitiServiceImpl implements ActivitiService {
 //     */
 //    @Autowired
 //    private IdentityService identityService;
-
+    //启动流程
+    //activitiService.startProcess(PURCHASE_ORDER, ReqUtils.getUserName(), objectMap);
 
     @Autowired
     private ProcessEngine processEngine;

@@ -129,18 +129,18 @@ public class PurchasePoOrderSqlProvider {
         if (record.getInboundAmt() != null) {
             VALUES("inbound_amt", "#{inboundAmt,jdbcType=DECIMAL}");
         }
-
-        if (record.getInvoiceCompanyId() != null) {
-            VALUES("invoice_company_id", "#{invoiceCompanyId,jdbcType=INTEGER}");
-        }
+//
+//        if (record.getInvoiceCompanyId() != null) {
+//            VALUES("invoice_company_id", "#{invoiceCompanyId,jdbcType=INTEGER}");
+//        }
 
         if (record.getInvoiceTypeId() != null) {
             VALUES("invoice_type_id", "#{invoiceTypeId,jdbcType=INTEGER}");
         }
-
-        if (record.getPayNo() != null) {
-            VALUES("pay_no", "#{payNo,jdbcType=VARCHAR}");
-        }
+//
+//        if (record.getPayNo() != null) {
+//            VALUES("pay_no", "#{payNo,jdbcType=VARCHAR}");
+//        }
 
         if (record.getPayAmt() != null) {
             VALUES("pay_amt", "#{payAmt,jdbcType=DECIMAL}");
@@ -158,9 +158,6 @@ public class PurchasePoOrderSqlProvider {
             VALUES("tran_status", "#{tranStatus,jdbcType=INTEGER}");
         }
 
-        if (record.getTotalCostFor() != null) {
-            VALUES("total_cost_for", "#{totalCostFor,jdbcType=REAL}");
-        }
 
         if (record.getOrderConfirm() != null) {
             VALUES("order_confirm", "#{orderConfirm,jdbcType=INTEGER}");
@@ -197,23 +194,21 @@ public class PurchasePoOrderSqlProvider {
         String alias = "po";
         SQL sql = new SQL();
         sql.SELECT("cu.`currency_name`,dep.`dept_name`,se.`employee_name` AS empName," +
-                "se1.`employee_name` AS mangerName,`po_id`,`date`,`po_no`,`po_style_id`,`explanation`,\n" +
+                "se1.`employee_name` AS mangerName,`po_id`,`date`,`no`,`po_style_id`,`explanation`,\n" +
                 "`fetch_add`,`emp_id`,\n" +
                 "`manger_id`,`exchange_rate`,`children`,`closed`,\n" +
                 "`supplier_id`,`contact_person`,`tel_phone`,`pre_pay_no`,\n" +
                 "`pre_pay_amt`,`class_type_id`,`settlement_date`,\n" +
-                "`settlement_method_id`,`po_amt`,`inbound_amt`,`invoice_company_id`,\n" +
-                "`invoice_type_id`,`pay_no`,`pay_amt`,`erase_amt`,`tran_type`, `tran_status`,`total_cost_for`,\n" +
+                "`settlement_method_id`,`po_amt`,`inbound_amt`," + alias + ".`company_id`,\n" +
+                "`invoice_type_id`,`pay_no`,`pay_amt`,`erase_amt`,`tran_type`, `tran_status`,\n" +
                 "`order_confirm`,`source_type_id`,`source_id`,`print_count`,\n" +
-                "po.`status_id`,po.`version` FROM `purchase_po_order` AS " + alias + "");
+                "" + alias + ".`status_id`," + alias + ".`version` FROM `purchase_po_order` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("basic_public_currency AS cu ON cu.`currency_id` = " + alias + ".`currency_id`");
         sql.LEFT_OUTER_JOIN("hr_archives_department AS dep ON dep.`dept_id`=" + alias + ".`dept_id`");
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se ON se.`s_id` = " + alias + ".`emp_id`");
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se1 ON se1.`s_id` = " + alias + ".`manger_id`");
         //sql动态查询
         FieldStore.query(poOrder.getClass(), poOrder.getJavaSqlName(), poOrder, sql);
-
-
         ProviderSqlStore.selectStatus(poOrder.getSystemLogStatus(), alias, sql);
         return sql.toString();
     }
@@ -316,18 +311,18 @@ public class PurchasePoOrderSqlProvider {
         if (record.getInboundAmt() != null) {
             SET("inbound_amt = #{record.inboundAmt,jdbcType=DECIMAL}");
         }
-
-        if (record.getInvoiceCompanyId() != null) {
-            SET("invoice_company_id = #{record.invoiceCompanyId,jdbcType=INTEGER}");
-        }
+//
+//        if (record.getInvoiceCompanyId() != null) {
+//            SET("invoice_company_id = #{record.invoiceCompanyId,jdbcType=INTEGER}");
+//        }
 
         if (record.getInvoiceTypeId() != null) {
             SET("invoice_type_id = #{record.invoiceTypeId,jdbcType=INTEGER}");
         }
-
-        if (record.getPayNo() != null) {
-            SET("pay_no = #{record.payNo,jdbcType=VARCHAR}");
-        }
+//
+//        if (record.getPayNo() != null) {
+//            SET("pay_no = #{record.payNo,jdbcType=VARCHAR}");
+//        }
 
         if (record.getPayAmt() != null) {
             SET("pay_amt = #{record.payAmt,jdbcType=DECIMAL}");
@@ -345,9 +340,6 @@ public class PurchasePoOrderSqlProvider {
             SET("tran_status = #{record.tranStatus,jdbcType=INTEGER}");
         }
 
-        if (record.getTotalCostFor() != null) {
-            SET("total_cost_for = #{record.totalCostFor,jdbcType=REAL}");
-        }
 
         if (record.getOrderConfirm() != null) {
             SET("order_confirm = #{record.orderConfirm,jdbcType=INTEGER}");

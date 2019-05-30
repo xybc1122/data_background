@@ -5,18 +5,16 @@ import com.dt.project.model.parent.ParentSysTemLog;
 import java.util.List;
 
 /**
- * 收货通知单表
+ * 入库接口
  */
-public class PurchasePoReceiptNotice extends ParentSysTemLog {
-    private Long rnId;
+public class PurchaseIcBillStock extends ParentSysTemLog {
+    private Long sbId;
 
     private Long date;
 
-    private String rnNo;
+    private String no;
 
     private String explanation;
-
-    private String fetchAdd;
 
     private Integer deptId;
 
@@ -36,36 +34,36 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
 
     private Integer printCount;
     /**
-     * 一对多查询存储
+     * 一对多存储
      */
-    private List<PurchasePoReceiptNoticeEntry> poReceiptNoticeEntryList;
+    private List<PurchaseIcBillStockEntry> purchaseIcBillStockEntryList;
     /**
-     * 接收对象
+     * 接收数据
      */
-    private PurchasePoReceiptNoticeEntry purchasePoReceiptNoticeEntry;
+    private PurchaseIcBillStockEntry purchaseIcBillStockEntry;
 
-    public List<PurchasePoReceiptNoticeEntry> getPoReceiptNoticeEntryList() {
-        return poReceiptNoticeEntryList;
+    public List<PurchaseIcBillStockEntry> getPurchaseIcBillStockEntryList() {
+        return purchaseIcBillStockEntryList;
     }
 
-    public void setPoReceiptNoticeEntryList(List<PurchasePoReceiptNoticeEntry> poReceiptNoticeEntryList) {
-        this.poReceiptNoticeEntryList = poReceiptNoticeEntryList;
+    public void setPurchaseIcBillStockEntryList(List<PurchaseIcBillStockEntry> purchaseIcBillStockEntryList) {
+        this.purchaseIcBillStockEntryList = purchaseIcBillStockEntryList;
     }
 
-    public PurchasePoReceiptNoticeEntry getPurchasePoReceiptNoticeEntry() {
-        return purchasePoReceiptNoticeEntry;
+    public PurchaseIcBillStockEntry getPurchaseIcBillStockEntry() {
+        return purchaseIcBillStockEntry;
     }
 
-    public void setPurchasePoReceiptNoticeEntry(PurchasePoReceiptNoticeEntry purchasePoReceiptNoticeEntry) {
-        this.purchasePoReceiptNoticeEntry = purchasePoReceiptNoticeEntry;
+    public void setPurchaseIcBillStockEntry(PurchaseIcBillStockEntry purchaseIcBillStockEntry) {
+        this.purchaseIcBillStockEntry = purchaseIcBillStockEntry;
     }
 
-    public Long getRnId() {
-        return rnId;
+    public Long getSbId() {
+        return sbId;
     }
 
-    public void setRnId(Long rnId) {
-        this.rnId = rnId;
+    public void setSbId(Long sbId) {
+        this.sbId = sbId;
     }
 
     public Long getDate() {
@@ -76,12 +74,12 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
         this.date = date;
     }
 
-    public String getRnNo() {
-        return rnNo;
+    public String getNo() {
+        return no;
     }
 
-    public void setRnNo(String rnNo) {
-        this.rnNo = rnNo == null ? null : rnNo.trim();
+    public void setNo(String no) {
+        this.no = no == null ? null : no.trim();
     }
 
     public String getExplanation() {
@@ -90,14 +88,6 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
 
     public void setExplanation(String explanation) {
         this.explanation = explanation == null ? null : explanation.trim();
-    }
-
-    public String getFetchAdd() {
-        return fetchAdd;
-    }
-
-    public void setFetchAdd(String fetchAdd) {
-        this.fetchAdd = fetchAdd == null ? null : fetchAdd.trim();
     }
 
     public Integer getDeptId() {
@@ -171,4 +161,5 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
     public void setPrintCount(Integer printCount) {
         this.printCount = printCount;
     }
+
 }

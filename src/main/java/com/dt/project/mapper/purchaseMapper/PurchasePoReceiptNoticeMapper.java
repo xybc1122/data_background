@@ -3,14 +3,9 @@ package com.dt.project.mapper.purchaseMapper;
 import com.dt.project.provider.PurchasePoReceiptNoticeSqlProvider;
 import com.dt.project.model.purchasePo.PurchasePoReceiptNotice;
 import java.util.List;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.apache.ibatis.type.JdbcType;
 
 public interface PurchasePoReceiptNoticeMapper {
@@ -50,6 +45,15 @@ public interface PurchasePoReceiptNoticeMapper {
      * @return
      */
     @SelectProvider(type=PurchasePoReceiptNoticeSqlProvider.class, method="selectByPoReceiptNotice")
+    @Results({
+            //数据库字段映射 //数据库字段映射 column数据库字段 property Java 字段
+            @Result(column = "status_id", property = "systemLogStatus",
+                    one = @One(
+                            select = "com.dt.project.mapper.systemMapper.SystemLogStatusMapper.findSysStatusInfo",
+                            fetchType = FetchType.EAGER
+                    )
+            )
+    })
     List<PurchasePoReceiptNotice> selectByPoReceiptNotice(PurchasePoReceiptNotice record);
 
     @UpdateProvider(type=PurchasePoReceiptNoticeSqlProvider.class, method="updateByExampleSelective")

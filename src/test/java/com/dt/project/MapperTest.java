@@ -6,7 +6,7 @@ import com.dt.project.mapper.financialImportMapper.FinancialSalesBalanceMapper;
 import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeMapper;
 import com.dt.project.mapper.systemMapper.SystemFinalProcessingMapper;
 import com.dt.project.model.JavaSqlName;
-import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
+import com.dt.project.model.purchasePo.*;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingList;
 import com.dt.project.service.JavaSqlNameService;
@@ -41,19 +41,18 @@ public class MapperTest {
     private SalesShipNoticeMapper noticeMapper;
 
 
-
     @Test
     public void add() {
         List<String> tableNames = DatabaseUtil.getTableNames();
         List<String> c = null;
         System.out.println("tableNames:" + tableNames);
         for (String tableName : tableNames) {
-            if (tableName.equals("sales_ship_notice_packing_list")) {
+            if (tableName.equals("purchase_ic_bill_stock_entry")) {
                 c = DatabaseUtil.getColumnNames(tableName);
             }
         }
         //设置动态查询
-        SalesShipNoticePackingList f = new SalesShipNoticePackingList();
+        PurchaseIcBillStockEntry f = new PurchaseIcBillStockEntry();
         Field[] field = f.getClass().getDeclaredFields();
         for (int i = 0; i < field.length; i++) {
             Field s = field[i];
@@ -61,7 +60,7 @@ public class MapperTest {
             System.out.println(s.getName());
             JavaSqlName b = new JavaSqlName();
             b.setjName(s.getName());
-            b.setModel("nPList");
+            b.setModel("icBillEntry");
             b.setSqlName(c.get(i));
             service.serviceSet(b);
         }

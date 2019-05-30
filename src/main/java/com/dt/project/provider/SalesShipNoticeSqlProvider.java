@@ -143,7 +143,7 @@ public class SalesShipNoticeSqlProvider {
         String alias = "pn";
         //如果不多查一个字段来存放ship_notice_id，而是在column里直接填ship_notice_id，
         // 查询出来的结果里，就没有ship_notice_id这个字段了
-        sql.SELECT("`ship_notice_id` AS nid,s.`shop_name`, cs.`site_name`,`ship_notice_id`,`no`,`date`," + alias + ".`platform_type_id`,\n" +
+        sql.SELECT("`ship_notice_id`,s.`shop_name`, cs.`site_name`,`ship_notice_id`,`no`,`date`," + alias + ".`platform_type_id`,\n" +
                 "`delivery_date`,`arrive_date`," + alias + ".`transport_type_id`,\n" +
                 "" + alias + ".`shop_id`," + alias + ".`site_id`," + alias + ".`fba_shipment_id`,\n" +
                 "" + alias + ".`aw_id`," + alias + ".`warehouse_id`,`ttl_qty`,`ttl_packages`,`ttl_volume`,\n" +
@@ -155,10 +155,11 @@ public class SalesShipNoticeSqlProvider {
         return sql.toString();
     }
 
+
     public String updateBySalesShipNotice(SalesShipNotice record) {
         SQL sql = new SQL();
         sql.UPDATE("sales_ship_notice");
-        if (record.getNo() != null) {
+        if (StringUtils.isNotBlank(record.getNo())) {
             sql.SET("no = #{no,jdbcType=VARCHAR}");
         }
 
@@ -182,8 +183,15 @@ public class SalesShipNoticeSqlProvider {
             sql.SET("transport_type_id = #{transportTypeId,jdbcType=INTEGER}");
         }
 
+        if (record.getShopId() != null) {
+            sql.SET("shop_id = #{shopId}");
+        }
+        if (record.getSiteId() != null) {
+            sql.SET("site_id = #{siteId}");
+        }
+
         if (record.getFbaShipmentId() != null) {
-            sql.SET("fba_shipment_id = #{fbaShipmentId,jdbcType=VARCHAR}");
+            sql.SET("fba_shipment_id = #{fbaShipmentId}");
         }
 
         if (record.getAwId() != null) {
@@ -206,12 +214,20 @@ public class SalesShipNoticeSqlProvider {
             sql.SET("ttl_volume = #{ttlVolume,jdbcType=DECIMAL}");
         }
 
+        if (record.getTtlNwKg() != null) {
+            sql.SET("ttl_gw_kg = #{ttlGwKg,jdbcType=DECIMAL}");
+        }
+
         if (record.getTtlGwKg() != null) {
             sql.SET("ttl_gw_kg = #{ttlGwKg,jdbcType=DECIMAL}");
         }
 
         if (record.getSourceTypeId() != null) {
             sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
+        }
+
+        if (record.getSourceId() != null) {
+            sql.SET("source_id = #{sourceId}");
         }
 
         if (record.getCloseDate() != null) {
@@ -221,7 +237,7 @@ public class SalesShipNoticeSqlProvider {
             sql.SET("close_user = #{closeUser,jdbcType=BIGINT}");
         }
         ProviderSqlStore.setStatus(sql, record);
-        SET("ship_notice_id = #{shipNoticeId,jdbcType=BIGINT}");
+        sql.WHERE("ship_notice_id = #{shipNoticeId,jdbcType=BIGINT}");
         return sql.toString();
     }
 

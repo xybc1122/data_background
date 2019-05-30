@@ -12,21 +12,15 @@ import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
 import com.dt.project.store.FieldStore;
+import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.utils.StrUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
 import java.util.Map;
 
 public class SalesShipNoticeEntrySqlProvider {
-
-    public String selIsNull(Map<String, Object> objectMap) {
-        SQL sql = new SQL();
-        sql.SELECT("entry_id");
-        sql.FROM("sales_ship_notice_entry");
-        return sql.toString() + " WHERE " + StrUtils.in(objectMap.get("snIds"), "ship_notice_id");
-
-    }
 
 
     @SuppressWarnings("unchecked")
@@ -37,7 +31,7 @@ public class SalesShipNoticeEntrySqlProvider {
                 "(`entry_id`,`ship_notice_id`,`sku_id`,`quantity`,\n" +
                 "`packages`,`length_cm`,`width_cm`,`height_cm`,\n" +
                 "`gw_kg`,`nw_kg`,`volume_m3`,`packing_status`,\n" +
-                "`se_quantity`,`re_quantity`,`re_date`,`remark`, `status`,\n" +
+                "`se_quantity`,`re_quantity`,`re_date`,`e_remark`, `status`,\n" +
                 "`close_date`, `close_user`)values");
         for (SalesShipNoticeEntry noticeEntry : noticeEntryList) {
             sb.append("(").append(noticeEntry.getEntryId()).append(",").append(noticeEntry.getShipNoticeId()).
@@ -63,7 +57,8 @@ public class SalesShipNoticeEntrySqlProvider {
         sql.SELECT("sku.sku,`e_id`,`entry_id`,\n" +
                 "`ship_notice_id`," + alias + ".`sku_id`,`quantity`,`packages`," + alias + ".`length_cm`," +
                 "" + alias + ".`width_cm`," + alias + ".`height_cm`," + alias + ".`gw_kg`,\n" +
-                "" + alias + ".`nw_kg`," + alias + ".`volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`,`remark`,`status`,\n" +
+                "" + alias + ".`nw_kg`," + alias + ".`volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`," +
+                "" + alias + ".`e_remark`,`status`,\n" +
                 "`close_date`,`close_user`," + alias + ".`version`\n" +
                 "FROM `sales_ship_notice_entry` AS  " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS sku on sku.sku_id= " + alias + ".sku_id");
@@ -75,66 +70,85 @@ public class SalesShipNoticeEntrySqlProvider {
         return sql.toString();
     }
 
-    public String updateByExampleSelective(Map<String, Object> parameter) {
-        SalesShipNoticeEntry record = (SalesShipNoticeEntry) parameter.get("record");
-        BEGIN();
-        UPDATE("sales_ship_notice_entry");
-
-
+    public String updateByNoticeEntry(SalesShipNoticeEntry record) {
+        SQL sql = new SQL();
+        sql.UPDATE("sales_ship_notice_entry");
         if (record.getEntryId() != null) {
-            SET("entry_id = #{record.entryId,jdbcType=INTEGER}");
+            sql.SET("entry_id = #{entryId}");
         }
-
-        if (record.getShipNoticeId() != null) {
-            SET("ship_notice_id = #{record.shipNoticeId,jdbcType=BIGINT}");
-        }
-
+//        if (record.getShipNoticeId() != null) {
+//            sql.SET("ship_notice_id = #{shipNoticeId,jdbcType=BIGINT}");
+//        }
         if (record.getSkuId() != null) {
-            SET("sku_id = #{record.skuId,jdbcType=BIGINT}");
+            sql.SET("sku_id = #{skuId}");
         }
 
         if (record.getQuantity() != null) {
-            SET("quantity = #{record.quantity,jdbcType=INTEGER}");
+            sql.SET("quantity = #{quantity}");
         }
 
-        if (record.getPackages() != null) {
-            SET("packages = #{record.packages,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getPackages())) {
+            sql.SET("packages = #{packages}");
         }
+        if (record.getNeLengthCm() != null) {
+            sql.SET("length_cm = #{neLengthCm}");
+        }
+        if (record.getNeWidthCm() != null) {
+            sql.SET("width_cm = #{neWidthCm}");
+        }
+
+        if (record.getNeHeightCm() != null) {
+            sql.SET("height_cm = #{neHeightCm}");
+        }
+
+        if (record.getNeGwKg() != null) {
+            sql.SET("gw_kg = #{neGwKg}");
+        }
+
+        if (record.getNeNwKg() != null) {
+            sql.SET("nw_kg = #{neNwKg}");
+        }
+
+        if (record.getNeVolumeM3() != null) {
+            sql.SET("volume_m3 = #{neVolumeM3}");
+        }
+
         if (record.getPackingStatus() != null) {
-            SET("packing_status = #{record.packingStatus,jdbcType=BIT}");
+            sql.SET("packing_status = #{packingStatus}");
         }
 
         if (record.getSeQuantity() != null) {
-            SET("se_quantity = #{record.seQuantity,jdbcType=INTEGER}");
+            sql.SET("se_quantity = #{seQuantity}");
         }
 
         if (record.getReQuantity() != null) {
-            SET("re_quantity = #{record.reQuantity,jdbcType=INTEGER}");
+            sql.SET("re_quantity = #{reQuantity}");
         }
 
         if (record.getReDate() != null) {
-            SET("re_date = #{record.reDate,jdbcType=BIGINT}");
+            sql.SET("re_date = #{reDate}");
         }
 
+        if (record.getNeRemark() != null) {
+            sql.SET("e_remark = #{neRemark}");
+        }
 
         if (record.getStatus() != null) {
-            SET("status = #{record.status,jdbcType=INTEGER}");
+            sql.SET("status = #{status}");
         }
 
         if (record.getCloseDate() != null) {
-            SET("close_date = #{record.closeDate,jdbcType=BIGINT}");
+            sql.SET("close_date = #{closeDate}");
         }
 
-        if (record.getCloseUser() != null) {
-            SET("close_user = #{record.closeUser,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getCloseUser())) {
+            sql.SET("close_user = #{closeUser}");
         }
-
-        if (record.getVersion() != null) {
-            SET("version = #{record.version,jdbcType=INTEGER}");
-        }
-
-
-        return SQL();
+        Integer version = record.getVersion();
+        sql.SET("version=" + version + "+1");
+        sql.WHERE("version=" + version);
+        sql.WHERE("e_id = #{eid}");
+        return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {

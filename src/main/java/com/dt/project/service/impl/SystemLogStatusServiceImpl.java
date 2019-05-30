@@ -5,6 +5,7 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.exception.LsException;
 import com.dt.project.mapper.systemMapper.SystemLogStatusMapper;
 import com.dt.project.model.basePublicModel.*;
+import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.system.SystemInfoCompany;
 import com.dt.project.model.SystemLogStatus;
 import com.dt.project.service.SystemLogStatusService;
@@ -26,6 +27,7 @@ import java.util.Map;
 public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     @Autowired
     private SystemLogStatusMapper logStatusMapper;
+
     @Override
     public SystemLogStatus serviceFindSysStatusInfo(Long statusId) {
         return logStatusMapper.findSysStatusInfo(statusId);
@@ -33,6 +35,9 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
 
     @Override
     public SystemLogStatus serviceSaveSysStatusInfo(SystemLogStatus status) {
+        if (status == null) {
+            status = new SystemLogStatus();
+        }
         //设置创建时间
         status.setCreateDate(new Date().getTime());
         status.setCreateUser(ReqUtils.getUserName());
@@ -118,7 +123,14 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
             logStatus = serviceSaveSysStatusInfo(company.getSystemLogStatus());
             company.setStatusId(logStatus.getStatusId());
             return company;
+        } else if (obj instanceof PurchasePoOrder) {
+            //公司页面信息配置表
+            PurchasePoOrder poOrder = (PurchasePoOrder) obj;
+            logStatus = serviceSaveSysStatusInfo(poOrder.getSystemLogStatus());
+            poOrder.setStatusId(logStatus.getStatusId());
+            return poOrder;
         }
+
         return null;
     }
 }

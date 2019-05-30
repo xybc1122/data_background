@@ -5,12 +5,8 @@ import com.dt.project.model.purchasePo.PurchasePoOrder;
 import java.util.List;
 
 import com.dt.project.provider.PurchasePoOrderSqlProvider;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 
 public interface PurchasePoOrderMapper {
     @SelectProvider(type = PurchasePoOrderSqlProvider.class, method = "countByExample")
@@ -19,47 +15,48 @@ public interface PurchasePoOrderMapper {
     @DeleteProvider(type = PurchasePoOrderSqlProvider.class, method = "deleteByExample")
     int deleteByExample(PurchasePoOrder example);
 
+    /**
+     * 新增采购订单
+     *
+     * @param record
+     * @return
+     */
     @Insert({
             "insert into purchase_po_order (po_id, date, ",
-            "po_no, po_style_id, ",
-            "explanation, fetch_add, ",
-            "currency_id, dept_id, ",
-            "emp_id, manger_id, ",
+            "no, po_style_id, explanation, ",
+            "fetch_add, currency_id, ",
+            "dept_id, emp_id, manger_id, ",
             "exchange_rate, children, ",
             "closed, supplier_id, ",
             "contact_person, tel_phone, ",
             "pre_pay_no, pre_pay_amt, ",
             "class_type_id, settlement_date, ",
             "settlement_method_id, po_amt, ",
-            "inbound_amt, invoice_company_id, ",
+            "inbound_amt, company_id, ",
             "invoice_type_id, pay_no, ",
             "pay_amt, erase_amt, ",
             "tran_type, tran_status, ",
-            "total_cost_for, order_confirm, ",
-            "source_type_id, source_id, ",
-            "print_count, status_id, ",
-            "version, del_or_not)",
+            "order_confirm, source_type_id, ",
+            "source_id, print_count)",
             "values (#{poId,jdbcType=BIGINT}, #{date,jdbcType=BIGINT}, ",
-            "#{poNo,jdbcType=VARCHAR}, #{poStyleId,jdbcType=INTEGER}, ",
-            "#{explanation,jdbcType=VARCHAR}, #{fetchAdd,jdbcType=VARCHAR}, ",
-            "#{currencyId,jdbcType=INTEGER}, #{deptId,jdbcType=INTEGER}, ",
-            "#{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER}, ",
+            "#{no,jdbcType=VARCHAR}, #{poStyleId,jdbcType=INTEGER}, #{explanation,jdbcType=VARCHAR}, ",
+            "#{fetchAdd,jdbcType=VARCHAR}, #{currencyId,jdbcType=INTEGER}, ",
+            "#{deptId,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER}, ",
             "#{exchangeRate,jdbcType=DECIMAL}, #{children,jdbcType=BIT}, ",
             "#{closed,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, ",
             "#{contactPerson,jdbcType=VARCHAR}, #{telPhone,jdbcType=VARCHAR}, ",
             "#{prePayNo,jdbcType=VARCHAR}, #{prePayAmt,jdbcType=DECIMAL}, ",
             "#{classTypeId,jdbcType=INTEGER}, #{settlementDate,jdbcType=BIGINT}, ",
             "#{settlementMethodId,jdbcType=INTEGER}, #{poAmt,jdbcType=DECIMAL}, ",
-            "#{inboundAmt,jdbcType=DECIMAL}, #{invoiceCompanyId,jdbcType=INTEGER}, ",
+            "#{inboundAmt,jdbcType=DECIMAL}, #{companyId,jdbcType=INTEGER}, ",
             "#{invoiceTypeId,jdbcType=INTEGER}, #{payNo,jdbcType=VARCHAR}, ",
             "#{payAmt,jdbcType=DECIMAL}, #{eraseAmt,jdbcType=DECIMAL}, ",
             "#{tranType,jdbcType=INTEGER}, #{tranStatus,jdbcType=INTEGER}, ",
-            "#{totalCostFor,jdbcType=REAL}, #{orderConfirm,jdbcType=INTEGER}, ",
-            "#{sourceTypeId,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT}, ",
-            "#{printCount,jdbcType=INTEGER}, #{statusId,jdbcType=BIGINT}, ",
-            "#{version,jdbcType=INTEGER}, #{delOrNot,jdbcType=BIT})"
+            "#{orderConfirm,jdbcType=INTEGER}, #{sourceTypeId,jdbcType=BIGINT}, ",
+            "#{sourceId,jdbcType=BIGINT}, #{printCount,jdbcType=INTEGER})"
     })
-    int insert(PurchasePoOrder record);
+    @Options(useGeneratedKeys = true, keyProperty = "poId", keyColumn = "po_id")
+    int insertPoOrder(PurchasePoOrder record);
 
     @InsertProvider(type = PurchasePoOrderSqlProvider.class, method = "insertSelective")
     int insertSelective(PurchasePoOrder record);
@@ -70,6 +67,15 @@ public interface PurchasePoOrderMapper {
      * @return
      */
     @SelectProvider(type = PurchasePoOrderSqlProvider.class, method = "selectByPoOrder")
+    @Results({
+            //数据库字段映射 //数据库字段映射 column数据库字段 property Java 字段
+            @Result(column = "status_id", property = "systemLogStatus",
+                    one = @One(
+                            select = "com.dt.project.mapper.systemMapper.SystemLogStatusMapper.findSysStatusInfo",
+                            fetchType = FetchType.EAGER
+                    )
+            )
+    })
     List<PurchasePoOrder> selectByPoOrder(PurchasePoOrder record);
 
 

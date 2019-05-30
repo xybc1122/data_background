@@ -31,10 +31,10 @@ public interface SalesShipNoticeEntryService {
     int insertShipNoticeEntry(List<SalesShipNoticeEntry> noticeEntryList);
 
     /**
-     * 用父ID查询子ID下面是否还有节点
+     * 更新出库通知单子表数据
      *
+     * @param record
      * @return
      */
-    List<Integer> serviceSelIsNull(List snIds);
-
+    int serviceUpdateByNoticeEntry(SalesShipNoticeEntry record);
 }

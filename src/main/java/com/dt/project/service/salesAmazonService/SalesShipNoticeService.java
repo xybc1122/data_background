@@ -36,5 +36,14 @@ public interface SalesShipNoticeService {
      *
      * @return
      */
-    ResponseBase serviceDeleteByShipNoticesAndNoticeEntry(Map<String, List<Integer>> objectMap);
+    ResponseBase serviceDeleteByShipNoticeAndNoticeEntry(Map<String, List<Integer>> objectMap);
+
+
+    /**
+     * 更新出货通知单外单
+     *
+     * @return
+     */
+    ResponseBase updateBySalesShipNoticeAndNoticeEntry(Map<String, Object> noMap);
+
 }

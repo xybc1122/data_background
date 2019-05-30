@@ -23,7 +23,7 @@ public interface SalesShipNoticeMapper {
 
 
     /**
-     * 存入出货通知单表
+     * 新增出货通知单表
      *
      * @param record
      * @return
@@ -83,6 +83,7 @@ public interface SalesShipNoticeMapper {
      */
     @UpdateProvider(type = SalesShipNoticeSqlProvider.class, method = "updateBySalesShipNotice")
     int updateBySalesShipNotice(SalesShipNotice record);
+
 
     @UpdateProvider(type = SalesShipNoticeSqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") SalesShipNotice record);

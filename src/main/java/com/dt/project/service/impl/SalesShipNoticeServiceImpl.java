@@ -1,6 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.exception.LsException;
@@ -98,7 +99,7 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
         }
         String identifier = null;
         try {
-            identifier = redisService.lockRedis(Constants.SAVE_SHIPNOTICE, 5000L, 20000L);
+            identifier = redisService.lockRedis(Constants.SAVE_SHIP_NOTICE, 5000L, 20000L);
             if (StringUtils.isEmpty(identifier)) {
                 return JsonData.setResultError("请等待有人正在操作");
             }
@@ -137,47 +138,49 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
             return JsonData.setResultSuccess("success");
         } finally {
             if (StringUtils.isNotBlank(identifier)) {
-                redisService.releaseLock(Constants.SAVE_SHIPNOTICE, identifier);
+                redisService.releaseLock(Constants.SAVE_SHIP_NOTICE, identifier);
             }
         }
     }
 
     @Override
     @Transactional
-    public ResponseBase serviceDeleteByShipNoticesAndNoticeEntry(Map<String, List<Integer>> objectMap) {
-        List<Integer> delShipNoticeObj = objectMap.get("delShipNotice");
-        List<Integer> delShipNoticeEntryObj = objectMap.get("delShipNoticeEntry");
+    public ResponseBase serviceDeleteByShipNoticeAndNoticeEntry(Map<String, List<Integer>> objectMap) {
+        List<Integer> delShipNoticeObj = objectMap.get("shipNoticeId");
+        List<Integer> delShipNoticeEntryObj = objectMap.get("entryId");
+        //删除父表
+        Map<String, List<Integer>> thisMap = gPService.delParent(delShipNoticeObj, "sales_ship_notice",
+                "ship_notice_id", "`sales_ship_notice_entry`");
+        if (delShipNoticeEntryObj != null && delShipNoticeEntryObj.size() > 0) {
+            //删除子表
+            gPService.serviceDeleteByGeneral(delShipNoticeEntryObj, "sales_ship_notice_entry", "e_id");
+        }
+        return JsonData.setResultSuccess("success", thisMap);
 
-        Map<String, List<Integer>> thisSet = set(delShipNoticeObj, "sales_ship_notice", "ship_notice_id");
+    }
 
-
-        if (delShipNoticeEntryObj != null) {
-
+    @Override
+    @Transactional
+    public ResponseBase updateBySalesShipNoticeAndNoticeEntry(Map<String, Object> noMap) {
+        Object salesShipNoticeObj = noMap.get("salesShipNotice");
+        Object salesShipNoticeEntryObj = noMap.get("salesShipNoticeEntry");
+        if (salesShipNoticeObj == null) {
+            return JsonData.setResultError("error");
+        }
+        //拿到出库通知单的最外层表数据
+        SalesShipNotice salesShipNotice = (SalesShipNotice) JsonUtils.objConversion(salesShipNoticeObj, SalesShipNotice.class);
+        int result = nMapper.updateBySalesShipNotice(salesShipNotice);
+        JsonUtils.saveResult(result);
+        //拿到出库通知单的表体数据
+        JSONArray noticeEntryArr = JsonUtils.getJsonArr(salesShipNoticeEntryObj);
+        for (Object obj : noticeEntryArr) {
+            SalesShipNoticeEntry shipNoticeEntry = (SalesShipNoticeEntry) JsonUtils.objConversion(obj, SalesShipNoticeEntry.class);
+            int i = nEService.serviceUpdateByNoticeEntry(shipNoticeEntry);
+            JsonUtils.saveResult(i);
         }
         return JsonData.setResultSuccess("success");
-
     }
 
-    public Map<String, List<Integer>> set(List<Integer> printList, String table, String thisId) {
-        if (printList == null || printList.size() <= 0) {
-            return null;
-        }
-        List<Integer> idList = nEService.serviceSelIsNull(printList);
-        if (idList != null && idList.size() > 0) {
-            //比较取出不一样的值
-            Map<String, List<Integer>> listMap = ListUtils.listCompare(printList, idList);
-            //删除不一样的值
-            int result = gPService.serviceDeleteByGeneral(listMap.get("1"), table,
-                    thisId);
-            JsonUtils.saveResult(result);
-            return listMap;
-        } else {
-            int result = gPService.serviceDeleteByGeneral(printList, table,
-                    thisId);
-            JsonUtils.saveResult(result);
-            return null;
-        }
-    }
 //
 //    public static void main(String[] args) {
 //        List<Integer> list = new ArrayList<>();

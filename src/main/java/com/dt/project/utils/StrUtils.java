@@ -1,5 +1,6 @@
 package com.dt.project.utils;
 
+import com.dt.project.exception.LsException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
@@ -53,6 +54,9 @@ public class StrUtils {
             }
         } else if (obj instanceof List) {
             List idList = (List) obj;
+            if (idList.size() <= 0) {
+                throw new LsException("in查询 ids不能为空数据/NULL");
+            }
             sb.append("\n").append(thisId).append(" in (");
             for (Object id : idList) {
                 sb.append(id).append(",");

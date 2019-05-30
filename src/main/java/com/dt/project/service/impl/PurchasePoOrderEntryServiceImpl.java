@@ -4,6 +4,7 @@ import com.dt.project.mapper.purchaseMapper.PurchasePoOrderEntryMapper;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
 import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.service.purchaseService.PurchasePoOrderEntryService;
+import com.dt.project.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,12 @@ public class PurchasePoOrderEntryServiceImpl implements PurchasePoOrderEntryServ
     public List<PurchasePoOrderEntry> serviceSelectByPoOrderEntry(PurchasePoOrderEntry record) {
         record.setJavaSqlName(nameService.get("pOEntry"));
         return poOrderEntryMapper.selectByPoOrderEntry(record);
+    }
+
+    @Override
+    public int serviceInsertPoOrderEntry(List<PurchasePoOrderEntry> record) {
+        int i = poOrderEntryMapper.insertPoOrderEntry(record);
+        JsonUtils.saveResult(i);
+        return i;
     }
 }

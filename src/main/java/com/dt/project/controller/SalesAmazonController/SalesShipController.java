@@ -3,9 +3,7 @@ package com.dt.project.controller.salesAmazonController;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingList;
-import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
 import com.dt.project.service.JavaSqlNameService;
-import com.dt.project.service.SalesShipNoticePackingListEntryService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticePackingListService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,6 +24,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/ship")
 public class SalesShipController {
+
     @Autowired
     private SalesShipNoticeService noticeService;
     @Autowired
@@ -83,15 +83,41 @@ public class SalesShipController {
         return noticeService.saveNotice(noMap);
     }
 
+
     /**
-     * 修改出货通知单据
-     *
-     * @param noMap
-     * @return
+     * 更新出货通知单
      */
     @PostMapping("/upNotice")
     public ResponseBase upNotice(@RequestBody Map<String, Object> noMap) {
-        return null;
+        return noticeService.updateBySalesShipNoticeAndNoticeEntry(noMap);
+    }
+
+
+    /**
+     * @api {POST} /api/v1/ship/delShipNoticeAndNoticeEntry 删除出货通知单据 跟下面的子单
+     * @apiHeaderExample {json} 请求头Header
+     * {
+     * "token":"用户令牌"
+     * }
+     * @apiGroup Admin
+     * @apiVersion 0.0.1
+     * @apiDescription 删除出货通知单据 跟下面的子单
+     * @apiParamExample {json} 请求样例：
+     * {
+     * "shipNoticeId":[20,2,148],
+     * "entryId":[3]
+     * }
+     * @apiSuccess (success) {Object} data 请求的数据
+     * @apiSuccess (success) {String} msg 信息
+     * @apiSuccess (success) {int} code -1 代表错误 200代表请求成功
+     * @apiSuccessExample {json} 成功返回样列:
+     * {"code":"200","msg":"success","data":"{}"}
+     * @apiErrorExample {json} 失败返回样例子:
+     * {"code":"-1","msg":"error","data":"{}"}
+     */
+    @PostMapping("/delShipNoticeAndNoticeEntry")
+    public ResponseBase delShipNoticeAndNoticeEntry(@RequestBody Map<String, List<Integer>> noMap) {
+        return noticeService.serviceDeleteByShipNoticeAndNoticeEntry(noMap);
     }
 
 
@@ -122,6 +148,6 @@ public class SalesShipController {
         //这里放入缓存
         packingList.setNameList(nameService.get("nPList"));
         return packingListService.serviceSelectNoticePackingList(packingList);
-    }
 
+    }
 }

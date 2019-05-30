@@ -1,17 +1,19 @@
 package com.dt.project.model.purchasePo;
 
 import com.dt.project.model.JavaSqlName;
-import com.dt.project.model.parent.ParentSysTemLog;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public class PurchasePoReceiptNoticeEntry {
-    private Long rneId;
+/**
+ * 外购入库单表体
+ */
+public class PurchaseIcBillStockEntry {
+    private Long sbeId;
 
     private Integer entryId;
 
-    private Long rnId;
+    private Long sbId;
 
     private Integer productId;
 
@@ -19,9 +21,7 @@ public class PurchasePoReceiptNoticeEntry {
 
     private String sourceId;
 
-    private Long poeId;
-
-    private Long deliveryDate;
+    private Long rneId;
 
     private Long reciveWarehouseId;
 
@@ -29,22 +29,13 @@ public class PurchasePoReceiptNoticeEntry {
 
     private BigDecimal quantity;
 
-    private Long transportCompanyId;
-
-    private String trackingNumber;
-
-    private String rneRemark;
+    private String eRemark;
 
     private Integer rowClosed;
 
-    /**
-     * 是否删除标志
-     */
-    private Integer delOrNot;
-    /**
-     * 版本标识
-     */
     private Integer version;
+
+    private Boolean delOrNot;
 
     /**
      * 前端查询参数封装对象
@@ -55,22 +46,6 @@ public class PurchasePoReceiptNoticeEntry {
      * in查询存储id
      */
     private List<Long> inList;
-
-    public Integer getDelOrNot() {
-        return delOrNot;
-    }
-
-    public void setDelOrNot(Integer delOrNot) {
-        this.delOrNot = delOrNot;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
 
     public List<JavaSqlName> getJavaSqlName() {
         return javaSqlName;
@@ -88,12 +63,12 @@ public class PurchasePoReceiptNoticeEntry {
         this.inList = inList;
     }
 
-    public Long getRneId() {
-        return rneId;
+    public Long getSbeId() {
+        return sbeId;
     }
 
-    public void setRneId(Long rneId) {
-        this.rneId = rneId;
+    public void setSbeId(Long sbeId) {
+        this.sbeId = sbeId;
     }
 
     public Integer getEntryId() {
@@ -104,12 +79,12 @@ public class PurchasePoReceiptNoticeEntry {
         this.entryId = entryId;
     }
 
-    public Long getRnId() {
-        return rnId;
+    public Long getSbId() {
+        return sbId;
     }
 
-    public void setRnId(Long rnId) {
-        this.rnId = rnId;
+    public void setSbId(Long sbId) {
+        this.sbId = sbId;
     }
 
     public Integer getProductId() {
@@ -136,20 +111,12 @@ public class PurchasePoReceiptNoticeEntry {
         this.sourceId = sourceId == null ? null : sourceId.trim();
     }
 
-    public Long getPoeId() {
-        return poeId;
+    public Long getRneId() {
+        return rneId;
     }
 
-    public void setPoeId(Long poeId) {
-        this.poeId = poeId;
-    }
-
-    public Long getDeliveryDate() {
-        return deliveryDate;
-    }
-
-    public void setDeliveryDate(Long deliveryDate) {
-        this.deliveryDate = deliveryDate;
+    public void setRneId(Long rneId) {
+        this.rneId = rneId;
     }
 
     public Long getReciveWarehouseId() {
@@ -176,28 +143,12 @@ public class PurchasePoReceiptNoticeEntry {
         this.quantity = quantity;
     }
 
-    public Long getTransportCompanyId() {
-        return transportCompanyId;
+    public String geteRemark() {
+        return eRemark;
     }
 
-    public void setTransportCompanyId(Long transportCompanyId) {
-        this.transportCompanyId = transportCompanyId;
-    }
-
-    public String getTrackingNumber() {
-        return trackingNumber;
-    }
-
-    public void setTrackingNumber(String trackingNumber) {
-        this.trackingNumber = trackingNumber;
-    }
-
-    public String getRneRemark() {
-        return rneRemark;
-    }
-
-    public void setRneRemark(String rneRemark) {
-        this.rneRemark = rneRemark == null ? null : rneRemark.trim();
+    public void seteRemark(String eRemark) {
+        this.eRemark = eRemark == null ? null : eRemark.trim();
     }
 
     public Integer getRowClosed() {
@@ -208,4 +159,43 @@ public class PurchasePoReceiptNoticeEntry {
         this.rowClosed = rowClosed;
     }
 
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public Boolean getDelOrNot() {
+        return delOrNot;
+    }
+
+    public void setDelOrNot(Boolean delOrNot) {
+        this.delOrNot = delOrNot;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", sbeId=").append(sbeId);
+        sb.append(", entryId=").append(entryId);
+        sb.append(", sbId=").append(sbId);
+        sb.append(", productId=").append(productId);
+        sb.append(", sourceTypeId=").append(sourceTypeId);
+        sb.append(", sourceId=").append(sourceId);
+        sb.append(", rneId=").append(rneId);
+        sb.append(", reciveWarehouseId=").append(reciveWarehouseId);
+        sb.append(", recivePositionId=").append(recivePositionId);
+        sb.append(", quantity=").append(quantity);
+        sb.append(", eRemark=").append(eRemark);
+        sb.append(", rowClosed=").append(rowClosed);
+        sb.append(", version=").append(version);
+        sb.append(", delOrNot=").append(delOrNot);
+        sb.append("]");
+        return sb.toString();
+    }
 }

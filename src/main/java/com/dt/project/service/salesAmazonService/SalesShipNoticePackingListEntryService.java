@@ -1,6 +1,5 @@
-package com.dt.project.service;
+package com.dt.project.service.salesAmazonService;
 
-import com.dt.project.config.ResponseBase;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
 
 import java.util.List;

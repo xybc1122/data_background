@@ -55,11 +55,11 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     private BigDecimal inboundAmt;
 
-    private Integer invoiceCompanyId;
+    private Integer companyId;
 
     private Integer invoiceTypeId;
 
-    private String payNo;
+    private String no;
 
     private BigDecimal payAmt;
 
@@ -68,9 +68,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
     private Integer tranType;
 
     private Integer tranStatus;
-
-    private Float totalCostFor;
-
     private Integer orderConfirm;
 
     private Long sourceTypeId;
@@ -327,12 +324,12 @@ public class PurchasePoOrder extends ParentSysTemLog {
         this.inboundAmt = inboundAmt;
     }
 
-    public Integer getInvoiceCompanyId() {
-        return invoiceCompanyId;
+    public Integer getCompanyId() {
+        return companyId;
     }
 
-    public void setInvoiceCompanyId(Integer invoiceCompanyId) {
-        this.invoiceCompanyId = invoiceCompanyId;
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     public Integer getInvoiceTypeId() {
@@ -343,12 +340,12 @@ public class PurchasePoOrder extends ParentSysTemLog {
         this.invoiceTypeId = invoiceTypeId;
     }
 
-    public String getPayNo() {
-        return payNo;
+    public String getNo() {
+        return no;
     }
 
-    public void setPayNo(String payNo) {
-        this.payNo = payNo == null ? null : payNo.trim();
+    public void setNo(String no) {
+        this.no = no;
     }
 
     public BigDecimal getPayAmt() {
@@ -381,14 +378,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     public void setTranStatus(Integer tranStatus) {
         this.tranStatus = tranStatus;
-    }
-
-    public Float getTotalCostFor() {
-        return totalCostFor;
-    }
-
-    public void setTotalCostFor(Float totalCostFor) {
-        this.totalCostFor = totalCostFor;
     }
 
     public Integer getOrderConfirm() {

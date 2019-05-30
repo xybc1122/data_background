@@ -1,17 +1,24 @@
 package com.dt.project.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.purchaseMapper.PurchasePoOrderMapper;
+import com.dt.project.model.basePublicModel.BasicPublicWarehouse;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
 import com.dt.project.oa.service.ActivitiService;
+import com.dt.project.service.SystemLogStatusService;
 import com.dt.project.service.purchaseService.PurchasePoOrderEntryService;
 import com.dt.project.service.purchaseService.PurchasePoOrderService;
+import com.dt.project.toos.Constants;
+import com.dt.project.utils.JsonUtils;
 import com.dt.project.utils.ListUtils;
 import com.dt.project.utils.PageInfoUtils;
-import com.dt.project.utils.ReqUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +36,10 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
     private PurchasePoOrderMapper poOrderMapper;
     @Autowired
     private PurchasePoOrderEntryService poOrderEntryService;
-
     @Autowired
-    private ActivitiService activitiService;
-    private static final String PURCHASE_ORDER = "purchaseOrder";
+    private RedisService redisService;
+    @Autowired
+    private SystemLogStatusService logStatusService;
 
     @Override
     public ResponseBase serviceSelectByPoOrder(PurchasePoOrder record) {
@@ -72,9 +79,42 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
     }
 
     @Override
-    public int serviceSavePoOrder(Map<String, Object> objectMap) {
-        activitiService.startProcess(PURCHASE_ORDER, ReqUtils.getUserName(), objectMap);
-        return 0;
+    @Transactional
+    public ResponseBase serviceInsertPoOrder(Map<String, Object> objectMap) {
+        Object purchasePoOrderObj = objectMap.get("purchasePoOrder");
+        Object purchasePoOrderEntryObj = objectMap.get("purchasePoOrderEntry");
+        if (purchasePoOrderObj == null || purchasePoOrderEntryObj == null) {
+            return JsonData.setResultError("error");
+        }
+        String identifier = null;
+        try {
+            identifier = redisService.lockRedis(Constants.SAVE_PURCHASE_POORDER, 5000L, 20000L);
+            if (StringUtils.isEmpty(identifier)) {
+                return JsonData.setResultError("请等待有人正在操作");
+            }
+            //拿到采购订单的最外层表数据
+            PurchasePoOrder purchasePoOrder = (PurchasePoOrder) JsonUtils.objConversion(purchasePoOrderObj, PurchasePoOrder.class);
+            int result = poOrderMapper.insertPoOrder((PurchasePoOrder) logStatusService.setObjStatusId(purchasePoOrder));
+            JsonUtils.saveResult(result);
+
+            Long poId = purchasePoOrder.getPoId();
+            //拿到采购订单表体数据
+            JSONArray objects = JsonUtils.getJsonArr(purchasePoOrderEntryObj);
+            List<PurchasePoOrderEntry> poOrderEntryList = new ArrayList<>();
+            for (Object obj : objects) {
+                PurchasePoOrderEntry poOrderEntry = (PurchasePoOrderEntry) JsonUtils.objConversion(obj, PurchasePoOrderEntry.class);
+                poOrderEntry.setPoId(poId);
+                poOrderEntryList.add(poOrderEntry);
+            }
+            //插入数据库
+            poOrderEntryService.serviceInsertPoOrderEntry(poOrderEntryList);
+            return JsonData.setResultSuccess("success");
+        } finally {
+            if (StringUtils.isNotBlank(identifier)) {
+                redisService.releaseLock(Constants.SAVE_PURCHASE_POORDER, identifier);
+            }
+        }
     }
+
 
 }

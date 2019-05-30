@@ -21,11 +21,11 @@ public interface PurchasePoOrderService {
      */
     ResponseBase serviceSelectByPoOrder(PurchasePoOrder record);
 
-
     /**
-     * 查询采购订单表
+     * 新增采购订单
      *
      * @return
      */
-    int serviceSavePoOrder(Map<String, Object> objectMap);
+    ResponseBase serviceInsertPoOrder(Map<String, Object> objectMap);
+
 }

@@ -8,13 +8,6 @@ import com.dt.project.provider.SalesShipNoticeEntrySqlProvider;
 import org.apache.ibatis.annotations.*;
 
 public interface SalesShipNoticeEntryMapper {
-    /**
-     * 用父ID查询子ID下面是否还有节点
-     *
-     * @return
-     */
-    @SelectProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "selIsNull")
-    List<Integer> selIsNull(@Param("snIds") List snIds);
 
 
     @Insert({
@@ -65,12 +58,18 @@ public interface SalesShipNoticeEntryMapper {
             @Result(property = "neGwKg", column = "gw_kg"),
             @Result(property = "neNwKg", column = "nw_kg"),
             @Result(property = "neVolumeM3", column = "volume_m3"),
-            @Result(property = "neRemark", column = "remark")
+            @Result(property = "neRemark", column = "e_remark")
     })
     List<SalesShipNoticeEntry> selectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
 
-    @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") SalesShipNoticeEntry record);
+    /**
+     * 更新字表数据
+     *
+     * @param record
+     * @return
+     */
+    @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByNoticeEntry")
+    int updateByNoticeEntry(SalesShipNoticeEntry record);
 
     @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") SalesShipNoticeEntry record);

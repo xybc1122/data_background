@@ -40,6 +40,8 @@ public class SalesShipNotice extends ParentConfTable {
 
     private BigDecimal ttlVolume;
 
+    private BigDecimal ttlNwKg;
+
     private BigDecimal ttlGwKg;
 
     private Long sourceTypeId;
@@ -85,6 +87,13 @@ public class SalesShipNotice extends ParentConfTable {
      */
     private List<Long> arriveDates;
 
+    public BigDecimal getTtlNwKg() {
+        return ttlNwKg;
+    }
+
+    public void setTtlNwKg(BigDecimal ttlNwKg) {
+        this.ttlNwKg = ttlNwKg;
+    }
 
     public String getSiteName() {
         return siteName;

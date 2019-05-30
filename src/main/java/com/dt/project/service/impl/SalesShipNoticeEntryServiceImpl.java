@@ -39,7 +39,10 @@ public class SalesShipNoticeEntryServiceImpl implements SalesShipNoticeEntryServ
     }
 
     @Override
-    public List<Integer> serviceSelIsNull(List snIds) {
-        return nEMapper.selIsNull(snIds);
+    public int serviceUpdateByNoticeEntry(SalesShipNoticeEntry record) {
+        int result = nEMapper.updateByNoticeEntry(record);
+        JsonUtils.saveResult(result);
+        return result;
     }
+
 }

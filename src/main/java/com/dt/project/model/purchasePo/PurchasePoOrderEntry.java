@@ -1,13 +1,15 @@
 package com.dt.project.model.purchasePo;
 
+import com.dt.project.model.JavaSqlName;
 import com.dt.project.model.parent.ParentSysTemLog;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 采购订单表体
  */
-public class PurchasePoOrderEntry extends ParentSysTemLog {
+public class PurchasePoOrderEntry {
     private Long poeId;
 
     private Integer entryId;
@@ -16,17 +18,19 @@ public class PurchasePoOrderEntry extends ParentSysTemLog {
 
     private Integer productId;
 
+    private BigDecimal quantity;
+
     private BigDecimal taxRate;
 
     private BigDecimal price;
 
     private BigDecimal priceTax;
 
-    private BigDecimal poeTaxAmount;
+    private BigDecimal taxAmt;
 
-    private BigDecimal poeAmount;
+    private BigDecimal amount;
 
-    private BigDecimal poeAmountTax;
+    private BigDecimal amountTax;
 
     private Long poeSourceTypeId;
 
@@ -44,11 +48,80 @@ public class PurchasePoOrderEntry extends ParentSysTemLog {
 
     private BigDecimal poeFaQty;
 
-    private BigDecimal poeInboundQty;
+    private BigDecimal inboundQty;
 
     private BigDecimal poeReturnQty;
 
     private String poeRemark;
+
+    private Integer rowClosed;
+
+    /**
+     * 是否删除标志
+     */
+    private Integer delOrNot;
+    /**
+     * 版本标识
+     */
+    private Integer version;
+
+    /**
+     * 前端查询参数封装对象
+     */
+    private List<JavaSqlName> javaSqlName;
+
+    /**
+     * in查询存储id
+     */
+    private List<Long> inList;
+
+    public Integer getRowClosed() {
+        return rowClosed;
+    }
+
+    public void setRowClosed(Integer rowClosed) {
+        this.rowClosed = rowClosed;
+    }
+
+    public BigDecimal getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(BigDecimal quantity) {
+        this.quantity = quantity;
+    }
+
+    public Integer getDelOrNot() {
+        return delOrNot;
+    }
+
+    public void setDelOrNot(Integer delOrNot) {
+        this.delOrNot = delOrNot;
+    }
+
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
+
+    public List<JavaSqlName> getJavaSqlName() {
+        return javaSqlName;
+    }
+
+    public void setJavaSqlName(List<JavaSqlName> javaSqlName) {
+        this.javaSqlName = javaSqlName;
+    }
+
+    public List<Long> getInList() {
+        return inList;
+    }
+
+    public void setInList(List<Long> inList) {
+        this.inList = inList;
+    }
 
     public Long getPoeId() {
         return poeId;
@@ -106,28 +179,28 @@ public class PurchasePoOrderEntry extends ParentSysTemLog {
         this.priceTax = priceTax;
     }
 
-    public BigDecimal getPoeTaxAmount() {
-        return poeTaxAmount;
+    public BigDecimal getTaxAmt() {
+        return taxAmt;
     }
 
-    public void setPoeTaxAmount(BigDecimal poeTaxAmount) {
-        this.poeTaxAmount = poeTaxAmount;
+    public void setTaxAmt(BigDecimal taxAmt) {
+        this.taxAmt = taxAmt;
     }
 
-    public BigDecimal getPoeAmount() {
-        return poeAmount;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setPoeAmount(BigDecimal poeAmount) {
-        this.poeAmount = poeAmount;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
-    public BigDecimal getPoeAmountTax() {
-        return poeAmountTax;
+    public BigDecimal getAmountTax() {
+        return amountTax;
     }
 
-    public void setPoeAmountTax(BigDecimal poeAmountTax) {
-        this.poeAmountTax = poeAmountTax;
+    public void setAmountTax(BigDecimal amountTax) {
+        this.amountTax = amountTax;
     }
 
     public Long getPoeSourceTypeId() {
@@ -194,12 +267,12 @@ public class PurchasePoOrderEntry extends ParentSysTemLog {
         this.poeFaQty = poeFaQty;
     }
 
-    public BigDecimal getPoeInboundQty() {
-        return poeInboundQty;
+    public BigDecimal getInboundQty() {
+        return inboundQty;
     }
 
-    public void setPoeInboundQty(BigDecimal poeInboundQty) {
-        this.poeInboundQty = poeInboundQty;
+    public void setInboundQty(BigDecimal inboundQty) {
+        this.inboundQty = inboundQty;
     }
 
     public BigDecimal getPoeReturnQty() {

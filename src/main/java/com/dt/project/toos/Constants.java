@@ -22,7 +22,12 @@ public interface Constants {
     /**
      * 设置出库通知单
      */
-    String SAVE_SHIPNOTICE = "save_shipNotice";
+    String SAVE_SHIP_NOTICE = "save_shipNotice";
+
+    /**
+     * 设置出库通知单
+     */
+    String SAVE_PURCHASE_POORDER = "save_purchasePoOrder";
     /**
      * token
      */

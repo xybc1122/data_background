@@ -17,6 +17,7 @@ import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
 import java.util.Map;
 
 public class PurchasePoOrderEntrySqlProvider {
@@ -36,116 +37,49 @@ public class PurchasePoOrderEntrySqlProvider {
         return SQL();
     }
 
-    public String insertSelective(PurchasePoOrderEntry record) {
-        BEGIN();
-        INSERT_INTO("purchase_po_order_entry");
-
-        if (record.getEntryId() != null) {
-            VALUES("entry_id", "#{entryId,jdbcType=INTEGER}");
+    public String insertPoOrderEntry(Map<String, List<PurchasePoOrderEntry>> poOrderMap) {
+        List<PurchasePoOrderEntry> poOrderEntryList = poOrderMap.get("recordList");
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO purchase_po_order_entry " +
+                "entry_id,po_id, product_id,quantity, tax_rate,price, price_tax,\n" +
+                "tax_amt, amount,amount_tax, poe_source_type_id,\n" +
+                "poe_source_id, delivery_date,\n" +
+                "invoice_entry_id, recive_warehouse_id,\n" +
+                "recive_position_id, poe_qu_qty,\n" +
+                "poe_fa_qty, inbound_qty,\n" +
+                "poe_return_qty,e_remark,\n" +
+                "row_closed)\n" +
+                "value");
+        for (PurchasePoOrderEntry poOrderEntry : poOrderEntryList) {
+            sb.append("(").append(poOrderEntry.getEntryId()).append(",").
+                    append(poOrderEntry.getPoId()).append(",").append(poOrderEntry.getProductId()).append(",");
+            sb.append(poOrderEntry.getQuantity()).append(",").append(poOrderEntry.getTaxRate()).append(",");
+            sb.append(poOrderEntry.getPrice()).append(",").append(poOrderEntry.getPriceTax()).append(",");
+            sb.append(poOrderEntry.getTaxAmt()).append(",").append(poOrderEntry.getAmount()).append(",").
+                    append(poOrderEntry.getAmountTax()).append(",").append(poOrderEntry.getPoeSourceTypeId()).append(",");
+            StrUtils.appBuider(sb, poOrderEntry.getPoeSourceId());
+            sb.append(",").append(poOrderEntry.getDeliveryDate()).append(",")
+                    .append(poOrderEntry.getInvoiceEntryId()).append(",").append(poOrderEntry.getReciveWarehouseId()).append(",")
+                    .append(poOrderEntry.getRecivePositionId()).append(",").append(poOrderEntry.getPoeQuQty()).append(",")
+                    .append(poOrderEntry.getPoeFaQty()).append(",").append(poOrderEntry.getInboundQty()).append(",")
+                    .append(poOrderEntry.getPoeReturnQty()).append(",");
+            StrUtils.appBuider(sb, poOrderEntry.getPoeRemark());
+            sb.append(",").append(poOrderEntry.getRowClosed());
+            sb.append("),");
         }
-
-        if (record.getPoId() != null) {
-            VALUES("po_id", "#{poId,jdbcType=BIGINT}");
-        }
-
-        if (record.getProductId() != null) {
-            VALUES("product_id", "#{productId,jdbcType=INTEGER}");
-        }
-
-        if (record.getTaxRate() != null) {
-            VALUES("tax_rate", "#{taxRate,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPrice() != null) {
-            VALUES("price", "#{price,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPriceTax() != null) {
-            VALUES("price_tax", "#{priceTax,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeTaxAmount() != null) {
-            VALUES("poe_tax_amount", "#{poeTaxAmount,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeAmount() != null) {
-            VALUES("poe_amount", "#{poeAmount,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeAmountTax() != null) {
-            VALUES("poe_amount_tax", "#{poeAmountTax,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeSourceTypeId() != null) {
-            VALUES("poe__source_type_id", "#{poeSourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getPoeSourceId() != null) {
-            VALUES("poe__source_id", "#{poeSourceId,jdbcType=VARCHAR}");
-        }
-
-        if (record.getDeliveryDate() != null) {
-            VALUES("delivery_date", "#{deliveryDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getInvoiceEntryId() != null) {
-            VALUES("invoice_entry_id", "#{invoiceEntryId,jdbcType=BIGINT}");
-        }
-
-        if (record.getReciveWarehouseId() != null) {
-            VALUES("recive_warehouse_id", "#{reciveWarehouseId,jdbcType=BIGINT}");
-        }
-
-        if (record.getRecivePositionId() != null) {
-            VALUES("recive_position_id", "#{recivePositionId,jdbcType=BIGINT}");
-        }
-
-        if (record.getPoeQuQty() != null) {
-            VALUES("poe_qu_qty", "#{poeQuQty,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeFaQty() != null) {
-            VALUES("poe_fa_qty", "#{poeFaQty,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeInboundQty() != null) {
-            VALUES("poe_inbound_qty", "#{poeInboundQty,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeReturnQty() != null) {
-            VALUES("poe_return_qty", "#{poeReturnQty,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeRemark() != null) {
-            VALUES("poe_remark", "#{poeRemark,jdbcType=VARCHAR}");
-        }
-
-        if (record.getStatusId() != null) {
-            VALUES("status_id", "#{statusId,jdbcType=BIGINT}");
-        }
-
-        if (record.getVersion() != null) {
-            VALUES("version", "#{version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            VALUES("del_or_not", "#{delOrNot,jdbcType=BIT}");
-        }
-
-        return SQL();
+        return sb.toString().substring(0, sb.length() - 1);
     }
 
     public String selectByPoOrderEntry(PurchasePoOrderEntry poOrderEntry) throws IllegalAccessException {
         String alias = "poe";
         SQL sql = new SQL();
         sql.SELECT("`poe_id`,`entry_id`,`po_id`,`product_id`,`tax_rate`,`price`,`price_tax`,\n" +
-                "`poe_tax_amount`,`poe_amount`,`poe_amount_tax`,`poe_source_type_id`,`poe_source_id`,`delivery_date`,`invoice_entry_id`,\n" +
-                "`recive_warehouse_id`,`recive_position_id`,`poe_qu_qty`, `poe_fa_qty`,`poe_inbound_qty`, `poe_return_qty`," +
-                "`poe_remark`,`row_closed`,`status_id`,`version` FROM `purchase_po_order_entry` AS " + alias + "");
+                "`tax_amt`,`amount`,`amount_tax`,`poe_source_type_id`,`poe_source_id`,`delivery_date`,`invoice_entry_id`,\n" +
+                "`recive_warehouse_id`,`recive_position_id`,`poe_qu_qty`, `poe_fa_qty`,`inbound_qty`, `poe_return_qty`," +
+                "" + alias + ".`e_remark`,`row_closed`," + alias + ".`version` FROM `purchase_po_order_entry` AS " + alias + "");
         //sql动态查询
         FieldStore.query(poOrderEntry.getClass(), poOrderEntry.getJavaSqlName(), poOrderEntry, sql);
-        ProviderSqlStore.selectStatus(poOrderEntry.getSystemLogStatus(), alias, sql);
-        sql.WHERE("del_or_not=0");
+        sql.WHERE(alias + ".`del_or_not`=0");
         if (poOrderEntry.getInList() != null && poOrderEntry.getInList().size() > 0) {
             return sql.toString() + " AND " + StrUtils.in(poOrderEntry.getInList(), "poe_id");
         }
@@ -182,18 +116,18 @@ public class PurchasePoOrderEntrySqlProvider {
         if (record.getPriceTax() != null) {
             SET("price_tax = #{record.priceTax,jdbcType=DECIMAL}");
         }
+//
+//        if (record.getPoeTaxAmount() != null) {
+//            SET("tax_amount = #{record.poeTaxAmount,jdbcType=DECIMAL}");
+//        }
 
-        if (record.getPoeTaxAmount() != null) {
-            SET("poe_tax_amount = #{record.poeTaxAmount,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeAmount() != null) {
-            SET("poe_amount = #{record.poeAmount,jdbcType=DECIMAL}");
-        }
-
-        if (record.getPoeAmountTax() != null) {
-            SET("poe_amount_tax = #{record.poeAmountTax,jdbcType=DECIMAL}");
-        }
+//        if (record.getPoeAmount() != null) {
+//            SET("poe_amount = #{record.poeAmount,jdbcType=DECIMAL}");
+//        }
+//
+//        if (record.getPoeAmountTax() != null) {
+//            SET("poe_amount_tax = #{record.poeAmountTax,jdbcType=DECIMAL}");
+//        }
 
         if (record.getPoeSourceTypeId() != null) {
             SET("poe__source_type_id = #{record.poeSourceTypeId,jdbcType=BIGINT}");
@@ -226,10 +160,10 @@ public class PurchasePoOrderEntrySqlProvider {
         if (record.getPoeFaQty() != null) {
             SET("poe_fa_qty = #{record.poeFaQty,jdbcType=DECIMAL}");
         }
-
-        if (record.getPoeInboundQty() != null) {
-            SET("poe_inbound_qty = #{record.poeInboundQty,jdbcType=DECIMAL}");
-        }
+//
+//        if (record.getPoeInboundQty() != null) {
+//            SET("poe_inbound_qty = #{record.poeInboundQty,jdbcType=DECIMAL}");
+//        }
 
         if (record.getPoeReturnQty() != null) {
             SET("poe_return_qty = #{record.poeReturnQty,jdbcType=DECIMAL}");
@@ -237,10 +171,6 @@ public class PurchasePoOrderEntrySqlProvider {
 
         if (record.getPoeRemark() != null) {
             SET("poe_remark = #{record.poeRemark,jdbcType=VARCHAR}");
-        }
-
-        if (record.getStatusId() != null) {
-            SET("status_id = #{record.statusId,jdbcType=BIGINT}");
         }
 
         if (record.getVersion() != null) {
@@ -265,7 +195,7 @@ public class PurchasePoOrderEntrySqlProvider {
         SET("tax_rate = #{record.taxRate,jdbcType=DECIMAL}");
         SET("price = #{record.price,jdbcType=DECIMAL}");
         SET("price_tax = #{record.priceTax,jdbcType=DECIMAL}");
-        SET("poe_tax_amount = #{record.poeTaxAmount,jdbcType=DECIMAL}");
+        SET("tax_amount = #{record.taxAmount,jdbcType=DECIMAL}");
         SET("poe_amount = #{record.poeAmount,jdbcType=DECIMAL}");
         SET("poe_amount_tax = #{record.poeAmountTax,jdbcType=DECIMAL}");
         SET("poe__source_type_id = #{record.poeSourceTypeId,jdbcType=BIGINT}");
@@ -276,7 +206,7 @@ public class PurchasePoOrderEntrySqlProvider {
         SET("recive_position_id = #{record.recivePositionId,jdbcType=BIGINT}");
         SET("poe_qu_qty = #{record.poeQuQty,jdbcType=DECIMAL}");
         SET("poe_fa_qty = #{record.poeFaQty,jdbcType=DECIMAL}");
-        SET("poe_inbound_qty = #{record.poeInboundQty,jdbcType=DECIMAL}");
+        SET("inbound_qty = #{record.inboundQty,jdbcType=DECIMAL}");
         SET("poe_return_qty = #{record.poeReturnQty,jdbcType=DECIMAL}");
         SET("poe_remark = #{record.poeRemark,jdbcType=VARCHAR}");
         SET("status_id = #{record.statusId,jdbcType=BIGINT}");

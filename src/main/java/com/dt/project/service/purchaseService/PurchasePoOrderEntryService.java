@@ -20,4 +20,13 @@ public interface PurchasePoOrderEntryService {
      * @return
      */
     List<PurchasePoOrderEntry> serviceSelectByPoOrderEntry(PurchasePoOrderEntry record);
+
+    /**
+     * 存入采购订单子表
+     *
+     * @param record
+     * @return
+     */
+    int serviceInsertPoOrderEntry(List<PurchasePoOrderEntry> record);
+
 }

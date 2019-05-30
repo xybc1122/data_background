@@ -4,6 +4,8 @@ import com.dt.project.model.TableHead;
 
 import java.util.*;
 
+import static java.util.stream.Collectors.toList;
+
 public class ListUtils {
     /**
      * 引用 拼接新数据
@@ -120,41 +122,17 @@ public class ListUtils {
     //比较两个list
     //取出存在oneList中，但存在twoList中的数据，差异数据放入differentList
     public static Map<String, List<Integer>> listCompare(List<Integer> oneList, List<Integer> twoList) {
-        Map<Integer, Integer> map = new HashMap<>();
-        Set<Integer> differentSet1 = new HashSet<>();
-        Set<Integer> differentSet2 = new HashSet<>();
-        for (Integer one : oneList) {
-            map.put(one, 1);
-        }
-        for (Integer two : twoList) {
-            if (map.get(two) == null) {
-                differentSet1.add(two);
-            } else {
-                differentSet2.add(two);
-            }
-        }
+        // 交集 一样的值
+        List<Integer> intersection = oneList.stream().filter(twoList::contains).collect(toList());
+        // 差集 (list1 - list2) 不一样的值
+        List<Integer> reduce = oneList.stream().filter(item -> !twoList.contains(item)).collect(toList());
+
         Map<String, List<Integer>> listMap = new HashMap<>();
-        //0代表一样的值 1代表不一样的值
-        listMap.put("1", new ArrayList<>(differentSet1));
-        listMap.put("0", new ArrayList<>(differentSet2));
+        //0代表下面的ID是不能删除的父菜单 1代表的值是可以删除的父级
+        listMap.put("1", new ArrayList<>(reduce));
+        listMap.put("0", new ArrayList<>(intersection));
         return listMap;
     }
 
-    public static void main(String[] args) {
-        List b = new ArrayList<>();
-        b.add(1);
-        b.add(3);
-        b.add(3);
-        b.add(5);
-        b.add(1);
-        b.add(1);
-
-
-        List s = new ArrayList<>();
-        s.add(1);
-        s.add(3);
-
-        System.out.println(listCompare(s, b));
-    }
-
 }
+

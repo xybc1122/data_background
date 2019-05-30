@@ -4,7 +4,7 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticePackingListMapper;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingList;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
-import com.dt.project.service.SalesShipNoticePackingListEntryService;
+import com.dt.project.service.salesAmazonService.SalesShipNoticePackingListEntryService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticePackingListService;
 import com.dt.project.utils.ListUtils;
 import com.dt.project.utils.PageInfoUtils;

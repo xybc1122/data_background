@@ -20,18 +20,14 @@ import java.util.Map;
 
 public class SalesShipNoticeEntrySqlProvider {
 
-    public String countByExample(SalesShipNoticeEntry example) {
-        BEGIN();
-        SELECT("count(*)");
-        FROM("sales_ship_notice_entry");
-        return SQL();
+    public String selIsNull(Map<String, Object> objectMap) {
+        SQL sql = new SQL();
+        sql.SELECT("entry_id");
+        sql.FROM("sales_ship_notice_entry");
+        return sql.toString() + " WHERE " + StrUtils.in(objectMap.get("snIds"), "ship_notice_id");
+
     }
 
-    public String deleteByExample(SalesShipNoticeEntry example) {
-        BEGIN();
-        DELETE_FROM("sales_ship_notice_entry");
-        return SQL();
-    }
 
     @SuppressWarnings("unchecked")
     public String insertShipNoticeEntry(Map<String, Object> neMap) {

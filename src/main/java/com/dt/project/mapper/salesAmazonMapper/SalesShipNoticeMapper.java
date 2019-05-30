@@ -21,8 +21,6 @@ public interface SalesShipNoticeMapper {
     @SelectProvider(type = SalesShipNoticeSqlProvider.class, method = "countByExample")
     long countByExample(SalesShipNotice example);
 
-    @DeleteProvider(type = SalesShipNoticeSqlProvider.class, method = "deleteByExample")
-    int deleteByExample(SalesShipNotice example);
 
     /**
      * 存入出货通知单表

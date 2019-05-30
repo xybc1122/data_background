@@ -37,4 +37,9 @@ public class SalesShipNoticeEntryServiceImpl implements SalesShipNoticeEntryServ
         JsonUtils.saveResult(result);
         return result;
     }
+
+    @Override
+    public List<Integer> serviceSelIsNull(List snIds) {
+        return nEMapper.selIsNull(snIds);
+    }
 }

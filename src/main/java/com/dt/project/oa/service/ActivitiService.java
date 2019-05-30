@@ -16,7 +16,7 @@ import java.util.Map;
  **/
 public interface ActivitiService {
     /**
-     * 获得流程门面
+     * 获得流程引擎
      *
      * @return
      */

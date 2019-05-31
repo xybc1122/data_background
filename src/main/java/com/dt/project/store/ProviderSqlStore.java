@@ -50,9 +50,9 @@ public class ProviderSqlStore {
      * @param as
      * @param sql
      */
-    public static void selectStatus(SystemLogStatus logStatus, String as, SQL sql) {
+    public static void selectStatus(SystemLogStatus logStatus, String alias, SQL sql) {
         if (logStatus != null) {
-            sql.LEFT_OUTER_JOIN("`system_log_status` AS ls ON ls.status_id=" + as + ". `status_id` ");
+            sql.LEFT_OUTER_JOIN("`system_log_status` AS ls ON ls.status_id=" + alias + ". `status_id`");
             //备注
             if (StringUtils.isNotBlank(logStatus.getRemark())) {
                 sql.WHERE("ls.remark=#{systemLogStatus.remark}");
@@ -86,6 +86,7 @@ public class ProviderSqlStore {
                 sql.WHERE("ls.audit_user=#{systemLogStatus.auditUser}");
             }
         }
+        sql.WHERE(alias + ".del_or_not=0");
     }
 
     /**
@@ -160,13 +161,12 @@ public class ProviderSqlStore {
             sql.SET("`audit_date` = #{auditDate,jdbcType=BIGINT}");
         }
         Integer version = p.getVersion();
-        sql.SET("version=" + version + "+1");
-        sql.WHERE("version=" + version);
+        setVersion(sql, version);
     }
 
 
     /**
-     * 通用查询 出货单
+     * ParentConfTable类型通用查询
      *
      * @param sql
      * @param p
@@ -260,6 +260,16 @@ public class ProviderSqlStore {
         sql.SET(alias + ".`del_or_not` = 1");
         sql.SET(alias + ".`modify_date` =" + new Date().getTime());
         sql.SET(alias + ".`modify_user` = " + "'" + ReqUtils.getUserName() + "'");
+        setVersion(sql, version);
+    }
+
+    /**
+     * 更新version
+     *
+     * @param sql
+     * @param version
+     */
+    public static void setVersion(SQL sql, int version) {
         sql.SET("version=" + version + "+1");
         sql.WHERE("version=" + version);
     }

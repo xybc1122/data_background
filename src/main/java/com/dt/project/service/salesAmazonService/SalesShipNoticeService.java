@@ -32,14 +32,6 @@ public interface SalesShipNoticeService {
     ResponseBase saveNotice(Map<String, Object> noMap);
 
     /**
-     * 批量删除出货通知单 /只做了字段更新
-     *
-     * @return
-     */
-    ResponseBase serviceDeleteByShipNoticeAndNoticeEntry(Map<String, List<Integer>> objectMap);
-
-
-    /**
      * 更新出货通知单外单
      *
      * @return

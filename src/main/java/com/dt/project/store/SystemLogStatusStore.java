@@ -18,6 +18,9 @@ public class SystemLogStatusStore {
 
 
     public static SystemLogStatus setModify(SystemLogStatus logStatus, String uName, Long statusId) {
+        if (logStatus == null) {
+            logStatus = new SystemLogStatus();
+        }
         logStatus.setModifyDate(new Date().getTime());
         logStatus.setModifyUser(uName);
         logStatus.setStatusId(statusId);

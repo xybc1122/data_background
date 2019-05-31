@@ -88,7 +88,6 @@ public class BasicPublicSurTaxrateSqlProvider {
         AppendSqlStore.sqlWhere(record.getAllCateIs(), alias + ".all_cate_is", sql, Constants.SELECT);
         //税率
         AppendSqlStore.sqlWhere(record.getTaxRate(), alias + ".tax_rate", sql, Constants.SELECT);
-        sql.WHERE(alias + ".del_or_not=1");
         return sql.toString();
 
     }

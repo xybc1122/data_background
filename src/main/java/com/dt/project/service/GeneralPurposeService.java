@@ -1,5 +1,7 @@
 package com.dt.project.service;
 
+import com.dt.project.config.ResponseBase;
+
 import java.util.List;
 import java.util.Map;
 
@@ -22,13 +24,6 @@ public interface GeneralPurposeService {
      */
     List<Integer> serviceSelIsNull(List ids, String table, String thisId);
 
-    /**
-     * 通用设置删除父级接口
-     *
-     * @param printList
-     * @param table
-     * @param thisId
-     * @return
-     */
-    Map<String, List<Integer>> delParent(List<Integer> printList, String table, String thisId, String childTable);
+
+    ResponseBase universalDelete(Map<String, Object> strMap);
 }

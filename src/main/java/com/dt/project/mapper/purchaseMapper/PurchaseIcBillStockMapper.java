@@ -16,23 +16,28 @@ public interface PurchaseIcBillStockMapper {
     @DeleteProvider(type = PurchaseIcBillStockSqlProvider.class, method = "deleteByExample")
     int deleteByExample(PurchaseIcBillStock example);
 
+
+    /**
+     * 新增外购入库表
+     *
+     * @param record
+     * @return
+     */
     @Insert({
-            "insert into purchase_ic_bill_stock (sb_id, date, ",
-            "no, explanation, ",
+            "insert into purchase_ic_bill_stock (date,",
+            "no, explanation,",
             "dept_id, emp_id, manger_id, ",
             "children, closed, order_confirm, ",
             "source_type_id, source_id, ",
-            "print_count, status_id, ",
-            "version, del_or_not)",
-            "values (#{sbId,jdbcType=BIGINT}, #{date,jdbcType=BIGINT}, ",
+            "print_count)",
+            "values (#{date,jdbcType=BIGINT}, ",
             "#{no,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR}, ",
             "#{deptId,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER}, ",
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{orderConfirm,jdbcType=INTEGER}, ",
             "#{sourceTypeId,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT}, ",
-            "#{printCount,jdbcType=INTEGER}, #{statusId,jdbcType=BIGINT}, ",
-            "#{version,jdbcType=INTEGER}, #{delOrNot,jdbcType=BIT})"
+            "#{printCount,jdbcType=INTEGER})"
     })
-    int insert(PurchaseIcBillStock record);
+    int insertIcBillStock(PurchaseIcBillStock record);
 
     @InsertProvider(type = PurchaseIcBillStockSqlProvider.class, method = "insertSelective")
     int insertSelective(PurchaseIcBillStock record);
@@ -56,8 +61,14 @@ public interface PurchaseIcBillStockMapper {
     List<PurchaseIcBillStock> selectByIcBillStock(PurchaseIcBillStock record);
 
 
-    @UpdateProvider(type = PurchaseIcBillStockSqlProvider.class, method = "updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") PurchaseIcBillStock record, @Param("example") PurchaseIcBillStock example);
+    /**
+     * 修改入库通知单外表数据
+     *
+     * @param record
+     * @return
+     */
+    @UpdateProvider(type = PurchaseIcBillStockSqlProvider.class, method = "updateByIcBillStock")
+    int updateByIcBillStock(PurchaseIcBillStock record);
 
     @UpdateProvider(type = PurchaseIcBillStockSqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") PurchaseIcBillStock record, @Param("example") PurchaseIcBillStock example);

@@ -48,7 +48,6 @@ public class JsonUtils {
      * @return
      */
     public static JSONArray getJsonArr(Object obj) {
-
         return JSONArray.parseArray(getJsonObj(obj));
     }
 
@@ -58,7 +57,6 @@ public class JsonUtils {
      * @return
      */
     public static String getJsonObj(Object obj) {
-
         return JSONObject.toJSONString(obj);
     }
 

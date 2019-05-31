@@ -1,5 +1,8 @@
 package com.dt.project.utils;
 
+import com.dt.project.exception.LsException;
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.util.Map;
 
 /**
@@ -20,5 +23,12 @@ public class ObjUtils {
             return null;
         }
         return new org.apache.commons.beanutils.BeanMap(obj);
+    }
+
+    public static void isObjNull(Object obj1, Object obj2) {
+        boolean b = ObjectUtils.allNotNull(obj1, obj2);
+        if (!b) {
+            throw new LsException("error");
+        }
     }
 }

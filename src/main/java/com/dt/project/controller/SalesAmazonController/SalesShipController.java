@@ -3,6 +3,7 @@ package com.dt.project.controller.salesAmazonController;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingList;
+import com.dt.project.service.GeneralPurposeService;
 import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticePackingListService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeService;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +30,9 @@ public class SalesShipController {
     private JavaSqlNameService nameService;
     @Autowired
     private SalesShipNoticePackingListService packingListService;
+    @Autowired
+    private GeneralPurposeService gPService;
+
 
     /**
      * 查询发货通知单信息
@@ -116,8 +118,13 @@ public class SalesShipController {
      * {"code":"-1","msg":"error","data":"{}"}
      */
     @PostMapping("/delShipNoticeAndNoticeEntry")
-    public ResponseBase delShipNoticeAndNoticeEntry(@RequestBody Map<String, List<Integer>> noMap) {
-        return noticeService.serviceDeleteByShipNoticeAndNoticeEntry(noMap);
+    public ResponseBase delShipNoticeAndNoticeEntry(@RequestBody Map<String, Object> objectMap) {
+        //这是设置 主表AND ID      还有 子表 AND ID
+        objectMap.put("table", "`sales_ship_notice`");
+        objectMap.put("thisId", "`ship_notice_id`");
+        objectMap.put("childTable", "`sales_ship_notice_entry`");
+        objectMap.put("childThisId", "`e_id`");
+        return gPService.universalDelete(objectMap);
     }
 
 

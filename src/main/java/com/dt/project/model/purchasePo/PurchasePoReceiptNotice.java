@@ -12,7 +12,7 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
 
     private Long date;
 
-    private String rnNo;
+    private String no;
 
     private String explanation;
 
@@ -76,12 +76,12 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
         this.date = date;
     }
 
-    public String getRnNo() {
-        return rnNo;
+    public String getNo() {
+        return no;
     }
 
-    public void setRnNo(String rnNo) {
-        this.rnNo = rnNo == null ? null : rnNo.trim();
+    public void setNo(String no) {
+        this.no = no;
     }
 
     public String getExplanation() {
@@ -89,7 +89,7 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
     }
 
     public void setExplanation(String explanation) {
-        this.explanation = explanation == null ? null : explanation.trim();
+        this.explanation = explanation;
     }
 
     public String getFetchAdd() {

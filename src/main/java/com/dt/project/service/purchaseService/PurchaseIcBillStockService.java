@@ -3,6 +3,8 @@ package com.dt.project.service.purchaseService;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.purchasePo.PurchaseIcBillStock;
 
+import java.util.Map;
+
 /**
  * @ClassName PurchaseIcBillStockService
  * Description TODO
@@ -20,4 +22,16 @@ public interface PurchaseIcBillStockService {
      */
 
     ResponseBase serviceSelectByIcBillStock(PurchaseIcBillStock record);
+
+
+    /**
+     * 新增外购入库表
+     *
+     * @param objectMap
+     * @return
+     */
+    ResponseBase serviceInsertIcBillStock(Map<String, Object> objectMap);
+
+
+
 }

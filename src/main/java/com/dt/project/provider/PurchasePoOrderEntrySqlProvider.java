@@ -15,6 +15,7 @@ import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.utils.StrUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class PurchasePoOrderEntrySqlProvider {
         List<PurchasePoOrderEntry> poOrderEntryList = poOrderMap.get("recordList");
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO purchase_po_order_entry " +
-                "entry_id,po_id, product_id,quantity, tax_rate,price, price_tax,\n" +
+                "(entry_id,po_id, product_id,quantity, tax_rate,price, price_tax,\n" +
                 "tax_amt, amount,amount_tax, poe_source_type_id,\n" +
                 "poe_source_id, delivery_date,\n" +
                 "invoice_entry_id, recive_warehouse_id,\n" +
@@ -88,100 +89,100 @@ public class PurchasePoOrderEntrySqlProvider {
 
     }
 
-    public String updateByExampleSelective(Map<String, Object> parameter) {
-        PurchasePoOrderEntry record = (PurchasePoOrderEntry) parameter.get("record");
-
-        UPDATE("purchase_po_order_entry");
+    public String updateByPoOrderEntry(PurchasePoOrderEntry record) {
+        SQL sql = new SQL();
+        sql.UPDATE("purchase_po_order_entry");
 
         if (record.getEntryId() != null) {
-            SET("entry_id = #{record.entryId,jdbcType=INTEGER}");
+            sql.SET("entry_id = #{entryId,jdbcType=INTEGER}");
         }
 
         if (record.getPoId() != null) {
-            SET("po_id = #{record.poId,jdbcType=BIGINT}");
+            sql.SET("po_id = #{poId,jdbcType=BIGINT}");
         }
 
         if (record.getProductId() != null) {
-            SET("product_id = #{record.productId,jdbcType=INTEGER}");
+            sql.SET("product_id = #{productId,jdbcType=INTEGER}");
+        }
+
+        if (record.getQuantity() != null) {
+            sql.SET("quantity = #{quantity,jdbcType=DECIMAL}");
         }
 
         if (record.getTaxRate() != null) {
-            SET("tax_rate = #{record.taxRate,jdbcType=DECIMAL}");
+            sql.SET("tax_rate = #{taxRate,jdbcType=DECIMAL}");
         }
 
         if (record.getPrice() != null) {
-            SET("price = #{record.price,jdbcType=DECIMAL}");
+            sql.SET("price = #{price,jdbcType=DECIMAL}");
         }
 
         if (record.getPriceTax() != null) {
-            SET("price_tax = #{record.priceTax,jdbcType=DECIMAL}");
+            sql.SET("price_tax = #{priceTax,jdbcType=DECIMAL}");
         }
-//
-//        if (record.getPoeTaxAmount() != null) {
-//            SET("tax_amount = #{record.poeTaxAmount,jdbcType=DECIMAL}");
-//        }
 
-//        if (record.getPoeAmount() != null) {
-//            SET("poe_amount = #{record.poeAmount,jdbcType=DECIMAL}");
-//        }
-//
-//        if (record.getPoeAmountTax() != null) {
-//            SET("poe_amount_tax = #{record.poeAmountTax,jdbcType=DECIMAL}");
-//        }
+        if (record.getTaxAmt() != null) {
+            sql.SET("tax_amt = #{taxAmt,jdbcType=DECIMAL}");
+        }
+
+        if (record.getAmount() != null) {
+            sql.SET("amount = #{amount,jdbcType=DECIMAL}");
+        }
+
+        if (record.getAmountTax() != null) {
+            sql.SET("amount_tax = #{amountTax,jdbcType=DECIMAL}");
+        }
 
         if (record.getPoeSourceTypeId() != null) {
-            SET("poe__source_type_id = #{record.poeSourceTypeId,jdbcType=BIGINT}");
+            sql.SET("poe_source_type_id = #{poeSourceTypeId,jdbcType=BIGINT}");
         }
 
-        if (record.getPoeSourceId() != null) {
-            SET("poe__source_id = #{record.poeSourceId,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getPoeSourceId())) {
+            sql.SET("poe_source_id = #{poeSourceId,jdbcType=VARCHAR}");
         }
 
         if (record.getDeliveryDate() != null) {
-            SET("delivery_date = #{record.deliveryDate,jdbcType=BIGINT}");
+            sql.SET("delivery_date = #{deliveryDate,jdbcType=BIGINT}");
         }
 
         if (record.getInvoiceEntryId() != null) {
-            SET("invoice_entry_id = #{record.invoiceEntryId,jdbcType=BIGINT}");
+            sql.SET("invoice_entry_id = #{invoiceEntryId,jdbcType=BIGINT}");
         }
 
         if (record.getReciveWarehouseId() != null) {
-            SET("recive_warehouse_id = #{record.reciveWarehouseId,jdbcType=BIGINT}");
+            sql.SET("recive_warehouse_id = #{reciveWarehouseId,jdbcType=BIGINT}");
         }
 
         if (record.getRecivePositionId() != null) {
-            SET("recive_position_id = #{record.recivePositionId,jdbcType=BIGINT}");
+            sql.SET("recive_position_id = #{recivePositionId,jdbcType=BIGINT}");
         }
 
         if (record.getPoeQuQty() != null) {
-            SET("poe_qu_qty = #{record.poeQuQty,jdbcType=DECIMAL}");
+            sql.SET("poe_qu_qty = #{poeQuQty,jdbcType=DECIMAL}");
         }
 
         if (record.getPoeFaQty() != null) {
-            SET("poe_fa_qty = #{record.poeFaQty,jdbcType=DECIMAL}");
+            sql.SET("poe_fa_qty = #{poeFaQty,jdbcType=DECIMAL}");
         }
-//
-//        if (record.getPoeInboundQty() != null) {
-//            SET("poe_inbound_qty = #{record.poeInboundQty,jdbcType=DECIMAL}");
-//        }
+
+        if (record.getInboundQty() != null) {
+            sql.SET("inbound_qty = #{inboundQty,jdbcType=DECIMAL}");
+        }
 
         if (record.getPoeReturnQty() != null) {
-            SET("poe_return_qty = #{record.poeReturnQty,jdbcType=DECIMAL}");
+            sql.SET("poe_return_qty = #{poeReturnQty,jdbcType=DECIMAL}");
         }
 
-        if (record.getPoeRemark() != null) {
-            SET("poe_remark = #{record.poeRemark,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getPoeRemark())) {
+            sql.SET("e_remark = #{poeRemark,jdbcType=VARCHAR}");
         }
 
-        if (record.getVersion() != null) {
-            SET("version = #{record.version,jdbcType=INTEGER}");
+        if (record.getRowClosed() != null) {
+            sql.SET("row_closed = #{rowClosed,jdbcType=INTEGER}");
         }
-
-        if (record.getDelOrNot() != null) {
-            SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-        }
-
-        return SQL();
+        ProviderSqlStore.setVersion(sql, record.getVersion());
+        sql.WHERE("poe_id = #{poeId,jdbcType=BIGINT}");
+        return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {

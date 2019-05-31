@@ -19,7 +19,7 @@ public class PurchaseIcBillStockEntry {
 
     private Long sourceTypeId;
 
-    private String sourceId;
+    private Long icBSourceId;
 
     private Long rneId;
 
@@ -29,7 +29,7 @@ public class PurchaseIcBillStockEntry {
 
     private BigDecimal quantity;
 
-    private String eRemark;
+    private String icBRemark;
 
     private Integer rowClosed;
 
@@ -103,12 +103,12 @@ public class PurchaseIcBillStockEntry {
         this.sourceTypeId = sourceTypeId;
     }
 
-    public String getSourceId() {
-        return sourceId;
+    public Long getIcBSourceId() {
+        return icBSourceId;
     }
 
-    public void setSourceId(String sourceId) {
-        this.sourceId = sourceId == null ? null : sourceId.trim();
+    public void setIcBSourceId(Long icBSourceId) {
+        this.icBSourceId = icBSourceId;
     }
 
     public Long getRneId() {
@@ -143,12 +143,12 @@ public class PurchaseIcBillStockEntry {
         this.quantity = quantity;
     }
 
-    public String geteRemark() {
-        return eRemark;
+    public String getIcBRemark() {
+        return icBRemark;
     }
 
-    public void seteRemark(String eRemark) {
-        this.eRemark = eRemark == null ? null : eRemark.trim();
+    public void setIcBRemark(String icBRemark) {
+        this.icBRemark = icBRemark;
     }
 
     public Integer getRowClosed() {
@@ -173,29 +173,5 @@ public class PurchaseIcBillStockEntry {
 
     public void setDelOrNot(Boolean delOrNot) {
         this.delOrNot = delOrNot;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", sbeId=").append(sbeId);
-        sb.append(", entryId=").append(entryId);
-        sb.append(", sbId=").append(sbId);
-        sb.append(", productId=").append(productId);
-        sb.append(", sourceTypeId=").append(sourceTypeId);
-        sb.append(", sourceId=").append(sourceId);
-        sb.append(", rneId=").append(rneId);
-        sb.append(", reciveWarehouseId=").append(reciveWarehouseId);
-        sb.append(", recivePositionId=").append(recivePositionId);
-        sb.append(", quantity=").append(quantity);
-        sb.append(", eRemark=").append(eRemark);
-        sb.append(", rowClosed=").append(rowClosed);
-        sb.append(", version=").append(version);
-        sb.append(", delOrNot=").append(delOrNot);
-        sb.append("]");
-        return sb.toString();
     }
 }

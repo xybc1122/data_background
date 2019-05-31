@@ -28,4 +28,12 @@ public interface PurchasePoOrderService {
      */
     ResponseBase serviceInsertPoOrder(Map<String, Object> objectMap);
 
+
+    /**
+     * 修改采购订单
+     *
+     * @return
+     */
+    ResponseBase serviceUpdateByPoOrder(Map<String, Object> objectMap);
+
 }

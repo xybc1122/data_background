@@ -29,4 +29,12 @@ public interface PurchasePoOrderEntryService {
      */
     int serviceInsertPoOrderEntry(List<PurchasePoOrderEntry> record);
 
+    /**
+     * 更新采购订单子表
+     *
+     * @param record
+     * @return
+     */
+    int serviceUpdateByPoOrderEntry(PurchasePoOrderEntry record);
+
 }

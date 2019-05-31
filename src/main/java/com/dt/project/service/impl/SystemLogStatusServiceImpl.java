@@ -6,6 +6,7 @@ import com.dt.project.exception.LsException;
 import com.dt.project.mapper.systemMapper.SystemLogStatusMapper;
 import com.dt.project.model.basePublicModel.*;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
+import com.dt.project.model.purchasePo.PurchasePoReceiptNotice;
 import com.dt.project.model.system.SystemInfoCompany;
 import com.dt.project.model.SystemLogStatus;
 import com.dt.project.service.SystemLogStatusService;
@@ -63,8 +64,6 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     @Override
     public ResponseBase msgCodeUp(int result, SystemLogStatus logStatus, Long statusId) {
         if (result != 0) {
-            //删除缓存
-            // redisService.delKey(Constants.STATUS_ID + statusId);
             //更新状态的修改信息
             return serviceUpSysStatusInfo(logStatus, statusId);
         }
@@ -124,13 +123,18 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
             company.setStatusId(logStatus.getStatusId());
             return company;
         } else if (obj instanceof PurchasePoOrder) {
-            //公司页面信息配置表
+            //采购订单配置表
             PurchasePoOrder poOrder = (PurchasePoOrder) obj;
             logStatus = serviceSaveSysStatusInfo(poOrder.getSystemLogStatus());
             poOrder.setStatusId(logStatus.getStatusId());
             return poOrder;
+        } else if (obj instanceof PurchasePoReceiptNotice) {
+            //收货通知单配置表
+            PurchasePoReceiptNotice receiptNotice = (PurchasePoReceiptNotice) obj;
+            logStatus = serviceSaveSysStatusInfo(receiptNotice.getSystemLogStatus());
+            receiptNotice.setStatusId(logStatus.getStatusId());
+            return receiptNotice;
         }
-
         return null;
     }
 }

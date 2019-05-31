@@ -50,7 +50,7 @@ public class PurchasePoOrder extends ParentSysTemLog {
     private Long settlementDate;
 
     private Integer settlementMethodId;
-
+    private String payNo;
     private BigDecimal poAmt;
 
     private BigDecimal inboundAmt;
@@ -99,6 +99,14 @@ public class PurchasePoOrder extends ParentSysTemLog {
      * 一对多对象存储
      */
     private List<PurchasePoOrderEntry> poOrderEntryList;
+
+    public String getPayNo() {
+        return payNo;
+    }
+
+    public void setPayNo(String payNo) {
+        this.payNo = payNo;
+    }
 
     public PurchasePoOrderEntry getPoOrderEntry() {
         return poOrderEntry;

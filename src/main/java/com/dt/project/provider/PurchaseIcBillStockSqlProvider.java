@@ -124,76 +124,64 @@ public class PurchaseIcBillStockSqlProvider {
         return sql.toString();
     }
 
-    public String updateByExampleSelective(Map<String, Object> parameter) {
-        PurchaseIcBillStock record = (PurchaseIcBillStock) parameter.get("record");
-
-        BEGIN();
-        UPDATE("purchase_ic_bill_stock");
+    public String updateByIcBillStock(PurchaseIcBillStock record) {
+        SQL sql = new SQL();
+        sql.UPDATE("purchase_ic_bill_stock");
 
         if (record.getSbId() != null) {
-            SET("sb_id = #{record.sbId,jdbcType=BIGINT}");
+            sql.SET("sb_id = #{record.sbId,jdbcType=BIGINT}");
         }
 
         if (record.getDate() != null) {
-            SET("date = #{record.date,jdbcType=BIGINT}");
+            sql.SET("date = #{record.date,jdbcType=BIGINT}");
         }
 
         if (record.getNo() != null) {
-            SET("no = #{record.no,jdbcType=VARCHAR}");
+            sql.SET("no = #{record.no,jdbcType=VARCHAR}");
         }
 
         if (record.getExplanation() != null) {
-            SET("explanation = #{record.explanation,jdbcType=VARCHAR}");
+            sql.SET("explanation = #{record.explanation,jdbcType=VARCHAR}");
         }
 
         if (record.getDeptId() != null) {
-            SET("dept_id = #{record.deptId,jdbcType=INTEGER}");
+            sql.SET("dept_id = #{record.deptId,jdbcType=INTEGER}");
         }
 
         if (record.getEmpId() != null) {
-            SET("emp_id = #{record.empId,jdbcType=INTEGER}");
+            sql.SET("emp_id = #{record.empId,jdbcType=INTEGER}");
         }
 
         if (record.getMangerId() != null) {
-            SET("manger_id = #{record.mangerId,jdbcType=INTEGER}");
+            sql.SET("manger_id = #{record.mangerId,jdbcType=INTEGER}");
         }
 
         if (record.getChildren() != null) {
-            SET("children = #{record.children,jdbcType=BIT}");
+            sql.SET("children = #{record.children,jdbcType=BIT}");
         }
 
         if (record.getClosed() != null) {
-            SET("closed = #{record.closed,jdbcType=INTEGER}");
+            sql.SET("closed = #{record.closed,jdbcType=INTEGER}");
         }
 
         if (record.getOrderConfirm() != null) {
-            SET("order_confirm = #{record.orderConfirm,jdbcType=INTEGER}");
+            sql.SET("order_confirm = #{record.orderConfirm,jdbcType=INTEGER}");
         }
 
         if (record.getSourceTypeId() != null) {
-            SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
+            sql.SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
         }
 
         if (record.getSourceId() != null) {
-            SET("source_id = #{record.sourceId,jdbcType=BIGINT}");
+            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
         }
 
         if (record.getPrintCount() != null) {
-            SET("print_count = #{record.printCount,jdbcType=INTEGER}");
+            sql.SET("print_count = #{printCount,jdbcType=INTEGER}");
         }
-
-        if (record.getStatusId() != null) {
-            SET("status_id = #{record.statusId,jdbcType=BIGINT}");
-        }
-
-        if (record.getVersion() != null) {
-            SET("version = #{record.version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-        }
-        return SQL();
+        sql.WHERE("sb_id = #{sbId,jdbcType=BIGINT}");
+        ProviderSqlStore.setVersion(sql, record.getVersion());
+        return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {

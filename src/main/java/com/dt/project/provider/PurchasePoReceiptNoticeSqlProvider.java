@@ -15,7 +15,9 @@ import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 import com.dt.project.model.purchasePo.PurchasePoReceiptNotice;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
+
 import java.util.Map;
 
 public class PurchasePoReceiptNoticeSqlProvider {
@@ -46,8 +48,8 @@ public class PurchasePoReceiptNoticeSqlProvider {
             VALUES("date", "#{date,jdbcType=BIGINT}");
         }
 
-        if (record.getRnNo() != null) {
-            VALUES("rn_no", "#{rnNo,jdbcType=VARCHAR}");
+        if (record.getNo() != null) {
+            VALUES("no", "#{no,jdbcType=VARCHAR}");
         }
 
         if (record.getExplanation() != null) {
@@ -112,7 +114,7 @@ public class PurchasePoReceiptNoticeSqlProvider {
     public String selectByPoReceiptNotice(PurchasePoReceiptNotice record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "prn";
-        sql.SELECT("`rn_id`,`date`,`rn_no`,`explanation`,`fetch_add`,`dept_id`,\n" +
+        sql.SELECT("`rn_id`,`date`,`no`,`explanation`,`fetch_add`,`dept_id`,\n" +
                 "`emp_id`,`manger_id`,`children`,`closed`,\n" +
                 "`order_confirm`,`source_type_id`,`source_id`,\n" +
                 "`print_count`," + alias + ".`status_id`," + alias + ".`version`\n" +
@@ -123,80 +125,64 @@ public class PurchasePoReceiptNoticeSqlProvider {
         return sql.toString();
     }
 
-    public String updateByExampleSelective(Map<String, Object> parameter) {
-        PurchasePoReceiptNotice record = (PurchasePoReceiptNotice) parameter.get("record");
+    public String updateByPoReceiptNotice(PurchasePoReceiptNotice record) {
+        SQL sql = new SQL();
+        sql.UPDATE("purchase_po_receipt_notice");
 
-        BEGIN();
-        UPDATE("purchase_po_receipt_notice");
-
-        if (record.getRnId() != null) {
-            SET("rn_id = #{record.rnId,jdbcType=BIGINT}");
-        }
 
         if (record.getDate() != null) {
-            SET("date = #{record.date,jdbcType=BIGINT}");
+            sql.SET("date = #{date,jdbcType=BIGINT}");
+        }
+        if (StringUtils.isNotBlank(record.getNo())) {
+            sql.SET("no = #{no,jdbcType=VARCHAR}");
         }
 
-        if (record.getRnNo() != null) {
-            SET("rn_no = #{record.rnNo,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getExplanation())) {
+            sql.SET("explanation = #{explanation,jdbcType=VARCHAR}");
         }
 
-        if (record.getExplanation() != null) {
-            SET("explanation = #{record.explanation,jdbcType=VARCHAR}");
-        }
-
-        if (record.getFetchAdd() != null) {
-            SET("fetch_add = #{record.fetchAdd,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getFetchAdd())) {
+            sql.SET("fetch_add = #{fetchAdd,jdbcType=VARCHAR}");
         }
 
         if (record.getDeptId() != null) {
-            SET("dept_id = #{record.deptId,jdbcType=INTEGER}");
+            sql.SET("dept_id = #{deptId,jdbcType=INTEGER}");
         }
 
         if (record.getEmpId() != null) {
-            SET("emp_id = #{record.empId,jdbcType=INTEGER}");
+            sql.SET("emp_id = #{empId,jdbcType=INTEGER}");
         }
 
         if (record.getMangerId() != null) {
-            SET("manger_id = #{record.mangerId,jdbcType=INTEGER}");
+            sql.SET("manger_id = #{mangerId,jdbcType=INTEGER}");
         }
 
         if (record.getChildren() != null) {
-            SET("children = #{record.children,jdbcType=BIT}");
+            sql.SET("children = #{children,jdbcType=BIT}");
         }
 
         if (record.getClosed() != null) {
-            SET("closed = #{record.closed,jdbcType=INTEGER}");
+            sql.SET("closed = #{closed,jdbcType=INTEGER}");
         }
 
         if (record.getOrderConfirm() != null) {
-            SET("order_confirm = #{record.orderConfirm,jdbcType=INTEGER}");
+            sql.SET("order_confirm = #{orderConfirm,jdbcType=INTEGER}");
         }
 
         if (record.getSourceTypeId() != null) {
-            SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
+            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
         }
 
         if (record.getSourceId() != null) {
-            SET("source_id = #{record.sourceId,jdbcType=BIGINT}");
+            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
         }
 
         if (record.getPrintCount() != null) {
-            SET("print_count = #{record.printCount,jdbcType=INTEGER}");
+            sql.SET("print_count = #{printCount,jdbcType=INTEGER}");
         }
-
-        if (record.getStatusId() != null) {
-            SET("status_id = #{record.statusId,jdbcType=BIGINT}");
-        }
-
-        if (record.getVersion() != null) {
-            SET("version = #{record.version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-        }
-        return SQL();
+        sql.WHERE("rn_id = #{rnId,jdbcType=BIGINT}");
+        ProviderSqlStore.setVersion(sql, record.getVersion());
+        return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {

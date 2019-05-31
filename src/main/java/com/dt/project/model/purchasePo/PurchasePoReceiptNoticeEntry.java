@@ -6,6 +6,9 @@ import com.dt.project.model.parent.ParentSysTemLog;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * 收货通知单表体
+ */
 public class PurchasePoReceiptNoticeEntry {
     private Long rneId;
 
@@ -17,7 +20,7 @@ public class PurchasePoReceiptNoticeEntry {
 
     private Long sourceTypeId;
 
-    private String sourceId;
+    private Long sourceId;
 
     private Long poeId;
 
@@ -128,12 +131,12 @@ public class PurchasePoReceiptNoticeEntry {
         this.sourceTypeId = sourceTypeId;
     }
 
-    public String getSourceId() {
+    public Long getSourceId() {
         return sourceId;
     }
 
-    public void setSourceId(String sourceId) {
-        this.sourceId = sourceId == null ? null : sourceId.trim();
+    public void setSourceId(Long sourceId) {
+        this.sourceId = sourceId;
     }
 
     public Long getPoeId() {

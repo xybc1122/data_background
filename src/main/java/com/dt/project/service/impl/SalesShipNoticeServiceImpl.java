@@ -14,10 +14,7 @@ import com.dt.project.service.basePublicService.BasicSalesAmazonPaymentTypeServi
 import com.dt.project.service.salesAmazonService.SalesShipNoticeEntryService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeService;
 import com.dt.project.toos.Constants;
-import com.dt.project.utils.JsonUtils;
-import com.dt.project.utils.ListUtils;
-import com.dt.project.utils.PageInfoUtils;
-import com.dt.project.utils.ReqUtils;
+import com.dt.project.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,8 +38,6 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
     private SalesShipNoticeEntryService nEService;
     @Autowired
     private RedisService redisService;
-    @Autowired
-    private GeneralPurposeService gPService;
 
     @Override
     @SuppressWarnings("unchecked")  //(HashMap<String, Object>) result.getData(); 确认是这类型
@@ -94,9 +89,7 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
     public ResponseBase saveNotice(Map<String, Object> noMap) {
         Object salesShipNoticeObj = noMap.get("salesShipNotice");
         Object salesShipNoticeEntryObj = noMap.get("salesShipNoticeEntry");
-        if (salesShipNoticeObj == null || salesShipNoticeEntryObj == null) {
-            return JsonData.setResultError("error");
-        }
+        ObjUtils.isObjNull(salesShipNoticeObj, salesShipNoticeEntryObj);
         String identifier = null;
         try {
             identifier = redisService.lockRedis(Constants.SAVE_SHIP_NOTICE, 5000L, 20000L);
@@ -133,8 +126,9 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
             if (ListUtils.isRepeat(listSkuId)) {
                 throw new LsException("表体数据SKU重复");
             }
-
-            nEService.insertShipNoticeEntry(shipNoticeEntryList);
+            if (shipNoticeEntryList.size() > 0) {
+                nEService.insertShipNoticeEntry(shipNoticeEntryList);
+            }
             return JsonData.setResultSuccess("success");
         } finally {
             if (StringUtils.isNotBlank(identifier)) {
@@ -143,21 +137,6 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
         }
     }
 
-    @Override
-    @Transactional
-    public ResponseBase serviceDeleteByShipNoticeAndNoticeEntry(Map<String, List<Integer>> objectMap) {
-        List<Integer> delShipNoticeObj = objectMap.get("shipNoticeId");
-        List<Integer> delShipNoticeEntryObj = objectMap.get("entryId");
-        //删除父表
-        Map<String, List<Integer>> thisMap = gPService.delParent(delShipNoticeObj, "sales_ship_notice",
-                "ship_notice_id", "`sales_ship_notice_entry`");
-        if (delShipNoticeEntryObj != null && delShipNoticeEntryObj.size() > 0) {
-            //删除子表
-            gPService.serviceDeleteByGeneral(delShipNoticeEntryObj, "sales_ship_notice_entry", "e_id");
-        }
-        return JsonData.setResultSuccess("success", thisMap);
-
-    }
 
     @Override
     @Transactional
@@ -173,10 +152,19 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
         JsonUtils.saveResult(result);
         //拿到出库通知单的表体数据
         JSONArray noticeEntryArr = JsonUtils.getJsonArr(salesShipNoticeEntryObj);
+        List<SalesShipNoticeEntry> salesShipNoticeEntries = new ArrayList<>();
         for (Object obj : noticeEntryArr) {
             SalesShipNoticeEntry shipNoticeEntry = (SalesShipNoticeEntry) JsonUtils.objConversion(obj, SalesShipNoticeEntry.class);
-            int i = nEService.serviceUpdateByNoticeEntry(shipNoticeEntry);
-            JsonUtils.saveResult(i);
+            //如果是NULL新增数据
+            if (shipNoticeEntry.getEid() == null) {
+                shipNoticeEntry.setShipNoticeId(salesShipNotice.getShipNoticeId());
+                salesShipNoticeEntries.add(shipNoticeEntry);
+            } else {
+                nEService.serviceUpdateByNoticeEntry(shipNoticeEntry);
+            }
+        }
+        if (salesShipNoticeEntries.size() > 0) {
+            nEService.insertShipNoticeEntry(salesShipNoticeEntries);
         }
         return JsonData.setResultSuccess("success");
     }

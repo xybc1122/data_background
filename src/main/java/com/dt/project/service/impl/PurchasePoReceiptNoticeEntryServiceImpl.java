@@ -4,6 +4,7 @@ import com.dt.project.mapper.purchaseMapper.PurchasePoReceiptNoticeEntryMapper;
 import com.dt.project.model.purchasePo.PurchasePoReceiptNoticeEntry;
 import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.service.purchaseService.PurchasePoReceiptNoticeEntryService;
+import com.dt.project.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,19 @@ public class PurchasePoReceiptNoticeEntryServiceImpl implements PurchasePoReceip
     public List<PurchasePoReceiptNoticeEntry> serviceSelectByPRNoticeEntry(PurchasePoReceiptNoticeEntry record) {
         record.setJavaSqlName(nameService.get("pNoticeEntry"));
         return receiptNoticeEntryMapper.selectByPRNoticeEntry(record);
+    }
+
+    @Override
+    public int serviceInsertReceiptNoticeEntry(List<PurchasePoReceiptNoticeEntry> record) {
+        int i = receiptNoticeEntryMapper.insertReceiptNoticeEntry(record);
+        JsonUtils.saveResult(i);
+        return i;
+    }
+
+    @Override
+    public int serviceUpdateByReceiptNoticeEntry(PurchasePoReceiptNoticeEntry record) {
+        int i = receiptNoticeEntryMapper.updateByReceiptNoticeEntry(record);
+        JsonUtils.saveResult(i);
+        return i;
     }
 }

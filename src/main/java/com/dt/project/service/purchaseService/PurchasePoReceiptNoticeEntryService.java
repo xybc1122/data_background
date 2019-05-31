@@ -20,4 +20,23 @@ public interface PurchasePoReceiptNoticeEntryService {
      */
     List<PurchasePoReceiptNoticeEntry> serviceSelectByPRNoticeEntry(PurchasePoReceiptNoticeEntry record);
 
+
+    /**
+     * 批量新增收货通知单子表数据
+     *
+     * @param record
+     * @return
+     */
+    int serviceInsertReceiptNoticeEntry(List<PurchasePoReceiptNoticeEntry> record);
+
+
+    /**
+     * 修改收货通知单子表数据
+     *
+     * @param record
+     * @return
+     */
+    int serviceUpdateByReceiptNoticeEntry(PurchasePoReceiptNoticeEntry record);
+
+
 }

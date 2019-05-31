@@ -20,14 +20,24 @@ public interface Constants {
             new ConcurrentHashMap<String, WebSocketServerHandshaker>();
 
     /**
-     * 设置出库通知单
+     * 设置出库通知单 key
      */
     String SAVE_SHIP_NOTICE = "save_shipNotice";
 
     /**
-     * 设置出库通知单
+     * 设置采购订单 key
      */
-    String SAVE_PURCHASE_POORDER = "save_purchasePoOrder";
+    String SAVE_PURCHASE_PO_ORDER = "save_purchasePoOrder";
+
+    /**
+     * 设置收货通知单 key
+     */
+    String SAVE_PURCHASE_RECEIPT_NOTICE = "save_purchase_receipt_notice";
+
+    /**
+     * 设置外购入库 KEY
+     */
+    String SAVE_PURCHASE_ICB_STOCK = "save_purchase_icb_stock";
     /**
      * token
      */

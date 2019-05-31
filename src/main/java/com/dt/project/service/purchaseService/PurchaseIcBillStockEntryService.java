@@ -19,4 +19,13 @@ public interface PurchaseIcBillStockEntryService {
      * @return
      */
     List<PurchaseIcBillStockEntry> serviceSelectByIcBillStockEntry(PurchaseIcBillStockEntry record);
+
+
+    /**
+     * 批量新增外购出库单表体
+     *
+     * @param record
+     * @return
+     */
+    int serviceInsertIcBillStockEntry(List<PurchaseIcBillStockEntry> record);
 }

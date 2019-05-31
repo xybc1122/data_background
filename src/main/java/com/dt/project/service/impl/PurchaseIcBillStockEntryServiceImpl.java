@@ -4,6 +4,7 @@ import com.dt.project.mapper.purchaseMapper.PurchaseIcBillStockEntryMapper;
 import com.dt.project.model.purchasePo.PurchaseIcBillStockEntry;
 import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.service.purchaseService.PurchaseIcBillStockEntryService;
+import com.dt.project.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +27,12 @@ public class PurchaseIcBillStockEntryServiceImpl implements PurchaseIcBillStockE
     public List<PurchaseIcBillStockEntry> serviceSelectByIcBillStockEntry(PurchaseIcBillStockEntry record) {
         record.setJavaSqlName(nameService.get("icBillEntry"));
         return icBillStockEntryMapper.selectByIcBillStockEntry(record);
+    }
+
+    @Override
+    public int serviceInsertIcBillStockEntry(List<PurchaseIcBillStockEntry> record) {
+        int i = icBillStockEntryMapper.insertIcBillStockEntry(record);
+        JsonUtils.saveResult(i);
+        return i;
     }
 }

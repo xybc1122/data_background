@@ -4,16 +4,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.purchaseMapper.PurchasePoOrderMapper;
-import com.dt.project.model.basePublicModel.BasicPublicWarehouse;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
-import com.dt.project.oa.service.ActivitiService;
 import com.dt.project.service.SystemLogStatusService;
 import com.dt.project.service.purchaseService.PurchasePoOrderEntryService;
 import com.dt.project.service.purchaseService.PurchasePoOrderService;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.JsonUtils;
 import com.dt.project.utils.ListUtils;
+import com.dt.project.utils.ObjUtils;
 import com.dt.project.utils.PageInfoUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,12 +82,10 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
     public ResponseBase serviceInsertPoOrder(Map<String, Object> objectMap) {
         Object purchasePoOrderObj = objectMap.get("purchasePoOrder");
         Object purchasePoOrderEntryObj = objectMap.get("purchasePoOrderEntry");
-        if (purchasePoOrderObj == null || purchasePoOrderEntryObj == null) {
-            return JsonData.setResultError("error");
-        }
+        ObjUtils.isObjNull(purchasePoOrderObj, purchasePoOrderEntryObj);
         String identifier = null;
         try {
-            identifier = redisService.lockRedis(Constants.SAVE_PURCHASE_POORDER, 5000L, 20000L);
+            identifier = redisService.lockRedis(Constants.SAVE_PURCHASE_PO_ORDER, 5000L, 20000L);
             if (StringUtils.isEmpty(identifier)) {
                 return JsonData.setResultError("请等待有人正在操作");
             }
@@ -106,15 +103,51 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
                 poOrderEntry.setPoId(poId);
                 poOrderEntryList.add(poOrderEntry);
             }
-            //插入数据库
-            poOrderEntryService.serviceInsertPoOrderEntry(poOrderEntryList);
+            if (poOrderEntryList.size() > 0) {
+                //插入数据库
+                poOrderEntryService.serviceInsertPoOrderEntry(poOrderEntryList);
+            }
             return JsonData.setResultSuccess("success");
         } finally {
             if (StringUtils.isNotBlank(identifier)) {
-                redisService.releaseLock(Constants.SAVE_PURCHASE_POORDER, identifier);
+                redisService.releaseLock(Constants.SAVE_PURCHASE_PO_ORDER, identifier);
             }
         }
     }
 
 
+    @Override
+    @Transactional
+    public ResponseBase serviceUpdateByPoOrder(Map<String, Object> objectMap) {
+        Object purchasePoOrderObj = objectMap.get("purchasePoOrder");
+        Object purchasePoOrderEntryObj = objectMap.get("purchasePoOrderEntry");
+        if (purchasePoOrderEntryObj == null) {
+            return JsonData.setResultError("error");
+        }
+        //拿到最外层采购订单数据
+        PurchasePoOrder purchasePoOrder = (PurchasePoOrder)
+                JsonUtils.objConversion(purchasePoOrderObj, PurchasePoOrder.class);
+        int result = poOrderMapper.updateByPoOrder(purchasePoOrder);
+        JsonUtils.saveResult(result);
+        //拿到采购订单表体数据
+        JSONArray objects = JsonUtils.getJsonArr(purchasePoOrderEntryObj);
+        List<PurchasePoOrderEntry> poOrderEntryList = new ArrayList<>();
+        for (Object obj : objects) {
+            PurchasePoOrderEntry poOrderEntry = (PurchasePoOrderEntry) JsonUtils.objConversion(obj, PurchasePoOrderEntry.class);
+            //如果是NULL新增数据
+            if (poOrderEntry.getPoeId() == null) {
+                poOrderEntry.setPoId(purchasePoOrder.getPoId());
+                poOrderEntryList.add(poOrderEntry);
+            } else {
+                //更新子表数据
+                poOrderEntryService.serviceUpdateByPoOrderEntry(poOrderEntry);
+            }
+        }
+        if (poOrderEntryList.size() > 0) {
+            //新增数据库
+            poOrderEntryService.serviceInsertPoOrderEntry(poOrderEntryList);
+        }
+        //通用更新消息
+        return logStatusService.msgCodeUp(result, purchasePoOrder.getSystemLogStatus(), purchasePoOrder.getStatusId());
+    }
 }

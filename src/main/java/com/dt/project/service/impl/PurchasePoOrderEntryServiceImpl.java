@@ -35,4 +35,11 @@ public class PurchasePoOrderEntryServiceImpl implements PurchasePoOrderEntryServ
         JsonUtils.saveResult(i);
         return i;
     }
+
+    @Override
+    public int serviceUpdateByPoOrderEntry(PurchasePoOrderEntry record) {
+        int i = poOrderEntryMapper.updateByPoOrderEntry(record);
+        JsonUtils.saveResult(i);
+        return i;
+    }
 }

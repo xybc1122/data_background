@@ -15,6 +15,7 @@ import com.dt.project.store.FieldStore;
 import com.dt.project.utils.StrUtils;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
 import java.util.Map;
 
 public class PurchaseIcBillStockEntrySqlProvider {
@@ -32,67 +33,24 @@ public class PurchaseIcBillStockEntrySqlProvider {
         return SQL();
     }
 
-    public String insertSelective(PurchaseIcBillStockEntry record) {
-        BEGIN();
-        INSERT_INTO("purchase_ic_bill_stock_entry");
-
-        if (record.getSbeId() != null) {
-            VALUES("sbe_id", "#{sbeId,jdbcType=BIGINT}");
+    public String insertIcBillStockEntry(Map<String, List<PurchaseIcBillStockEntry>> objectMap) {
+        List<PurchaseIcBillStockEntry> icBillStockEntryList = objectMap.get("IcBillStockEntryList");
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO `purchase_ic_bill_stock_entry`\n" +
+                "(`entry_id`,`sb_id`,`product_id`,`source_type_id`,\n" +
+                "`source_id`,`rne_id`,`recive_warehouse_id`,`recive_position_id`,\n" +
+                "`quantity`,`e_remark`, `row_closed`)value");
+        for (PurchaseIcBillStockEntry icBillStockEntry : icBillStockEntryList) {
+            sb.append("(").append(icBillStockEntry.getEntryId()).append(",").append(icBillStockEntry.getSbId()).append(",")
+                    .append(icBillStockEntry.getProductId()).append(",").append(icBillStockEntry.getSourceTypeId())
+                    .append(",").append(icBillStockEntry.getIcBSourceId()).append(",").append(icBillStockEntry.getRneId()).append(",").append(icBillStockEntry.getReciveWarehouseId()).
+                    append(",").append(icBillStockEntry.getRecivePositionId()).append(",").append(icBillStockEntry.getQuantity())
+                    .append(",");
+            StrUtils.appBuider(sb, icBillStockEntry.getIcBRemark());
+            sb.append(",").append(icBillStockEntry.getRowClosed());
+            sb.append("),");
         }
-
-        if (record.getEntryId() != null) {
-            VALUES("entry_id", "#{entryId,jdbcType=INTEGER}");
-        }
-
-        if (record.getSbId() != null) {
-            VALUES("sb_id", "#{sbId,jdbcType=BIGINT}");
-        }
-
-        if (record.getProductId() != null) {
-            VALUES("product_id", "#{productId,jdbcType=INTEGER}");
-        }
-
-        if (record.getSourceTypeId() != null) {
-            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSourceId() != null) {
-            VALUES("source_id", "#{sourceId,jdbcType=VARCHAR}");
-        }
-
-        if (record.getRneId() != null) {
-            VALUES("rne_id", "#{rneId,jdbcType=BIGINT}");
-        }
-
-        if (record.getReciveWarehouseId() != null) {
-            VALUES("recive_warehouse_id", "#{reciveWarehouseId,jdbcType=BIGINT}");
-        }
-
-        if (record.getRecivePositionId() != null) {
-            VALUES("recive_position_id", "#{recivePositionId,jdbcType=BIGINT}");
-        }
-
-        if (record.getQuantity() != null) {
-            VALUES("quantity", "#{quantity,jdbcType=DECIMAL}");
-        }
-
-        if (record.geteRemark() != null) {
-            VALUES("e_remark", "#{eRemark,jdbcType=VARCHAR}");
-        }
-
-        if (record.getRowClosed() != null) {
-            VALUES("row_closed", "#{rowClosed,jdbcType=INTEGER}");
-        }
-
-        if (record.getVersion() != null) {
-            VALUES("version", "#{version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            VALUES("del_or_not", "#{delOrNot,jdbcType=BIT}");
-        }
-
-        return SQL();
+        return sb.toString().substring(0, sb.length() - 1);
     }
 
     public String selectByIcBillStockEntry(PurchaseIcBillStockEntry record) throws IllegalAccessException {
@@ -137,8 +95,8 @@ public class PurchaseIcBillStockEntrySqlProvider {
             SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
         }
 
-        if (record.getSourceId() != null) {
-            SET("source_id = #{record.sourceId,jdbcType=VARCHAR}");
+        if (record.getIcBSourceId() != null) {
+            SET("source_id = #{icBSourceId,jdbcType=VARCHAR}");
         }
 
         if (record.getRneId() != null) {
@@ -157,8 +115,8 @@ public class PurchaseIcBillStockEntrySqlProvider {
             SET("quantity = #{record.quantity,jdbcType=DECIMAL}");
         }
 
-        if (record.geteRemark() != null) {
-            SET("e_remark = #{record.eRemark,jdbcType=VARCHAR}");
+        if (record.getIcBRemark() != null) {
+            SET("e_remark = #{record.icBRemark,jdbcType=VARCHAR}");
         }
 
         if (record.getRowClosed() != null) {

@@ -78,9 +78,14 @@ public interface PurchasePoOrderMapper {
     })
     List<PurchasePoOrder> selectByPoOrder(PurchasePoOrder record);
 
-
-    @UpdateProvider(type = PurchasePoOrderSqlProvider.class, method = "updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") PurchasePoOrder record);
+    /**
+     * 修改采购订单外表
+     *
+     * @param record
+     * @return
+     */
+    @UpdateProvider(type = PurchasePoOrderSqlProvider.class, method = "updateByPoOrder")
+    int updateByPoOrder(PurchasePoOrder record);
 
     @UpdateProvider(type = PurchasePoOrderSqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") PurchasePoOrder record);

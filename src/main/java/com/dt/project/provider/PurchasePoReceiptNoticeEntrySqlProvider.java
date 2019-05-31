@@ -14,8 +14,10 @@ import com.dt.project.model.purchasePo.PurchasePoReceiptNoticeEntry;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.utils.StrUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
 import java.util.Map;
 
 public class PurchasePoReceiptNoticeEntrySqlProvider {
@@ -33,79 +35,27 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
         return SQL();
     }
 
-    public String insertSelective(PurchasePoReceiptNoticeEntry record) {
-        BEGIN();
-        INSERT_INTO("purchase_po_receipt_notice_entry");
-
-        if (record.getRneId() != null) {
-            VALUES("rne_id", "#{rneId,jdbcType=BIGINT}");
+    public String insertReceiptNoticeEntry(Map<String, List<PurchasePoReceiptNoticeEntry>> objectMap) {
+        List<PurchasePoReceiptNoticeEntry> receiptNoticeEntryList = objectMap.get("poReceiptNoticeEntryList");
+        StringBuilder sb = new StringBuilder();
+        sb.append("insert into purchase_po_receipt_notice_entry" +
+                "(entry_id,rn_id, product_id, source_type_id, source_id, poe_id, delivery_date, " +
+                "recive_warehouse_id, recive_position_id,quantity, transport_company_id, " +
+                "tracking_number, e_remark, row_closed) value");
+        for (PurchasePoReceiptNoticeEntry receiptNoticeEntry : receiptNoticeEntryList) {
+            sb.append("(").append(receiptNoticeEntry.getEntryId()).append(",").append(receiptNoticeEntry.getRnId()).append(",")
+                    .append(receiptNoticeEntry.getProductId()).append(",").append(receiptNoticeEntry.getSourceTypeId()).append(",")
+                    .append(receiptNoticeEntry.getSourceId())
+                    .append(",").append(receiptNoticeEntry.getPoeId()).append(",").append(receiptNoticeEntry.getDeliveryDate()).append(",")
+                    .append(receiptNoticeEntry.getReciveWarehouseId()).append(",").append(receiptNoticeEntry.getRecivePositionId()).append(",")
+                    .append(receiptNoticeEntry.getQuantity()).append(",").append(receiptNoticeEntry.getTransportCompanyId()).append(",");
+            StrUtils.appBuider(sb, receiptNoticeEntry.getTrackingNumber());
+            sb.append(",");
+            StrUtils.appBuider(sb, receiptNoticeEntry.getRneRemark());
+            sb.append(",").append(receiptNoticeEntry.getRowClosed());
+            sb.append("),");
         }
-
-        if (record.getEntryId() != null) {
-            VALUES("entry_id", "#{entryId,jdbcType=INTEGER}");
-        }
-
-        if (record.getRnId() != null) {
-            VALUES("rn_id", "#{rnId,jdbcType=BIGINT}");
-        }
-
-        if (record.getProductId() != null) {
-            VALUES("product_id", "#{productId,jdbcType=INTEGER}");
-        }
-
-        if (record.getSourceTypeId() != null) {
-            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSourceId() != null) {
-            VALUES("source_id", "#{sourceId,jdbcType=VARCHAR}");
-        }
-
-        if (record.getPoeId() != null) {
-            VALUES("poe_id", "#{poeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getDeliveryDate() != null) {
-            VALUES("delivery_date", "#{deliveryDate,jdbcType=BIGINT}");
-        }
-
-        if (record.getReciveWarehouseId() != null) {
-            VALUES("recive_warehouse_id", "#{reciveWarehouseId,jdbcType=BIGINT}");
-        }
-
-        if (record.getRecivePositionId() != null) {
-            VALUES("recive_position_id", "#{recivePositionId,jdbcType=BIGINT}");
-        }
-
-        if (record.getQuantity() != null) {
-            VALUES("quantity", "#{quantity,jdbcType=DECIMAL}");
-        }
-
-        if (record.getTransportCompanyId() != null) {
-            VALUES("transport_company_id", "#{transportCompanyId,jdbcType=BIGINT}");
-        }
-
-        if (record.getRneRemark() != null) {
-            VALUES("rne_remark", "#{rneRemark,jdbcType=VARCHAR}");
-        }
-
-        if (record.getRowClosed() != null) {
-            VALUES("row_closed", "#{rowClosed,jdbcType=INTEGER}");
-        }
-//
-//        if (record.getStatusId() != null) {
-//            VALUES("status_id", "#{statusId,jdbcType=BIGINT}");
-//        }
-
-        if (record.getVersion() != null) {
-            VALUES("version", "#{version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            VALUES("del_or_not", "#{delOrNot,jdbcType=BIT}");
-        }
-
-        return SQL();
+        return sb.toString().substring(0, sb.length() - 1);
     }
 
     public String selectByPRNoticeEntry(PurchasePoReceiptNoticeEntry record) throws IllegalAccessException {
@@ -127,80 +77,68 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
         return sql.toString();
     }
 
-    public String updateByExampleSelective(Map<String, Object> parameter) {
-        PurchasePoReceiptNoticeEntry record = (PurchasePoReceiptNoticeEntry) parameter.get("record");
+    public String updateByReceiptNoticeEntry(PurchasePoReceiptNoticeEntry record) {
+        SQL sql = new SQL();
 
-
-        BEGIN();
-        UPDATE("purchase_po_receipt_notice_entry");
-
-        if (record.getRneId() != null) {
-            SET("rne_id = #{record.rneId,jdbcType=BIGINT}");
-        }
+        sql.UPDATE("purchase_po_receipt_notice_entry");
 
         if (record.getEntryId() != null) {
-            SET("entry_id = #{record.entryId,jdbcType=INTEGER}");
+            sql.SET("entry_id = #{entryId,jdbcType=INTEGER}");
         }
 
         if (record.getRnId() != null) {
-            SET("rn_id = #{record.rnId,jdbcType=BIGINT}");
+            sql.SET("rn_id = #{rnId,jdbcType=BIGINT}");
         }
 
         if (record.getProductId() != null) {
-            SET("product_id = #{record.productId,jdbcType=INTEGER}");
+            sql.SET("product_id = #{productId,jdbcType=INTEGER}");
         }
 
         if (record.getSourceTypeId() != null) {
-            SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
+            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
         }
 
         if (record.getSourceId() != null) {
-            SET("source_id = #{record.sourceId,jdbcType=VARCHAR}");
+            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
         }
 
         if (record.getPoeId() != null) {
-            SET("poe_id = #{record.poeId,jdbcType=BIGINT}");
+            sql.SET("poe_id = #{poeId,jdbcType=BIGINT}");
         }
 
         if (record.getDeliveryDate() != null) {
-            SET("delivery_date = #{record.deliveryDate,jdbcType=BIGINT}");
+            sql.SET("delivery_date = #{deliveryDate,jdbcType=BIGINT}");
         }
 
         if (record.getReciveWarehouseId() != null) {
-            SET("recive_warehouse_id = #{record.reciveWarehouseId,jdbcType=BIGINT}");
+            sql.SET("recive_warehouse_id = #{reciveWarehouseId,jdbcType=BIGINT}");
         }
 
         if (record.getRecivePositionId() != null) {
-            SET("recive_position_id = #{record.recivePositionId,jdbcType=BIGINT}");
+            sql.SET("recive_position_id = #{recivePositionId,jdbcType=BIGINT}");
         }
 
         if (record.getQuantity() != null) {
-            SET("quantity = #{record.quantity,jdbcType=DECIMAL}");
+            sql.SET("quantity = #{quantity,jdbcType=DECIMAL}");
         }
 
         if (record.getTransportCompanyId() != null) {
-            SET("transport_company_id = #{record.transportCompanyId,jdbcType=BIGINT}");
+            sql.SET("transport_company_id = #{transportCompanyId,jdbcType=BIGINT}");
         }
 
+        if (StringUtils.isNotBlank(record.getTrackingNumber())) {
+            sql.SET("tracking_number = #{trackingNumber,jdbcType=VARCHAR}");
+        }
 
-        if (record.getRneRemark() != null) {
-            SET("rne_remark = #{record.rneRemark,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getRneRemark())) {
+            sql.SET("e_remark = #{eRemark,jdbcType=VARCHAR}");
         }
 
         if (record.getRowClosed() != null) {
-            SET("row_closed = #{record.rowClosed,jdbcType=INTEGER}");
+            sql.SET("row_closed = #{rowClosed,jdbcType=INTEGER}");
         }
-
-        if (record.getVersion() != null) {
-            SET("version = #{record.version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-        }
-
-
-        return SQL();
+        ProviderSqlStore.setVersion(sql, record.getVersion());
+        return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {

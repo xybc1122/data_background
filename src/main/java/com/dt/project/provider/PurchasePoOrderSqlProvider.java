@@ -13,6 +13,7 @@ import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -213,164 +214,147 @@ public class PurchasePoOrderSqlProvider {
         return sql.toString();
     }
 
-    public String updateByExampleSelective(Map<String, Object> parameter) {
-        PurchasePoOrder record = (PurchasePoOrder) parameter.get("record");
-
-
-        BEGIN();
-        UPDATE("purchase_po_order");
-
-        if (record.getPoId() != null) {
-            SET("po_id = #{record.poId,jdbcType=BIGINT}");
-        }
-
+    public String updateByPoOrder(PurchasePoOrder record) {
+        SQL sql = new SQL();
+        sql.UPDATE("purchase_po_order");
         if (record.getDate() != null) {
-            SET("date = #{record.date,jdbcType=BIGINT}");
+            sql.SET("date = #{date,jdbcType=BIGINT}");
         }
 
-        if (record.getPoNo() != null) {
-            SET("po_no = #{record.poNo,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getNo())) {
+            sql.SET("no = #{no,jdbcType=VARCHAR}");
         }
 
         if (record.getPoStyleId() != null) {
-            SET("po_style_id = #{record.poStyleId,jdbcType=INTEGER}");
+            sql.SET("po_style_id = #{poStyleId,jdbcType=INTEGER}");
         }
 
-        if (record.getExplanation() != null) {
-            SET("explanation = #{record.explanation,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getExplanation())) {
+            sql.SET("explanation = #{explanation,jdbcType=VARCHAR}");
         }
 
-        if (record.getFetchAdd() != null) {
-            SET("fetch_add = #{record.fetchAdd,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getFetchAdd())) {
+            sql.SET("fetch_add = #{fetchAdd,jdbcType=VARCHAR}");
         }
 
         if (record.getCurrencyId() != null) {
-            SET("currency_id = #{record.currencyId,jdbcType=INTEGER}");
+            sql.SET("currency_id = #{currencyId,jdbcType=INTEGER}");
         }
 
         if (record.getDeptId() != null) {
-            SET("dept_id = #{record.deptId,jdbcType=INTEGER}");
+            sql.SET("dept_id = #{deptId,jdbcType=INTEGER}");
         }
 
         if (record.getEmpId() != null) {
-            SET("emp_id = #{record.empId,jdbcType=INTEGER}");
+            sql.SET("emp_id = #{empId,jdbcType=INTEGER}");
         }
 
         if (record.getMangerId() != null) {
-            SET("manger_id = #{record.mangerId,jdbcType=INTEGER}");
+            sql.SET("manger_id = #{mangerId,jdbcType=INTEGER}");
         }
 
         if (record.getExchangeRate() != null) {
-            SET("exchange_rate = #{record.exchangeRate,jdbcType=DECIMAL}");
+            sql.SET("exchange_rate = #{exchangeRate,jdbcType=DECIMAL}");
         }
 
         if (record.getChildren() != null) {
-            SET("children = #{record.children,jdbcType=BIT}");
+            sql.SET("children = #{children,jdbcType=BIT}");
         }
 
         if (record.getClosed() != null) {
-            SET("closed = #{record.closed,jdbcType=INTEGER}");
+            sql.SET("closed = #{closed,jdbcType=INTEGER}");
         }
 
         if (record.getSupplierId() != null) {
-            SET("supplier_id = #{record.supplierId,jdbcType=INTEGER}");
+            sql.SET("supplier_id = #{supplierId,jdbcType=INTEGER}");
         }
 
-        if (record.getContactPerson() != null) {
-            SET("contact_person = #{record.contactPerson,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getContactPerson())) {
+            sql.SET("contact_person = #{contactPerson,jdbcType=VARCHAR}");
         }
 
-        if (record.getTelPhone() != null) {
-            SET("tel_phone = #{record.telPhone,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getTelPhone())) {
+            sql.SET("tel_phone = #{telPhone,jdbcType=VARCHAR}");
         }
 
-        if (record.getPrePayNo() != null) {
-            SET("pre_pay_no = #{record.prePayNo,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getPrePayNo())) {
+            sql.SET("pre_pay_no = #{prePayNo,jdbcType=VARCHAR}");
         }
 
         if (record.getPrePayAmt() != null) {
-            SET("pre_pay_amt = #{record.prePayAmt,jdbcType=DECIMAL}");
+            sql.SET("pre_pay_amt = #{prePayAmt,jdbcType=DECIMAL}");
         }
 
         if (record.getClassTypeId() != null) {
-            SET("class_type_id = #{record.classTypeId,jdbcType=INTEGER}");
+            sql.SET("class_type_id = #{classTypeId,jdbcType=INTEGER}");
         }
 
         if (record.getSettlementDate() != null) {
-            SET("settlement_date = #{record.settlementDate,jdbcType=BIGINT}");
+            sql.SET("settlement_date = #{settlementDate,jdbcType=BIGINT}");
         }
 
         if (record.getSettlementMethodId() != null) {
-            SET("settlement_method_id = #{record.settlementMethodId,jdbcType=INTEGER}");
+            sql.SET("settlement_method_id = #{settlementMethodId,jdbcType=INTEGER}");
         }
 
         if (record.getPoAmt() != null) {
-            SET("po_amt = #{record.poAmt,jdbcType=DECIMAL}");
+            sql.SET("po_amt = #{poAmt,jdbcType=DECIMAL}");
         }
 
         if (record.getInboundAmt() != null) {
-            SET("inbound_amt = #{record.inboundAmt,jdbcType=DECIMAL}");
+            sql.SET("inbound_amt = #{inboundAmt,jdbcType=DECIMAL}");
         }
-//
-//        if (record.getInvoiceCompanyId() != null) {
-//            SET("invoice_company_id = #{record.invoiceCompanyId,jdbcType=INTEGER}");
-//        }
+
+        if (record.getCompanyId() != null) {
+            sql.SET("company_id = #{companyId,jdbcType=INTEGER}");
+        }
 
         if (record.getInvoiceTypeId() != null) {
-            SET("invoice_type_id = #{record.invoiceTypeId,jdbcType=INTEGER}");
+            sql.SET("invoice_type_id = #{invoiceTypeId,jdbcType=INTEGER}");
         }
-//
-//        if (record.getPayNo() != null) {
-//            SET("pay_no = #{record.payNo,jdbcType=VARCHAR}");
-//        }
+
+        if (record.getPayNo() != null) {
+            sql.SET("pay_no = #{payNo,jdbcType=VARCHAR}");
+        }
 
         if (record.getPayAmt() != null) {
-            SET("pay_amt = #{record.payAmt,jdbcType=DECIMAL}");
+            sql.SET("pay_amt = #{payAmt,jdbcType=DECIMAL}");
         }
 
         if (record.getEraseAmt() != null) {
-            SET("erase_amt = #{record.eraseAmt,jdbcType=DECIMAL}");
+            sql.SET("erase_amt = #{eraseAmt,jdbcType=DECIMAL}");
         }
 
         if (record.getTranType() != null) {
-            SET("tran_type = #{record.tranType,jdbcType=INTEGER}");
+            sql.SET("tran_type = #{tranType,jdbcType=INTEGER}");
         }
 
         if (record.getTranStatus() != null) {
-            SET("tran_status = #{record.tranStatus,jdbcType=INTEGER}");
+            sql.SET("tran_status = #{tranStatus,jdbcType=INTEGER}");
         }
 
-
         if (record.getOrderConfirm() != null) {
-            SET("order_confirm = #{record.orderConfirm,jdbcType=INTEGER}");
+            sql.SET("order_confirm = #{orderConfirm,jdbcType=INTEGER}");
         }
 
         if (record.getSourceTypeId() != null) {
-            SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
+            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
         }
 
         if (record.getSourceId() != null) {
-            SET("source_id = #{record.sourceId,jdbcType=BIGINT}");
+            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
         }
 
         if (record.getPrintCount() != null) {
-            SET("print_count = #{record.printCount,jdbcType=INTEGER}");
+            sql.SET("print_count = #{printCount,jdbcType=INTEGER}");
         }
 
         if (record.getStatusId() != null) {
-            SET("status_id = #{record.statusId,jdbcType=BIGINT}");
+            sql.SET("status_id = #{statusId,jdbcType=BIGINT}");
         }
-
-        if (record.getVersion() != null) {
-            SET("version = #{record.version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-        }
-
-
-        return SQL();
+        sql.WHERE("po_id = #{poId,jdbcType=BIGINT}");
+        ProviderSqlStore.setVersion(sql, record.getVersion());
+        return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {

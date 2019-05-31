@@ -76,9 +76,6 @@ public class SalesShipNoticeEntrySqlProvider {
         if (record.getEntryId() != null) {
             sql.SET("entry_id = #{entryId}");
         }
-//        if (record.getShipNoticeId() != null) {
-//            sql.SET("ship_notice_id = #{shipNoticeId,jdbcType=BIGINT}");
-//        }
         if (record.getSkuId() != null) {
             sql.SET("sku_id = #{skuId}");
         }
@@ -144,9 +141,7 @@ public class SalesShipNoticeEntrySqlProvider {
         if (StringUtils.isNotBlank(record.getCloseUser())) {
             sql.SET("close_user = #{closeUser}");
         }
-        Integer version = record.getVersion();
-        sql.SET("version=" + version + "+1");
-        sql.WHERE("version=" + version);
+        ProviderSqlStore.setVersion(sql, record.getVersion());
         sql.WHERE("e_id = #{eid}");
         return sql.toString();
     }

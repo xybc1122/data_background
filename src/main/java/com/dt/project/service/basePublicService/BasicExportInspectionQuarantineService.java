@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicExportInspectionQuarantine;
+import com.dt.project.model.basePublic.BasicExportInspectionQuarantine;
 
 import java.util.List;
 

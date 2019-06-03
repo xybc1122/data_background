@@ -16,7 +16,7 @@ public interface SystemFinalProcessingMapper {
      *
      * @return
      */
-    @Select(" SELECT  CONCAT_WS('-',checkout_years,checkout_period) FROM system_final_processing WHERE menu_id =#{menuId}")
+    @Select("SELECT  CONCAT_WS('-',checkout_years,checkout_period) FROM system_final_processing WHERE menu_id =#{menuId}")
     String selectByDateCheckout(@Param("menuId") Integer menuId);
 
     /**

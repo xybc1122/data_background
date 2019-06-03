@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicExportHsCode;
+import com.dt.project.model.basePublic.BasicExportHsCode;
 
 import java.util.List;
 

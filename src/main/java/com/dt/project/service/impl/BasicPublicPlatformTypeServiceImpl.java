@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicPublicPlatformTypeMapper;
-import com.dt.project.model.basePublicModel.BasicPublicPlatformType;
+import com.dt.project.model.basePublic.BasicPublicPlatformType;
 import com.dt.project.service.basePublicService.BasicPublicPlatformTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

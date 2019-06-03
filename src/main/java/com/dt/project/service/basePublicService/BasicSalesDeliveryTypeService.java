@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicSalesDeliveryType;
+import com.dt.project.model.basePublic.BasicSalesDeliveryType;
 
 import java.util.List;
 

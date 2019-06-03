@@ -2,7 +2,7 @@ package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.ExchangeRateDto;
-import com.dt.project.model.basePublicModel.BasicPublicExchangeRate;
+import com.dt.project.model.basePublic.BasicPublicExchangeRate;
 import com.dt.project.service.basePublicService.BasicPublicExchangeRateService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class BasicPublicExchangeRateController {
     @PostMapping("/findByListRate")
     public ResponseBase findByListRate(@RequestBody ExchangeRateDto rateDto) {
         PageInfoUtils.setPage(rateDto.getPageSize(), rateDto.getCurrentPage());
-        return PageInfoUtils.returnPage(rateService.getRateInfo(rateDto), rateDto.getCurrentPage());
+        return PageInfoUtils.returnPage(rateService.getRateInfo(rateDto));
     }
 
 

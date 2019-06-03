@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicExportElement;
+import com.dt.project.model.basePublic.BasicExportElement;
 import com.dt.project.provider.BasicExportElementProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

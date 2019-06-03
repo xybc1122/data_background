@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicPublicAreaRoleSite;
+import com.dt.project.model.basePublic.BasicPublicAreaRoleSite;
 
 /**
  * @ClassName BasicPublicAreaRoleSiteService

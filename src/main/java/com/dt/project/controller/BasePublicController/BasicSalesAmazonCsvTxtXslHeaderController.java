@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicSalesAmazonCsvTxtXslHeader;
+import com.dt.project.model.basePublic.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.project.service.basePublicService.BasicSalesAmazonCsvTxtXslHeaderService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,14 @@ public class BasicSalesAmazonCsvTxtXslHeaderController {
     private BasicSalesAmazonCsvTxtXslHeaderService headerService;
 
     /**
-     * 获得所有站点的信息
+     * 获得 比较文件存入表头数据
      *
      * @return
      */
     @PostMapping("/getTemplate")
     public ResponseBase getTemplate(@RequestBody BasicSalesAmazonCsvTxtXslHeader csvTxtXslHeader) {
         PageInfoUtils.setPage(csvTxtXslHeader.getPageSize(), csvTxtXslHeader.getCurrentPage());
-        List<BasicSalesAmazonCsvTxtXslHeader> csvTxtXslHeaderList = headerService.getImportTemplate(csvTxtXslHeader);
-        return PageInfoUtils.returnPage(csvTxtXslHeaderList, csvTxtXslHeader.getCurrentPage());
+        return PageInfoUtils.returnPage(headerService.getImportTemplate(csvTxtXslHeader));
     }
 
 }

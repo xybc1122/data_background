@@ -21,7 +21,7 @@ public interface HrArchivesDepartmentMapper {
      */
     @Select("SELECT\n" +
             "`dept_id`,`dept_name`,`dept_name_eng`,`parent_id`,\n" +
-            "`path`,`is_parent`,`del_flag`\n" +
+            "`path`,`parent_node_is`\n" +
             "FROM `hr_archives_department`")
     @Results({
             @Result(column = "dept_id", property = "treeId"),

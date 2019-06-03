@@ -36,6 +36,6 @@ public class SystemInfoCompanyServiceImpl implements SystemInfoCompanyService {
     @Override
     public ResponseBase serviceSelectByCompany(SystemInfoCompany record) {
         PageInfoUtils.setPage(record.getPageSize(), record.getCurrentPage());
-        return PageInfoUtils.returnPage(cMapper.selectByCompany(record), record.getCurrentPage());
+        return PageInfoUtils.returnPage(cMapper.selectByCompany(record));
     }
 }

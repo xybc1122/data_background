@@ -1,7 +1,7 @@
 package com.dt.project.service.basePublicService;
 
 import com.dt.project.model.dto.SiteDto;
-import com.dt.project.model.basePublicModel.BasicPublicSite;
+import com.dt.project.model.basePublic.BasicPublicSite;
 
 import java.util.List;
 

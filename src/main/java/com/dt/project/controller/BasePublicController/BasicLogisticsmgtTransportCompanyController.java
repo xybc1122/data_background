@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicLogisticsmgtTransportCompany;
+import com.dt.project.model.basePublic.BasicLogisticsmgtTransportCompany;
 import com.dt.project.service.basePublicService.BasicLogisticsmgtTransportCompanyService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class BasicLogisticsmgtTransportCompanyController {
     @PostMapping("/findByListFreight")
     public ResponseBase findByListFreight(@RequestBody BasicLogisticsmgtTransportCompany freight) {
         PageInfoUtils.setPage(freight.getPageSize(), freight.getCurrentPage());
-        return PageInfoUtils.returnPage(companyService.serviceFindByListFreight(freight), freight.getCurrentPage());
+        return PageInfoUtils.returnPage(companyService.serviceFindByListFreight(freight));
     }
 
 

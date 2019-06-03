@@ -16,6 +16,7 @@ import static org.apache.ibatis.jdbc.SqlBuilder.WHERE;
 import com.dt.project.model.purchasePo.PurchaseIcBillStock;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
@@ -112,7 +113,7 @@ public class PurchaseIcBillStockSqlProvider {
     public String selectByIcBillStock(PurchaseIcBillStock record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "ibs";
-        sql.SELECT(" `sb_id`,`date`,`no`,\n" +
+        sql.SELECT("" + alias + ".`supplier_id`, `sb_id`,`years`,`period`,`date`,`no`,\n" +
                 "`explanation`,`dept_id`,\n" +
                 "`emp_id`,`manger_id`,`children`,\n" +
                 "`closed`,`order_confirm`, `source_type_id`,\n" +
@@ -129,51 +130,56 @@ public class PurchaseIcBillStockSqlProvider {
         sql.UPDATE("purchase_ic_bill_stock");
 
         if (record.getSbId() != null) {
-            sql.SET("sb_id = #{record.sbId,jdbcType=BIGINT}");
+            sql.SET("sb_id = #{sbId,jdbcType=BIGINT}");
         }
-
+        if (record.getYears() != null) {
+            sql.SET("years = #{years}");
+        }
+        if (record.getPeriod() != null) {
+            sql.SET("period = #{period}");
+        }
         if (record.getDate() != null) {
-            sql.SET("date = #{record.date,jdbcType=BIGINT}");
+            sql.SET("date = #{date,jdbcType=BIGINT}");
         }
 
-        if (record.getNo() != null) {
-            sql.SET("no = #{record.no,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getNo())) {
+            sql.SET("no = #{no,jdbcType=VARCHAR}");
         }
 
-        if (record.getExplanation() != null) {
-            sql.SET("explanation = #{record.explanation,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getExplanation())) {
+            sql.SET("explanation = #{explanation,jdbcType=VARCHAR}");
         }
 
         if (record.getDeptId() != null) {
-            sql.SET("dept_id = #{record.deptId,jdbcType=INTEGER}");
+            sql.SET("dept_id = #{deptId,jdbcType=INTEGER}");
         }
 
         if (record.getEmpId() != null) {
-            sql.SET("emp_id = #{record.empId,jdbcType=INTEGER}");
+            sql.SET("emp_id = #{empId,jdbcType=INTEGER}");
         }
 
         if (record.getMangerId() != null) {
-            sql.SET("manger_id = #{record.mangerId,jdbcType=INTEGER}");
+            sql.SET("manger_id = #{mangerId,jdbcType=INTEGER}");
         }
 
         if (record.getChildren() != null) {
-            sql.SET("children = #{record.children,jdbcType=BIT}");
+            sql.SET("children = #{children,jdbcType=BIT}");
         }
 
         if (record.getClosed() != null) {
-            sql.SET("closed = #{record.closed,jdbcType=INTEGER}");
+            sql.SET("closed = #{closed,jdbcType=INTEGER}");
         }
 
         if (record.getOrderConfirm() != null) {
-            sql.SET("order_confirm = #{record.orderConfirm,jdbcType=INTEGER}");
+            sql.SET("order_confirm = #{orderConfirm,jdbcType=INTEGER}");
         }
 
         if (record.getSourceTypeId() != null) {
-            sql.SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
+            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
         }
 
         if (record.getSourceId() != null) {
-            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
+            sql.SET("source_id = #{jdbcType=BIGINT}");
         }
 
         if (record.getPrintCount() != null) {
@@ -183,6 +189,7 @@ public class PurchaseIcBillStockSqlProvider {
         ProviderSqlStore.setVersion(sql, record.getVersion());
         return sql.toString();
     }
+
 
     public String updateByExample(Map<String, Object> parameter) {
         BEGIN();

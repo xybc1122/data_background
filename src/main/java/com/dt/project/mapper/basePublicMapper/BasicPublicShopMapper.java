@@ -1,7 +1,7 @@
 package com.dt.project.mapper.basePublicMapper;
 
 import com.dt.project.model.dto.ShopDto;
-import com.dt.project.model.basePublicModel.BasicPublicShop;
+import com.dt.project.model.basePublic.BasicPublicShop;
 import com.dt.project.provider.BasicPublicShopProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicLogisticsmgtTransportCompany;
+import com.dt.project.model.basePublic.BasicLogisticsmgtTransportCompany;
 
 import java.util.List;
 

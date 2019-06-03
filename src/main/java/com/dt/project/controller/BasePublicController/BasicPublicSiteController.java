@@ -23,7 +23,7 @@ public class BasicPublicSiteController {
     @PostMapping("/findByListSite")
     public ResponseBase findByListSite(@RequestBody SiteDto siteDto) {
         PageInfoUtils.setPage(siteDto.getPageSize(), siteDto.getCurrentPage());
-        return PageInfoUtils.returnPage(siteService.findBySiteList(siteDto), siteDto.getCurrentPage());
+        return PageInfoUtils.returnPage(siteService.findBySiteList(siteDto));
     }
 
     /**

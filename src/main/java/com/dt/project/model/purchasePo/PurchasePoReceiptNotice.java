@@ -35,30 +35,7 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
     private Long sourceId;
 
     private Integer printCount;
-    /**
-     * 一对多查询存储
-     */
-    private List<PurchasePoReceiptNoticeEntry> poReceiptNoticeEntryList;
-    /**
-     * 接收对象
-     */
-    private PurchasePoReceiptNoticeEntry purchasePoReceiptNoticeEntry;
 
-    public List<PurchasePoReceiptNoticeEntry> getPoReceiptNoticeEntryList() {
-        return poReceiptNoticeEntryList;
-    }
-
-    public void setPoReceiptNoticeEntryList(List<PurchasePoReceiptNoticeEntry> poReceiptNoticeEntryList) {
-        this.poReceiptNoticeEntryList = poReceiptNoticeEntryList;
-    }
-
-    public PurchasePoReceiptNoticeEntry getPurchasePoReceiptNoticeEntry() {
-        return purchasePoReceiptNoticeEntry;
-    }
-
-    public void setPurchasePoReceiptNoticeEntry(PurchasePoReceiptNoticeEntry purchasePoReceiptNoticeEntry) {
-        this.purchasePoReceiptNoticeEntry = purchasePoReceiptNoticeEntry;
-    }
 
     public Long getRnId() {
         return rnId;

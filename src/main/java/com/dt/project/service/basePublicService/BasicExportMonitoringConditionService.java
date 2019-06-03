@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicExportMonitoringCondition;
+import com.dt.project.model.basePublic.BasicExportMonitoringCondition;
 
 import java.util.List;
 

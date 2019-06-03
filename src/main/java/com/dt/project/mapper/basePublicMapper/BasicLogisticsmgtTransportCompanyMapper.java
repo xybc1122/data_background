@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicLogisticsmgtTransportCompany;
+import com.dt.project.model.basePublic.BasicLogisticsmgtTransportCompany;
 import com.dt.project.provider.BasicLogisticsmgtTransportCompanyProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

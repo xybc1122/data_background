@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicPublicPlatformType;
+import com.dt.project.model.basePublic.BasicPublicPlatformType;
 
 import java.util.List;
 

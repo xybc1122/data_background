@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicExportWayOfClosing;
+import com.dt.project.model.basePublic.BasicExportWayOfClosing;
 
 import java.util.List;
 

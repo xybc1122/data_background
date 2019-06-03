@@ -2,7 +2,7 @@ package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.CompanyDto;
-import com.dt.project.model.basePublicModel.BasicPublicCompany;
+import com.dt.project.model.basePublic.BasicPublicCompany;
 import com.dt.project.service.basePublicService.BasicPublicCompanyService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class BasicPublicCompanyController {
     @PostMapping("/findByListCompany")
     public ResponseBase findByListCompany(@RequestBody CompanyDto companyDto) {
         PageInfoUtils.setPage(companyDto.getPageSize(), companyDto.getCurrentPage());
-        return PageInfoUtils.returnPage(companyService.findByListCompany(), companyDto.getCurrentPage());
+        return PageInfoUtils.returnPage(companyService.findByListCompany());
     }
 
     @PostMapping("/upCompany")

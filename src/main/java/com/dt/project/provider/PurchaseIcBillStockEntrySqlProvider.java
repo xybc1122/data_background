@@ -12,7 +12,9 @@ import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.purchasePo.PurchaseIcBillStockEntry;
 import com.dt.project.store.FieldStore;
+import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.utils.StrUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.List;
@@ -70,67 +72,60 @@ public class PurchaseIcBillStockEntrySqlProvider {
         return sql.toString();
     }
 
-    public String updateByExampleSelective(Map<String, Object> parameter) {
-        PurchaseIcBillStockEntry record = (PurchaseIcBillStockEntry) parameter.get("record");
-
-        UPDATE("purchase_ic_bill_stock_entry");
+    public String updateByIcBillStockEntry(PurchaseIcBillStockEntry record) {
+        SQL sql = new SQL();
+        sql.UPDATE("purchase_ic_bill_stock_entry");
 
         if (record.getSbeId() != null) {
-            SET("sbe_id = #{record.sbeId,jdbcType=BIGINT}");
+            sql.SET("sbe_id = #{sbeId,jdbcType=BIGINT}");
         }
 
         if (record.getEntryId() != null) {
-            SET("entry_id = #{record.entryId,jdbcType=INTEGER}");
+            sql.SET("entry_id = #{entryId,jdbcType=INTEGER}");
         }
 
         if (record.getSbId() != null) {
-            SET("sb_id = #{record.sbId,jdbcType=BIGINT}");
+            sql.SET("sb_id = #{sbId,jdbcType=BIGINT}");
         }
 
         if (record.getProductId() != null) {
-            SET("product_id = #{record.productId,jdbcType=INTEGER}");
+            sql.SET("product_id = #{productId,jdbcType=INTEGER}");
         }
 
         if (record.getSourceTypeId() != null) {
-            SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
+            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
         }
 
         if (record.getIcBSourceId() != null) {
-            SET("source_id = #{icBSourceId,jdbcType=VARCHAR}");
+            sql.SET("source_id = #{icBSourceId,jdbcType=BIGINT}");
         }
 
         if (record.getRneId() != null) {
-            SET("rne_id = #{record.rneId,jdbcType=BIGINT}");
+            sql.SET("rne_id = #{rneId,jdbcType=BIGINT}");
         }
 
         if (record.getReciveWarehouseId() != null) {
-            SET("recive_warehouse_id = #{record.reciveWarehouseId,jdbcType=BIGINT}");
+            sql.SET("recive_warehouse_id = #{reciveWarehouseId,jdbcType=BIGINT}");
         }
 
         if (record.getRecivePositionId() != null) {
-            SET("recive_position_id = #{record.recivePositionId,jdbcType=BIGINT}");
+            sql.SET("recive_position_id = #{recivePositionId,jdbcType=BIGINT}");
         }
 
         if (record.getQuantity() != null) {
-            SET("quantity = #{record.quantity,jdbcType=DECIMAL}");
+            sql.SET("quantity = #{quantity,jdbcType=DECIMAL}");
         }
 
-        if (record.getIcBRemark() != null) {
-            SET("e_remark = #{record.icBRemark,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getIcBRemark())) {
+            sql.SET("e_remark = #{icBRemark,jdbcType=VARCHAR}");
         }
 
         if (record.getRowClosed() != null) {
-            SET("row_closed = #{record.rowClosed,jdbcType=INTEGER}");
+            sql.SET("row_closed = #{rowClosed,jdbcType=INTEGER}");
         }
-
-        if (record.getVersion() != null) {
-            SET("version = #{record.version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-        }
-        return SQL();
+        sql.WHERE("sbe_id = #{record.sbeId,jdbcType=BIGINT}");
+        ProviderSqlStore.setVersion(sql, record.getVersion());
+        return sql.toString();
     }
 
     public String updateByExample(Map<String, Object> parameter) {

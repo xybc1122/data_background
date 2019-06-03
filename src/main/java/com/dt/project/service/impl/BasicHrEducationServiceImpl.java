@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicHrEducationMapper;
-import com.dt.project.model.basePublicModel.BasicHrEducation;
+import com.dt.project.model.basePublic.BasicHrEducation;
 import com.dt.project.service.basePublicService.BasicHrEducationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

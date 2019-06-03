@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicPublicProvinceRelation;
+import com.dt.project.model.basePublic.BasicPublicProvinceRelation;
 
 import java.util.List;
 

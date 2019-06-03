@@ -15,13 +15,18 @@ import java.util.*;
 public class DateUtils {
 
     public static String checkingTime(Long thisDate, String closingDate) {
-        //转换时间戳
-        String thisFileDate = stampToDate(thisDate);
-        //如果时间不等于前端传来的时间 返回null
-        if (!thisFileDate.equals(closingDate)) {
+        if (closingDate == null) {
             return null;
         }
-        return "ok";
+        //转换时间戳
+        Long time = getTime(closingDate, "yyyy-MM");
+        if (time != null) {
+            //如果自己的时间 > 系统结账的时间 是可以存的
+            if (thisDate > time) {
+                return "ok";
+            }
+        }
+        return null;
     }
 
     /**
@@ -67,8 +72,6 @@ public class DateUtils {
                 return null;
         }
         if (checkingTime(fsb.getDate(), closingDate) == null) return null;
-//        system.out.println(thisFileDate);
-//        system.out.println(closingDate);
         return "ok";
     }
 
@@ -250,20 +253,15 @@ public class DateUtils {
 
     public static void main(String[] args) throws ParseException {
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
-//        String c = sdf.format(new Date());
-//        Date date2 = sdf.parse(c);//调用parse()方法时 注意 传入的格式必须符合simpleDateFormat对象的格式，即"yyyy-MM-dd HH:mm:ss:SSS" 否则会报错！！
-//        system.out.println(date2.getTime());
+        Long s = 1541001600000L;
+        System.out.println(stampToDate(s));
 
+        String str = "2018-03";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM");
+        Date date = simpleDateFormat.parse(str);
+        long ts = date.getTime();
+        System.out.println(ts > s);
 
-        String stringDate = "2019-04";
-        SimpleDateFormat sdfc = new SimpleDateFormat("yyyy-MM");
-        Date d2 = sdfc.parse(stringDate);
-        System.out.println(d2.compareTo(new Date()));
-//        Long time = sdf.parse(stringDate).getTime();
-//        system.out.println(time);
-//        system.out.println(getXlsStrTime(stringDate, "dd-MM-yyyy"));
-//        system.out.println(DateUtils.getFranceTime(stringDate, Constants.FRANCE_TIME));
 
     }
 }

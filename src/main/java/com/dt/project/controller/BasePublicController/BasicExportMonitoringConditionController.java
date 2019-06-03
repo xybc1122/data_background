@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicExportMonitoringCondition;
+import com.dt.project.model.basePublic.BasicExportMonitoringCondition;
 import com.dt.project.service.basePublicService.BasicExportMonitoringConditionService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class BasicExportMonitoringConditionController {
     @PostMapping("/findMonitoringInfo")
     public ResponseBase findCountryInfo(@RequestBody BasicExportMonitoringCondition condition) {
         PageInfoUtils.setPage(condition.getPageSize(), condition.getCurrentPage());
-        return PageInfoUtils.returnPage(conditionService.serviceFindByConditionList(condition), condition.getCurrentPage());
+        return PageInfoUtils.returnPage(conditionService.serviceFindByConditionList(condition));
     }
 
 }

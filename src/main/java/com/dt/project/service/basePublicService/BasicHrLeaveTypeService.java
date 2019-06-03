@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicHrLeaveType;
+import com.dt.project.model.basePublic.BasicHrLeaveType;
 
 import java.util.List;
 

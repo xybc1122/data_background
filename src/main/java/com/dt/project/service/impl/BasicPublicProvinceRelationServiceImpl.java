@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicPublicProvinceRelationMapper;
-import com.dt.project.model.basePublicModel.BasicPublicProvinceRelation;
+import com.dt.project.model.basePublic.BasicPublicProvinceRelation;
 import com.dt.project.service.basePublicService.BasicPublicProvinceRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

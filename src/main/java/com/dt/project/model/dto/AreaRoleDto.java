@@ -1,6 +1,6 @@
 package com.dt.project.model.dto;
 
-import com.dt.project.model.basePublicModel.BasicPublicAreaRole;
+import com.dt.project.model.basePublic.BasicPublicAreaRole;
 
 import java.util.List;
 

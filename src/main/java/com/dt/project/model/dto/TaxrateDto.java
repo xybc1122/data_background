@@ -1,6 +1,6 @@
 package com.dt.project.model.dto;
 
-import com.dt.project.model.basePublicModel.BasicPublicDutiesTaxrate;
+import com.dt.project.model.basePublic.BasicPublicDutiesTaxrate;
 
 /**
  * @ClassName TaxrateDto

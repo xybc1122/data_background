@@ -46,19 +46,26 @@ public class PurchasePoReceiptNoticeServiceImpl implements PurchasePoReceiptNoti
         List<PurchasePoReceiptNotice> receiptNoticeList = poReceiptNoticeMapper.selectByPoReceiptNotice(record);
 
         if (!ListUtils.isList(receiptNoticeList)) {
-            return PageInfoUtils.returnPage(receiptNoticeList, record.getCurrentPage());
+            return PageInfoUtils.returnPage(receiptNoticeList);
         }
         List<Long> poIds = new ArrayList<>();
         for (PurchasePoReceiptNotice receiptNotice : receiptNoticeList) {
             poIds.add(receiptNotice.getRnId());
         }
-        PurchasePoReceiptNoticeEntry pPReceiptNoticeEntry = record.getPurchasePoReceiptNoticeEntry();
-        pPReceiptNoticeEntry.setInList(poIds);
+        PurchasePoReceiptNoticeEntry ppRne;
+        if (record.getEntry() == null) {
+            ppRne = new PurchasePoReceiptNoticeEntry();
+        } else {
+            ppRne = (PurchasePoReceiptNoticeEntry)
+                    JsonUtils.objConversion(record.getEntry(), PurchasePoReceiptNoticeEntry.class);
+        }
+        ppRne.setInList(poIds);
         //查询表体
-        List<PurchasePoReceiptNoticeEntry> purchasePoReceiptNoticeEntries = receiptNoticeEntryService.serviceSelectByPRNoticeEntry(pPReceiptNoticeEntry);
+        List<PurchasePoReceiptNoticeEntry> purchasePoReceiptNoticeEntries =
+                receiptNoticeEntryService.serviceSelectByPRNoticeEntry(ppRne);
 
         if (!ListUtils.isList(purchasePoReceiptNoticeEntries)) {
-            return PageInfoUtils.returnPage(receiptNoticeList, record.getCurrentPage());
+            return PageInfoUtils.returnPage(receiptNoticeList);
         }
         for (int i = 0; i < poIds.size(); i++) {
             Long poId = poIds.get(i);
@@ -68,17 +75,17 @@ public class PurchasePoReceiptNoticeServiceImpl implements PurchasePoReceiptNoti
                     listNe.add(ne);
                 }
             }
-            receiptNoticeList.get(i).setPoReceiptNoticeEntryList(listNe);
+            receiptNoticeList.get(i).setEntryList(listNe);
         }
-        return PageInfoUtils.returnPage(receiptNoticeList, record.getCurrentPage());
+        return PageInfoUtils.returnPage(receiptNoticeList);
     }
 
 
     @Override
     @Transactional
     public ResponseBase serviceInsertPoReceiptNotice(Map<String, Object> objectMap) {
-        Object purchasePoReceiptNoticeObj = objectMap.get("purchasePoReceiptNotice");
-        Object purchasePoReceiptNoticeEntryObj = objectMap.get("purchasePoReceiptNoticeEntry");
+        Object purchasePoReceiptNoticeObj = objectMap.get("parentKey");
+        Object purchasePoReceiptNoticeEntryObj = objectMap.get("entry");
         ObjUtils.isObjNull(purchasePoReceiptNoticeObj, purchasePoReceiptNoticeEntryObj);
         String identifier = null;
         try {
@@ -117,8 +124,8 @@ public class PurchasePoReceiptNoticeServiceImpl implements PurchasePoReceiptNoti
     @Override
     @Transactional
     public ResponseBase serviceUpdateByPoReceiptNotice(Map<String, Object> objectMap) {
-        Object purchasePoReceiptNoticeObj = objectMap.get("purchasePoReceiptNotice");
-        Object purchasePoReceiptNoticeEntryObj = objectMap.get("purchasePoReceiptNoticeEntry");
+        Object purchasePoReceiptNoticeObj = objectMap.get("parentKey");
+        Object purchasePoReceiptNoticeEntryObj = objectMap.get("entry");
         if (purchasePoReceiptNoticeObj == null) {
             return JsonData.setResultError("error");
         }

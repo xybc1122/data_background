@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicExportHsCodeMapper;
-import com.dt.project.model.basePublicModel.BasicExportHsCode;
+import com.dt.project.model.basePublic.BasicExportHsCode;
 import com.dt.project.service.basePublicService.BasicExportHsCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

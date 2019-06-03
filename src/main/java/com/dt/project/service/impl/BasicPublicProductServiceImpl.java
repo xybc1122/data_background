@@ -4,7 +4,7 @@ import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.ProductDto;
 import com.dt.project.mapper.basePublicMapper.BasicPublicProductMapper;
-import com.dt.project.model.basePublicModel.BasicPublicProduct;
+import com.dt.project.model.basePublic.BasicPublicProduct;
 import com.dt.project.service.basePublicService.BasicPublicProductService;
 import com.dt.project.service.SystemLogStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +57,7 @@ public class BasicPublicProductServiceImpl implements BasicPublicProductService 
     public ResponseBase serviceGetPublicProduct(Integer skuId) {
         BasicPublicProduct product = productMapper.getPublicProduct(skuId);
         Map<String, Object> pMap = new HashMap<>();
-        pMap.put("QtyPerBox", product.getQtyPerBox());
+        pMap.put("qtyPerBox", product.getQtyPerBox());
         pMap.put("neGwKg", product.getGwKg());
         pMap.put("neNwKg", product.getNwKg());
         pMap.put("neHeightCm", product.getHeightCm());
@@ -67,7 +67,7 @@ public class BasicPublicProductServiceImpl implements BasicPublicProductService 
         pMap.put("ProductId", product.getProductId());
         pMap.put("neWidthCm", product.getWidthCm());
         pMap.put("neWidthIn", product.getWidthIn());
-        pMap.put("FnSku", product.getFnSku());
+        pMap.put("fnSku", product.getFnSku());
         pMap.put("neVolumeM3", product.getVolumeM3());
         return JsonData.setResultSuccess("success", pMap);
     }

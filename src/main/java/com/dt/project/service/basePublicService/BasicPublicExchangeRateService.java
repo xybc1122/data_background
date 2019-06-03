@@ -2,7 +2,7 @@ package com.dt.project.service.basePublicService;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.ExchangeRateDto;
-import com.dt.project.model.basePublicModel.BasicPublicExchangeRate;
+import com.dt.project.model.basePublic.BasicPublicExchangeRate;
 
 import java.util.List;
 import java.util.Map;

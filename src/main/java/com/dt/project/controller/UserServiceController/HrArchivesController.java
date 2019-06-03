@@ -3,7 +3,7 @@ package com.dt.project.controller.userServiceController;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.HrEmployeeDto;
-import com.dt.project.model.basePublicModel.*;
+import com.dt.project.model.basePublic.*;
 import com.dt.project.model.hrArchives.HrArchivesEmployee;
 import com.dt.project.model.parent.ParentTree;
 import com.dt.project.service.basePublicService.BasicHrEducationService;
@@ -40,10 +40,8 @@ public class HrArchivesController {
      */
     @GetMapping("/findByListDepartment")
     public ResponseBase findByListDepartment() {
-        List<ParentTree> hrArchivesDepartmentList = departmentService.serviceGetDepartmentInfo();
-        return JsonData.setResultSuccess(hrArchivesDepartmentList);
+        return JsonData.setResultSuccess(departmentService.serviceGetDepartmentInfo());
     }
-
 
     /**
      * 获得员工表动态查询信息
@@ -51,7 +49,7 @@ public class HrArchivesController {
     @PostMapping("/findByListEmployee")
     public ResponseBase findByListEmployee(@RequestBody HrEmployeeDto hrEmployeeDto) {
         PageInfoUtils.setPage(hrEmployeeDto.getPageSize(), hrEmployeeDto.getCurrentPage());
-        return PageInfoUtils.returnPage(hrService.serviceGetEmployeeList(hrEmployeeDto), hrEmployeeDto.getCurrentPage());
+        return PageInfoUtils.returnPage(hrService.serviceGetEmployeeList(hrEmployeeDto));
     }
 
     /**
@@ -75,8 +73,7 @@ public class HrArchivesController {
     public ResponseBase getEducation(@RequestParam("pageSize") Integer pageSize,
                                      @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicHrEducation> hrEducations = educationService.serviceFindByListHrEdu();
-        return PageInfoUtils.returnPage(hrEducations, currentPage);
+        return PageInfoUtils.returnPage(educationService.serviceFindByListHrEdu());
     }
 
     /**
@@ -88,8 +85,7 @@ public class HrArchivesController {
     public ResponseBase getEmployee(@RequestParam("pageSize") Integer pageSize,
                                     @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicHrEmployeeType> hrEmployeeTypeList = employeeTypeService.serviceFndByListHrEmp();
-        return PageInfoUtils.returnPage(hrEmployeeTypeList, currentPage);
+        return PageInfoUtils.returnPage(employeeTypeService.serviceFndByListHrEmp());
     }
 
     /**
@@ -101,8 +97,7 @@ public class HrArchivesController {
     public ResponseBase getEmployment(@RequestParam("pageSize") Integer pageSize,
                                       @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicHrEmploymentType> hrEmploymentTypes = employmentTypeService.serviceFindByListHrEmployment();
-        return PageInfoUtils.returnPage(hrEmploymentTypes, currentPage);
+        return PageInfoUtils.returnPage(employmentTypeService.serviceFindByListHrEmployment());
     }
 
     /**
@@ -114,8 +109,7 @@ public class HrArchivesController {
     public ResponseBase getHrLeave(@RequestParam("pageSize") Integer pageSize,
                                    @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicHrLeaveType> hrLeaveTypes = leaveTypeService.serviceFindByListHrLeave();
-        return PageInfoUtils.returnPage(hrLeaveTypes, currentPage);
+        return PageInfoUtils.returnPage(leaveTypeService.serviceFindByListHrLeave());
     }
 
 }

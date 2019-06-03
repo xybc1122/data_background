@@ -91,14 +91,7 @@ public class PurchasePoOrder extends ParentSysTemLog {
      * 主管名称
      */
     private String mangerName;
-    /**
-     * 一对多 接收对象  查询
-     */
-    private PurchasePoOrderEntry poOrderEntry;
-    /**
-     * 一对多对象存储
-     */
-    private List<PurchasePoOrderEntry> poOrderEntryList;
+
 
     public String getPayNo() {
         return payNo;
@@ -106,14 +99,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     public void setPayNo(String payNo) {
         this.payNo = payNo;
-    }
-
-    public PurchasePoOrderEntry getPoOrderEntry() {
-        return poOrderEntry;
-    }
-
-    public void setPoOrderEntry(PurchasePoOrderEntry poOrderEntry) {
-        this.poOrderEntry = poOrderEntry;
     }
 
     public String getCurrencyName() {
@@ -420,11 +405,4 @@ public class PurchasePoOrder extends ParentSysTemLog {
         this.printCount = printCount;
     }
 
-    public List<PurchasePoOrderEntry> getPoOrderEntryList() {
-        return poOrderEntryList;
-    }
-
-    public void setPoOrderEntryList(List<PurchasePoOrderEntry> poOrderEntryList) {
-        this.poOrderEntryList = poOrderEntryList;
-    }
 }

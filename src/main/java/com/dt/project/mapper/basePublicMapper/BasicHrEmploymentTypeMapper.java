@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicHrEmploymentType;
+import com.dt.project.model.basePublic.BasicHrEmploymentType;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 

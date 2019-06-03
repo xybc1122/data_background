@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicSalesAmazonWarehouse;
+import com.dt.project.model.basePublic.BasicSalesAmazonWarehouse;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

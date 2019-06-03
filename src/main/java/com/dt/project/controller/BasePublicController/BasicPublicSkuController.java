@@ -28,7 +28,7 @@ public class BasicPublicSkuController {
     @PostMapping("/findByListSku")
     public ResponseBase findByListSku(@RequestBody SkuDto skuDto) {
         PageInfoUtils.setPage(skuDto.getPageSize(), skuDto.getCurrentPage());
-        return PageInfoUtils.returnPage(skuService.serviceFindByListSku(skuDto), skuDto.getCurrentPage());
+        return PageInfoUtils.returnPage(skuService.serviceFindByListSku(skuDto));
     }
 
     @GetMapping("/getSkuName")

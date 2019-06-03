@@ -10,7 +10,7 @@ import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
-import com.dt.project.model.basePublicModel.BasicPublicSurTaxrate;
+import com.dt.project.model.basePublic.BasicPublicSurTaxrate;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.toos.Constants;

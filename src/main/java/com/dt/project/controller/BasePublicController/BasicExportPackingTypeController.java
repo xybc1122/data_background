@@ -25,6 +25,6 @@ public class BasicExportPackingTypeController {
     public ResponseBase findByListPackingType(@RequestParam("pageSize") Integer pageSize,
                                               @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(packingTypeService.serviceFindByPackingTypeInfo(), currentPage);
+        return PageInfoUtils.returnPage(packingTypeService.serviceFindByPackingTypeInfo());
     }
 }

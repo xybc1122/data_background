@@ -34,7 +34,7 @@ public class SalesShipNoticePackingListServiceImpl implements SalesShipNoticePac
         List<SalesShipNoticePackingList> sNPackingLists = pListMapper.selectNoticePackingList(record);
 
         if (!ListUtils.isList(sNPackingLists)) {
-            return PageInfoUtils.returnPage(sNPackingLists, record.getCurrentPage());
+            return PageInfoUtils.returnPage(sNPackingLists);
         }
 
         List<Long> pIdList = new ArrayList<>();
@@ -49,7 +49,7 @@ public class SalesShipNoticePackingListServiceImpl implements SalesShipNoticePac
         List<SalesShipNoticePackingListEntry> salesShipNoticePackingListEntries = packingListEntryService.serviceSelectPackingListEntry(shipNoticePackingListEntry);
 
         if (!ListUtils.isList(salesShipNoticePackingListEntries)) {
-            return PageInfoUtils.returnPage(sNPackingLists, record.getCurrentPage());
+            return PageInfoUtils.returnPage(sNPackingLists);
         }
 
         for (int i = 0; i < pIdList.size(); i++) {
@@ -63,6 +63,6 @@ public class SalesShipNoticePackingListServiceImpl implements SalesShipNoticePac
             sNPackingLists.get(i).setListEntries(listNe);
         }
 
-        return PageInfoUtils.returnPage(sNPackingLists, record.getCurrentPage());
+        return PageInfoUtils.returnPage(sNPackingLists);
     }
 }

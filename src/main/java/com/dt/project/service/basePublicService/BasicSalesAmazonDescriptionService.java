@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicSalesAmazonDescription;
+import com.dt.project.model.basePublic.BasicSalesAmazonDescription;
 
 import java.util.List;
 

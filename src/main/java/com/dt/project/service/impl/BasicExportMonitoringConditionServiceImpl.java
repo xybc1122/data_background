@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicExportMonitoringConditionMapper;
-import com.dt.project.model.basePublicModel.BasicExportMonitoringCondition;
+import com.dt.project.model.basePublic.BasicExportMonitoringCondition;
 import com.dt.project.service.basePublicService.BasicExportMonitoringConditionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

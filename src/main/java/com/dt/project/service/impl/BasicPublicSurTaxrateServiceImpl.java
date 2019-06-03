@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.basePublicMapper.BasicPublicSurTaxrateMapper;
-import com.dt.project.model.basePublicModel.BasicPublicSurTaxrate;
+import com.dt.project.model.basePublic.BasicPublicSurTaxrate;
 import com.dt.project.service.basePublicService.BasicPublicSurTaxrateService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,6 @@ public class BasicPublicSurTaxrateServiceImpl implements BasicPublicSurTaxrateSe
     @Override
     public ResponseBase serviceSelectBySurTax(BasicPublicSurTaxrate record) {
         PageInfoUtils.setPage(record.getPageSize(), record.getCurrentPage());
-        return PageInfoUtils.returnPage(surMapper.selectBySurTax(record), record.getCurrentPage());
+        return PageInfoUtils.returnPage(surMapper.selectBySurTax(record));
     }
 }

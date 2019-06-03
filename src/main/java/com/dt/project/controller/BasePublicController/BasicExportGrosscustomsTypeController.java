@@ -25,6 +25,6 @@ public class BasicExportGrosscustomsTypeController {
     public ResponseBase findByListGrosscustoms(@RequestParam("pageSize") Integer pageSize,
                                                @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(typeService.serviceFindByListGrosscustoms(), currentPage);
+        return PageInfoUtils.returnPage(typeService.serviceFindByListGrosscustoms());
     }
 }

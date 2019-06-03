@@ -1,6 +1,6 @@
 package com.dt.project.model.dto;
 
-import com.dt.project.model.basePublicModel.BasicPublicSku;
+import com.dt.project.model.basePublic.BasicPublicSku;
 
 /**
  * @ClassName SkuDto

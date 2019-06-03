@@ -25,14 +25,14 @@ public interface PurchasePoReceiptNoticeMapper {
      */
     @Insert({
             "insert into purchase_po_receipt_notice (date, ",
-            "rn_no, explanation,",
+            "no, explanation,",
             "fetch_add, dept_id,",
             "emp_id, manger_id,",
             "children, closed, order_confirm,",
             "source_type_id, source_id,",
             "print_count, status_id)",
             "values (#{date,jdbcType=BIGINT},",
-            "#{rnNo,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR},",
+            "#{no,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR},",
             "#{fetchAdd,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER},",
             "#{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER},",
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{orderConfirm,jdbcType=INTEGER}, ",
@@ -71,10 +71,6 @@ public interface PurchasePoReceiptNoticeMapper {
      */
     @UpdateProvider(type = PurchasePoReceiptNoticeSqlProvider.class, method = "updateByPoReceiptNotice")
     int updateByPoReceiptNotice(PurchasePoReceiptNotice record);
-
-
-
-
 
 
     @UpdateProvider(type = PurchasePoReceiptNoticeSqlProvider.class, method = "updateByExample")

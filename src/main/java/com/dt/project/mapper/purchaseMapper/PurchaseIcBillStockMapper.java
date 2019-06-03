@@ -24,18 +24,18 @@ public interface PurchaseIcBillStockMapper {
      * @return
      */
     @Insert({
-            "insert into purchase_ic_bill_stock (date,",
+            "insert into purchase_ic_bill_stock (`supplier_id`,`years`,`period`,date,",
             "no, explanation,",
             "dept_id, emp_id, manger_id, ",
             "children, closed, order_confirm, ",
             "source_type_id, source_id, ",
-            "print_count)",
-            "values (#{date,jdbcType=BIGINT}, ",
+            "print_count,`status_id`)",
+            "values (#{supplierId},#{years},#{period},#{date,jdbcType=BIGINT}, ",
             "#{no,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR}, ",
             "#{deptId,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER}, ",
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{orderConfirm,jdbcType=INTEGER}, ",
-            "#{sourceTypeId,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT}, ",
-            "#{printCount,jdbcType=INTEGER})"
+            "#{sourceTypeId,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT},",
+            "#{printCount,jdbcType=INTEGER},#{statusId})"
     })
     int insertIcBillStock(PurchaseIcBillStock record);
 

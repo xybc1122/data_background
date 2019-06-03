@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicExportHsCode;
+import com.dt.project.model.basePublic.BasicExportHsCode;
 import com.dt.project.service.basePublicService.BasicExportHsCodeService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +26,6 @@ public class BasicExportHsCodeController {
     @PostMapping("/findHsCodeInfo")
     public ResponseBase findHsCodeInfo(@RequestBody BasicExportHsCode hsCode) {
         PageInfoUtils.setPage(hsCode.getPageSize(), hsCode.getCurrentPage());
-        return PageInfoUtils.returnPage(hsCodeService.serviceFindByListHsCode(hsCode), hsCode.getCurrentPage());
+        return PageInfoUtils.returnPage(hsCodeService.serviceFindByListHsCode(hsCode));
     }
 }

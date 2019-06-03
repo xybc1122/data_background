@@ -3,6 +3,7 @@ package com.dt.project.model.parent;
 
 import com.dt.project.model.JavaSqlName;
 import com.dt.project.model.SystemLogStatus;
+import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
 
 import java.util.List;
 
@@ -46,6 +47,30 @@ public class ParentSysTemLog {
      */
     private List<Long> inList;
 
+    /**
+     * 一对多 接收对象  查询
+     */
+    private Object entry;
+    /**
+     * 一对多对象存储
+     */
+    private List<?> entryList;
+
+    public Object getEntry() {
+        return entry;
+    }
+
+    public void setEntry(Object entry) {
+        this.entry = entry;
+    }
+
+    public List<?> getEntryList() {
+        return entryList;
+    }
+
+    public void setEntryList(List<?> entryList) {
+        this.entryList = entryList;
+    }
 
     public List<Long> getInList() {
         return inList;

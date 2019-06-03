@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicPublicProvinceRelation;
+import com.dt.project.model.basePublic.BasicPublicProvinceRelation;
 import com.dt.project.service.basePublicService.BasicPublicProvinceRelationService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,6 @@ public class BasicPublicProvinceRelationController {
     @PostMapping("/findByListRelation")
     public ResponseBase findByListShop(@RequestBody BasicPublicProvinceRelation relation) {
         PageInfoUtils.setPage(relation.getPageSize(), relation.getCurrentPage());
-        return PageInfoUtils.returnPage(relationService.serviceFindByRelationList(relation), relation.getCurrentPage());
+        return PageInfoUtils.returnPage(relationService.serviceFindByRelationList(relation));
     }
 }

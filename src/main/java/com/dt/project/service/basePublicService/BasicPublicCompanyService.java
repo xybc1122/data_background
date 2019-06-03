@@ -2,7 +2,7 @@ package com.dt.project.service.basePublicService;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.CompanyDto;
-import com.dt.project.model.basePublicModel.BasicPublicCompany;
+import com.dt.project.model.basePublic.BasicPublicCompany;
 
 import java.util.List;
 import java.util.Map;

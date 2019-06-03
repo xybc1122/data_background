@@ -26,7 +26,7 @@ public class UserUploadController {
     public ResponseBase getInfo(@RequestBody UserUpload upload) {
         PageInfoUtils.setPage(upload.getPageSize(), upload.getCurrentPage());
         upload.setUid(ReqUtils.getUid());
-        return PageInfoUtils.returnPage(userUploadService.getUserUploadInfo(upload), upload.getCurrentPage());
+        return PageInfoUtils.returnPage(userUploadService.getUserUploadInfo(upload));
     }
 
     /**

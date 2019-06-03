@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicSalesPublicBrushType;
+import com.dt.project.model.basePublic.BasicSalesPublicBrushType;
 
 import java.util.List;
 

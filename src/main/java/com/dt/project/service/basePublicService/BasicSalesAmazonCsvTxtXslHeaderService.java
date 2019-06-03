@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicSalesAmazonCsvTxtXslHeader;
+import com.dt.project.model.basePublic.BasicSalesAmazonCsvTxtXslHeader;
 
 import java.util.List;
 

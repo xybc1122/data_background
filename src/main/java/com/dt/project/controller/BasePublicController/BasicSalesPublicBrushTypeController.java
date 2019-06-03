@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicSalesPublicBrushType;
+import com.dt.project.model.basePublic.BasicSalesPublicBrushType;
 import com.dt.project.service.basePublicService.BasicSalesPublicBrushTypeService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,7 @@ public class BasicSalesPublicBrushTypeController {
     public ResponseBase findByListBrush(@RequestParam("pageSize") Integer pageSize,
                                         @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicSalesPublicBrushType> brushTypes = brushTypeService.serviceFindByBrushTypeInfo();
-        return PageInfoUtils.returnPage(brushTypes, currentPage);
+        return PageInfoUtils.returnPage(brushTypeService.serviceFindByBrushTypeInfo());
     }
 
 

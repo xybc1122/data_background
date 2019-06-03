@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicSalesAmazonDescription;
+import com.dt.project.model.basePublic.BasicSalesAmazonDescription;
 import com.dt.project.service.basePublicService.BasicSalesAmazonDescriptionService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class BasicSalesAmazonDescriptionController {
     @PostMapping("/findByListDescription")
     public ResponseBase findByListDescription(@RequestBody BasicSalesAmazonDescription description) {
         PageInfoUtils.setPage(description.getPageSize(), description.getCurrentPage());
-        return PageInfoUtils.returnPage(descriptionService.serviceGetDescription(description), description.getCurrentPage());
+        return PageInfoUtils.returnPage(descriptionService.serviceGetDescription(description));
     }
 
 

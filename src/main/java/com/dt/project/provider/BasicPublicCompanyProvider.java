@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.basePublicModel.BasicPublicCompany;
+import com.dt.project.model.basePublic.BasicPublicCompany;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;

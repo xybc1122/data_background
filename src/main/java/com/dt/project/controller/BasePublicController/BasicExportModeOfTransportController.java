@@ -27,7 +27,7 @@ public class BasicExportModeOfTransportController {
     public ResponseBase findByListModeOfTransport(@RequestParam("pageSize") Integer pageSize,
                                                   @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(transportService.serviceFindByModeOfInfo(), currentPage);
+        return PageInfoUtils.returnPage(transportService.serviceFindByModeOfInfo());
     }
 
 

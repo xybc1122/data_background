@@ -36,9 +36,19 @@ public interface PurchaseIcBillStockEntryMapper {
     })
     List<PurchaseIcBillStockEntry> selectByIcBillStockEntry(PurchaseIcBillStockEntry record);
 
+    /**
+     * 修改外购出库单子表
+     *
+     * @param record
+     * @return
+     */
+    @UpdateProvider(type = PurchaseIcBillStockEntrySqlProvider.class, method = "updateByIcBillStockEntry")
+    int updateByIcBillStockEntry(PurchaseIcBillStockEntry record);
 
-    @UpdateProvider(type = PurchaseIcBillStockEntrySqlProvider.class, method = "updateByExampleSelective")
-    int updateByExampleSelective(@Param("record") PurchaseIcBillStockEntry record, @Param("example") PurchaseIcBillStockEntry example);
+
+
+
+
 
     @UpdateProvider(type = PurchaseIcBillStockEntrySqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") PurchaseIcBillStockEntry record, @Param("example") PurchaseIcBillStockEntry example);

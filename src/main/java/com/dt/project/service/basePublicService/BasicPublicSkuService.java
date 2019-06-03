@@ -1,7 +1,7 @@
 package com.dt.project.service.basePublicService;
 
 import com.dt.project.model.dto.SkuDto;
-import com.dt.project.model.basePublicModel.BasicPublicSku;
+import com.dt.project.model.basePublic.BasicPublicSku;
 
 import java.util.List;
 

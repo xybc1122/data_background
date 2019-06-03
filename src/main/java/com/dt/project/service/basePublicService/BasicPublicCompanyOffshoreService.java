@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicPublicCompanyOffshore;
+import com.dt.project.model.basePublic.BasicPublicCompanyOffshore;
 
 import java.util.List;
 

@@ -25,7 +25,7 @@ public class BasicPublicDutiesTaxrateController {
     @PostMapping("/findByListTax")
     public ResponseBase findByListTax(@RequestBody TaxrateDto taxrateDto) {
         PageInfoUtils.setPage(taxrateDto.getPageSize(), taxrateDto.getCurrentPage());
-        return PageInfoUtils.returnPage(taxrateService.findByListTaxrate(taxrateDto), taxrateDto.getCurrentPage());
+        return PageInfoUtils.returnPage(taxrateService.findByListTaxrate(taxrateDto));
 
     }
 }

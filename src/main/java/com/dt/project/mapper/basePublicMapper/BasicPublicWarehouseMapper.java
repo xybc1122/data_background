@@ -1,7 +1,7 @@
 package com.dt.project.mapper.basePublicMapper;
 
 
-import com.dt.project.model.basePublicModel.BasicPublicWarehouse;
+import com.dt.project.model.basePublic.BasicPublicWarehouse;
 import com.dt.project.model.parent.ParentTree;
 import com.dt.project.provider.WarehouseInfoProvider;
 import org.apache.ibatis.annotations.*;

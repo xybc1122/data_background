@@ -25,7 +25,7 @@ public class BasicExportWayOfClosingController {
     public ResponseBase findByListModeOfTransport(@RequestParam("pageSize") Integer pageSize,
                                                   @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(closingService.serviceFindByWayOfInfo(), currentPage);
+        return PageInfoUtils.returnPage(closingService.serviceFindByWayOfInfo());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicPurchasePrice;
+import com.dt.project.model.basePublic.BasicPurchasePrice;
 import com.dt.project.provider.BasicPurchasePriceProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

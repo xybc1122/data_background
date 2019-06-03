@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicSalesAmazonPaymentType;
+import com.dt.project.model.basePublic.BasicSalesAmazonPaymentType;
 import com.dt.project.service.basePublicService.BasicSalesAmazonPaymentTypeService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,6 @@ public class BasicSalesAmazonPaymentTypeController {
     public ResponseBase findByListProperty(@RequestParam("pageSize") Integer pageSize,
                                            @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        List<BasicSalesAmazonPaymentType> paymentTypeList = typeService.serviceFindByListPayType();
-        return PageInfoUtils.returnPage(paymentTypeList, currentPage);
+        return PageInfoUtils.returnPage(typeService.serviceFindByListPayType());
     }
 }

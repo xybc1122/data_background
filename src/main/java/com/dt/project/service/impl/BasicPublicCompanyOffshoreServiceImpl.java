@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicPublicCompanyOffshoreMapper;
-import com.dt.project.model.basePublicModel.BasicPublicCompanyOffshore;
+import com.dt.project.model.basePublic.BasicPublicCompanyOffshore;
 import com.dt.project.service.basePublicService.BasicPublicCompanyOffshoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

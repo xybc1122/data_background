@@ -27,8 +27,19 @@ public class SystemFinalProcessingServiceImpl implements SystemFinalProcessingSe
     public ResponseBase selectByDateCheckout(Integer menuId) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM");
         String date = pMapper.selectByDateCheckout(menuId);
-        if (StringUtils.isNotBlank(date))
+        if (StringUtils.isNotBlank(date)) {
             return JsonData.setResultSuccess("success", date + ":" + format.format(new Date()));
+        }
         return JsonData.setResultError("无时间数据");
+    }
+
+    /**
+     * 单独查询结账时间 这里为了配置 入库通知单 使用
+     *
+     * @param menuId
+     * @return
+     */
+    public String selDate(Integer menuId) {
+        return pMapper.selectByDateCheckout(menuId);
     }
 }

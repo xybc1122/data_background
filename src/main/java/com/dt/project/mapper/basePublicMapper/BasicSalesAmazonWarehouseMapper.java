@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicSalesAmazonWarehouse;
+import com.dt.project.model.basePublic.BasicSalesAmazonWarehouse;
 import com.dt.project.provider.BasicSalesAmazonWarehouseProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

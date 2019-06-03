@@ -73,11 +73,11 @@ public class SalesShipNotice extends ParentConfTable {
     /**
      * 接收对象查询
      */
-    private SalesShipNoticeEntry shipNoticeEntry;
+    private SalesShipNoticeEntry entry;
     /**
      * 一对多查询存储
      */
-    private List<SalesShipNoticeEntry> noticeEntryList;
+    private List<SalesShipNoticeEntry> entryList;
     /**
      * 计划出货日期范围查询
      */
@@ -147,12 +147,20 @@ public class SalesShipNotice extends ParentConfTable {
 
     }
 
-    public SalesShipNoticeEntry getShipNoticeEntry() {
-        return shipNoticeEntry;
+    public SalesShipNoticeEntry getEntry() {
+        return entry;
     }
 
-    public void setShipNoticeEntry(SalesShipNoticeEntry shipNoticeEntry) {
-        this.shipNoticeEntry = shipNoticeEntry;
+    public void setEntry(SalesShipNoticeEntry entry) {
+        this.entry = entry;
+    }
+
+    public List<SalesShipNoticeEntry> getEntryList() {
+        return entryList;
+    }
+
+    public void setEntryList(List<SalesShipNoticeEntry> entryList) {
+        this.entryList = entryList;
     }
 
     public List<Long> getDeliveryDates() {
@@ -177,14 +185,6 @@ public class SalesShipNotice extends ParentConfTable {
 
     public void setPaymentTypeName(String paymentTypeName) {
         this.paymentTypeName = paymentTypeName;
-    }
-
-    public List<SalesShipNoticeEntry> getNoticeEntryList() {
-        return noticeEntryList;
-    }
-
-    public void setNoticeEntryList(List<SalesShipNoticeEntry> noticeEntryList) {
-        this.noticeEntryList = noticeEntryList;
     }
 
     public Long getShipNoticeId() {

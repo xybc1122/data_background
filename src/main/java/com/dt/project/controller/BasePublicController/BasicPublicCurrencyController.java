@@ -21,6 +21,6 @@ public class BasicPublicCurrencyController {
     @PostMapping("/findByListCurrency")
     public ResponseBase findByListCurrency(@RequestBody CurrencyDto currencyDto) {
         PageInfoUtils.setPage(currencyDto.getPageSize(), currencyDto.getCurrentPage());
-        return PageInfoUtils.returnPage(basicPublicCurrencyService.findByListCurrency(), currencyDto.getCurrentPage());
+        return PageInfoUtils.returnPage(basicPublicCurrencyService.findByListCurrency());
     }
 }

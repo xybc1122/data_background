@@ -3,6 +3,7 @@ package com.dt.project.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
+import com.dt.project.exception.LsException;
 import com.dt.project.mapper.purchaseMapper.PurchasePoOrderMapper;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
@@ -47,42 +48,48 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
         List<PurchasePoOrder> purchasePoOrders = poOrderMapper.selectByPoOrder(record);
 
         if (!ListUtils.isList(purchasePoOrders)) {
-            return PageInfoUtils.returnPage(purchasePoOrders, record.getCurrentPage());
+            return PageInfoUtils.returnPage(purchasePoOrders);
         }
 
         List<Long> poIds = new ArrayList<>();
         for (PurchasePoOrder poOrder : purchasePoOrders) {
             poIds.add(poOrder.getPoId());
         }
-        PurchasePoOrderEntry poOrderEntry = record.getPoOrderEntry();
+
+        PurchasePoOrderEntry poOrderEntry;
+        if (record.getEntry() == null) {
+            poOrderEntry = new PurchasePoOrderEntry();
+        } else {
+            poOrderEntry = (PurchasePoOrderEntry) JsonUtils.objConversion(record.getEntry(), PurchasePoOrderEntry.class);
+        }
         poOrderEntry.setInList(poIds);
         //查询表体
-        List<PurchasePoOrderEntry> purchasePoOrderEntrieList = poOrderEntryService.serviceSelectByPoOrderEntry(poOrderEntry);
+        List<PurchasePoOrderEntry> ppoEntry = poOrderEntryService.serviceSelectByPoOrderEntry(poOrderEntry);
 
-        if (!ListUtils.isList(purchasePoOrderEntrieList)) {
-            return PageInfoUtils.returnPage(purchasePoOrders, record.getCurrentPage());
+        if (!ListUtils.isList(ppoEntry)) {
+            return PageInfoUtils.returnPage(purchasePoOrders);
         }
 
         for (int i = 0; i < poIds.size(); i++) {
             Long poId = poIds.get(i);
             List<PurchasePoOrderEntry> listNe = new ArrayList<>();
-            for (PurchasePoOrderEntry ne : purchasePoOrderEntrieList) {
+            for (PurchasePoOrderEntry ne : ppoEntry) {
                 if (poId.equals(ne.getPoId())) {
                     listNe.add(ne);
                 }
             }
-            purchasePoOrders.get(i).setPoOrderEntryList(listNe);
+            purchasePoOrders.get(i).setEntryList(listNe);
         }
 
-        return PageInfoUtils.returnPage(purchasePoOrders, record.getCurrentPage());
+        return PageInfoUtils.returnPage(purchasePoOrders);
     }
 
     @Override
     @Transactional
     public ResponseBase serviceInsertPoOrder(Map<String, Object> objectMap) {
-        Object purchasePoOrderObj = objectMap.get("purchasePoOrder");
-        Object purchasePoOrderEntryObj = objectMap.get("purchasePoOrderEntry");
-        ObjUtils.isObjNull(purchasePoOrderObj, purchasePoOrderEntryObj);
+        Object parentKey = objectMap.get("parentKey");
+        Object entry = objectMap.get("entry");
+        ObjUtils.isObjNull(parentKey, entry);
         String identifier = null;
         try {
             identifier = redisService.lockRedis(Constants.SAVE_PURCHASE_PO_ORDER, 5000L, 20000L);
@@ -90,13 +97,13 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
                 return JsonData.setResultError("请等待有人正在操作");
             }
             //拿到采购订单的最外层表数据
-            PurchasePoOrder purchasePoOrder = (PurchasePoOrder) JsonUtils.objConversion(purchasePoOrderObj, PurchasePoOrder.class);
+            PurchasePoOrder purchasePoOrder = (PurchasePoOrder) JsonUtils.objConversion(parentKey, PurchasePoOrder.class);
             int result = poOrderMapper.insertPoOrder((PurchasePoOrder) logStatusService.setObjStatusId(purchasePoOrder));
             JsonUtils.saveResult(result);
 
             Long poId = purchasePoOrder.getPoId();
             //拿到采购订单表体数据
-            JSONArray objects = JsonUtils.getJsonArr(purchasePoOrderEntryObj);
+            JSONArray objects = JsonUtils.getJsonArr(entry);
             List<PurchasePoOrderEntry> poOrderEntryList = new ArrayList<>();
             for (Object obj : objects) {
                 PurchasePoOrderEntry poOrderEntry = (PurchasePoOrderEntry) JsonUtils.objConversion(obj, PurchasePoOrderEntry.class);
@@ -119,18 +126,18 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
     @Override
     @Transactional
     public ResponseBase serviceUpdateByPoOrder(Map<String, Object> objectMap) {
-        Object purchasePoOrderObj = objectMap.get("purchasePoOrder");
-        Object purchasePoOrderEntryObj = objectMap.get("purchasePoOrderEntry");
-        if (purchasePoOrderEntryObj == null) {
+        Object parentKey = objectMap.get("parentKey");
+        Object entry = objectMap.get("entry");
+        if (entry == null) {
             return JsonData.setResultError("error");
         }
         //拿到最外层采购订单数据
         PurchasePoOrder purchasePoOrder = (PurchasePoOrder)
-                JsonUtils.objConversion(purchasePoOrderObj, PurchasePoOrder.class);
+                JsonUtils.objConversion(parentKey, PurchasePoOrder.class);
         int result = poOrderMapper.updateByPoOrder(purchasePoOrder);
         JsonUtils.saveResult(result);
         //拿到采购订单表体数据
-        JSONArray objects = JsonUtils.getJsonArr(purchasePoOrderEntryObj);
+        JSONArray objects = JsonUtils.getJsonArr(entry);
         List<PurchasePoOrderEntry> poOrderEntryList = new ArrayList<>();
         for (Object obj : objects) {
             PurchasePoOrderEntry poOrderEntry = (PurchasePoOrderEntry) JsonUtils.objConversion(obj, PurchasePoOrderEntry.class);

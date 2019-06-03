@@ -25,6 +25,6 @@ public class BasicExportDeclareTypeController {
     public ResponseBase findByListDeclareType(@RequestParam("pageSize") Integer pageSize,
                                               @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(typeService.serviceFindByListDeclare(), currentPage);
+        return PageInfoUtils.returnPage(typeService.serviceFindByListDeclare());
     }
 }

@@ -64,6 +64,6 @@ public class FinancialSalesBalanceServiceImpl implements FinancialSalesBalanceSe
 //                }
 //            }
 //        }
-        return PageInfoUtils.returnPage(fsbList, salesBalance.getCurrentPage());
+        return PageInfoUtils.returnPage(fsbList);
     }
 }

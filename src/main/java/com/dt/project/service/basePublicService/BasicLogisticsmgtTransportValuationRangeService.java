@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicLogisticsmgtTransportValuationRange;
+import com.dt.project.model.basePublic.BasicLogisticsmgtTransportValuationRange;
 
 import java.util.List;
 

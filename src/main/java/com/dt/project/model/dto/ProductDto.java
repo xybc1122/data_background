@@ -1,6 +1,6 @@
 package com.dt.project.model.dto;
 
-import com.dt.project.model.basePublicModel.BasicPublicProduct;
+import com.dt.project.model.basePublic.BasicPublicProduct;
 
 
 public class ProductDto extends BasicPublicProduct {

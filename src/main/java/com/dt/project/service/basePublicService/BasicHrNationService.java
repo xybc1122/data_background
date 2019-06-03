@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicHrNation;
+import com.dt.project.model.basePublic.BasicHrNation;
 
 import java.util.List;
 

@@ -2,7 +2,7 @@ package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.ProductDto;
-import com.dt.project.model.basePublicModel.BasicPublicProduct;
+import com.dt.project.model.basePublic.BasicPublicProduct;
 import com.dt.project.service.basePublicService.BasicPublicProductService;
 import com.dt.project.utils.PageInfoUtils;
 import org.apache.ibatis.annotations.Param;
@@ -27,8 +27,7 @@ public class BasicPublicProductController {
     @PostMapping("/findByListProduct")
     public ResponseBase findByListProduct(@RequestBody ProductDto productDto) {
         PageInfoUtils.setPage(productDto.getPageSize(), productDto.getCurrentPage());
-        List<ProductDto> basicPublicCurrencies = productService.findProductInfo(productDto);
-        return PageInfoUtils.returnPage(basicPublicCurrencies, productDto.getCurrentPage());
+        return PageInfoUtils.returnPage(productService.findProductInfo(productDto));
     }
 
     @PostMapping("/upProduct")

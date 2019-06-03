@@ -25,7 +25,7 @@ public class BasicHrNationController {
     public ResponseBase findByListNation(@RequestParam("pageSize") Integer pageSize,
                                          @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(nationService.serviceFindByListHrNation(), currentPage);
+        return PageInfoUtils.returnPage(nationService.serviceFindByListHrNation());
     }
 
 

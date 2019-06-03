@@ -1,7 +1,7 @@
 package com.dt.project.provider;
 
 import com.dt.project.model.dto.ProductDto;
-import com.dt.project.model.basePublicModel.BasicPublicProduct;
+import com.dt.project.model.basePublic.BasicPublicProduct;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.toos.Constants;
@@ -73,10 +73,9 @@ public class BasicPublicProductProvider {
         // 物料属性名称
         AppendSqlStore.sqlWhere(productDto.getItemAttributeName(), "ia.item_attribute_name", sql, Constants.SELECT);
         // 类目名称
-        AppendSqlStore.sqlWhere(productDto.getProductName(), "ps.products_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getProductsName(), "ps.products_name", sql, Constants.SELECT);
         //  HS Code
         AppendSqlStore.sqlWhere(productDto.getHsCode(), "hc.hs_code", sql, Constants.SELECT);
-        ProviderSqlStore.del(alias, sql);
         return sql.toString();
     }
 

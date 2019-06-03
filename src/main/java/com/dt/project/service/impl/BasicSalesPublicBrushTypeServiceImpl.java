@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicSalesPublicBrushTypeMapper;
-import com.dt.project.model.basePublicModel.BasicSalesPublicBrushType;
+import com.dt.project.model.basePublic.BasicSalesPublicBrushType;
 import com.dt.project.service.basePublicService.BasicSalesPublicBrushTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

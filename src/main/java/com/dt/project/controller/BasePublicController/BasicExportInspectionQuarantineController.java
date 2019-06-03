@@ -26,7 +26,7 @@ public class BasicExportInspectionQuarantineController {
     public ResponseBase findByListModeOfTransport(@RequestParam("pageSize") Integer pageSize,
                                                   @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(quarantineService.serviceFindByQuarantineInfo(), currentPage);
+        return PageInfoUtils.returnPage(quarantineService.serviceFindByQuarantineInfo());
     }
 
 

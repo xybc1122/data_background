@@ -26,7 +26,7 @@ public class BasicPublicPlatformTypeController {
     public ResponseBase findByListPlatform(@RequestParam("pageSize") Integer pageSize,
                                            @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(platformTypeService.serviceFindByListPlatform(), currentPage);
+        return PageInfoUtils.returnPage(platformTypeService.serviceFindByListPlatform());
     }
 
 

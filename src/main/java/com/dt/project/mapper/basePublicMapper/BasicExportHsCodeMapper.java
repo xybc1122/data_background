@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicExportHsCode;
+import com.dt.project.model.basePublic.BasicExportHsCode;
 import com.dt.project.provider.BasicExportHsCodeProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

@@ -82,7 +82,7 @@ public class PurchasePoOrderEntrySqlProvider {
         FieldStore.query(poOrderEntry.getClass(), poOrderEntry.getJavaSqlName(), poOrderEntry, sql);
         sql.WHERE(alias + ".`del_or_not`=0");
         if (poOrderEntry.getInList() != null && poOrderEntry.getInList().size() > 0) {
-            return sql.toString() + " AND " + StrUtils.in(poOrderEntry.getInList(), "poe_id");
+            return sql.toString() + " AND " + StrUtils.in(poOrderEntry.getInList(), "po_id");
         }
         return sql.toString();
 

@@ -1,6 +1,6 @@
 package com.dt.project.model.dto;
 
-import com.dt.project.model.basePublicModel.BasicPublicCountry;
+import com.dt.project.model.basePublic.BasicPublicCountry;
 
 public class CountryDto extends BasicPublicCountry {
     /**

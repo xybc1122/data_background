@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicSalesAmazonPaymentType;
+import com.dt.project.model.basePublic.BasicSalesAmazonPaymentType;
 
 import java.util.List;
 

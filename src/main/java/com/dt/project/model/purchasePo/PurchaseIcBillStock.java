@@ -12,6 +12,11 @@ public class PurchaseIcBillStock extends ParentSysTemLog {
 
     private Long date;
 
+    private Integer supplierId;
+    private Integer years;
+
+    private Integer period;
+
     private String no;
 
     private String explanation;
@@ -33,30 +38,33 @@ public class PurchaseIcBillStock extends ParentSysTemLog {
     private Long sourceId;
 
     private Integer printCount;
-    /**
-     * 一对多存储
-     */
-    private List<PurchaseIcBillStockEntry> purchaseIcBillStockEntryList;
-    /**
-     * 接收数据
-     */
-    private PurchaseIcBillStockEntry purchaseIcBillStockEntry;
 
-    public List<PurchaseIcBillStockEntry> getPurchaseIcBillStockEntryList() {
-        return purchaseIcBillStockEntryList;
+
+    public Integer getSupplierId() {
+        return supplierId;
     }
 
-    public void setPurchaseIcBillStockEntryList(List<PurchaseIcBillStockEntry> purchaseIcBillStockEntryList) {
-        this.purchaseIcBillStockEntryList = purchaseIcBillStockEntryList;
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
     }
 
-    public PurchaseIcBillStockEntry getPurchaseIcBillStockEntry() {
-        return purchaseIcBillStockEntry;
+    public Integer getYears() {
+        return years;
     }
 
-    public void setPurchaseIcBillStockEntry(PurchaseIcBillStockEntry purchaseIcBillStockEntry) {
-        this.purchaseIcBillStockEntry = purchaseIcBillStockEntry;
+    public void setYears(Integer years) {
+        this.years = years;
     }
+
+    public Integer getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Integer period) {
+        this.period = period;
+    }
+
+
 
     public Long getSbId() {
         return sbId;

@@ -56,7 +56,7 @@ public class SalesAmazonFbaController {
     @PostMapping("/getBusInfo")
     public ResponseBase getBusInfo(@RequestBody SalesAmazonFbaBusinessreport bus) {
         PageInfoUtils.setPage(bus.getPageSize(), bus.getCurrentPage());
-        return PageInfoUtils.returnPage(busService.serviceFindByListBus(bus), bus.getCurrentPage());
+        return PageInfoUtils.returnPage(busService.serviceFindByListBus(bus));
     }
 
     /**
@@ -68,7 +68,7 @@ public class SalesAmazonFbaController {
     @PostMapping("/getOrderRePortInfo")
     public ResponseBase getBusInfo(@RequestBody SalesAmazonFbaTradeReport report) {
         PageInfoUtils.setPage(report.getPageSize(), report.getCurrentPage());
-        return PageInfoUtils.returnPage(orderRePortService.serviceFindByListOrderReport(report), report.getCurrentPage());
+        return PageInfoUtils.returnPage(orderRePortService.serviceFindByListOrderReport(report));
     }
 
     /**
@@ -79,7 +79,7 @@ public class SalesAmazonFbaController {
     @PostMapping("/geRefundInfo")
     public ResponseBase getRefundInfo(@RequestBody SalesAmazonFbaRefund refund) {
         PageInfoUtils.setPage(refund.getPageSize(), refund.getCurrentPage());
-        return PageInfoUtils.returnPage(refundService.serviceFindByListRefund(refund), refund.getCurrentPage());
+        return PageInfoUtils.returnPage(refundService.serviceFindByListRefund(refund));
     }
 
     /**
@@ -90,7 +90,7 @@ public class SalesAmazonFbaController {
     @PostMapping("/getReceiveInfo")
     public ResponseBase getRefundInfo(@RequestBody SalesAmazonFbaReceivestock rec) {
         PageInfoUtils.setPage(rec.getPageSize(), rec.getCurrentPage());
-        return PageInfoUtils.returnPage(recService.serviceFindByListRec(rec), rec.getCurrentPage());
+        return PageInfoUtils.returnPage(recService.serviceFindByListRec(rec));
     }
 
 
@@ -102,7 +102,7 @@ public class SalesAmazonFbaController {
     @PostMapping("/getInventoryInfo")
     public ResponseBase getRefundInfo(@RequestBody SalesAmazonFbaInventoryEnd inv) {
         PageInfoUtils.setPage(inv.getPageSize(), inv.getCurrentPage());
-        return PageInfoUtils.returnPage(invService.serviceFindByListEnd(inv), inv.getCurrentPage());
+        return PageInfoUtils.returnPage(invService.serviceFindByListEnd(inv));
     }
 
 
@@ -116,7 +116,7 @@ public class SalesAmazonFbaController {
         //这里放入缓存
         abandon.setNameList(nameService.get("abandon"));
         PageInfoUtils.setPage(abandon.getPageSize(), abandon.getCurrentPage());
-        return PageInfoUtils.returnPage(abandonService.serviceFindByListAbandon(abandon), abandon.getCurrentPage());
+        return PageInfoUtils.returnPage(abandonService.serviceFindByListAbandon(abandon));
     }
 
 
@@ -130,7 +130,7 @@ public class SalesAmazonFbaController {
         //这里放入缓存
         mFee.setNameList(nameService.get("monthWarehouseFee"));
         PageInfoUtils.setPage(mFee.getPageSize(), mFee.getCurrentPage());
-        return PageInfoUtils.returnPage(mWarService.serviceFindByListMWar(mFee), mFee.getCurrentPage());
+        return PageInfoUtils.returnPage(mWarService.serviceFindByListMWar(mFee));
     }
 
     /**
@@ -143,7 +143,7 @@ public class SalesAmazonFbaController {
         //这里放入缓存
         lFee.setNameList(nameService.get("longWarehouseFee"));
         PageInfoUtils.setPage(lFee.getPageSize(), lFee.getCurrentPage());
-        return PageInfoUtils.returnPage(lWarService.serviceSelectByLongWarehouse(lFee), lFee.getCurrentPage());
+        return PageInfoUtils.returnPage(lWarService.serviceSelectByLongWarehouse(lFee));
 
     }
 
@@ -156,7 +156,7 @@ public class SalesAmazonFbaController {
     public ResponseBase getHlFee(@RequestBody SalesAmazonFbaHandlingFee hlFee) {
         hlFee.setNameList(nameService.get("handlingFee"));
         PageInfoUtils.setPage(hlFee.getPageSize(), hlFee.getCurrentPage());
-        return PageInfoUtils.returnPage(hlingFeeService.serviceSelectByHandLFee(hlFee), hlFee.getCurrentPage());
+        return PageInfoUtils.returnPage(hlingFeeService.serviceSelectByHandLFee(hlFee));
     }
 
     /**
@@ -168,7 +168,7 @@ public class SalesAmazonFbaController {
     public ResponseBase getFeedback(@RequestBody SalesAmazonFbaFeedback feedback) {
         feedback.setNameList(nameService.get("feedback"));
         PageInfoUtils.setPage(feedback.getPageSize(), feedback.getCurrentPage());
-        return PageInfoUtils.returnPage(feedbackService.serviceSelectByFeedback(feedback), feedback.getCurrentPage());
+        return PageInfoUtils.returnPage(feedbackService.serviceSelectByFeedback(feedback));
     }
 
     /**
@@ -190,7 +190,7 @@ public class SalesAmazonFbaController {
     public ResponseBase getReview(@RequestBody ReviewDto reviewDto) {
         reviewDto.setNameList(nameService.get("review"));
         PageInfoUtils.setPage(reviewDto.getPageSize(), reviewDto.getCurrentPage());
-        return PageInfoUtils.returnPage(reviewService.serviceSelectByReview(reviewDto), reviewDto.getCurrentPage());
+        return PageInfoUtils.returnPage(reviewService.serviceSelectByReview(reviewDto));
     }
 
     /**

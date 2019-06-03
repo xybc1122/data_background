@@ -8,7 +8,6 @@ import com.dt.project.model.parent.ParentTree;
 public class HrArchivesDepartment extends ParentTree {
 
     private String deptNameEng;
-    private Integer delFlag;
 
 
     public String getDeptNameEng() {
@@ -19,11 +18,4 @@ public class HrArchivesDepartment extends ParentTree {
         this.deptNameEng = deptNameEng;
     }
 
-    public Integer getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(Integer delFlag) {
-        this.delFlag = delFlag;
-    }
 }

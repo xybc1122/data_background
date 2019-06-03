@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.basePublicModel.BasicPublicAreaRoleSite;
+import com.dt.project.model.basePublic.BasicPublicAreaRoleSite;
 
 import java.util.Map;
 

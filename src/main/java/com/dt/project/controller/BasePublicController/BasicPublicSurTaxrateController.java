@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicPublicSurTaxrate;
+import com.dt.project.model.basePublic.BasicPublicSurTaxrate;
 import com.dt.project.service.basePublicService.BasicPublicSurTaxrateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

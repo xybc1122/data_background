@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicPublicSurTaxrate;
+import com.dt.project.model.basePublic.BasicPublicSurTaxrate;
 
 import java.util.List;
 

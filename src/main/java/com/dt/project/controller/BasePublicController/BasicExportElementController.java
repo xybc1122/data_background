@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicExportElement;
+import com.dt.project.model.basePublic.BasicExportElement;
 import com.dt.project.service.basePublicService.BasicExportElementService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,6 @@ public class BasicExportElementController {
     @PostMapping("/findElementInfo")
     public ResponseBase findElementInfo(@RequestBody BasicExportElement element) {
         PageInfoUtils.setPage(element.getPageSize(), element.getCurrentPage());
-        return PageInfoUtils.returnPage(elementService.serviceFindByListElement(element), element.getCurrentPage());
+        return PageInfoUtils.returnPage(elementService.serviceFindByListElement(element));
     }
 }

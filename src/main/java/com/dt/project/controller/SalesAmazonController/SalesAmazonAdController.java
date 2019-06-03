@@ -45,7 +45,7 @@ public class SalesAmazonAdController {
     @PostMapping("/getCprInfo")
     public ResponseBase getCprInfo(@RequestBody SalesAmazonAdCpr adCpr) {
         PageInfoUtils.setPage(adCpr.getPageSize(), adCpr.getCurrentPage());
-        return PageInfoUtils.returnPage(cprService.serviceFindByListCpr(adCpr), adCpr.getCurrentPage());
+        return PageInfoUtils.returnPage(cprService.serviceFindByListCpr(adCpr));
     }
 
     /**
@@ -56,7 +56,7 @@ public class SalesAmazonAdController {
     @PostMapping("/getStrInfo")
     public ResponseBase getStrInfo(@RequestBody SalesAmazonAdStr str) {
         PageInfoUtils.setPage(str.getPageSize(), str.getCurrentPage());
-        return PageInfoUtils.returnPage(strService.serviceFindByListStr(str), str.getCurrentPage());
+        return PageInfoUtils.returnPage(strService.serviceFindByListStr(str));
     }
 
     /**
@@ -67,7 +67,7 @@ public class SalesAmazonAdController {
     @PostMapping("/getOarInfo")
     public ResponseBase geOarInfo(@RequestBody SalesAmazonAdOar oar) {
         PageInfoUtils.setPage(oar.getPageSize(), oar.getCurrentPage());
-        return PageInfoUtils.returnPage(oarService.serviceFindByListOar(oar), oar.getCurrentPage());
+        return PageInfoUtils.returnPage(oarService.serviceFindByListOar(oar));
     }
 
     /**
@@ -78,7 +78,7 @@ public class SalesAmazonAdController {
     @PostMapping("/getHlInfo")
     public ResponseBase geHlInfo(@RequestBody SalesAmazonAdHl hl) {
         PageInfoUtils.setPage(hl.getPageSize(), hl.getCurrentPage());
-        return PageInfoUtils.returnPage(hlService.serviceFindByListHl(hl), hl.getCurrentPage());
+        return PageInfoUtils.returnPage(hlService.serviceFindByListHl(hl));
     }
 
 }

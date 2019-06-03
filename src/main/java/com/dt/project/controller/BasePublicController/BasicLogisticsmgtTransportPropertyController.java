@@ -25,7 +25,7 @@ public class BasicLogisticsmgtTransportPropertyController {
     public ResponseBase findByListProperty(@RequestParam("pageSize") Integer pageSize,
                                            @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(propertyService.findByListProperty(), currentPage);
+        return PageInfoUtils.returnPage(propertyService.findByListProperty());
     }
 
 

@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.basePublicModel.BasicSalesAmazonCsvTxtXslHeader;
+import com.dt.project.model.basePublic.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.project.store.ProviderSqlStore;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;

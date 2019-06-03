@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicExportDeclareTypeMapper;
-import com.dt.project.model.basePublicModel.BasicExportDeclareType;
+import com.dt.project.model.basePublic.BasicExportDeclareType;
 import com.dt.project.service.basePublicService.BasicExportDeclareTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

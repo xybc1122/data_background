@@ -1,6 +1,6 @@
 package com.dt.project.provider;
 
-import com.dt.project.model.basePublicModel.BasicExportElement;
+import com.dt.project.model.basePublic.BasicExportElement;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.toos.Constants;

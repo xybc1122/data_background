@@ -5,7 +5,7 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.AreaRoleDto;
 import com.dt.project.exception.LsException;
 import com.dt.project.mapper.basePublicMapper.BasicPublicAreaRoleMapper;
-import com.dt.project.model.basePublicModel.BasicPublicAreaRoleSite;
+import com.dt.project.model.basePublic.BasicPublicAreaRoleSite;
 import com.dt.project.service.basePublicService.BasicPublicAreaRoleService;
 import com.dt.project.service.basePublicService.BasicPublicAreaRoleSiteService;
 import com.dt.project.utils.ReqUtils;

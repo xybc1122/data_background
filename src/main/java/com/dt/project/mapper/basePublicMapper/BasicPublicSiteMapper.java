@@ -1,7 +1,7 @@
 package com.dt.project.mapper.basePublicMapper;
 
 import com.dt.project.model.dto.SiteDto;
-import com.dt.project.model.basePublicModel.BasicPublicSite;
+import com.dt.project.model.basePublic.BasicPublicSite;
 import com.dt.project.provider.BasicPublicSiteProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

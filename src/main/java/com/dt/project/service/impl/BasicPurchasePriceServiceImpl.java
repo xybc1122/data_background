@@ -1,7 +1,7 @@
 package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicPurchasePriceMapper;
-import com.dt.project.model.basePublicModel.BasicPurchasePrice;
+import com.dt.project.model.basePublic.BasicPurchasePrice;
 import com.dt.project.service.basePublicService.BasicPurchasePriceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

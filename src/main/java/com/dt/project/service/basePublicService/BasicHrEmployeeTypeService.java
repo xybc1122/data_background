@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicHrEmployeeType;
+import com.dt.project.model.basePublic.BasicHrEmployeeType;
 
 import java.util.List;
 

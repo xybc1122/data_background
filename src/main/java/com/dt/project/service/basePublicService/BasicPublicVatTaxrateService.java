@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicPublicVatTaxrate;
+import com.dt.project.model.basePublic.BasicPublicVatTaxrate;
 
 import java.util.List;
 

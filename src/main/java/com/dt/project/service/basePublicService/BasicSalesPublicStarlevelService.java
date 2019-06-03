@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicSalesPublicStarlevel;
+import com.dt.project.model.basePublic.BasicSalesPublicStarlevel;
 
 import java.util.List;
 

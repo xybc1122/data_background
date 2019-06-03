@@ -1,7 +1,7 @@
 package com.dt.project.service.basePublicService;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicPublicProducts;
+import com.dt.project.model.basePublic.BasicPublicProducts;
 import com.dt.project.model.parent.ParentTree;
 
 import java.util.List;

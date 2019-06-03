@@ -20,7 +20,7 @@ public class BasicPublicCountryController {
     @PostMapping("/findCountryInfo")
     public ResponseBase findCountryInfo(@RequestBody CountryDto countryDto) {
         PageInfoUtils.setPage(countryDto.getPageSize(), countryDto.getCurrentPage());
-        return PageInfoUtils.returnPage(countryService.findByCountry(countryDto), countryDto.getCurrentPage());
+        return PageInfoUtils.returnPage(countryService.findByCountry(countryDto));
     }
 
 }

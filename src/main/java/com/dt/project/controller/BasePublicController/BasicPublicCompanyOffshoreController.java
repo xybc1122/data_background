@@ -27,7 +27,7 @@ public class BasicPublicCompanyOffshoreController {
     public ResponseBase findByListCompanyOffshore(@RequestParam("pageSize") Integer pageSize,
                                          @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(offshoreService.serviceFindByListOffshore(), currentPage);
+        return PageInfoUtils.returnPage(offshoreService.serviceFindByListOffshore());
     }
 
 

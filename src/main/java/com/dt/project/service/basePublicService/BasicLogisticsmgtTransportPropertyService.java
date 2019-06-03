@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicLogisticsmgtTransportProperty;
+import com.dt.project.model.basePublic.BasicLogisticsmgtTransportProperty;
 
 import java.util.List;
 

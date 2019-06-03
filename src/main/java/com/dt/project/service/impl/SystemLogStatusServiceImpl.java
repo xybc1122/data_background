@@ -4,7 +4,9 @@ import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.exception.LsException;
 import com.dt.project.mapper.systemMapper.SystemLogStatusMapper;
-import com.dt.project.model.basePublicModel.*;
+import com.dt.project.model.basePublic.*;
+import com.dt.project.model.parent.ParentSysTemLog;
+import com.dt.project.model.parent.ParentTree;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.purchasePo.PurchasePoReceiptNotice;
 import com.dt.project.model.system.SystemInfoCompany;
@@ -84,57 +86,65 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     @Override
     public Object setObjStatusId(Object obj) {
         SystemLogStatus logStatus;
-        if (obj instanceof BasicPublicWarehouse) {
-            //仓库
-            BasicPublicWarehouse war = (BasicPublicWarehouse) obj;
+        //ParentTree父类型
+        if (obj instanceof ParentTree) {
+            ParentTree parentTree = (ParentTree) obj;
             //新增状态
-            logStatus = serviceSaveSysStatusInfo(war.getSystemLogStatus());
-            war.setStatusId(logStatus.getStatusId());
-            return war;
-        } else if (obj instanceof BasicPublicCompany) {
-            //公司
-            BasicPublicCompany company = (BasicPublicCompany) obj;
-            logStatus = serviceSaveSysStatusInfo(company.getSystemLogStatus());
-            company.setStatusId(logStatus.getStatusId());
-            return company;
-
-        } else if (obj instanceof BasicPublicExchangeRate) {
-            //汇率
-            BasicPublicExchangeRate rate = (BasicPublicExchangeRate) obj;
-            logStatus = serviceSaveSysStatusInfo(rate.getSystemLogStatus());
-            rate.setStatusId(logStatus.getStatusId());
-            return rate;
-        } else if (obj instanceof BasicPublicProduct) {
-            //产品信息
-            BasicPublicProduct product = (BasicPublicProduct) obj;
-            logStatus = serviceSaveSysStatusInfo(product.getSystemLogStatus());
-            product.setStatusId(logStatus.getStatusId());
-            return product;
-        } else if (obj instanceof BasicPublicProducts) {
-            //产品类目
-            BasicPublicProducts products = (BasicPublicProducts) obj;
-            logStatus = serviceSaveSysStatusInfo(products.getSystemLogStatus());
-            products.setStatusId(logStatus.getStatusId());
-            return products;
-        } else if (obj instanceof SystemInfoCompany) {
-            //公司页面信息配置表
-            SystemInfoCompany company = (SystemInfoCompany) obj;
-            logStatus = serviceSaveSysStatusInfo(company.getSystemLogStatus());
-            company.setStatusId(logStatus.getStatusId());
-            return company;
-        } else if (obj instanceof PurchasePoOrder) {
-            //采购订单配置表
-            PurchasePoOrder poOrder = (PurchasePoOrder) obj;
-            logStatus = serviceSaveSysStatusInfo(poOrder.getSystemLogStatus());
-            poOrder.setStatusId(logStatus.getStatusId());
-            return poOrder;
-        } else if (obj instanceof PurchasePoReceiptNotice) {
-            //收货通知单配置表
-            PurchasePoReceiptNotice receiptNotice = (PurchasePoReceiptNotice) obj;
-            logStatus = serviceSaveSysStatusInfo(receiptNotice.getSystemLogStatus());
-            receiptNotice.setStatusId(logStatus.getStatusId());
-            return receiptNotice;
+            logStatus = serviceSaveSysStatusInfo(parentTree.getSystemLogStatus());
+            parentTree.setStatusId(logStatus.getStatusId());
+            return parentTree;
+        } else if
+            //ParentSysTemLog父类型
+        (obj instanceof ParentSysTemLog) {
+            ParentSysTemLog parentSysTemLog = (ParentSysTemLog) obj;
+            logStatus = serviceSaveSysStatusInfo(parentSysTemLog.getSystemLogStatus());
+            parentSysTemLog.setStatusId(logStatus.getStatusId());
+            return parentSysTemLog;
         }
+//        } else if (obj instanceof BasicPublicCompany) {
+//            //公司
+//            BasicPublicCompany company = (BasicPublicCompany) obj;
+//            logStatus = serviceSaveSysStatusInfo(company.getSystemLogStatus());
+//            company.setStatusId(logStatus.getStatusId());
+//            return company;
+//
+//        } else if (obj instanceof BasicPublicExchangeRate) {
+//            //汇率
+//            BasicPublicExchangeRate rate = (BasicPublicExchangeRate) obj;
+//            logStatus = serviceSaveSysStatusInfo(rate.getSystemLogStatus());
+//            rate.setStatusId(logStatus.getStatusId());
+//            return rate;
+//        } else if (obj instanceof BasicPublicProduct) {
+//            //产品信息
+//            BasicPublicProduct product = (BasicPublicProduct) obj;
+//            logStatus = serviceSaveSysStatusInfo(product.getSystemLogStatus());
+//            product.setStatusId(logStatus.getStatusId());
+//            return product;
+//        } else if (obj instanceof BasicPublicProducts) {
+//            //产品类目
+//            BasicPublicProducts products = (BasicPublicProducts) obj;
+//            logStatus = serviceSaveSysStatusInfo(products.getSystemLogStatus());
+//            products.setStatusId(logStatus.getStatusId());
+//            return products;
+//        } else if (obj instanceof SystemInfoCompany) {
+//            //公司页面信息配置表
+//            SystemInfoCompany company = (SystemInfoCompany) obj;
+//            logStatus = serviceSaveSysStatusInfo(company.getSystemLogStatus());
+//            company.setStatusId(logStatus.getStatusId());
+//            return company;
+//        } else if (obj instanceof PurchasePoOrder) {
+//            //采购订单配置表
+//            PurchasePoOrder poOrder = (PurchasePoOrder) obj;
+//            logStatus = serviceSaveSysStatusInfo(poOrder.getSystemLogStatus());
+//            poOrder.setStatusId(logStatus.getStatusId());
+//            return poOrder;
+//        } else if (obj instanceof PurchasePoReceiptNotice) {
+//            //收货通知单配置表
+//            PurchasePoReceiptNotice receiptNotice = (PurchasePoReceiptNotice) obj;
+//            logStatus = serviceSaveSysStatusInfo(receiptNotice.getSystemLogStatus());
+//            receiptNotice.setStatusId(logStatus.getStatusId());
+//            return receiptNotice;
+//        }
         return null;
     }
 }

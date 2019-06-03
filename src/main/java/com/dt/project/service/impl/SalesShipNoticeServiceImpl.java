@@ -1,15 +1,13 @@
 package com.dt.project.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.exception.LsException;
 import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeMapper;
-import com.dt.project.model.basePublicModel.BasicSalesAmazonPaymentType;
+import com.dt.project.model.basePublic.BasicSalesAmazonPaymentType;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
-import com.dt.project.service.GeneralPurposeService;
 import com.dt.project.service.basePublicService.BasicSalesAmazonPaymentTypeService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeEntryService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeService;
@@ -40,12 +38,11 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
     private RedisService redisService;
 
     @Override
-    @SuppressWarnings("unchecked")  //(HashMap<String, Object>) result.getData(); 确认是这类型
     public ResponseBase selectSelectByNotice(SalesShipNotice notice) {
         PageInfoUtils.setPage(notice.getPageSize(), notice.getCurrentPage());
         List<SalesShipNotice> pnList = nMapper.selectByNotice(notice);
         if (!ListUtils.isList(pnList)) {
-            return PageInfoUtils.returnPage(pnList, notice.getCurrentPage());
+            return PageInfoUtils.returnPage(pnList);
         }
         List<Long> shipIdList = new ArrayList<>();
         //查询付款类型
@@ -62,13 +59,18 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
             shipIdList.add(pn.getShipNoticeId());
         }
         //设置发货通知表体
-        SalesShipNoticeEntry noticeEntry = notice.getShipNoticeEntry();
+        SalesShipNoticeEntry noticeEntry;
+        if (notice.getEntry() == null) {
+            noticeEntry = new SalesShipNoticeEntry();
+        } else {
+            noticeEntry = notice.getEntry();
+        }
         noticeEntry.setInShipNoticeList(shipIdList);
         //查询 发货通知表体结果
         List<SalesShipNoticeEntry> nEResults = nEService.serviceSelectByNoticeEntry(noticeEntry);
 
         if (!ListUtils.isList(nEResults)) {
-            return PageInfoUtils.returnPage(pnList, notice.getCurrentPage());
+            return PageInfoUtils.returnPage(pnList);
         }
 
         for (int i = 0; i < shipIdList.size(); i++) {
@@ -79,16 +81,16 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
                     listNe.add(ne);
                 }
             }
-            pnList.get(i).setNoticeEntryList(listNe);
+            pnList.get(i).setEntryList(listNe);
         }
-        return PageInfoUtils.returnPage(pnList, notice.getCurrentPage());
+        return PageInfoUtils.returnPage(pnList);
     }
 
     @Override
     @Transactional
     public ResponseBase saveNotice(Map<String, Object> noMap) {
-        Object salesShipNoticeObj = noMap.get("salesShipNotice");
-        Object salesShipNoticeEntryObj = noMap.get("salesShipNoticeEntry");
+        Object salesShipNoticeObj = noMap.get("parentKey");
+        Object salesShipNoticeEntryObj = noMap.get("entry");
         ObjUtils.isObjNull(salesShipNoticeObj, salesShipNoticeEntryObj);
         String identifier = null;
         try {
@@ -141,8 +143,8 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
     @Override
     @Transactional
     public ResponseBase updateBySalesShipNoticeAndNoticeEntry(Map<String, Object> noMap) {
-        Object salesShipNoticeObj = noMap.get("salesShipNotice");
-        Object salesShipNoticeEntryObj = noMap.get("salesShipNoticeEntry");
+        Object salesShipNoticeObj = noMap.get("parentKey");
+        Object salesShipNoticeEntryObj = noMap.get("entry");
         if (salesShipNoticeObj == null) {
             return JsonData.setResultError("error");
         }
@@ -168,14 +170,5 @@ public class SalesShipNoticeServiceImpl implements SalesShipNoticeService {
         }
         return JsonData.setResultSuccess("success");
     }
-
-//
-//    public static void main(String[] args) {
-//        List<Integer> list = new ArrayList<>();
-//        list.add(1);
-//        list.add(2);
-//        boolean isRepeat = ListUtils.isRepeat(list);
-//        system.out.println("list中包含重复元素：" + isRepeat);
-//    }
 
 }

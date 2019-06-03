@@ -24,7 +24,7 @@ public class BasicPublicAreaController {
     @PostMapping("/findByListRegion")
     public ResponseBase findByListRegion(@RequestBody AreaDto areaDto) {
         PageInfoUtils.setPage(areaDto.getPageSize(), areaDto.getCurrentPage());
-        return PageInfoUtils.returnPage(areaService.findByListArea(), areaDto.getCurrentPage());
+        return PageInfoUtils.returnPage(areaService.findByListArea());
     }
 
     /**

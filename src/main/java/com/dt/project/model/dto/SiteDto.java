@@ -1,6 +1,6 @@
 package com.dt.project.model.dto;
 
-import com.dt.project.model.basePublicModel.BasicPublicSite;
+import com.dt.project.model.basePublic.BasicPublicSite;
 
 public class SiteDto extends BasicPublicSite {
 

@@ -1,6 +1,6 @@
 package com.dt.project.service.basePublicService;
 
-import com.dt.project.model.basePublicModel.BasicExportModeOfTransport;
+import com.dt.project.model.basePublic.BasicExportModeOfTransport;
 
 import java.util.List;
 

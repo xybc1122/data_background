@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.basePublicMapper.BasicPublicWarehouseMapper;
-import com.dt.project.model.basePublicModel.BasicPublicWarehouse;
+import com.dt.project.model.basePublic.BasicPublicWarehouse;
 import com.dt.project.model.parent.ParentTree;
 import com.dt.project.service.basePublicService.BasicPublicWarehouseService;
 import com.dt.project.service.SystemLogStatusService;

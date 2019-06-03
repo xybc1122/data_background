@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicSalesAmazonHandlingClass;
+import com.dt.project.model.basePublic.BasicSalesAmazonHandlingClass;
 import com.dt.project.service.basePublicService.BasicSalesAmazonHandlingClassService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +31,6 @@ public class BasicSalesAmazonHandlingClassController {
     @PostMapping("/findByListHandling")
     public ResponseBase findByListHandling(@RequestBody BasicSalesAmazonHandlingClass hClass) {
         PageInfoUtils.setPage(hClass.getPageSize(), hClass.getCurrentPage());
-        return PageInfoUtils.returnPage(classService.serviceFindByListClass(hClass), hClass.getCurrentPage());
+        return PageInfoUtils.returnPage(classService.serviceFindByListClass(hClass));
     }
 }

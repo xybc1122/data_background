@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicExportExitCustoms;
+import com.dt.project.model.basePublic.BasicExportExitCustoms;
 import com.dt.project.provider.BasicExportExitCustomsProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

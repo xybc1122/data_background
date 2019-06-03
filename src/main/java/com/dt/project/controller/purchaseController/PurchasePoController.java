@@ -56,7 +56,7 @@ public class PurchasePoController {
      * {"currentPage":"0",
      * "pageSize":"10",
      * "systemLogStatus":{},
-     * "poOrderEntry":{
+     * "entry":{
      * }
      * }
      * @apiSuccess (success) {Object} data 请求的数据
@@ -86,7 +86,7 @@ public class PurchasePoController {
      * @apiDescription 新增采购订单
      * @apiParamExample {json} 请求样例：
      * {
-     * "salesShipNotice":{
+     * "parentKey":{
      * "date":12234,
      * "platform_type_id":10,
      * "delivery_date":13515874497,
@@ -96,7 +96,7 @@ public class PurchasePoController {
      * "site_id":6,
      * "no":"4"
      * },
-     * "salesShipNoticeEntry":[
+     * "entry":[
      * {"entryId":1,"sku_id":1},{"entryId":2,"sku_id":2}
      * ]
      * }
@@ -151,7 +151,7 @@ public class PurchasePoController {
      * @apiParamExample {json} 请求样例：
      * {"currentPage":"0",
      * "pageSize":"10",
-     * "purchasePoReceiptNoticeEntry":{
+     * "entry":{
      * }
      * }
      * @apiSuccess (success) {Object} data 请求的数据
@@ -179,7 +179,7 @@ public class PurchasePoController {
      * @apiVersion 0.0.1
      * @apiDescription 新增收货通知单
      * @apiParamExample {json} 请求样例：
-     * {"purchasePoReceiptNotice": {
+     * {"parentKey": {
      * "closeDate": 1559232000000,
      * "closeUser": "7",
      * "date": 1557763200000,
@@ -190,7 +190,7 @@ public class PurchasePoController {
      * "remar": "5",
      * "status": "4"
      * },
-     * "purchasePoReceiptNoticeEntry": [
+     * "entry": [
      * {
      * "deliveryDate": null,
      * "eRemark": null
@@ -224,9 +224,9 @@ public class PurchasePoController {
      * @apiDescription 修改收货通知单
      * @apiParamExample {json} 请求样例：
      * {
-     * "purchasePoReceiptNotice": {"no": "123", "closeUser": "234",
+     * "parentKey": {"no": "123", "closeUser": "234",
      * "closeDate": 1559232000000, "rnId": 1, "version": 0,"statusId":1},
-     * "purchasePoReceiptNoticeEntry": [ {"version": 0}]
+     * "entry": [ {"version": 0}]
      * }
      * @apiSuccess (success) {Object} data 请求的数据
      * @apiSuccess (success) {String} msg 信息
@@ -268,7 +268,7 @@ public class PurchasePoController {
      * @apiParamExample {json} 请求样例：
      * {"currentPage":"0",
      * "pageSize":"10",
-     * "purchaseIcBillStockEntry":{
+     * "entry":{
      * }
      * }
      * @apiSuccess (success) {Object} data 请求的数据
@@ -286,10 +286,33 @@ public class PurchasePoController {
         return icBillStockService.serviceSelectByIcBillStock(icBillStock);
     }
 
+
     /**
-     * 新增外购入库
-     *
-     * @return
+     * @api {POST} /api/v1/po/saveIcBillStock 新增外购入库
+     * @apiHeaderExample {json} 请求头Header
+     * {
+     * "token":"用户令牌"
+     * }
+     * @apiGroup Admin
+     * @apiVersion 0.0.1
+     * @apiDescription 新增外购入库
+     * @apiParamExample {json} 请求样例：
+     * {
+     * "mid":295,
+     * "parentKey":{
+     * "date": 1559491200000,
+     * "no": "7",
+     * "supplierId": "1"
+     * },
+     * "entry":[{"entry_id":1},{"entry_id":2},{"entry_id":3}]
+     * }
+     * @apiSuccess (success) {Object} data 请求的数据
+     * @apiSuccess (success) {String} msg 信息
+     * @apiSuccess (success) {int} code -1 代表错误 200代表请求成功
+     * @apiSuccessExample {json} 成功返回样列:
+     * {"code":"200","msg":"success","data":"{}"}
+     * @apiErrorExample {json} 失败返回样例子:
+     * {"code":"-1","msg":"error","data":"{}"}
      */
     @PostMapping("/saveIcBillStock")
     public ResponseBase saveIcBillStock(@RequestBody Map<String, Object> objectMap) {
@@ -318,7 +341,7 @@ public class PurchasePoController {
      */
     @PostMapping("/uplIcBillStock")
     public ResponseBase uplIcBillStock(@RequestBody Map<String, Object> objectMap) {
-        return null;
+        return icBillStockService.serviceUpdateByIcBillStock(objectMap);
     }
 
 }

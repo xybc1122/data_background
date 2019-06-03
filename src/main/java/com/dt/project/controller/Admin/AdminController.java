@@ -6,7 +6,7 @@ import com.dt.project.customize.PermissionCheck;
 import com.dt.project.model.dto.AreaRoleDto;
 import com.dt.project.model.dto.RoleDto;
 import com.dt.project.model.dto.UserDto;
-import com.dt.project.model.basePublicModel.BasicPublicShop;
+import com.dt.project.model.basePublic.BasicPublicShop;
 import com.dt.project.model.system.SystemInfoCompany;
 import com.dt.project.model.UserInfo;
 import com.dt.project.service.basePublicService.BasicPublicAreaRoleService;
@@ -117,7 +117,7 @@ public class AdminController {
     @PermissionCheck("show")
     public ResponseBase showUsers(@RequestBody UserDto pageDto) {
         PageInfoUtils.setPage(pageDto.getPageSize(), pageDto.getCurrentPage());
-        return PageInfoUtils.returnPage(userService.findByUsers(pageDto), pageDto.getCurrentPage());
+        return PageInfoUtils.returnPage(userService.findByUsers(pageDto));
     }
 
     /**
@@ -209,10 +209,7 @@ public class AdminController {
     @PostMapping("/getDelUser")
     public ResponseBase getDelUser(@RequestBody UserDto pageDto) {
         PageHelper.startPage(pageDto.getCurrentPage(), pageDto.getPageSize());
-        List<UserInfo> userDel = userService.findByDelUserInfo();
-        PageInfo<UserInfo> pageInfo = new PageInfo<>(userDel);
-        Integer currentPage = pageDto.getCurrentPage();
-        return JsonData.setResultSuccess(PageInfoUtils.getPage(pageInfo, currentPage));
+        return JsonData.setResultSuccess(PageInfoUtils.returnPage(userService.findByDelUserInfo()));
     }
 
 
@@ -247,8 +244,7 @@ public class AdminController {
     @PostMapping("/getRoles")
     public ResponseBase getRoles(@RequestBody RoleDto roleDto) {
         PageInfoUtils.setPage(roleDto.getPageSize(), roleDto.getCurrentPage());
-        List<RoleDto> listRoles = roleService.findByRoleInfo(roleDto);
-        return PageInfoUtils.returnPage(listRoles, roleDto.getCurrentPage());
+        return PageInfoUtils.returnPage(roleService.findByRoleInfo(roleDto));
     }
 
     /**

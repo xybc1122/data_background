@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicSalesAmazonCsvTxtXslHeader;
+import com.dt.project.model.basePublic.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.project.provider.BasicSalesAmazonCsvTxtXslHeaderProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

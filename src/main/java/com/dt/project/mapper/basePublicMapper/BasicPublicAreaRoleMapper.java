@@ -2,7 +2,7 @@ package com.dt.project.mapper.basePublicMapper;
 
 import com.dt.project.model.dto.AreaRoleDto;
 import com.dt.project.provider.BasicPublicAreaRoleSqlProvider;
-import com.dt.project.model.basePublicModel.BasicPublicAreaRole;
+import com.dt.project.model.basePublic.BasicPublicAreaRole;
 
 import java.util.List;
 

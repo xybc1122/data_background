@@ -26,7 +26,7 @@ public class BasicSalesDeliveryTypeController {
     public ResponseBase findByListDelivery(@RequestParam("pageSize") Integer pageSize,
                                            @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(deliveryTypeService.serviceFindByListDeliveryType(), currentPage);
+        return PageInfoUtils.returnPage(deliveryTypeService.serviceFindByListDeliveryType());
     }
 
 

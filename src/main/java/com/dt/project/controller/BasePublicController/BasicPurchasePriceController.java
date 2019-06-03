@@ -1,7 +1,7 @@
 package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.basePublicModel.BasicPurchasePrice;
+import com.dt.project.model.basePublic.BasicPurchasePrice;
 import com.dt.project.service.basePublicService.BasicPurchasePriceService;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class BasicPurchasePriceController {
     @PostMapping("/findByListPrice")
     public ResponseBase findByListPrice(@RequestBody BasicPurchasePrice purchasePrice) {
         PageInfoUtils.setPage(purchasePrice.getPageSize(), purchasePrice.getCurrentPage());
-        return PageInfoUtils.returnPage(priceService.serviceFindByListPrice(purchasePrice), purchasePrice.getCurrentPage());
+        return PageInfoUtils.returnPage(priceService.serviceFindByListPrice(purchasePrice));
     }
 
 }

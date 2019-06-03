@@ -26,7 +26,7 @@ public class BasicLogisticsmgtTransportValuationRangeController {
     public ResponseBase findByListRange(@RequestParam("pageSize") Integer pageSize,
                                         @RequestParam("currentPage") Integer currentPage) {
         PageInfoUtils.setPage(pageSize, currentPage);
-        return PageInfoUtils.returnPage(rangeService.serviceFindByListValuationRange(), currentPage);
+        return PageInfoUtils.returnPage(rangeService.serviceFindByListValuationRange());
     }
 
 

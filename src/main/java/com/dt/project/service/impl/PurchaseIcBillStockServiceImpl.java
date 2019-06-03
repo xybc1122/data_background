@@ -8,8 +8,10 @@ import com.dt.project.model.purchasePo.PurchaseIcBillStock;
 import com.dt.project.model.purchasePo.PurchaseIcBillStockEntry;
 import com.dt.project.model.purchasePo.PurchasePoReceiptNotice;
 import com.dt.project.model.purchasePo.PurchasePoReceiptNoticeEntry;
+import com.dt.project.service.SystemLogStatusService;
 import com.dt.project.service.purchaseService.PurchaseIcBillStockEntryService;
 import com.dt.project.service.purchaseService.PurchaseIcBillStockService;
+import com.dt.project.service.systemService.SystemFinalProcessingService;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.*;
 import org.apache.commons.lang3.StringUtils;
@@ -37,26 +39,37 @@ public class PurchaseIcBillStockServiceImpl implements PurchaseIcBillStockServic
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private SystemLogStatusService logStatusService;
+
+    @Autowired
+    private SystemFinalProcessingServiceImpl sfpService;
 
     @Override
     public ResponseBase serviceSelectByIcBillStock(PurchaseIcBillStock record) {
         PageInfoUtils.setPage(record.getPageSize(), record.getCurrentPage());
         List<PurchaseIcBillStock> purchaseIcBillStocks = icBillStockMapper.selectByIcBillStock(record);
         if (!ListUtils.isList(purchaseIcBillStocks)) {
-            return PageInfoUtils.returnPage(purchaseIcBillStocks, record.getCurrentPage());
+            return PageInfoUtils.returnPage(purchaseIcBillStocks);
         }
         List<Long> poIds = new ArrayList<>();
         for (PurchaseIcBillStock icBillStock : purchaseIcBillStocks) {
             poIds.add(icBillStock.getSbId());
         }
-        PurchaseIcBillStockEntry icBillStockEntry = record.getPurchaseIcBillStockEntry();
-        icBillStockEntry.setInList(poIds);
-        //查询表体
+        PurchaseIcBillStockEntry piBse;
+        if (record.getEntry() == null) {
+            piBse = new PurchaseIcBillStockEntry();
+        } else {
+            piBse = (PurchaseIcBillStockEntry)
+                    JsonUtils.objConversion(record.getEntry(), PurchaseIcBillStockEntry.class);
+        }
+        piBse.setInList(poIds);
+        //piBse
         List<PurchaseIcBillStockEntry> purchaseIcBillStockEntries =
-                icBillStockEntryService.serviceSelectByIcBillStockEntry(icBillStockEntry);
+                icBillStockEntryService.serviceSelectByIcBillStockEntry(piBse);
 
         if (!ListUtils.isList(purchaseIcBillStockEntries)) {
-            return PageInfoUtils.returnPage(purchaseIcBillStocks, record.getCurrentPage());
+            return PageInfoUtils.returnPage(purchaseIcBillStocks);
         }
         for (int i = 0; i < poIds.size(); i++) {
             Long poId = poIds.get(i);
@@ -66,17 +79,18 @@ public class PurchaseIcBillStockServiceImpl implements PurchaseIcBillStockServic
                     listNe.add(ne);
                 }
             }
-            purchaseIcBillStocks.get(i).setPurchaseIcBillStockEntryList(listNe);
+            purchaseIcBillStocks.get(i).setEntryList(listNe);
         }
-        return PageInfoUtils.returnPage(purchaseIcBillStocks, record.getCurrentPage());
+        return PageInfoUtils.returnPage(purchaseIcBillStocks);
     }
 
 
     @Override
     @Transactional
     public ResponseBase serviceInsertIcBillStock(Map<String, Object> objectMap) {
-        Object purchaseIcBillStockObj = objectMap.get("purchaseIcBillStock");
-        Object purchaseIcBillStockEntryObj = objectMap.get("purchaseIcBillStockEntry");
+        Object purchaseIcBillStockObj = objectMap.get("parentKey");
+        Object purchaseIcBillStockEntryObj = objectMap.get("entry");
+        Integer mid = (Integer) objectMap.get("mid");
         ObjUtils.isObjNull(purchaseIcBillStockObj, purchaseIcBillStockEntryObj);
         String identifier = null;
         try {
@@ -85,13 +99,17 @@ public class PurchaseIcBillStockServiceImpl implements PurchaseIcBillStockServic
                 redisService.releaseLock(Constants.SAVE_PURCHASE_ICB_STOCK, identifier);
             }
             //拿到最外层入库通知单数据
-
             PurchaseIcBillStock icBillStock = (PurchaseIcBillStock)
                     JsonUtils.objConversion(purchaseIcBillStockObj, PurchaseIcBillStock.class);
             //校验时间
-            //DateUtils.checkingTime(icBillStock.getDate(), "");
-
-            int result = icBillStockMapper.insertIcBillStock(icBillStock);
+            if (DateUtils.checkingTime(icBillStock.getDate(), sfpService.selDate(mid)) == null) {
+                return JsonData.setResultError("已关账,存入失败");
+            }
+            //将时间戳转换成时间格式
+            String[] strSplit = DateUtils.stampToDate(icBillStock.getDate()).split("-");
+            icBillStock.setYears(Integer.parseInt(strSplit[0]));
+            icBillStock.setPeriod(Integer.parseInt(strSplit[1]));
+            int result = icBillStockMapper.insertIcBillStock((PurchaseIcBillStock) logStatusService.setObjStatusId(icBillStock));
             JsonUtils.saveResult(result);
 
             Long sbId = icBillStock.getSbId();
@@ -115,5 +133,40 @@ public class PurchaseIcBillStockServiceImpl implements PurchaseIcBillStockServic
                 redisService.releaseLock(Constants.SAVE_PURCHASE_RECEIPT_NOTICE, identifier);
             }
         }
+    }
+
+    @Override
+    @Transactional
+    public ResponseBase serviceUpdateByIcBillStock(Map<String, Object> objectMap) {
+        Object purchaseIcBillStockObj = objectMap.get("parentKey");
+        Object purchaseIcBillStockEntryObj = objectMap.get("entry");
+        if (purchaseIcBillStockEntryObj == null) {
+            return JsonData.setResultError("error");
+        }
+        //拿到最外层入库通知单数据
+        PurchaseIcBillStock icBillStock = (PurchaseIcBillStock)
+                JsonUtils.objConversion(purchaseIcBillStockObj, PurchaseIcBillStock.class);
+        int result = icBillStockMapper.updateByIcBillStock(icBillStock);
+        JsonUtils.saveResult(result);
+        //拿到采购订单表体数据
+        JSONArray objects = JsonUtils.getJsonArr(purchaseIcBillStockEntryObj);
+        List<PurchaseIcBillStockEntry> pIBSEntryList = new ArrayList<>();
+        for (Object obj : objects) {
+            PurchaseIcBillStockEntry icBillStockEntry = (PurchaseIcBillStockEntry) JsonUtils.objConversion(obj, PurchaseIcBillStockEntry.class);
+            //如果是NULL新增数据
+            if (icBillStockEntry.getSbeId() == null) {
+                icBillStockEntry.setSbId(icBillStock.getSbId());
+                pIBSEntryList.add(icBillStockEntry);
+            } else {
+                //更新子表数据
+                icBillStockEntryService.serviceUpdateByIcBillStockEntry(icBillStockEntry);
+            }
+        }
+        if (pIBSEntryList.size() > 0) {
+            //新增数据库
+            icBillStockEntryService.serviceInsertIcBillStockEntry(pIBSEntryList);
+        }
+        //通用更新消息
+        return logStatusService.msgCodeUp(result, icBillStock.getSystemLogStatus(), icBillStock.getStatusId());
     }
 }

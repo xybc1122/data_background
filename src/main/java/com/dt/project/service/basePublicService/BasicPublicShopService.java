@@ -1,7 +1,7 @@
 package com.dt.project.service.basePublicService;
 
 import com.dt.project.model.dto.ShopDto;
-import com.dt.project.model.basePublicModel.BasicPublicShop;
+import com.dt.project.model.basePublic.BasicPublicShop;
 
 import java.util.List;
 

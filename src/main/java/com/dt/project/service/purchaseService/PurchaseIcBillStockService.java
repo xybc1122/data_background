@@ -32,6 +32,11 @@ public interface PurchaseIcBillStockService {
      */
     ResponseBase serviceInsertIcBillStock(Map<String, Object> objectMap);
 
-
+    /**
+     * 修改外购入库表
+     * @param objectMap
+     * @return
+     */
+    ResponseBase serviceUpdateByIcBillStock(Map<String, Object> objectMap);
 
 }

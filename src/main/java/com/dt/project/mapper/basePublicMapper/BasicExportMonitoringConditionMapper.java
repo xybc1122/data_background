@@ -1,6 +1,6 @@
 package com.dt.project.mapper.basePublicMapper;
 
-import com.dt.project.model.basePublicModel.BasicExportMonitoringCondition;
+import com.dt.project.model.basePublic.BasicExportMonitoringCondition;
 import com.dt.project.provider.BasicExportMonitoringConditionProvider;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;

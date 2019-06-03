@@ -55,7 +55,6 @@ public class PurchasePoOrderEntry {
     private String poeRemark;
 
     private Integer rowClosed;
-
     /**
      * 是否删除标志
      */

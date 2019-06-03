@@ -35,4 +35,11 @@ public class PurchaseIcBillStockEntryServiceImpl implements PurchaseIcBillStockE
         JsonUtils.saveResult(i);
         return i;
     }
+
+    @Override
+    public int serviceUpdateByIcBillStockEntry(PurchaseIcBillStockEntry record) {
+        int i = icBillStockEntryMapper.updateByIcBillStockEntry(record);
+        JsonUtils.saveResult(i);
+        return i;
+    }
 }

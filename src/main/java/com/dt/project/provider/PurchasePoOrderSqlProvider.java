@@ -194,7 +194,7 @@ public class PurchasePoOrderSqlProvider {
     public String selectByPoOrder(PurchasePoOrder poOrder) throws IllegalAccessException {
         String alias = "po";
         SQL sql = new SQL();
-        sql.SELECT("cu.`currency_name`,dep.`dept_name`,se.`employee_name` AS empName," +
+        sql.SELECT("cu.`currency_id`,cu.`currency_name`,dep.`dept_name`,se.`employee_name` AS empName," +
                 "se1.`employee_name` AS mangerName,`po_id`,`date`,`no`,`po_style_id`,`explanation`,\n" +
                 "`fetch_add`,`emp_id`,\n" +
                 "`manger_id`,`exchange_rate`,`children`,`closed`,\n" +

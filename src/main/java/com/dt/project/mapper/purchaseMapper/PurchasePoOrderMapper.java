@@ -29,11 +29,11 @@ public interface PurchasePoOrderMapper {
             "exchange_rate, children, ",
             "closed, supplier_id, ",
             "contact_person, tel_phone, ",
-            "pre_pay_no, pre_pay_amt, ",
+            "pre_pay_id, pre_pay_amt, ",
             "class_type_id, settlement_date, ",
             "settlement_method_id, po_amt, ",
             "inbound_amt, company_id, ",
-            "invoice_type_id, pay_no, ",
+            "invoice_type_id, pay_id, ",
             "pay_amt, erase_amt, ",
             "tran_type, tran_status, ",
             "order_confirm, source_type_id, ",
@@ -45,11 +45,11 @@ public interface PurchasePoOrderMapper {
             "#{exchangeRate,jdbcType=DECIMAL}, #{children,jdbcType=BIT}, ",
             "#{closed,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, ",
             "#{contactPerson,jdbcType=VARCHAR}, #{telPhone,jdbcType=VARCHAR}, ",
-            "#{prePayNo,jdbcType=VARCHAR}, #{prePayAmt,jdbcType=DECIMAL}, ",
+            "#{prePayId,jdbcType=BIGINT}, #{prePayAmt,jdbcType=DECIMAL}, ",
             "#{classTypeId,jdbcType=INTEGER}, #{settlementDate,jdbcType=BIGINT}, ",
             "#{settlementMethodId,jdbcType=INTEGER}, #{poAmt,jdbcType=DECIMAL}, ",
             "#{inboundAmt,jdbcType=DECIMAL}, #{companyId,jdbcType=INTEGER}, ",
-            "#{invoiceTypeId,jdbcType=INTEGER}, #{payNo,jdbcType=VARCHAR}, ",
+            "#{invoiceTypeId,jdbcType=INTEGER}, #{payId,jdbcType=BIGINT}, ",
             "#{payAmt,jdbcType=DECIMAL}, #{eraseAmt,jdbcType=DECIMAL}, ",
             "#{tranType,jdbcType=INTEGER}, #{tranStatus,jdbcType=INTEGER}, ",
             "#{orderConfirm,jdbcType=INTEGER}, #{sourceTypeId,jdbcType=BIGINT}, ",
@@ -57,6 +57,7 @@ public interface PurchasePoOrderMapper {
     })
     @Options(useGeneratedKeys = true, keyProperty = "poId", keyColumn = "po_id")
     int insertPoOrder(PurchasePoOrder record);
+
 
     @InsertProvider(type = PurchasePoOrderSqlProvider.class, method = "insertSelective")
     int insertSelective(PurchasePoOrder record);

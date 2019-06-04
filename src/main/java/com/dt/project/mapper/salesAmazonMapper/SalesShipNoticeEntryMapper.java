@@ -58,7 +58,6 @@ public interface SalesShipNoticeEntryMapper {
             @Result(property = "neGwKg", column = "gw_kg"),
             @Result(property = "neNwKg", column = "nw_kg"),
             @Result(property = "neVolumeM3", column = "volume_m3"),
-            @Result(property = "neRemark", column = "e_remark")
     })
     List<SalesShipNoticeEntry> selectByNoticeEntry(SalesShipNoticeEntry shipNoticeEntry);
 
@@ -70,6 +69,8 @@ public interface SalesShipNoticeEntryMapper {
      */
     @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByNoticeEntry")
     int updateByNoticeEntry(SalesShipNoticeEntry record);
+
+
 
     @UpdateProvider(type = SalesShipNoticeEntrySqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") SalesShipNoticeEntry record);

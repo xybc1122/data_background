@@ -21,6 +21,7 @@ public class HrArchivesEmployeeImpl implements HrArchivesEmployeeService {
         return hrMapper.getEmployeeList(employeeDto);
     }
 
+
     @Override
     public List<HrArchivesEmployee> serviceGetHrEmployeeList() {
         return hrMapper.getHrEmployeeList();

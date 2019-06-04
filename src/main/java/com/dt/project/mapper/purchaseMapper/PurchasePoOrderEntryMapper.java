@@ -31,9 +31,6 @@ public interface PurchasePoOrderEntryMapper {
      * @return
      */
     @SelectProvider(type = PurchasePoOrderEntrySqlProvider.class, method = "selectByPoOrderEntry")
-    @Results({
-            @Result(property = "poeRemark", column = "e_remark")
-    })
     List<PurchasePoOrderEntry> selectByPoOrderEntry(PurchasePoOrderEntry record);
 
     /**

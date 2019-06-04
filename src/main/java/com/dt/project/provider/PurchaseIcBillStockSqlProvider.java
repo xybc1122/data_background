@@ -116,8 +116,7 @@ public class PurchaseIcBillStockSqlProvider {
         sql.SELECT("" + alias + ".`supplier_id`, `sb_id`,`years`,`period`,`date`,`no`,\n" +
                 "`explanation`,`dept_id`,\n" +
                 "`emp_id`,`manger_id`,`children`,\n" +
-                "`closed`,`order_confirm`, `source_type_id`,\n" +
-                "`source_id`,`print_count`," + alias + ".`status_id`," + alias + ".`version`\n" +
+                "`closed`,`order_confirm`,`print_count`," + alias + ".`status_id`," + alias + ".`version`\n" +
                 "FROM `purchase_ic_bill_stock` AS " + alias + "");
         //sql动态查询
         FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);

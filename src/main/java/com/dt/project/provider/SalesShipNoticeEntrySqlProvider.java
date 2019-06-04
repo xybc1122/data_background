@@ -31,7 +31,7 @@ public class SalesShipNoticeEntrySqlProvider {
                 "(`entry_id`,`ship_notice_id`,`sku_id`,`quantity`,\n" +
                 "`packages`,`length_cm`,`width_cm`,`height_cm`,\n" +
                 "`gw_kg`,`nw_kg`,`volume_m3`,`packing_status`,\n" +
-                "`se_quantity`,`re_quantity`,`re_date`,`e_remark`, `status`,\n" +
+                "`se_quantity`,`re_quantity`,`re_date`,`e_remark`,\n" +
                 "`close_date`, `close_user`)values");
         for (SalesShipNoticeEntry noticeEntry : noticeEntryList) {
             sb.append("(").append(noticeEntry.getEntryId()).append(",").append(noticeEntry.getShipNoticeId()).
@@ -43,8 +43,8 @@ public class SalesShipNoticeEntrySqlProvider {
                     append(noticeEntry.getNeVolumeM3()).append(",").append(noticeEntry.getPackingStatus()).append(",").
                     append(noticeEntry.getSeQuantity()).append(",").append(noticeEntry.getReQuantity()).append(",").
                     append(noticeEntry.getReDate()).append(",");
-            StrUtils.appBuider(sb, noticeEntry.getNeRemark());
-            sb.append(",").append(noticeEntry.getStatus()).append(",").append(noticeEntry.getCloseDate()).append(",");
+            StrUtils.appBuider(sb, noticeEntry.geteRemark());
+            sb.append(",").append(noticeEntry.getCloseDate()).append(",");
             StrUtils.appBuider(sb, noticeEntry.getCloseUser());
             sb.append("),");
         }
@@ -58,7 +58,7 @@ public class SalesShipNoticeEntrySqlProvider {
                 "`ship_notice_id`," + alias + ".`sku_id`,`quantity`,`packages`," + alias + ".`length_cm`," +
                 "" + alias + ".`width_cm`," + alias + ".`height_cm`," + alias + ".`gw_kg`,\n" +
                 "" + alias + ".`nw_kg`," + alias + ".`volume_m3`,`packing_status`,`se_quantity`,`re_quantity`,`re_date`," +
-                "" + alias + ".`e_remark`,`status`,\n" +
+                "" + alias + ".`e_remark`,\n" +
                 "`close_date`,`close_user`," + alias + ".`version`\n" +
                 "FROM `sales_ship_notice_entry` AS  " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS sku on sku.sku_id= " + alias + ".sku_id");
@@ -126,12 +126,8 @@ public class SalesShipNoticeEntrySqlProvider {
             sql.SET("re_date = #{reDate}");
         }
 
-        if (record.getNeRemark() != null) {
-            sql.SET("e_remark = #{neRemark}");
-        }
-
-        if (record.getStatus() != null) {
-            sql.SET("status = #{status}");
+        if (record.geteRemark() != null) {
+            sql.SET("e_remark = #{eRemark}");
         }
 
         if (record.getCloseDate() != null) {
@@ -147,32 +143,7 @@ public class SalesShipNoticeEntrySqlProvider {
     }
 
     public String updateByExample(Map<String, Object> parameter) {
-        BEGIN();
-        UPDATE("sales_ship_notice_entry");
-
-        SET("e_id = #{record.eId,jdbcType=BIGINT}");
-        SET("entry_id = #{record.entryId,jdbcType=INTEGER}");
-        SET("ship_notice_id = #{record.shipNoticeId,jdbcType=BIGINT}");
-        SET("sku_id = #{record.skuId,jdbcType=BIGINT}");
-        SET("quantity = #{record.quantity,jdbcType=INTEGER}");
-        SET("packages = #{record.packages,jdbcType=VARCHAR}");
-        SET("length_cm = #{record.lengthCm,jdbcType=DECIMAL}");
-        SET("width_cm = #{record.widthCm,jdbcType=DOUBLE}");
-        SET("height_cm = #{record.heightCm,jdbcType=DOUBLE}");
-        SET("gw_kg = #{record.gwKg,jdbcType=DOUBLE}");
-        SET("nw_kg = #{record.nwKg,jdbcType=DOUBLE}");
-        SET("volume_m3 = #{record.volumeM3,jdbcType=DOUBLE}");
-        SET("packing_status = #{record.packingStatus,jdbcType=BIT}");
-        SET("se_quantity = #{record.seQuantity,jdbcType=INTEGER}");
-        SET("re_quantity = #{record.reQuantity,jdbcType=INTEGER}");
-        SET("re_date = #{record.reDate,jdbcType=BIGINT}");
-        SET("remark = #{record.remark,jdbcType=VARCHAR}");
-        SET("status = #{record.status,jdbcType=INTEGER}");
-        SET("close_date = #{record.closeDate,jdbcType=BIGINT}");
-        SET("close_user = #{record.closeUser,jdbcType=VARCHAR}");
-        SET("version = #{record.version,jdbcType=INTEGER}");
-        SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-        return SQL();
+        return null;
     }
 
 

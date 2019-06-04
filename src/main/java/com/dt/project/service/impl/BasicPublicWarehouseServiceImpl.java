@@ -32,7 +32,7 @@ public class BasicPublicWarehouseServiceImpl implements BasicPublicWarehouseServ
     public ResponseBase serviceUpWarehouses(BasicPublicWarehouse war) {
         int result = warehouseMapper.upWarehouses(war);
         //通用更新消息
-        return logStatusService.msgCodeUp(result, war.getSystemLogStatus(), war.getStatusId());
+        return logStatusService.msgCodeUp(result, war.getSystemLogStatus());
     }
 
     @Override

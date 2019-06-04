@@ -33,7 +33,7 @@ public class BasicPublicProductServiceImpl implements BasicPublicProductService 
         //如果有statusId 直接更新
         int result = productMapper.upProduct(product);
         //通用更新消息
-        return logStatusService.msgCodeUp(result, product.getSystemLogStatus(), product.getStatusId());
+        return logStatusService.msgCodeUp(result, product.getSystemLogStatus());
     }
 
     @Override

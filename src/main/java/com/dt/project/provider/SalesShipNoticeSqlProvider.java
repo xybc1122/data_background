@@ -11,8 +11,10 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.salesAmazon.SalesShipNotice;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -89,10 +91,10 @@ public class SalesShipNoticeSqlProvider {
         if (record.getTtlGwKg() != null) {
             VALUES("ttl_gw_kg", "#{ttlGwKg,jdbcType=DECIMAL}");
         }
-
-        if (record.getSourceTypeId() != null) {
-            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
-        }
+//
+//        if (record.getSourceTypeId() != null) {
+//            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
+//        }
 
         if (record.getRemark() != null) {
             VALUES("remark", "#{remark,jdbcType=VARCHAR}");
@@ -143,13 +145,27 @@ public class SalesShipNoticeSqlProvider {
         String alias = "pn";
         //如果不多查一个字段来存放ship_notice_id，而是在column里直接填ship_notice_id，
         // 查询出来的结果里，就没有ship_notice_id这个字段了
-        sql.SELECT("`ship_notice_id`,s.`shop_name`, cs.`site_name`,`ship_notice_id`,`no`,`date`," + alias + ".`platform_type_id`,\n" +
+        sql.SELECT("pw.`warehouse_name`,saw.`warehouse_code`,ltt.`transport_type_name`,pt.`platform_type_name`,`ship_notice_id`,s.`shop_name`, cs.`site_name`,`ship_notice_id`,`no`,`date`," + alias + ".`platform_type_id`,\n" +
                 "`delivery_date`,`arrive_date`," + alias + ".`transport_type_id`,\n" +
                 "" + alias + ".`shop_id`," + alias + ".`site_id`," + alias + ".`fba_shipment_id`,\n" +
                 "" + alias + ".`aw_id`," + alias + ".`warehouse_id`,`ttl_qty`,`ttl_packages`,`ttl_volume`,\n" +
-                "`ttl_gw_kg`,`source_type_id`,`source_id`," + ProviderSqlStore.statusV(alias) + "");
+                "`ttl_gw_kg`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_ship_notice AS " + alias);
+        sql.LEFT_OUTER_JOIN("basic_public_platform_type AS pt on pt.platform_type_id=" + alias + ".platform_type_id");
+        sql.LEFT_OUTER_JOIN("basic_logisticsmgt_transport_type AS ltt on ltt.transport_type_id=" + alias + ".transport_type_id");
+        sql.LEFT_OUTER_JOIN("basic_sales_amazon_warehouse AS saw on saw.amazon_warehouse_id=" + alias + ".aw_id");
+        sql.LEFT_OUTER_JOIN("basic_public_warehouse AS pw on pw.warehouse_id=" + alias + ".warehouse_id");
         ProviderSqlStore.joinTable(sql, alias);
+        //查询平台类型
+        AppendSqlStore.sqlWhere(notice.getPlatformTypeName(), "pt.`platform_type_name`", sql, Constants.SELECT);
+        //查询运输类型
+        AppendSqlStore.sqlWhere(notice.getTransportTypeName(), "ltt.`transport_type_name`", sql, Constants.SELECT);
+
+        //查询亚马逊仓库
+        AppendSqlStore.sqlWhere(notice.getWarehouseCode(), "saw.`warehouse_code`", sql, Constants.SELECT);
+        //查询仓库
+        AppendSqlStore.sqlWhere(notice.getWarehouseName(), "pw.`warehouse_name`", sql, Constants.SELECT);
+
         FieldStore.query(notice.getClass(), notice.getNameList(), notice, sql);
         ProviderSqlStore.selectDocumentStatus(sql, notice, alias);
         return sql.toString();
@@ -221,14 +237,14 @@ public class SalesShipNoticeSqlProvider {
         if (record.getTtlGwKg() != null) {
             sql.SET("ttl_gw_kg = #{ttlGwKg,jdbcType=DECIMAL}");
         }
-
-        if (record.getSourceTypeId() != null) {
-            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSourceId() != null) {
-            sql.SET("source_id = #{sourceId}");
-        }
+//
+//        if (record.getSourceTypeId() != null) {
+//            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
+//        }
+//
+//        if (record.getSourceId() != null) {
+//            sql.SET("source_id = #{sourceId}");
+//        }
 
         if (record.getCloseDate() != null) {
             sql.SET("close_date = #{closeDate,jdbcType=BIGINT}");

@@ -33,7 +33,7 @@ public class BasicPublicCompanyServiceImpl implements BasicPublicCompanyService 
     public ResponseBase serviceUpCompany(BasicPublicCompany company) {
                int result = companyMapper.upCompany(company);
         //通用更新消息
-        return logStatusService.msgCodeUp(result, company.getSystemLogStatus(), company.getStatusId());
+        return logStatusService.msgCodeUp(result, company.getSystemLogStatus());
     }
 
     @Override

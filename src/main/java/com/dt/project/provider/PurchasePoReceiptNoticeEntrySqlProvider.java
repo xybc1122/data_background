@@ -39,19 +39,18 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
         List<PurchasePoReceiptNoticeEntry> receiptNoticeEntryList = objectMap.get("poReceiptNoticeEntryList");
         StringBuilder sb = new StringBuilder();
         sb.append("insert into purchase_po_receipt_notice_entry" +
-                "(entry_id,rn_id, product_id, source_type_id, source_id, poe_id, delivery_date, " +
-                "recive_warehouse_id, recive_position_id,quantity, transport_company_id, " +
+                "(entry_id,rn_id, product_id, poe_id, delivery_date," +
+                "warehouse_id, position_id,quantity, transport_company_id, " +
                 "tracking_number, e_remark, row_closed) value");
         for (PurchasePoReceiptNoticeEntry receiptNoticeEntry : receiptNoticeEntryList) {
             sb.append("(").append(receiptNoticeEntry.getEntryId()).append(",").append(receiptNoticeEntry.getRnId()).append(",")
-                    .append(receiptNoticeEntry.getProductId()).append(",").append(receiptNoticeEntry.getSourceTypeId()).append(",")
-                    .append(receiptNoticeEntry.getSourceId())
+                    .append(receiptNoticeEntry.getProductId())
                     .append(",").append(receiptNoticeEntry.getPoeId()).append(",").append(receiptNoticeEntry.getDeliveryDate()).append(",")
                     .append(receiptNoticeEntry.getReciveWarehouseId()).append(",").append(receiptNoticeEntry.getRecivePositionId()).append(",")
                     .append(receiptNoticeEntry.getQuantity()).append(",").append(receiptNoticeEntry.getTransportCompanyId()).append(",");
             StrUtils.appBuider(sb, receiptNoticeEntry.getTrackingNumber());
             sb.append(",");
-            StrUtils.appBuider(sb, receiptNoticeEntry.getRneRemark());
+            StrUtils.appBuider(sb, receiptNoticeEntry.geteRemark());
             sb.append(",").append(receiptNoticeEntry.getRowClosed());
             sb.append("),");
         }
@@ -63,8 +62,8 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
         String alias = "rne";
         sql.SELECT("`rne_id`,`entry_id`,`rn_id`,\n" +
                 "`product_id`,`source_type_id`,\n" +
-                "`source_id`,`poe_id`,`delivery_date`,`recive_warehouse_id`,\n" +
-                "`recive_position_id`,`quantity`,\n" +
+                "`source_id`,`poe_id`,`delivery_date`,`warehouse_id`,\n" +
+                "`position_id`,`quantity`,\n" +
                 "`transport_company_id`,`tracking_number`,\n" +
                 "" + alias + ".`e_remark`,`row_closed`," + alias + ".`version`\n" +
                 "FROM `purchase_po_receipt_notice_entry` AS " + alias + "");
@@ -111,11 +110,11 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
         }
 
         if (record.getReciveWarehouseId() != null) {
-            sql.SET("recive_warehouse_id = #{reciveWarehouseId,jdbcType=BIGINT}");
+            sql.SET("warehouse_id = #{reciveWarehouseId,jdbcType=BIGINT}");
         }
 
         if (record.getRecivePositionId() != null) {
-            sql.SET("recive_position_id = #{recivePositionId,jdbcType=BIGINT}");
+            sql.SET("position_id = #{recivePositionId,jdbcType=BIGINT}");
         }
 
         if (record.getQuantity() != null) {
@@ -130,7 +129,7 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
             sql.SET("tracking_number = #{trackingNumber,jdbcType=VARCHAR}");
         }
 
-        if (StringUtils.isNotBlank(record.getRneRemark())) {
+        if (StringUtils.isNotBlank(record.geteRemark())) {
             sql.SET("e_remark = #{eRemark,jdbcType=VARCHAR}");
         }
 
@@ -138,6 +137,7 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
             sql.SET("row_closed = #{rowClosed,jdbcType=INTEGER}");
         }
         ProviderSqlStore.setVersion(sql, record.getVersion());
+        sql.WHERE("rne_id=#{rneId}");
         return sql.toString();
     }
 

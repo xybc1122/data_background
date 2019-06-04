@@ -13,6 +13,7 @@ import com.dt.project.service.basePublicService.BasicHrLeaveTypeService;
 import com.dt.project.service.HrArchivesDepartmentService;
 import com.dt.project.service.HrArchivesEmployeeService;
 import com.dt.project.utils.PageInfoUtils;
+import com.dt.project.utils.ReqUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,13 @@ public class HrArchivesController {
     @Autowired
     private BasicHrLeaveTypeService leaveTypeService;
 
+    /**
+     * 通过uid获得部门
+     */
+    @GetMapping("/getDepartment")
+    public ResponseBase getDepartment() {
+        return JsonData.setResultSuccess(departmentService.serviceEmployeeName(ReqUtils.getUid()));
+    }
 
     /**
      * 获得部门表树形数据

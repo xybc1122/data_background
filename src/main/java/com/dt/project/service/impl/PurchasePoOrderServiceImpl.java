@@ -155,6 +155,6 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
             poOrderEntryService.serviceInsertPoOrderEntry(poOrderEntryList);
         }
         //通用更新消息
-        return logStatusService.msgCodeUp(result, purchasePoOrder.getSystemLogStatus(), purchasePoOrder.getStatusId());
+        return logStatusService.msgCodeUp(result, purchasePoOrder.getSystemLogStatus());
     }
 }

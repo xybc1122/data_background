@@ -167,6 +167,6 @@ public class PurchaseIcBillStockServiceImpl implements PurchaseIcBillStockServic
             icBillStockEntryService.serviceInsertIcBillStockEntry(pIBSEntryList);
         }
         //通用更新消息
-        return logStatusService.msgCodeUp(result, icBillStock.getSystemLogStatus(), icBillStock.getStatusId());
+        return logStatusService.msgCodeUp(result, icBillStock.getSystemLogStatus());
     }
 }

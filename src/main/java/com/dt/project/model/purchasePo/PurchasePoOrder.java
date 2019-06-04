@@ -41,7 +41,7 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     private String telPhone;
 
-    private String prePayNo;
+    private Long prePayId;
 
     private BigDecimal prePayAmt;
 
@@ -50,7 +50,9 @@ public class PurchasePoOrder extends ParentSysTemLog {
     private Long settlementDate;
 
     private Integer settlementMethodId;
-    private String payNo;
+
+    private Long payId;
+
     private BigDecimal poAmt;
 
     private BigDecimal inboundAmt;
@@ -68,11 +70,12 @@ public class PurchasePoOrder extends ParentSysTemLog {
     private Integer tranType;
 
     private Integer tranStatus;
+
     private Integer orderConfirm;
 
-    private Long sourceTypeId;
-
-    private Long sourceId;
+//    private Long sourceTypeId;
+//
+//    private Long sourceId;
 
     private Integer printCount;
     /**
@@ -91,14 +94,83 @@ public class PurchasePoOrder extends ParentSysTemLog {
      * 主管名称
      */
     private String mangerName;
+    /**
+     * 供应商名称
+     */
+    private String supplierFullName;
+    /**
+     * 预付单号
+     */
+    private String perPayNo;
+    /**
+     * 发票抬头 （公司名称）
+     */
+    private String companyName;
+    /**
+     * 结算方式Name
+     */
+    private String name;
+
+    /**
+     * 发票类型
+     */
+    private String typeName;
 
 
-    public String getPayNo() {
-        return payNo;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setPayNo(String payNo) {
-        this.payNo = payNo;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getPerPayNo() {
+        return perPayNo;
+    }
+
+    public void setPerPayNo(String perPayNo) {
+        this.perPayNo = perPayNo;
+    }
+
+    public String getSupplierFullName() {
+        return supplierFullName;
+    }
+
+    public void setSupplierFullName(String supplierFullName) {
+        this.supplierFullName = supplierFullName;
+    }
+
+    public Long getPrePayId() {
+        return prePayId;
+    }
+
+    public void setPrePayId(Long prePayId) {
+        this.prePayId = prePayId;
+    }
+
+    public Long getPayId() {
+        return payId;
+    }
+
+    public void setPayId(Long payId) {
+        this.payId = payId;
     }
 
     public String getCurrencyName() {
@@ -261,13 +333,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
         this.telPhone = telPhone == null ? null : telPhone.trim();
     }
 
-    public String getPrePayNo() {
-        return prePayNo;
-    }
-
-    public void setPrePayNo(String prePayNo) {
-        this.prePayNo = prePayNo == null ? null : prePayNo.trim();
-    }
 
     public BigDecimal getPrePayAmt() {
         return prePayAmt;
@@ -380,22 +445,22 @@ public class PurchasePoOrder extends ParentSysTemLog {
     public void setOrderConfirm(Integer orderConfirm) {
         this.orderConfirm = orderConfirm;
     }
-
-    public Long getSourceTypeId() {
-        return sourceTypeId;
-    }
-
-    public void setSourceTypeId(Long sourceTypeId) {
-        this.sourceTypeId = sourceTypeId;
-    }
-
-    public Long getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Long sourceId) {
-        this.sourceId = sourceId;
-    }
+//
+//    public Long getSourceTypeId() {
+//        return sourceTypeId;
+//    }
+//
+//    public void setSourceTypeId(Long sourceTypeId) {
+//        this.sourceTypeId = sourceTypeId;
+//    }
+//
+//    public Long getSourceId() {
+//        return sourceId;
+//    }
+//
+//    public void setSourceId(Long sourceId) {
+//        this.sourceId = sourceId;
+//    }
 
     public Integer getPrintCount() {
         return printCount;

@@ -18,5 +18,5 @@ public interface BasicPurchaseSupplierService {
      *
      * @return
      */
-    List<BasicPurchaseSupplier> selectByPurchaseSupplier();
+    List<BasicPurchaseSupplier> selectByPurchaseSupplier(BasicPurchaseSupplier pSupplier);
 }

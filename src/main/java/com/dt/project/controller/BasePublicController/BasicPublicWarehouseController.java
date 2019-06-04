@@ -19,8 +19,7 @@ public class BasicPublicWarehouseController {
 
     @GetMapping("/findByListWar")
     public ResponseBase findByListWar() {
-        List<ParentTree> basicPublicSiteList = warehouseService.findByWarehouseInfo();
-        return JsonData.setResultSuccess(basicPublicSiteList);
+        return JsonData.setResultSuccess(warehouseService.findByWarehouseInfo());
     }
 
     @PostMapping("/upWar")

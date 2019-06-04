@@ -5,7 +5,9 @@ import com.dt.project.mapper.basePublicMapper.BasicPublicShopMapper;
 import com.dt.project.mapper.financialImportMapper.FinancialSalesBalanceMapper;
 import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeMapper;
 import com.dt.project.mapper.systemMapper.SystemFinalProcessingMapper;
+import com.dt.project.model.FinancialReceivePaymentPrePay;
 import com.dt.project.model.JavaSqlName;
+import com.dt.project.model.basePublic.BasicPurchaseSupplier;
 import com.dt.project.model.purchasePo.*;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingList;
@@ -47,12 +49,12 @@ public class MapperTest {
         List<String> c = null;
         System.out.println("tableNames:" + tableNames);
         for (String tableName : tableNames) {
-            if (tableName.equals("purchase_ic_bill_stock_entry")) {
+            if (tableName.equals("purchase_po_order")) {
                 c = DatabaseUtil.getColumnNames(tableName);
             }
         }
         //设置动态查询
-        PurchaseIcBillStockEntry f = new PurchaseIcBillStockEntry();
+        PurchasePoOrder f = new PurchasePoOrder();
         Field[] field = f.getClass().getDeclaredFields();
         for (int i = 0; i < field.length; i++) {
             Field s = field[i];
@@ -60,7 +62,7 @@ public class MapperTest {
             System.out.println(s.getName());
             JavaSqlName b = new JavaSqlName();
             b.setjName(s.getName());
-            b.setModel("icBillEntry");
+            b.setModel("poOrder");
             b.setSqlName(c.get(i));
             service.serviceSet(b);
         }

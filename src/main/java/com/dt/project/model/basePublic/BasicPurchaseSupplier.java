@@ -31,9 +31,21 @@ public class BasicPurchaseSupplier extends ParentSysTemLog {
     private String address;
 
     private String addressEng;
+    /**
+     * 联系人
+     */
+    private String contactPerson;
+
 
     private String telPhone;
 
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
 
     public Integer getSupplierId() {
         return supplierId;

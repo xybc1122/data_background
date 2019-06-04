@@ -30,10 +30,6 @@ public interface PurchaseIcBillStockEntryMapper {
      * @return
      */
     @SelectProvider(type = PurchaseIcBillStockEntrySqlProvider.class, method = "selectByIcBillStockEntry")
-    @Results({
-            @Result(property = "icBRemark", column = "e_remark"),
-            @Result(property = "icBSourceId", column = "source_id")
-    })
     List<PurchaseIcBillStockEntry> selectByIcBillStockEntry(PurchaseIcBillStockEntry record);
 
     /**

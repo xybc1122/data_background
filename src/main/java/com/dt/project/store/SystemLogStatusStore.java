@@ -1,5 +1,6 @@
 package com.dt.project.store;
 
+import com.dt.project.exception.LsException;
 import com.dt.project.model.SystemLogStatus;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.StrUtils;
@@ -17,13 +18,13 @@ import java.util.Date;
 public class SystemLogStatusStore {
 
 
-    public static SystemLogStatus setModify(SystemLogStatus logStatus, String uName, Long statusId) {
+    public static SystemLogStatus setModify(SystemLogStatus logStatus, String uName) {
         if (logStatus == null) {
-            logStatus = new SystemLogStatus();
+            throw new LsException("logStatus对象不能为空");
         }
         logStatus.setModifyDate(new Date().getTime());
         logStatus.setModifyUser(uName);
-        logStatus.setStatusId(statusId);
+        logStatus.setStatusId(logStatus.getStatusId());
         return logStatus;
     }
 

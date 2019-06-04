@@ -14,7 +14,7 @@ public interface BasicPublicWarehouseMapper {
     /**
      * 查询仓库信息
      */
-    @Select("SELECT`warehouse_id`,`path`,`warehouse_name`,parent_id,parent_node_is,status_id \n" +
+    @Select("SELECT `position_id`,`warehouse_id`,`path`,`warehouse_name`,parent_id,parent_node_is,status_id \n" +
             "FROM `basic_public_warehouse` where del_or_not=0")
     @Results({
             @Result(column = "warehouse_id", property = "treeId"),

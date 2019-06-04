@@ -17,9 +17,9 @@ public class PurchaseIcBillStockEntry {
 
     private Integer productId;
 
-    private Long sourceTypeId;
-
-    private Long icBSourceId;
+//    private Long sourceTypeId;
+//
+//    private Long icBSourceId;
 
     private Long rneId;
 
@@ -29,7 +29,7 @@ public class PurchaseIcBillStockEntry {
 
     private BigDecimal quantity;
 
-    private String icBRemark;
+    private String eRemark;
 
     private Integer rowClosed;
 
@@ -95,21 +95,6 @@ public class PurchaseIcBillStockEntry {
         this.productId = productId;
     }
 
-    public Long getSourceTypeId() {
-        return sourceTypeId;
-    }
-
-    public void setSourceTypeId(Long sourceTypeId) {
-        this.sourceTypeId = sourceTypeId;
-    }
-
-    public Long getIcBSourceId() {
-        return icBSourceId;
-    }
-
-    public void setIcBSourceId(Long icBSourceId) {
-        this.icBSourceId = icBSourceId;
-    }
 
     public Long getRneId() {
         return rneId;
@@ -143,12 +128,12 @@ public class PurchaseIcBillStockEntry {
         this.quantity = quantity;
     }
 
-    public String getIcBRemark() {
-        return icBRemark;
+    public String geteRemark() {
+        return eRemark;
     }
 
-    public void setIcBRemark(String icBRemark) {
-        this.icBRemark = icBRemark;
+    public void seteRemark(String eRemark) {
+        this.eRemark = eRemark;
     }
 
     public Integer getRowClosed() {

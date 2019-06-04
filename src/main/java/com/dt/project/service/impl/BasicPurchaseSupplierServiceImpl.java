@@ -2,6 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicPurchaseSupplierMapper;
 import com.dt.project.model.basePublic.BasicPurchaseSupplier;
+import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.service.basePublicService.BasicPurchaseSupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,13 @@ public class BasicPurchaseSupplierServiceImpl implements BasicPurchaseSupplierSe
     @Autowired
     private BasicPurchaseSupplierMapper pSuppMapper;
 
+
+    @Autowired
+    private JavaSqlNameService nameService;
+
     @Override
-    public List<BasicPurchaseSupplier> selectByPurchaseSupplier() {
-        return pSuppMapper.selectByPurchaseSupplier();
+    public List<BasicPurchaseSupplier> selectByPurchaseSupplier(BasicPurchaseSupplier pSupplier) {
+        pSupplier.setJavaSqlName(nameService.get("pSupp"));
+        return pSuppMapper.selectByPurchaseSupplier(pSupplier);
     }
 }

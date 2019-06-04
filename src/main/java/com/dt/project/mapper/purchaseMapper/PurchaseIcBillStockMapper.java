@@ -28,13 +28,11 @@ public interface PurchaseIcBillStockMapper {
             "no, explanation,",
             "dept_id, emp_id, manger_id, ",
             "children, closed, order_confirm, ",
-            "source_type_id, source_id, ",
             "print_count,`status_id`)",
             "values (#{supplierId},#{years},#{period},#{date,jdbcType=BIGINT}, ",
             "#{no,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR}, ",
             "#{deptId,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER}, ",
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{orderConfirm,jdbcType=INTEGER}, ",
-            "#{sourceTypeId,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT},",
             "#{printCount,jdbcType=INTEGER},#{statusId})"
     })
     int insertIcBillStock(PurchaseIcBillStock record);

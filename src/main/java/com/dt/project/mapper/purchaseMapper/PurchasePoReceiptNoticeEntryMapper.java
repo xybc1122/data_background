@@ -33,9 +33,6 @@ public interface PurchasePoReceiptNoticeEntryMapper {
      * @return
      */
     @SelectProvider(type = PurchasePoReceiptNoticeEntrySqlProvider.class, method = "selectByPRNoticeEntry")
-    @Results({
-            @Result(property = "rneRemark", column = "e_remark")
-    })
     List<PurchasePoReceiptNoticeEntry> selectByPRNoticeEntry(PurchasePoReceiptNoticeEntry record);
 
 

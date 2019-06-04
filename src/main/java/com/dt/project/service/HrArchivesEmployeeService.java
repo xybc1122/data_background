@@ -8,10 +8,20 @@ import java.util.Map;
 
 public interface HrArchivesEmployeeService {
 
+
+
+
+
+
     /**
      * 获取动态查询员工表信息
      */
     List<HrArchivesEmployee> serviceGetEmployeeList(HrEmployeeDto employeeDto);
+
+
+
+
+
     /**
      * 获得员工信息 没有关联用户的
      */
@@ -24,6 +34,7 @@ public interface HrArchivesEmployeeService {
 
     /**
      * 更新员工信息
+     *
      * @param mapStaff
      * @return
      */

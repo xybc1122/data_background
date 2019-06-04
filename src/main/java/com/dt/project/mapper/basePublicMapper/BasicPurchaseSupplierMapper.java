@@ -45,31 +45,12 @@ public interface BasicPurchaseSupplierMapper {
      *
      * @return
      */
-    @Select("SELECT `supplier_id`,`supplier_full_name` FROM`basic_purchase_supplier`")
-    List<BasicPurchaseSupplier> selectByPurchaseSupplier();
+//    @Select("SELECT `supplier_id`,`supplier_full_name` FROM`basic_purchase_supplier`")
+//    List<BasicPurchaseSupplier> selectByPurchaseSupplier();
 
 
-    @SelectProvider(type = BasicPurchaseSupplierSqlProvider.class, method = "selectByExample")
-    @Results({
-            @Result(column = "supplier_id", property = "supplierId", jdbcType = JdbcType.INTEGER),
-            @Result(column = "supplier_number", property = "supplierNumber", jdbcType = JdbcType.INTEGER),
-            @Result(column = "supplier_full_name", property = "supplierFullName", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "supplier_full_name_eng", property = "supplierFullNameEng", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "suppliersupplier_short_code", property = "suppliersupplierShortCode", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "supplier_short_name", property = "supplierShortName", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "supplier_short_name_eng", property = "supplierShortNameEng", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "credit_code", property = "creditCode", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "bank_of_deposit", property = "bankOfDeposit", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "bank_account", property = "bankAccount", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "account_type", property = "accountType", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "address", property = "address", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "address_eng", property = "addressEng", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "tel_phone", property = "telPhone", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "status_id", property = "statusId", jdbcType = JdbcType.BIGINT),
-            @Result(column = "version", property = "version", jdbcType = JdbcType.INTEGER),
-            @Result(column = "del_or_not", property = "delOrNot", jdbcType = JdbcType.BIT)
-    })
-    List<BasicPurchaseSupplier> selectByExample(BasicPurchaseSupplier example);
+    @SelectProvider(type = BasicPurchaseSupplierSqlProvider.class, method = "selectByPurchaseSupplier")
+    List<BasicPurchaseSupplier> selectByPurchaseSupplier(BasicPurchaseSupplier example);
 
     @UpdateProvider(type = BasicPurchaseSupplierSqlProvider.class, method = "updateByExampleSelective")
     int updateByExampleSelective(@Param("record") BasicPurchaseSupplier record, @Param("example") BasicPurchaseSupplier example);

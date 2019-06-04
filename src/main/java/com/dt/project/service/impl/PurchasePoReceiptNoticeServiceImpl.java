@@ -154,7 +154,7 @@ public class PurchasePoReceiptNoticeServiceImpl implements PurchasePoReceiptNoti
             receiptNoticeEntryService.serviceInsertReceiptNoticeEntry(receiptNoticeEntryList);
         }
         //通用更新消息
-        return logStatusService.msgCodeUp(result, purchasePoOrder.getSystemLogStatus(), purchasePoOrder.getStatusId());
+        return logStatusService.msgCodeUp(result, purchasePoOrder.getSystemLogStatus());
     }
 
 

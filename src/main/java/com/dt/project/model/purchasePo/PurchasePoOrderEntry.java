@@ -40,7 +40,7 @@ public class PurchasePoOrderEntry {
 
     private Long invoiceEntryId;
 
-    private Long reciveWarehouseId;
+    private Integer reciveWarehouseId;
 
     private Long recivePositionId;
 
@@ -52,7 +52,7 @@ public class PurchasePoOrderEntry {
 
     private BigDecimal poeReturnQty;
 
-    private String poeRemark;
+    private String eRemark;
 
     private Integer rowClosed;
     /**
@@ -73,6 +73,30 @@ public class PurchasePoOrderEntry {
      * in查询存储id
      */
     private List<Long> inList;
+    /**
+     * 产品名称
+     */
+    private String productName;
+    /**
+     * 仓库名
+     */
+    private String warehouseName;
+
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
 
     public Integer getRowClosed() {
         return rowClosed;
@@ -234,11 +258,11 @@ public class PurchasePoOrderEntry {
         this.invoiceEntryId = invoiceEntryId;
     }
 
-    public Long getReciveWarehouseId() {
+    public Integer getReciveWarehouseId() {
         return reciveWarehouseId;
     }
 
-    public void setReciveWarehouseId(Long reciveWarehouseId) {
+    public void setReciveWarehouseId(Integer reciveWarehouseId) {
         this.reciveWarehouseId = reciveWarehouseId;
     }
 
@@ -282,12 +306,11 @@ public class PurchasePoOrderEntry {
         this.poeReturnQty = poeReturnQty;
     }
 
-    public String getPoeRemark() {
-        return poeRemark;
+    public String geteRemark() {
+        return eRemark;
     }
 
-    public void setPoeRemark(String poeRemark) {
-        this.poeRemark = poeRemark == null ? null : poeRemark.trim();
+    public void seteRemark(String eRemark) {
+        this.eRemark = eRemark;
     }
-
 }

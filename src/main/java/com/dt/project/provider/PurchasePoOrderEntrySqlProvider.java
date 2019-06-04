@@ -12,8 +12,10 @@ import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -45,8 +47,8 @@ public class PurchasePoOrderEntrySqlProvider {
                 "(entry_id,po_id, product_id,quantity, tax_rate,price, price_tax,\n" +
                 "tax_amt, amount,amount_tax, poe_source_type_id,\n" +
                 "poe_source_id, delivery_date,\n" +
-                "invoice_entry_id, recive_warehouse_id,\n" +
-                "recive_position_id, poe_qu_qty,\n" +
+                "invoice_entry_id,warehouse_id,\n" +
+                "position_id, poe_qu_qty,\n" +
                 "poe_fa_qty, inbound_qty,\n" +
                 "poe_return_qty,e_remark,\n" +
                 "row_closed)\n" +
@@ -64,7 +66,7 @@ public class PurchasePoOrderEntrySqlProvider {
                     .append(poOrderEntry.getRecivePositionId()).append(",").append(poOrderEntry.getPoeQuQty()).append(",")
                     .append(poOrderEntry.getPoeFaQty()).append(",").append(poOrderEntry.getInboundQty()).append(",")
                     .append(poOrderEntry.getPoeReturnQty()).append(",");
-            StrUtils.appBuider(sb, poOrderEntry.getPoeRemark());
+            StrUtils.appBuider(sb, poOrderEntry.geteRemark());
             sb.append(",").append(poOrderEntry.getRowClosed());
             sb.append("),");
         }
@@ -74,10 +76,17 @@ public class PurchasePoOrderEntrySqlProvider {
     public String selectByPoOrderEntry(PurchasePoOrderEntry poOrderEntry) throws IllegalAccessException {
         String alias = "poe";
         SQL sql = new SQL();
-        sql.SELECT("`poe_id`,`entry_id`,`po_id`,`product_id`,`tax_rate`,`price`,`price_tax`,\n" +
+        sql.SELECT("bpw.`warehouse_name`,bpp.`product_name`,`poe_id`,`entry_id`," + alias + ".`po_id`," + alias + ".`product_id`,`tax_rate`,`price`,`price_tax`,\n" +
                 "`tax_amt`,`amount`,`amount_tax`,`poe_source_type_id`,`poe_source_id`,`delivery_date`,`invoice_entry_id`,\n" +
-                "`recive_warehouse_id`,`recive_position_id`,`poe_qu_qty`, `poe_fa_qty`,`inbound_qty`, `poe_return_qty`," +
+                "" + alias + ".`recive_warehouse_id`,`recive_position_id`,`poe_qu_qty`, `poe_fa_qty`,`inbound_qty`, `poe_return_qty`," +
                 "" + alias + ".`e_remark`,`row_closed`," + alias + ".`version` FROM `purchase_po_order_entry` AS " + alias + "");
+        sql.LEFT_OUTER_JOIN("basic_public_product AS bpp on bpp.product_id = " + alias + ".`product_id`");
+        sql.LEFT_OUTER_JOIN("basic_public_warehouse AS bpw on bpw.warehouse_id = " + alias + ".`recive_warehouse_id`");
+        //查询产品名
+        AppendSqlStore.sqlWhere(poOrderEntry.getProductName(), "bpp.`product_name`", sql, Constants.SELECT);
+        //查询仓库名
+        AppendSqlStore.sqlWhere(poOrderEntry.getWarehouseName(), "bpw.`warehouse_name`", sql, Constants.SELECT);
+
         //sql动态查询
         FieldStore.query(poOrderEntry.getClass(), poOrderEntry.getJavaSqlName(), poOrderEntry, sql);
         sql.WHERE(alias + ".`del_or_not`=0");
@@ -150,11 +159,11 @@ public class PurchasePoOrderEntrySqlProvider {
         }
 
         if (record.getReciveWarehouseId() != null) {
-            sql.SET("recive_warehouse_id = #{reciveWarehouseId,jdbcType=BIGINT}");
+            sql.SET("warehouse_id = #{reciveWarehouseId,jdbcType=INTEGER}");
         }
 
         if (record.getRecivePositionId() != null) {
-            sql.SET("recive_position_id = #{recivePositionId,jdbcType=BIGINT}");
+            sql.SET("position_id = #{recivePositionId,jdbcType=BIGINT}");
         }
 
         if (record.getPoeQuQty() != null) {
@@ -173,8 +182,8 @@ public class PurchasePoOrderEntrySqlProvider {
             sql.SET("poe_return_qty = #{poeReturnQty,jdbcType=DECIMAL}");
         }
 
-        if (StringUtils.isNotBlank(record.getPoeRemark())) {
-            sql.SET("e_remark = #{poeRemark,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.geteRemark())) {
+            sql.SET("e_remark = #{eRemark,jdbcType=VARCHAR}");
         }
 
         if (record.getRowClosed() != null) {

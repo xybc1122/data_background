@@ -11,8 +11,10 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.purchasePo.PurchasePoOrder;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -103,7 +105,7 @@ public class PurchasePoOrderSqlProvider {
             VALUES("tel_phone", "#{telPhone,jdbcType=VARCHAR}");
         }
 
-        if (record.getPrePayNo() != null) {
+        if (record.getPrePayId() != null) {
             VALUES("pre_pay_no", "#{prePayNo,jdbcType=VARCHAR}");
         }
 
@@ -164,13 +166,13 @@ public class PurchasePoOrderSqlProvider {
             VALUES("order_confirm", "#{orderConfirm,jdbcType=INTEGER}");
         }
 
-        if (record.getSourceTypeId() != null) {
-            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSourceId() != null) {
-            VALUES("source_id", "#{sourceId,jdbcType=BIGINT}");
-        }
+//        if (record.getSourceTypeId() != null) {
+//            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
+//        }
+//
+//        if (record.getSourceId() != null) {
+//            VALUES("source_id", "#{sourceId,jdbcType=BIGINT}");
+//        }
 
         if (record.getPrintCount() != null) {
             VALUES("print_count", "#{printCount,jdbcType=INTEGER}");
@@ -194,20 +196,47 @@ public class PurchasePoOrderSqlProvider {
     public String selectByPoOrder(PurchasePoOrder poOrder) throws IllegalAccessException {
         String alias = "po";
         SQL sql = new SQL();
-        sql.SELECT("cu.`currency_id`,cu.`currency_name`,dep.`dept_name`,se.`employee_name` AS empName," +
-                "se1.`employee_name` AS mangerName,`po_id`,`date`,`no`,`po_style_id`,`explanation`,\n" +
-                "`fetch_add`,`emp_id`,\n" +
-                "`manger_id`,`exchange_rate`,`children`,`closed`,\n" +
-                "`supplier_id`,`contact_person`,`tel_phone`,`pre_pay_no`,\n" +
+        sql.SELECT("fit.`type_name`,psm.`name`,bpc.`company_name`,rpp.`no` AS perPayNo,bps.`supplier_full_name`,cu.`currency_id`,cu.`currency_name`,dep.`dept_name`,se.`employee_name` AS empName," +
+                "se1.`employee_name` AS mangerName," + alias + ".`po_id`," + alias + ".`date`," +
+                "" + alias + ".`no`,`po_style_id`," + alias + ".`explanation`,\n" +
+                "`fetch_add`," + alias + ".`emp_id`,\n" +
+                "" + alias + ".`manger_id`," + alias + ".`exchange_rate`,`children`,`closed`,\n" +
+                "" + alias + ".`supplier_id`," + alias + ".`contact_person`," + alias + ".`tel_phone`," + alias + ".`pre_pay_id`,\n" +
                 "`pre_pay_amt`,`class_type_id`,`settlement_date`,\n" +
                 "`settlement_method_id`,`po_amt`,`inbound_amt`," + alias + ".`company_id`,\n" +
-                "`invoice_type_id`,`pay_no`,`pay_amt`,`erase_amt`,`tran_type`, `tran_status`,\n" +
-                "`order_confirm`,`source_type_id`,`source_id`,`print_count`,\n" +
+                "" + alias + ".`invoice_type_id`," + alias + ".`pay_id`,`pay_amt`,`erase_amt`,`tran_type`, `tran_status`,\n" +
+                "`order_confirm`,`print_count`,\n" +
                 "" + alias + ".`status_id`," + alias + ".`version` FROM `purchase_po_order` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("basic_public_currency AS cu ON cu.`currency_id` = " + alias + ".`currency_id`");
         sql.LEFT_OUTER_JOIN("hr_archives_department AS dep ON dep.`dept_id`=" + alias + ".`dept_id`");
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se ON se.`s_id` = " + alias + ".`emp_id`");
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se1 ON se1.`s_id` = " + alias + ".`manger_id`");
+        sql.LEFT_OUTER_JOIN("`basic_purchase_supplier` AS bps ON bps.`supplier_id` = " + alias + ".`supplier_id`");
+        sql.LEFT_OUTER_JOIN("`financial_receive_payment_pre_pay` AS rpp ON rpp.`pre_pay_id` = " + alias + ".`pre_pay_id`");
+        sql.LEFT_OUTER_JOIN("`basic_public_company` AS bpc ON bpc.`company_id` = " + alias + ".`company_id`");
+        sql.LEFT_OUTER_JOIN("`financial_receive_payment_pay` AS rp ON bpc.`company_id` = " + alias + ".`company_id`");
+        sql.LEFT_OUTER_JOIN("`basic_purchase_settlement_method` AS psm ON psm.`sm_id` = " + alias + ".`settlement_method_id`");
+        sql.LEFT_OUTER_JOIN("`basic_financial_invoice_type` AS fit ON fit.`it_id` = " + alias + ".`invoice_type_id`");
+        //查询币别名称
+        AppendSqlStore.sqlWhere(poOrder.getCurrencyName(), "cu.`currency_name`", sql, Constants.SELECT);
+        //查询部门名称
+        AppendSqlStore.sqlWhere(poOrder.getDeptName(), "dep.`dept_name`", sql, Constants.SELECT);
+        //查询业务员
+        AppendSqlStore.sqlWhere(poOrder.getEmpName(), "dep.`dept_name`", sql, Constants.SELECT);
+        //查询主管
+        AppendSqlStore.sqlWhere(poOrder.getMangerName(), "dep.`dept_name`", sql, Constants.SELECT);
+        //查询供应商
+        AppendSqlStore.sqlWhere(poOrder.getMangerName(), "dep.`dept_name`", sql, Constants.SELECT);
+        //查询预付单号
+        AppendSqlStore.sqlWhere(poOrder.getPerPayNo(), "rpp.`no`", sql, Constants.SELECT);
+        //发票抬头公司名称
+        AppendSqlStore.sqlWhere(poOrder.getCurrencyName(), "bpc.`company_name`", sql, Constants.SELECT);
+        //结算方式名称
+        AppendSqlStore.sqlWhere(poOrder.getName(), "psm.`name`", sql, Constants.SELECT);
+
+        //发票类型名称
+        AppendSqlStore.sqlWhere(poOrder.getTypeName(), "fit.`type_name`", sql, Constants.SELECT);
+
         //sql动态查询
         FieldStore.query(poOrder.getClass(), poOrder.getJavaSqlName(), poOrder, sql);
         ProviderSqlStore.selectStatus(poOrder.getSystemLogStatus(), alias, sql);
@@ -277,8 +306,8 @@ public class PurchasePoOrderSqlProvider {
             sql.SET("tel_phone = #{telPhone,jdbcType=VARCHAR}");
         }
 
-        if (StringUtils.isNotBlank(record.getPrePayNo())) {
-            sql.SET("pre_pay_no = #{prePayNo,jdbcType=VARCHAR}");
+        if (record.getPrePayId() == null) {
+            sql.SET("pre_pay_id = #{prePayId,jdbcType=BIGINT}");
         }
 
         if (record.getPrePayAmt() != null) {
@@ -313,8 +342,8 @@ public class PurchasePoOrderSqlProvider {
             sql.SET("invoice_type_id = #{invoiceTypeId,jdbcType=INTEGER}");
         }
 
-        if (record.getPayNo() != null) {
-            sql.SET("pay_no = #{payNo,jdbcType=VARCHAR}");
+        if (record.getPayId() != null) {
+            sql.SET("pay_id = #{payId,jdbcType=BIGINT}");
         }
 
         if (record.getPayAmt() != null) {
@@ -336,14 +365,14 @@ public class PurchasePoOrderSqlProvider {
         if (record.getOrderConfirm() != null) {
             sql.SET("order_confirm = #{orderConfirm,jdbcType=INTEGER}");
         }
-
-        if (record.getSourceTypeId() != null) {
-            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSourceId() != null) {
-            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
-        }
+//
+//        if (record.getSourceTypeId() != null) {
+//            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
+//        }
+//
+//        if (record.getSourceId() != null) {
+//            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
+//        }
 
         if (record.getPrintCount() != null) {
             sql.SET("print_count = #{printCount,jdbcType=INTEGER}");

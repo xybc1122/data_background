@@ -28,7 +28,7 @@ public class FinancialSalesBalanceController {
      * @return
      */
     @PostMapping("/getFsbInfo")
-    public ResponseBase geFsbInfo(@RequestBody FinancialSalesBalance fsb) {
+    public ResponseBase getFsbInfo(@RequestBody FinancialSalesBalance fsb) {
         return fsbService.serviceFindByListFbs(fsb);
     }
 

@@ -1,7 +1,6 @@
 package com.dt.project.model.purchasePo;
 
 import com.dt.project.model.JavaSqlName;
-import com.dt.project.model.parent.ParentSysTemLog;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -36,7 +35,7 @@ public class PurchasePoReceiptNoticeEntry {
 
     private String trackingNumber;
 
-    private String rneRemark;
+    private String eRemark;
 
     private Integer rowClosed;
 
@@ -195,12 +194,12 @@ public class PurchasePoReceiptNoticeEntry {
         this.trackingNumber = trackingNumber;
     }
 
-    public String getRneRemark() {
-        return rneRemark;
+    public String geteRemark() {
+        return eRemark;
     }
 
-    public void setRneRemark(String rneRemark) {
-        this.rneRemark = rneRemark == null ? null : rneRemark.trim();
+    public void seteRemark(String eRemark) {
+        this.eRemark = eRemark;
     }
 
     public Integer getRowClosed() {

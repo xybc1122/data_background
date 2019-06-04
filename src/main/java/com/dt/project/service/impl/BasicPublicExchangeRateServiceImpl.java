@@ -31,7 +31,7 @@ public class BasicPublicExchangeRateServiceImpl implements BasicPublicExchangeRa
     public ResponseBase serviceUpRate(BasicPublicExchangeRate rate) {
         int result = rateMapper.upRate(rate);
         //通用更新消息
-        return logStatusService.msgCodeUp(result, rate.getSystemLogStatus(), rate.getStatusId());
+        return logStatusService.msgCodeUp(result, rate.getSystemLogStatus());
     }
 
     @Override

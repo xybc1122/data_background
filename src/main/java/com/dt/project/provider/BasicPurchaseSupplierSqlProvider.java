@@ -11,6 +11,11 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.basePublic.BasicPurchaseSupplier;
+import com.dt.project.store.FieldStore;
+import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.utils.FileUtils;
+import org.apache.ibatis.jdbc.SQL;
+
 import java.util.Map;
 
 public class BasicPurchaseSupplierSqlProvider {
@@ -31,171 +36,162 @@ public class BasicPurchaseSupplierSqlProvider {
     public String insertSelective(BasicPurchaseSupplier record) {
         BEGIN();
         INSERT_INTO("basic_purchase_supplier");
-        
+
         if (record.getSupplierId() != null) {
             VALUES("supplier_id", "#{supplierId,jdbcType=INTEGER}");
         }
-        
+
         if (record.getSupplierNumber() != null) {
             VALUES("supplier_number", "#{supplierNumber,jdbcType=INTEGER}");
         }
-        
+
         if (record.getSupplierFullName() != null) {
             VALUES("supplier_full_name", "#{supplierFullName,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getSupplierFullNameEng() != null) {
             VALUES("supplier_full_name_eng", "#{supplierFullNameEng,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getSuppliersupplierShortCode() != null) {
             VALUES("suppliersupplier_short_code", "#{suppliersupplierShortCode,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getSupplierShortName() != null) {
             VALUES("supplier_short_name", "#{supplierShortName,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getSupplierShortNameEng() != null) {
             VALUES("supplier_short_name_eng", "#{supplierShortNameEng,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getCreditCode() != null) {
             VALUES("credit_code", "#{creditCode,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getBankOfDeposit() != null) {
             VALUES("bank_of_deposit", "#{bankOfDeposit,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getBankAccount() != null) {
             VALUES("bank_account", "#{bankAccount,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAccountType() != null) {
             VALUES("account_type", "#{accountType,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAddress() != null) {
             VALUES("address", "#{address,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAddressEng() != null) {
             VALUES("address_eng", "#{addressEng,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getTelPhone() != null) {
             VALUES("tel_phone", "#{telPhone,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getStatusId() != null) {
             VALUES("status_id", "#{statusId,jdbcType=BIGINT}");
         }
-        
+
         if (record.getVersion() != null) {
             VALUES("version", "#{version,jdbcType=INTEGER}");
         }
-        
+
         if (record.getDelOrNot() != null) {
             VALUES("del_or_not", "#{delOrNot,jdbcType=BIT}");
         }
-        
+
         return SQL();
     }
 
-    public String selectByExample(BasicPurchaseSupplier example) {
-        SELECT("supplier_number");
-        SELECT("supplier_full_name");
-        SELECT("supplier_full_name_eng");
-        SELECT("suppliersupplier_short_code");
-        SELECT("supplier_short_name");
-        SELECT("supplier_short_name_eng");
-        SELECT("credit_code");
-        SELECT("bank_of_deposit");
-        SELECT("bank_account");
-        SELECT("account_type");
-        SELECT("address");
-        SELECT("address_eng");
-        SELECT("tel_phone");
-        SELECT("status_id");
-        SELECT("version");
-        SELECT("del_or_not");
-        FROM("basic_purchase_supplier");
-
-        return SQL();
+    public String selectByPurchaseSupplier(BasicPurchaseSupplier record) throws IllegalAccessException {
+        SQL sql = new SQL();
+        String alias = "bps";
+        sql.SELECT("`supplier_id`,`supplier_number`,`supplier_full_name`,`supplier_full_name_eng`,`suppliersupplier_short_code`,`supplier_short_name`,\n" +
+                "`supplier_short_name_eng`,`credit_code`,`bank_of_deposit`,`bank_account`,`account_type`,`address`,\n" +
+                "`address_eng`,`tel_phone`,\n" +
+                "" + alias + ".`status_id`," + alias + ".`version`\n" +
+                "FROM `basic_purchase_supplier` AS " + alias + "\n");
+        FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
+        ProviderSqlStore.selectStatus(record.getSystemLogStatus(), alias, sql);
+        return sql.toString();
     }
 
     public String updateByExampleSelective(Map<String, Object> parameter) {
         BasicPurchaseSupplier record = (BasicPurchaseSupplier) parameter.get("record");
 
-        
+
         BEGIN();
         UPDATE("basic_purchase_supplier");
-        
+
         if (record.getSupplierId() != null) {
             SET("supplier_id = #{record.supplierId,jdbcType=INTEGER}");
         }
-        
+
         if (record.getSupplierNumber() != null) {
             SET("supplier_number = #{record.supplierNumber,jdbcType=INTEGER}");
         }
-        
+
         if (record.getSupplierFullName() != null) {
             SET("supplier_full_name = #{record.supplierFullName,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getSupplierFullNameEng() != null) {
             SET("supplier_full_name_eng = #{record.supplierFullNameEng,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getSuppliersupplierShortCode() != null) {
             SET("suppliersupplier_short_code = #{record.suppliersupplierShortCode,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getSupplierShortName() != null) {
             SET("supplier_short_name = #{record.supplierShortName,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getSupplierShortNameEng() != null) {
             SET("supplier_short_name_eng = #{record.supplierShortNameEng,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getCreditCode() != null) {
             SET("credit_code = #{record.creditCode,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getBankOfDeposit() != null) {
             SET("bank_of_deposit = #{record.bankOfDeposit,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getBankAccount() != null) {
             SET("bank_account = #{record.bankAccount,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAccountType() != null) {
             SET("account_type = #{record.accountType,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAddress() != null) {
             SET("address = #{record.address,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getAddressEng() != null) {
             SET("address_eng = #{record.addressEng,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getTelPhone() != null) {
             SET("tel_phone = #{record.telPhone,jdbcType=VARCHAR}");
         }
-        
+
         if (record.getStatusId() != null) {
             SET("status_id = #{record.statusId,jdbcType=BIGINT}");
         }
-        
+
         if (record.getVersion() != null) {
             SET("version = #{record.version,jdbcType=INTEGER}");
         }
-        
+
         if (record.getDelOrNot() != null) {
             SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
         }
@@ -206,7 +202,7 @@ public class BasicPurchaseSupplierSqlProvider {
     public String updateByExample(Map<String, Object> parameter) {
         BEGIN();
         UPDATE("basic_purchase_supplier");
-        
+
         SET("supplier_id = #{record.supplierId,jdbcType=INTEGER}");
         SET("supplier_number = #{record.supplierNumber,jdbcType=INTEGER}");
         SET("supplier_full_name = #{record.supplierFullName,jdbcType=VARCHAR}");
@@ -224,7 +220,7 @@ public class BasicPurchaseSupplierSqlProvider {
         SET("status_id = #{record.statusId,jdbcType=BIGINT}");
         SET("version = #{record.version,jdbcType=INTEGER}");
         SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-        
+
 
         return SQL();
     }

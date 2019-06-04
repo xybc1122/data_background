@@ -8,6 +8,8 @@ import java.util.List;
  * 收货通知单表
  */
 public class PurchasePoReceiptNotice extends ParentSysTemLog {
+
+    private Integer supplierId;
     private Long rnId;
 
     private Long date;
@@ -29,13 +31,20 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
     private Integer closed;
 
     private Integer orderConfirm;
-
-    private Long sourceTypeId;
-
-    private Long sourceId;
+//
+//    private Long sourceTypeId;
+//
+//    private Long sourceId;
 
     private Integer printCount;
 
+    public Integer getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Integer supplierId) {
+        this.supplierId = supplierId;
+    }
 
     public Long getRnId() {
         return rnId;
@@ -124,22 +133,22 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
     public void setOrderConfirm(Integer orderConfirm) {
         this.orderConfirm = orderConfirm;
     }
-
-    public Long getSourceTypeId() {
-        return sourceTypeId;
-    }
-
-    public void setSourceTypeId(Long sourceTypeId) {
-        this.sourceTypeId = sourceTypeId;
-    }
-
-    public Long getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Long sourceId) {
-        this.sourceId = sourceId;
-    }
+//
+//    public Long getSourceTypeId() {
+//        return sourceTypeId;
+//    }
+//
+//    public void setSourceTypeId(Long sourceTypeId) {
+//        this.sourceTypeId = sourceTypeId;
+//    }
+//
+//    public Long getSourceId() {
+//        return sourceId;
+//    }
+//
+//    public void setSourceId(Long sourceId) {
+//        this.sourceId = sourceId;
+//    }
 
     public Integer getPrintCount() {
         return printCount;

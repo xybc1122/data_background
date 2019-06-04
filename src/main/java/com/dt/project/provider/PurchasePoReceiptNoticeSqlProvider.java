@@ -84,13 +84,13 @@ public class PurchasePoReceiptNoticeSqlProvider {
             VALUES("order_confirm", "#{orderConfirm,jdbcType=INTEGER}");
         }
 
-        if (record.getSourceTypeId() != null) {
-            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSourceId() != null) {
-            VALUES("source_id", "#{sourceId,jdbcType=BIGINT}");
-        }
+//        if (record.getSourceTypeId() != null) {
+//            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
+//        }
+//
+//        if (record.getSourceId() != null) {
+//            VALUES("source_id", "#{sourceId,jdbcType=BIGINT}");
+//        }
 
         if (record.getPrintCount() != null) {
             VALUES("print_count", "#{printCount,jdbcType=INTEGER}");
@@ -114,7 +114,7 @@ public class PurchasePoReceiptNoticeSqlProvider {
     public String selectByPoReceiptNotice(PurchasePoReceiptNotice record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "prn";
-        sql.SELECT("`rn_id`,`date`,`no`,`explanation`,`fetch_add`,`dept_id`,\n" +
+        sql.SELECT("" + alias + ".`supplier_id`,`rn_id`,`date`,`no`,`explanation`,`fetch_add`,`dept_id`,\n" +
                 "`emp_id`,`manger_id`,`children`,`closed`,\n" +
                 "`order_confirm`,`source_type_id`,`source_id`,\n" +
                 "`print_count`," + alias + ".`status_id`," + alias + ".`version`\n" +
@@ -128,8 +128,9 @@ public class PurchasePoReceiptNoticeSqlProvider {
     public String updateByPoReceiptNotice(PurchasePoReceiptNotice record) {
         SQL sql = new SQL();
         sql.UPDATE("purchase_po_receipt_notice");
-
-
+        if (record.getSupplierId() != null) {
+            sql.SET("supplier_id = #{supplierId,jdbcType=INTEGER}");
+        }
         if (record.getDate() != null) {
             sql.SET("date = #{date,jdbcType=BIGINT}");
         }
@@ -169,13 +170,13 @@ public class PurchasePoReceiptNoticeSqlProvider {
             sql.SET("order_confirm = #{orderConfirm,jdbcType=INTEGER}");
         }
 
-        if (record.getSourceTypeId() != null) {
-            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSourceId() != null) {
-            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
-        }
+//        if (record.getSourceTypeId() != null) {
+//            sql.SET("source_type_id = #{sourceTypeId,jdbcType=BIGINT}");
+//        }
+//
+//        if (record.getSourceId() != null) {
+//            sql.SET("source_id = #{sourceId,jdbcType=BIGINT}");
+//        }
 
         if (record.getPrintCount() != null) {
             sql.SET("print_count = #{printCount,jdbcType=INTEGER}");

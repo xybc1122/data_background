@@ -43,10 +43,10 @@ public class SalesShipNotice extends ParentConfTable {
     private BigDecimal ttlNwKg;
 
     private BigDecimal ttlGwKg;
-
-    private Long sourceTypeId;
-
-    private Long sourceId;
+//
+//    private Long sourceTypeId;
+//
+//    private Long sourceId;
 
     /**
      * 站点名称
@@ -86,6 +86,55 @@ public class SalesShipNotice extends ParentConfTable {
      * 最迟到达日期返回查询
      */
     private List<Long> arriveDates;
+    /**
+     * 平台类型名
+     */
+    private String platformTypeName;
+    /**
+     * 运输类型名
+     */
+    private String transportTypeName;
+    /**
+     * 亚马逊仓库code
+     */
+    private String warehouseCode;
+    /**
+     * 仓库名称
+     */
+    private String warehouseName;
+
+
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
+    }
+
+    public String getWarehouseCode() {
+        return warehouseCode;
+    }
+
+    public void setWarehouseCode(String warehouseCode) {
+        this.warehouseCode = warehouseCode;
+    }
+
+    public String getTransportTypeName() {
+        return transportTypeName;
+    }
+
+    public void setTransportTypeName(String transportTypeName) {
+        this.transportTypeName = transportTypeName;
+    }
+
+    public String getPlatformTypeName() {
+        return platformTypeName;
+    }
+
+    public void setPlatformTypeName(String platformTypeName) {
+        this.platformTypeName = platformTypeName;
+    }
 
     public BigDecimal getTtlNwKg() {
         return ttlNwKg;
@@ -291,19 +340,5 @@ public class SalesShipNotice extends ParentConfTable {
         this.ttlGwKg = ttlGwKg;
     }
 
-    public Long getSourceTypeId() {
-        return sourceTypeId;
-    }
 
-    public void setSourceTypeId(Long sourceTypeId) {
-        this.sourceTypeId = sourceTypeId;
-    }
-
-    public Long getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Long sourceId) {
-        this.sourceId = sourceId;
-    }
 }

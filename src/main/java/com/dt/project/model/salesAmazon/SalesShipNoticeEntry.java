@@ -47,9 +47,7 @@ public class SalesShipNoticeEntry {
 
     private Long reDate;
 
-    private String neRemark;
-
-    private Integer status;
+    private String eRemark;
 
     private Long closeDate;
 
@@ -241,21 +239,14 @@ public class SalesShipNoticeEntry {
         this.reDate = reDate;
     }
 
-    public String getNeRemark() {
-        return neRemark;
+    public String geteRemark() {
+        return eRemark;
     }
 
-    public void setNeRemark(String neRemark) {
-        this.neRemark = neRemark;
+    public void seteRemark(String eRemark) {
+        this.eRemark = eRemark;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
 
     public Long getCloseDate() {
         return closeDate;

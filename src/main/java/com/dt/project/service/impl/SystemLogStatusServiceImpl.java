@@ -49,8 +49,8 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
     }
 
     @Override
-    public ResponseBase serviceUpSysStatusInfo(SystemLogStatus logStatus, Long statusId) {
-        int sysResult = logStatusMapper.upSysStatusInfo(SystemLogStatusStore.setModify(logStatus, ReqUtils.getUserName(), statusId));
+    public ResponseBase serviceUpSysStatusInfo(SystemLogStatus logStatus) {
+        int sysResult = logStatusMapper.upSysStatusInfo(SystemLogStatusStore.setModify(logStatus, ReqUtils.getUserName()));
         if (sysResult <= 0) {
             throw new LsException("状态更新失败");
         }
@@ -64,10 +64,10 @@ public class SystemLogStatusServiceImpl implements SystemLogStatusService {
 
 
     @Override
-    public ResponseBase msgCodeUp(int result, SystemLogStatus logStatus, Long statusId) {
+    public ResponseBase msgCodeUp(int result, SystemLogStatus logStatus) {
         if (result != 0) {
             //更新状态的修改信息
-            return serviceUpSysStatusInfo(logStatus, statusId);
+            return serviceUpSysStatusInfo(logStatus);
         }
         return JsonData.setResultError("更新失败");
     }

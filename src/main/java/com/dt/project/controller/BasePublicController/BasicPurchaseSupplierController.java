@@ -2,11 +2,10 @@ package com.dt.project.controller.basePublicController;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
+import com.dt.project.model.basePublic.BasicPurchaseSupplier;
 import com.dt.project.service.basePublicService.BasicPurchaseSupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ClassName BasicPurchaseSupplierController
@@ -26,9 +25,9 @@ public class BasicPurchaseSupplierController {
      *
      * @return
      */
-    @GetMapping("/findSupName")
-    public ResponseBase findByListDeclareType() {
-        return JsonData.setResultSuccess(supplierService.selectByPurchaseSupplier());
+    @PostMapping("/findSupList")
+    public ResponseBase findByListSubList(@RequestBody BasicPurchaseSupplier pSupplier) {
+        return JsonData.setResultSuccess(supplierService.selectByPurchaseSupplier(pSupplier));
     }
 
 

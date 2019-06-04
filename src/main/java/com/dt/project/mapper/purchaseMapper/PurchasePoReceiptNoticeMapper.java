@@ -24,22 +24,21 @@ public interface PurchasePoReceiptNoticeMapper {
      * @return
      */
     @Insert({
-            "insert into purchase_po_receipt_notice (date, ",
+            "insert into purchase_po_receipt_notice (`supplier_id`,`date`, ",
             "no, explanation,",
             "fetch_add, dept_id,",
             "emp_id, manger_id,",
             "children, closed, order_confirm,",
-            "source_type_id, source_id,",
             "print_count, status_id)",
-            "values (#{date,jdbcType=BIGINT},",
+            "values (#{supplierId,jdbcType=INTEGER},#{date,jdbcType=BIGINT},",
             "#{no,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR},",
             "#{fetchAdd,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER},",
             "#{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER},",
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{orderConfirm,jdbcType=INTEGER}, ",
-            "#{sourceTypeId,jdbcType=BIGINT}, #{sourceId,jdbcType=BIGINT},",
             "#{printCount,jdbcType=INTEGER}, #{statusId,jdbcType=BIGINT})"
     })
     int insertPoReceiptNotice(PurchasePoReceiptNotice record);
+
 
     @InsertProvider(type = PurchasePoReceiptNoticeSqlProvider.class, method = "insertSelective")
     int insertSelective(PurchasePoReceiptNotice record);

@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.financialImportMapper.FinancialSalesBalanceMapper;
-import com.dt.project.model.FinancialSalesBalance;
+import com.dt.project.model.financial.FinancialSalesBalance;
 import com.dt.project.service.financialImportService.FinancialSalesBalanceService;
 import com.dt.project.utils.PageInfoUtils;;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -82,6 +82,19 @@ public class PurchasePoOrderEntry {
      */
     private String warehouseName;
 
+    /**
+     * 仓位
+     */
+    private String positionName;
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
+
     public String getWarehouseName() {
         return warehouseName;
     }

@@ -49,8 +49,8 @@ public class PurchasePoOrderSqlProvider {
             VALUES("date", "#{date,jdbcType=BIGINT}");
         }
 
-        if (record.getPoNo() != null) {
-            VALUES("po_no", "#{poNo,jdbcType=VARCHAR}");
+        if (record.getNo() != null) {
+            VALUES("no", "#{no,jdbcType=VARCHAR}");
         }
 
         if (record.getPoStyleId() != null) {
@@ -196,7 +196,8 @@ public class PurchasePoOrderSqlProvider {
     public String selectByPoOrder(PurchasePoOrder poOrder) throws IllegalAccessException {
         String alias = "po";
         SQL sql = new SQL();
-        sql.SELECT("fit.`type_name`,psm.`name`,bpc.`company_name`,rpp.`no` AS perPayNo,bps.`supplier_full_name`,cu.`currency_id`,cu.`currency_name`,dep.`dept_name`,se.`employee_name` AS empName," +
+        sql.SELECT("fit.`type_name`,psm.`name`,bpc.`company_name`,rpp.`no` AS perPayNo,bps.`supplier_full_name`," +
+                "cu.`currency_id`,cu.`currency_name`,dep.`dept_name`,se.`employee_name` AS empName," +
                 "se1.`employee_name` AS mangerName," + alias + ".`po_id`," + alias + ".`date`," +
                 "" + alias + ".`no`,`po_style_id`," + alias + ".`explanation`,\n" +
                 "`fetch_add`," + alias + ".`emp_id`,\n" +
@@ -222,9 +223,9 @@ public class PurchasePoOrderSqlProvider {
         //查询部门名称
         AppendSqlStore.sqlWhere(poOrder.getDeptName(), "dep.`dept_name`", sql, Constants.SELECT);
         //查询业务员
-        AppendSqlStore.sqlWhere(poOrder.getEmpName(), "dep.`dept_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(poOrder.getEmpName(), "se.`employee_name`", sql, Constants.SELECT);
         //查询主管
-        AppendSqlStore.sqlWhere(poOrder.getMangerName(), "dep.`dept_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(poOrder.getMangerName(), "se1.`employee_name`", sql, Constants.SELECT);
         //查询供应商
         AppendSqlStore.sqlWhere(poOrder.getMangerName(), "dep.`dept_name`", sql, Constants.SELECT);
         //查询预付单号

@@ -1,4 +1,4 @@
-package com.dt.project.model;
+package com.dt.project.model.financial;
 
 import com.dt.project.model.parent.ParentUploadInfo;
 

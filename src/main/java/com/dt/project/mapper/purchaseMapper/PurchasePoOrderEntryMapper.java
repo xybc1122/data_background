@@ -42,6 +42,9 @@ public interface PurchasePoOrderEntryMapper {
     @UpdateProvider(type = PurchasePoOrderEntrySqlProvider.class, method = "updateByPoOrderEntry")
     int updateByPoOrderEntry(PurchasePoOrderEntry record);
 
+
+
+
     @UpdateProvider(type = PurchasePoOrderEntrySqlProvider.class, method = "updateByExample")
     int updateByExample(@Param("record") PurchasePoOrderEntry record);
 }

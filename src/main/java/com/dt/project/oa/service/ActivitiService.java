@@ -31,12 +31,6 @@ public interface ActivitiService {
      */
     ResponseBase deploy(InputStream fileInputStream, String fileName);
 
-    /**
-     * 查看自己的流程
-     *
-     * @return
-     */
-    ResponseBase selThisProcess();
 
     /***
      *  开始流程
@@ -45,12 +39,36 @@ public interface ActivitiService {
      */
     ResponseBase startProcess(String instanceKey, String uName, Map<String, Object> objectMap);
 
+
     /**
-     * 查看自己审核的流程
+     * 查看本组的流程
      *
      * @return
      */
-    ResponseBase selThisAudit();
+    ResponseBase selThisGroupProcess();
 
 
+    /**
+     * 签收流程
+     */
+    ResponseBase claim(String taskId);
+
+    /**
+     * 通过用户名 获取当前流程
+     *
+     * @return
+     */
+    ResponseBase selTaskAssignee(String uName);
+
+    /**
+     * 完成流程
+     *
+     * @return
+     */
+    ResponseBase complete(Map<String, Object> objectMap);
+
+    /**
+     * 取消签收
+     */
+    ResponseBase unclaim(String taskId);
 }

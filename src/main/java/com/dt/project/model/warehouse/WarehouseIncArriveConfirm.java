@@ -1,24 +1,18 @@
-package com.dt.project.model.purchasePo;
+package com.dt.project.model.warehouse;
 
 import com.dt.project.model.parent.ParentSysTemLog;
 
-import java.util.List;
-
 /**
- * 收货通知单表
+ * 到货确认
  */
-public class PurchasePoReceiptNotice extends ParentSysTemLog {
-
-    private Integer supplierId;
-    private Long rnId;
+public class WarehouseIncArriveConfirm extends ParentSysTemLog {
+    private Long acId;
 
     private Long date;
 
     private String no;
 
     private String explanation;
-
-    private String fetchAdd;
 
     private Integer deptId;
 
@@ -30,14 +24,11 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
 
     private Integer closed;
 
+    private String closeUser;
+
+    private Long closeDate;
+
     private Integer orderConfirm;
-//
-    private Long sourceTypeId;
-
-    private Long sourceId;
-
-    private Integer printCount;
-
     /**
      * 部门名称
      */
@@ -46,23 +37,10 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
      * 业务员名称
      */
     private String empName;
-
     /**
      * 主管名称
      */
     private String mangerName;
-    /**
-     * 供应商名称
-     */
-    private String supplierFullName;
-
-    public String getMangerName() {
-        return mangerName;
-    }
-
-    public void setMangerName(String mangerName) {
-        this.mangerName = mangerName;
-    }
 
     public String getDeptName() {
         return deptName;
@@ -80,28 +58,20 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
         this.empName = empName;
     }
 
-    public String getSupplierFullName() {
-        return supplierFullName;
+    public String getMangerName() {
+        return mangerName;
     }
 
-    public void setSupplierFullName(String supplierFullName) {
-        this.supplierFullName = supplierFullName;
+    public void setMangerName(String mangerName) {
+        this.mangerName = mangerName;
     }
 
-    public Integer getSupplierId() {
-        return supplierId;
+    public Long getAcId() {
+        return acId;
     }
 
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
-    }
-
-    public Long getRnId() {
-        return rnId;
-    }
-
-    public void setRnId(Long rnId) {
-        this.rnId = rnId;
+    public void setAcId(Long acId) {
+        this.acId = acId;
     }
 
     public Long getDate() {
@@ -117,7 +87,7 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
     }
 
     public void setNo(String no) {
-        this.no = no;
+        this.no = no == null ? null : no.trim();
     }
 
     public String getExplanation() {
@@ -125,15 +95,7 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
     }
 
     public void setExplanation(String explanation) {
-        this.explanation = explanation;
-    }
-
-    public String getFetchAdd() {
-        return fetchAdd;
-    }
-
-    public void setFetchAdd(String fetchAdd) {
-        this.fetchAdd = fetchAdd == null ? null : fetchAdd.trim();
+        this.explanation = explanation == null ? null : explanation.trim();
     }
 
     public Integer getDeptId() {
@@ -176,35 +138,27 @@ public class PurchasePoReceiptNotice extends ParentSysTemLog {
         this.closed = closed;
     }
 
+    public String getCloseUser() {
+        return closeUser;
+    }
+
+    public void setCloseUser(String closeUser) {
+        this.closeUser = closeUser == null ? null : closeUser.trim();
+    }
+
+    public Long getCloseDate() {
+        return closeDate;
+    }
+
+    public void setCloseDate(Long closeDate) {
+        this.closeDate = closeDate;
+    }
+
     public Integer getOrderConfirm() {
         return orderConfirm;
     }
 
     public void setOrderConfirm(Integer orderConfirm) {
         this.orderConfirm = orderConfirm;
-    }
-
-    public Long getSourceTypeId() {
-        return sourceTypeId;
-    }
-
-    public void setSourceTypeId(Long sourceTypeId) {
-        this.sourceTypeId = sourceTypeId;
-    }
-
-    public Long getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Long sourceId) {
-        this.sourceId = sourceId;
-    }
-
-    public Integer getPrintCount() {
-        return printCount;
-    }
-
-    public void setPrintCount(Integer printCount) {
-        this.printCount = printCount;
     }
 }

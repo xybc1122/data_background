@@ -1,7 +1,7 @@
 package com.dt.project.service.financialImportService;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.FinancialSalesBalance;
+import com.dt.project.model.financial.FinancialSalesBalance;
 
 import java.util.List;
 

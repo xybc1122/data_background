@@ -6,6 +6,7 @@ import com.dt.project.oa.service.ActivitiService;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.UuIDUtils;
 import org.activiti.engine.*;
+import org.activiti.engine.identity.Group;
 import org.activiti.engine.impl.identity.Authentication;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -26,28 +27,27 @@ import java.util.zip.ZipInputStream;
  **/
 @Service
 public class ActivitiServiceImpl implements ActivitiService {
-//    /**
-//     * 操作流程定义
-//     */
-//    @Autowired
-//    RepositoryService repositoryService;
-//    /**
-//     * 操作流程实例
-//     */
-//    @Autowired
-//    RuntimeService runtimeService;
-//    /**
-//     * 操作任务管理
-//     */
-//    @Autowired
-//    private TaskService taskService;
-//    /**
-//     * 操作用户或组
-//     */
-//    @Autowired
-//    private IdentityService identityService;
-    //启动流程
-    //activitiService.startProcess(PURCHASE_ORDER, ReqUtils.getUserName(), objectMap);
+    /**
+     * 操作流程定义
+     */
+    @Autowired
+    RepositoryService repositoryService;
+    /**
+     * 操作流程实例
+     */
+    @Autowired
+    RuntimeService runtimeService;
+    /**
+     * 操作任务管理
+     */
+    @Autowired
+    private TaskService taskService;
+    /**
+     * 操作用户或组
+     */
+    @Autowired
+    private IdentityService identityService;
+
 
     @Autowired
     private ProcessEngine processEngine;
@@ -79,54 +79,130 @@ public class ActivitiServiceImpl implements ActivitiService {
 
     @Override
     public ResponseBase startProcess(String instanceKey, String uName, Map<String, Object> objectMap) {
+        //流程发起人
         Authentication.setAuthenticatedUserId(uName);
-        ProcessInstance processInstance = get().getRuntimeService().startProcessInstanceByKey(instanceKey);
-        Task task = get()
-                .getTaskService()
-                .createTaskQuery()
-                .processInstanceId(processInstance.getId())
-                .singleResult();
-        get().getTaskService().claim(task.getId(), ReqUtils.getUserName());
         objectMap.put("applyUser", ReqUtils.getUserName());
-        objectMap.put("uuidNumber", UuIDUtils.uuId());
-        //完成任务
-        get().getTaskService().complete(task.getId(), objectMap);
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(instanceKey, objectMap);
         Authentication.setAuthenticatedUserId(null);
-        return JsonData.setResultSuccess("发起流程成功");
+        return JsonData.setResultSuccess("发起流程成功", processInstance.getId());
     }
 
+//    @Override
+//    public ResponseBase selThisProcess() {
+//        //通过userId查看我的个人任务
+//        List<ProcessInstance> processInstances = get()
+//                .getRuntimeService()
+//                .createProcessInstanceQuery().list();
+//        List<Map<String, Object>> mapList = new ArrayList<>();
+//        for (ProcessInstance instance : processInstances) {
+//            Map<String, Object> variables = get().getRuntimeService().getVariables(instance.getId());
+//            variables.put("ApplyStatus", instance.isEnded() ? "申请结束" : "等待审批");
+//            mapList.add(variables);
+//        }
+//        return JsonData.setResultSuccess(mapList);
+//    }
+
+
     @Override
-    public ResponseBase selThisProcess() {
-        //通过userId查看我的个人任务
-        List<ProcessInstance> processInstances = get()
-                .getRuntimeService()
-                .createProcessInstanceQuery().list();
+    public ResponseBase selThisGroupProcess() {
+        List<Task> tasks = taskListGroup(ReqUtils.getUserName());
         List<Map<String, Object>> mapList = new ArrayList<>();
-        for (ProcessInstance instance : processInstances) {
-            Map<String, Object> variables = get().getRuntimeService().getVariables(instance.getId());
-            variables.put("ApplyStatus", instance.isEnded() ? "申请结束" : "等待审批");
-            mapList.add(variables);
+        for (Task task : tasks) {
+            mapList.add(getVariables(task));
         }
         return JsonData.setResultSuccess(mapList);
     }
 
     @Override
-    public ResponseBase selThisAudit() {
-        List<Task> taskList = get().getTaskService().createTaskQuery().taskCandidateUser(ReqUtils.getUserName())
-                .orderByTaskCreateTime().desc().list();
+    public ResponseBase claim(String taskId) {
+        taskService.claim(taskId, ReqUtils.getUserName());
+        return JsonData.setResultSuccess("签收成功");
+    }
+
+    @Override
+    public ResponseBase selTaskAssignee(String uName) {
+        List<Task> tasks = taskListAssignee(uName);
         List<Map<String, Object>> mapList = new ArrayList<>();
-        for (Task task : taskList) {
-            String instanceId = task.getProcessInstanceId();
-            ProcessInstance instance = get().getRuntimeService().
-                    createProcessInstanceQuery().processInstanceId(instanceId).singleResult();
-            Map<String, Object> variables = get().getRuntimeService().getVariables(instance.getId());
-            variables.put("tkId", task.getId());
-            variables.put("tkName", task.getName());
-            variables.put("tkCreateTime", task.getCreateTime());
-            mapList.add(variables);
+        for (Task task : tasks) {
+            mapList.add(getVariables(task));
         }
         return JsonData.setResultSuccess(mapList);
     }
 
+    /**
+     * 完成流程
+     *
+     * @param objectMap
+     * @return
+     */
+    @Override
+    public ResponseBase complete(Map<String, Object> objectMap) {
+        String taskId = (String) objectMap.get("taskId");
+        taskService.complete(taskId, objectMap);
+        return JsonData.setResultSuccess("success");
+    }
+
+    @Override
+    public ResponseBase unclaim(String taskId) {
+        taskService.unclaim(taskId);
+        return JsonData.setResultSuccess("success");
+    }
+
+    /**
+     * 通过 账号 查询 对应的角色组
+     *
+     * @param uName
+     * @return
+     */
+    public List<String> getGroups(String uName) {
+        List<Group> groups = identityService.
+                createGroupQuery().groupMember(uName).list();
+        System.out.println(groups);
+        List<String> candidateGroups = new ArrayList<>();
+        for (Group g : groups) {
+            candidateGroups.add(g.getName());
+        }
+        return candidateGroups;
+    }
+
+    /**
+     * 查询 taskGroup实例
+     *
+     * @param uName
+     * @return
+     */
+    public List<Task> taskListGroup(String uName) {
+        return taskService
+                .createTaskQuery()
+                .taskCandidateGroupIn(getGroups(uName))
+                .list();
+    }
+
+    /**
+     * 查询 taskAssignee实例
+     *
+     * @param uName
+     * @return
+     */
+    public List<Task> taskListAssignee(String uName) {
+        return taskService
+                .createTaskQuery()
+                .taskAssignee(uName)
+                .list();
+    }
+
+    /**
+     * 通过task拿数据
+     *
+     * @param task
+     * @return
+     */
+    public Map<String, Object> getVariables(Task task) {
+        Map<String, Object> variables = runtimeService.getVariables(task.getProcessInstanceId());
+        variables.put("tkId", task.getId());
+        variables.put("tkName", task.getName());
+        variables.put("tkCreateTime", task.getCreateTime());
+        return variables;
+    }
 
 }

@@ -13,8 +13,10 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.purchasePo.PurchasePoReceiptNotice;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -114,11 +116,24 @@ public class PurchasePoReceiptNoticeSqlProvider {
     public String selectByPoReceiptNotice(PurchasePoReceiptNotice record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "prn";
-        sql.SELECT("" + alias + ".`supplier_id`,`rn_id`,`date`,`no`,`explanation`,`fetch_add`,`dept_id`,\n" +
-                "`emp_id`,`manger_id`,`children`,`closed`,\n" +
+        sql.SELECT("dep.`dept_name`,se1.`employee_name` AS mangerName,se.`employee_name` AS empName ,bps.`supplier_full_name`," + alias + ".`supplier_id`," +
+                "`rn_id`,`date`,`no`,`explanation`,`fetch_add`," + alias + ".`dept_id`,\n" +
+                "" + alias + ".`emp_id`," + alias + ".`manger_id`,`children`,`closed`,\n" +
                 "`order_confirm`,`source_type_id`,`source_id`,\n" +
                 "`print_count`," + alias + ".`status_id`," + alias + ".`version`\n" +
                 "FROM `purchase_po_receipt_notice` AS  " + alias + "");
+        sql.LEFT_OUTER_JOIN("basic_purchase_supplier AS bps on bps.supplier_id=" + alias + ".`supplier_id`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_department` AS dep ON dep.`dept_id`=" + alias + ".`dept_id`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se ON se.`s_id` = " + alias + ".`emp_id`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se1 ON se1.`s_id` = " + alias + ".`manger_id`");
+        //查询供应商名称
+        AppendSqlStore.sqlWhere(record.getSupplierFullName(), "bps.`supplier_full_name`", sql, Constants.SELECT);
+        //查询部门名称
+        AppendSqlStore.sqlWhere(record.getDeptName(), "dep.`dept_name`", sql, Constants.SELECT);
+        //查询业务员
+        AppendSqlStore.sqlWhere(record.getEmpName(), "se.`employee_name`", sql, Constants.SELECT);
+        //查询主管
+        AppendSqlStore.sqlWhere(record.getMangerName(), "se1.`employee_name`", sql, Constants.SELECT);
         //sql动态查询
         FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
         ProviderSqlStore.selectStatus(record.getSystemLogStatus(), alias, sql);

@@ -7,7 +7,7 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.exception.LsException;
 import com.dt.project.model.basePublic.BasicSalesAmazonCsvTxtXslHeader;
 import com.dt.project.model.basePublic.BasicSalesAmazonWarehouse;
-import com.dt.project.model.FinancialSalesBalance;
+import com.dt.project.model.financial.FinancialSalesBalance;
 import com.dt.project.model.parent.ParentUploadInfo;
 import com.dt.project.model.RealTimeData;
 import com.dt.project.model.salesAmazon.*;

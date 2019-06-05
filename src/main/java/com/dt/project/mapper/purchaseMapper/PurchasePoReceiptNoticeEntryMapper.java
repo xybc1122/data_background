@@ -33,6 +33,10 @@ public interface PurchasePoReceiptNoticeEntryMapper {
      * @return
      */
     @SelectProvider(type = PurchasePoReceiptNoticeEntrySqlProvider.class, method = "selectByPRNoticeEntry")
+    @Results({
+            @Result(column = "warehouse_id", property = "reciveWarehouseId"),
+            @Result(column = "position_id", property = "recivePositionId"),
+    })
     List<PurchasePoReceiptNoticeEntry> selectByPRNoticeEntry(PurchasePoReceiptNoticeEntry record);
 
 

@@ -78,15 +78,17 @@ public class PurchasePoOrderEntrySqlProvider {
         SQL sql = new SQL();
         sql.SELECT("bpw.`warehouse_name`,bpp.`product_name`,`poe_id`,`entry_id`," + alias + ".`po_id`," + alias + ".`product_id`,`tax_rate`,`price`,`price_tax`,\n" +
                 "`tax_amt`,`amount`,`amount_tax`,`poe_source_type_id`,`poe_source_id`,`delivery_date`,`invoice_entry_id`,\n" +
-                "" + alias + ".`recive_warehouse_id`,`recive_position_id`,`poe_qu_qty`, `poe_fa_qty`,`inbound_qty`, `poe_return_qty`," +
+                "" + alias + ".`warehouse_id`," + alias + ".`position_id`,`poe_qu_qty`, `poe_fa_qty`,`inbound_qty`, `poe_return_qty`," +
                 "" + alias + ".`e_remark`,`row_closed`," + alias + ".`version` FROM `purchase_po_order_entry` AS " + alias + "");
         sql.LEFT_OUTER_JOIN("basic_public_product AS bpp on bpp.product_id = " + alias + ".`product_id`");
-        sql.LEFT_OUTER_JOIN("basic_public_warehouse AS bpw on bpw.warehouse_id = " + alias + ".`recive_warehouse_id`");
+        sql.LEFT_OUTER_JOIN("basic_public_warehouse AS bpw on bpw.warehouse_id = " + alias + ".`warehouse_id`");
+        sql.LEFT_OUTER_JOIN("basic_public_warehouse_position AS bpwP on bpwP.position_id = " + alias + ".`position_id`");
         //查询产品名
         AppendSqlStore.sqlWhere(poOrderEntry.getProductName(), "bpp.`product_name`", sql, Constants.SELECT);
         //查询仓库名
         AppendSqlStore.sqlWhere(poOrderEntry.getWarehouseName(), "bpw.`warehouse_name`", sql, Constants.SELECT);
-
+        //查询仓位
+        AppendSqlStore.sqlWhere(poOrderEntry.getPositionName(), "bpwP.`position_name`", sql, Constants.SELECT);
         //sql动态查询
         FieldStore.query(poOrderEntry.getClass(), poOrderEntry.getJavaSqlName(), poOrderEntry, sql);
         sql.WHERE(alias + ".`del_or_not`=0");
@@ -141,14 +143,14 @@ public class PurchasePoOrderEntrySqlProvider {
         if (record.getAmountTax() != null) {
             sql.SET("amount_tax = #{amountTax,jdbcType=DECIMAL}");
         }
-
-        if (record.getPoeSourceTypeId() != null) {
-            sql.SET("poe_source_type_id = #{poeSourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (StringUtils.isNotBlank(record.getPoeSourceId())) {
-            sql.SET("poe_source_id = #{poeSourceId,jdbcType=VARCHAR}");
-        }
+//
+//        if (record.getPoeSourceTypeId() != null) {
+//            sql.SET("poe_source_type_id = #{poeSourceTypeId,jdbcType=BIGINT}");
+//        }
+//
+//        if (StringUtils.isNotBlank(record.getPoeSourceId())) {
+//            sql.SET("poe_source_id = #{poeSourceId,jdbcType=VARCHAR}");
+//        }
 
         if (record.getDeliveryDate() != null) {
             sql.SET("delivery_date = #{deliveryDate,jdbcType=BIGINT}");

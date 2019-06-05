@@ -1,7 +1,7 @@
 package com.dt.project.service;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.model.FinancialReceivePaymentPrePay;
+import com.dt.project.model.financial.FinancialReceivePaymentPrePay;
 
 /**
  * @ClassName FinancialReceivePaymentPrePayService

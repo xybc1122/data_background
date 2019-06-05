@@ -1,6 +1,6 @@
 package com.dt.project.utils;
 
-import com.dt.project.model.FinancialSalesBalance;
+import com.dt.project.model.financial.FinancialSalesBalance;
 import com.dt.project.toos.Constants;
 import org.apache.commons.lang3.StringUtils;
 

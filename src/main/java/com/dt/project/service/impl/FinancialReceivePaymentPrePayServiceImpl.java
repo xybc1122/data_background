@@ -3,7 +3,7 @@ package com.dt.project.service.impl;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.financialImportMapper.FinancialReceivePaymentPrePayMapper;
-import com.dt.project.model.FinancialReceivePaymentPrePay;
+import com.dt.project.model.financial.FinancialReceivePaymentPrePay;
 import com.dt.project.service.FinancialReceivePaymentPrePayService;
 import com.dt.project.service.JavaSqlNameService;
 import org.springframework.beans.factory.annotation.Autowired;

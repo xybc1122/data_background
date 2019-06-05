@@ -4,21 +4,17 @@ import static org.apache.ibatis.jdbc.SqlBuilder.BEGIN;
 import static org.apache.ibatis.jdbc.SqlBuilder.DELETE_FROM;
 import static org.apache.ibatis.jdbc.SqlBuilder.FROM;
 import static org.apache.ibatis.jdbc.SqlBuilder.INSERT_INTO;
-import static org.apache.ibatis.jdbc.SqlBuilder.ORDER_BY;
 import static org.apache.ibatis.jdbc.SqlBuilder.SELECT;
-import static org.apache.ibatis.jdbc.SqlBuilder.SELECT_DISTINCT;
 import static org.apache.ibatis.jdbc.SqlBuilder.SET;
 import static org.apache.ibatis.jdbc.SqlBuilder.SQL;
 import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
-import static org.apache.ibatis.jdbc.SqlBuilder.WHERE;
 
-import com.dt.project.model.FinancialReceivePaymentPrePay;
+import com.dt.project.model.financial.FinancialReceivePaymentPrePay;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
 import org.apache.ibatis.jdbc.SQL;
 
-import java.util.List;
 import java.util.Map;
 
 public class FinancialReceivePaymentPrePaySqlProvider {

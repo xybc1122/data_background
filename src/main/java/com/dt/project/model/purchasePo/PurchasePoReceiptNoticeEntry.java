@@ -25,7 +25,7 @@ public class PurchasePoReceiptNoticeEntry {
 
     private Long deliveryDate;
 
-    private Long reciveWarehouseId;
+    private Integer reciveWarehouseId;
 
     private Long recivePositionId;
 
@@ -54,9 +54,57 @@ public class PurchasePoReceiptNoticeEntry {
     private List<JavaSqlName> javaSqlName;
 
     /**
+     * 产品名称
+     */
+    private String productName;
+    /**
+     * 仓库名
+     */
+    private String warehouseName;
+    /**
+     * 仓位
+     */
+    private String positionName;
+    /**
+     * 货运公司
+     */
+    private String transportCompanyName;
+    /**
      * in查询存储id
      */
     private List<Long> inList;
+
+    public String getTransportCompanyName() {
+        return transportCompanyName;
+    }
+
+    public void setTransportCompanyName(String transportCompanyName) {
+        this.transportCompanyName = transportCompanyName;
+    }
+
+    public String getPositionName() {
+        return positionName;
+    }
+
+    public void setPositionName(String positionName) {
+        this.positionName = positionName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getWarehouseName() {
+        return warehouseName;
+    }
+
+    public void setWarehouseName(String warehouseName) {
+        this.warehouseName = warehouseName;
+    }
 
     public Integer getDelOrNot() {
         return delOrNot;
@@ -154,11 +202,11 @@ public class PurchasePoReceiptNoticeEntry {
         this.deliveryDate = deliveryDate;
     }
 
-    public Long getReciveWarehouseId() {
+    public Integer getReciveWarehouseId() {
         return reciveWarehouseId;
     }
 
-    public void setReciveWarehouseId(Long reciveWarehouseId) {
+    public void setReciveWarehouseId(Integer reciveWarehouseId) {
         this.reciveWarehouseId = reciveWarehouseId;
     }
 

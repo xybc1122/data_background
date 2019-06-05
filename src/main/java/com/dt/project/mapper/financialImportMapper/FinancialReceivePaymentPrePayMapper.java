@@ -1,6 +1,6 @@
 package com.dt.project.mapper.financialImportMapper;
 
-import com.dt.project.model.FinancialReceivePaymentPrePay;
+import com.dt.project.model.financial.FinancialReceivePaymentPrePay;
 
 import java.util.List;
 

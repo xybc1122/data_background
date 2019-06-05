@@ -1,6 +1,6 @@
 package com.dt.project.mapper.financialImportMapper;
 
-import com.dt.project.model.FinancialSalesBalance;
+import com.dt.project.model.financial.FinancialSalesBalance;
 import com.dt.project.provider.FinancialSalesBalanceProvider;
 import org.apache.ibatis.annotations.*;
 

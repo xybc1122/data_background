@@ -37,6 +37,7 @@ public interface PurchasePoReceiptNoticeMapper {
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{orderConfirm,jdbcType=INTEGER}, ",
             "#{printCount,jdbcType=INTEGER}, #{statusId,jdbcType=BIGINT})"
     })
+    @Options(useGeneratedKeys = true, keyProperty = "rnId", keyColumn = "rn_id")
     int insertPoReceiptNotice(PurchasePoReceiptNotice record);
 
 

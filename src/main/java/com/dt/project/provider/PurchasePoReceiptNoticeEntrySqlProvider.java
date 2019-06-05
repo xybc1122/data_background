@@ -11,8 +11,10 @@ import static org.apache.ibatis.jdbc.SqlBuilder.UPDATE;
 import static org.apache.ibatis.jdbc.SqlBuilder.VALUES;
 
 import com.dt.project.model.purchasePo.PurchasePoReceiptNoticeEntry;
+import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.toos.Constants;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
@@ -40,7 +42,7 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
         StringBuilder sb = new StringBuilder();
         sb.append("insert into purchase_po_receipt_notice_entry" +
                 "(entry_id,rn_id, product_id, poe_id, delivery_date," +
-                "warehouse_id, position_id,quantity, transport_company_id, " +
+                "warehouse_id, position_id,quantity, transport_company_id," +
                 "tracking_number, e_remark, row_closed) value");
         for (PurchasePoReceiptNoticeEntry receiptNoticeEntry : receiptNoticeEntryList) {
             sb.append("(").append(receiptNoticeEntry.getEntryId()).append(",").append(receiptNoticeEntry.getRnId()).append(",")
@@ -60,15 +62,29 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
     public String selectByPRNoticeEntry(PurchasePoReceiptNoticeEntry record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "rne";
-        sql.SELECT("`rne_id`,`entry_id`,`rn_id`,\n" +
-                "`product_id`,`source_type_id`,\n" +
-                "`source_id`,`poe_id`,`delivery_date`,`warehouse_id`,\n" +
-                "`position_id`,`quantity`,\n" +
-                "`transport_company_id`,`tracking_number`,\n" +
+        sql.SELECT("bltC.`transport_company_name`,bpwP.`position_name`,bpw.`warehouse_name`," +
+                "bpp.`product_name`,`rne_id`,`entry_id`,`rn_id`,\n" +
+                "" + alias + ".`product_id`,`source_type_id`,\n" +
+                "`source_id`,`poe_id`,`delivery_date`," + alias + ".`warehouse_id`,\n" +
+                "" + alias + ".`position_id`,`quantity`,\n" +
+                "" + alias + ".`transport_company_id`,`tracking_number`,\n" +
                 "" + alias + ".`e_remark`,`row_closed`," + alias + ".`version`\n" +
                 "FROM `purchase_po_receipt_notice_entry` AS " + alias + "");
         //sql动态查询
         FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
+        sql.LEFT_OUTER_JOIN("basic_public_product AS bpp on bpp.product_id = " + alias + ".`product_id`");
+        sql.LEFT_OUTER_JOIN("basic_public_warehouse AS bpw on bpw.warehouse_id = " + alias + ".`warehouse_id`");
+        sql.LEFT_OUTER_JOIN("basic_public_warehouse_position AS bpwP on bpwP.position_id = " + alias + ".`position_id`");
+        sql.LEFT_OUTER_JOIN("basic_logisticsmgt_transport_company AS bltC on bltC.transport_company_id = " + alias + ".`transport_company_id`");
+        //查询产品名
+        AppendSqlStore.sqlWhere(record.getProductName(), "bpp.`product_name`", sql, Constants.SELECT);
+        //查询仓库名
+        AppendSqlStore.sqlWhere(record.getWarehouseName(), "bpw.`warehouse_name`", sql, Constants.SELECT);
+        //查询仓位
+        AppendSqlStore.sqlWhere(record.getPositionName(), "bpwP.`position_name`", sql, Constants.SELECT);
+        //查询货运公司
+        AppendSqlStore.sqlWhere(record.getTransportCompanyName(), "bltC.`transport_company_name`", sql, Constants.SELECT);
+
         sql.WHERE(alias + ".`del_or_not`=0");
         if (record.getInList() != null && record.getInList().size() > 0) {
             return sql.toString() + " AND " + StrUtils.in(record.getInList(), "rn_id");

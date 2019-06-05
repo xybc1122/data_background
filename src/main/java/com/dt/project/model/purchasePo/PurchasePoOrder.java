@@ -13,8 +13,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     private Long date;
 
-    private String poNo;
-
     private Integer poStyleId;
 
     private String explanation;
@@ -221,13 +219,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
         this.date = date;
     }
 
-    public String getPoNo() {
-        return poNo;
-    }
-
-    public void setPoNo(String poNo) {
-        this.poNo = poNo == null ? null : poNo.trim();
-    }
 
     public Integer getPoStyleId() {
         return poStyleId;

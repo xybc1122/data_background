@@ -1,6 +1,6 @@
 package com.dt.project.store;
 
-import com.dt.project.model.FinancialSalesBalance;
+import com.dt.project.model.financial.FinancialSalesBalance;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;

@@ -6,6 +6,7 @@ import com.dt.project.model.parent.ParentSysTemLog;
  * 检验方式
  */
 public class BasicQualityInspectionMethod extends ParentSysTemLog {
+
     private Integer inspectionMethodId;
 
     private String number;

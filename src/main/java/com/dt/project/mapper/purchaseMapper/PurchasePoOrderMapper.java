@@ -36,8 +36,7 @@ public interface PurchasePoOrderMapper {
             "invoice_type_id, pay_id, ",
             "pay_amt, erase_amt, ",
             "tran_type, tran_status, ",
-            "order_confirm, source_type_id, ",
-            "source_id, print_count)",
+            "order_confirm,print_count)",
             "values (#{poId,jdbcType=BIGINT}, #{date,jdbcType=BIGINT}, ",
             "#{no,jdbcType=VARCHAR}, #{poStyleId,jdbcType=INTEGER}, #{explanation,jdbcType=VARCHAR}, ",
             "#{fetchAdd,jdbcType=VARCHAR}, #{currencyId,jdbcType=INTEGER}, ",
@@ -52,8 +51,7 @@ public interface PurchasePoOrderMapper {
             "#{invoiceTypeId,jdbcType=INTEGER}, #{payId,jdbcType=BIGINT}, ",
             "#{payAmt,jdbcType=DECIMAL}, #{eraseAmt,jdbcType=DECIMAL}, ",
             "#{tranType,jdbcType=INTEGER}, #{tranStatus,jdbcType=INTEGER}, ",
-            "#{orderConfirm,jdbcType=INTEGER}, #{sourceTypeId,jdbcType=BIGINT}, ",
-            "#{sourceId,jdbcType=BIGINT}, #{printCount,jdbcType=INTEGER})"
+            "#{orderConfirm,jdbcType=INTEGER},#{printCount,jdbcType=INTEGER})"
     })
     @Options(useGeneratedKeys = true, keyProperty = "poId", keyColumn = "po_id")
     int insertPoOrder(PurchasePoOrder record);

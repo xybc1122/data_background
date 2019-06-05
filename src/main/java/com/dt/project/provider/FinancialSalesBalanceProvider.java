@@ -1,7 +1,7 @@
 package com.dt.project.provider;
 
 
-import com.dt.project.model.FinancialSalesBalance;
+import com.dt.project.model.financial.FinancialSalesBalance;
 import com.dt.project.store.ProviderSqlStore;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.toos.Constants;

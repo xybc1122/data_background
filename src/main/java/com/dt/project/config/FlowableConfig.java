@@ -1,6 +1,8 @@
 package com.dt.project.config;
 
-import org.activiti.spring.SpringProcessEngineConfiguration;
+
+import org.flowable.common.engine.impl.persistence.StrongUuidGenerator;
+import org.flowable.spring.SpringProcessEngineConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +17,7 @@ import javax.sql.DataSource;
  * @Date 2019/6/5 12:42
  **/
 @Configuration
-public class ActivitiConfig {
+public class FlowableConfig {
 
 
     @Autowired
@@ -33,6 +35,15 @@ public class ActivitiConfig {
         return new DataSourceTransactionManager(dataSource);
     }
 
+    /**
+     * 配置uuid bean
+     *
+     * @return
+     */
+    @Bean
+    public StrongUuidGenerator strongUuidGenerator() {
+        return new StrongUuidGenerator();
+    }
 
     /**
      * 配置bean
@@ -46,6 +57,8 @@ public class ActivitiConfig {
         springProcessEngineConfiguration.setDatabaseSchemaUpdate("true");
         springProcessEngineConfiguration.setTransactionManager(dataSourceTransactionManager(dataSource));
         springProcessEngineConfiguration.setAsyncExecutorActivate(false);
+        springProcessEngineConfiguration.setDatabaseType("mysql");
+        springProcessEngineConfiguration.setIdGenerator(strongUuidGenerator());
         return springProcessEngineConfiguration;
 
 

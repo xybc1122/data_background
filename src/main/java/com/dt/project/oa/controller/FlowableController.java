@@ -1,7 +1,7 @@
 package com.dt.project.oa.controller;
 
 import com.dt.project.config.ResponseBase;
-import com.dt.project.oa.service.ActivitiService;
+import com.dt.project.oa.service.FlowableService;
 import com.dt.project.utils.ReqUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +16,10 @@ import java.util.Map;
  **/
 @RestController
 @RequestMapping("/api/v1/act")
-public class ActivitiController {
+public class FlowableController {
 
     @Autowired
-    private ActivitiService activitiService;
+    private FlowableService activitiService;
 
     private final static String PURCHASE_ORDER_KEY = "purchaseOrder";
 

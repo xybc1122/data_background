@@ -2,14 +2,16 @@ package com.dt.project.oa.impl;
 
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.oa.service.ActivitiService;
+import com.dt.project.oa.service.FlowableService;
 import com.dt.project.utils.ReqUtils;
-import com.dt.project.utils.UuIDUtils;
-import org.activiti.engine.*;
-import org.activiti.engine.identity.Group;
-import org.activiti.engine.impl.identity.Authentication;
-import org.activiti.engine.runtime.ProcessInstance;
-import org.activiti.engine.task.Task;
+import org.flowable.common.engine.impl.identity.Authentication;
+import org.flowable.engine.IdentityService;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.idm.api.Group;
+import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +28,17 @@ import java.util.zip.ZipInputStream;
  * @Date 2019/5/24 13:05
  **/
 @Service
-public class ActivitiServiceImpl implements ActivitiService {
+public class FlowableServiceImpl implements FlowableService {
     /**
      * 操作流程定义
      */
     @Autowired
-    RepositoryService repositoryService;
+    private RepositoryService repositoryService;
     /**
      * 操作流程实例
      */
     @Autowired
-    RuntimeService runtimeService;
+    private RuntimeService runtimeService;
     /**
      * 操作任务管理
      */
@@ -49,15 +51,6 @@ public class ActivitiServiceImpl implements ActivitiService {
     private IdentityService identityService;
 
 
-    @Autowired
-    private ProcessEngine processEngine;
-
-
-    @Override
-    public ProcessEngine get() {
-        return processEngine;
-    }
-
     /**
      * 发布规则文件
      *
@@ -69,7 +62,7 @@ public class ActivitiServiceImpl implements ActivitiService {
     public ResponseBase deploy(InputStream fileInputStream, String fileName) {
         ZipInputStream zipInputStream = new ZipInputStream(fileInputStream);
         //使用deploy方法发布流程
-        get().getRepositoryService().createDeployment()
+        repositoryService.createDeployment()
                 .addZipInputStream(zipInputStream)
                 .name(fileName)
                 .deploy();

@@ -113,10 +113,11 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>1.2.3</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.flowable/flowable-spring-boot-starter-process -->
         <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <version>6.0.0</version>
+            <groupId>org.flowable</groupId>
+            <artifactId>flowable-spring-boot-starter-process</artifactId>
+            <version>6.4.1</version>
         </dependency>
 
 

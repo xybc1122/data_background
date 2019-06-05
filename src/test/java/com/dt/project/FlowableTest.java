@@ -5,24 +5,28 @@ import com.dt.project.mapper.financialImportMapper.FinancialSalesBalanceMapper;
 import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeMapper;
 import com.dt.project.mapper.systemMapper.SystemFinalProcessingMapper;
 import com.dt.project.model.JavaSqlName;
-import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.warehouse.WarehouseIncArriveConfirm;
 import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.utils.DatabaseUtil;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.identity.Group;
-import org.activiti.engine.impl.persistence.entity.GroupEntityImpl;
-import org.activiti.engine.impl.persistence.entity.UserEntityImpl;
-import org.activiti.engine.repository.Deployment;
-import org.activiti.engine.task.Task;
-import org.activiti.image.ProcessDiagramGenerator;
+import com.dt.project.utils.ReqUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.common.engine.impl.identity.Authentication;
+import org.flowable.engine.IdentityService;
+import org.flowable.engine.RepositoryService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
+import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.idm.api.Group;
+import org.flowable.idm.engine.impl.persistence.entity.GroupEntityImpl;
+import org.flowable.idm.engine.impl.persistence.entity.UserEntityImpl;
+import org.flowable.image.ProcessDiagramGenerator;
+import org.flowable.image.impl.DefaultProcessDiagramGenerator;
+import org.flowable.task.api.Task;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +44,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName activitiTest
+ * @ClassName FlowableTest
  * Description TODO
  * @Author 陈恩惠
  * @Date 2019/6/5 15:31
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class activitiTest {
+public class FlowableTest {
     @Autowired
     private JavaSqlNameService service;
     @Autowired
@@ -68,6 +72,9 @@ public class activitiTest {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private RuntimeService runtimeService;
+    private final static String PURCHASE_ORDER_KEY = "purchaseOrder";
 
     /**
      * 手动部署流程文档
@@ -79,6 +86,20 @@ public class activitiTest {
         Deployment deploy = repositoryService.createDeployment().name("采购检验入库流程").addClasspathResource(resource).category(category)
                 .deploy();
         System.out.println(deploy);
+    }
+
+    /**
+     * 开始流程
+     */
+    @Test
+    public void startProcess() {
+        Authentication.setAuthenticatedUserId("cc");
+        Map<String, Object> objectMap = new HashMap<>();
+        objectMap.put("applyUser", "cc");
+        objectMap.put("pOrderGroup", "数据部");
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(PURCHASE_ORDER_KEY, objectMap);
+        Authentication.setAuthenticatedUserId(null);
+
     }
 
     /**
@@ -133,8 +154,13 @@ public class activitiTest {
     }
 
     @Test
+    public void claim() {
+        taskService.claim("dbc3e813-87aa-11e9-aae9-0a0027000003", "cc");
+    }
+
+    @Test
     public void unclaim() {
-        taskService.unclaim("32514");
+        taskService.unclaim("dbc3e813-87aa-11e9-aae9-0a0027000003");
     }
 
     /**
@@ -143,41 +169,49 @@ public class activitiTest {
     @Test
     public void complete() {
         Map<String, Object> objectMap = new HashMap<>();
-       objectMap.put("anExamination", true);
+        objectMap.put("anExamination", true);
         objectMap.put("quGoodWarGroup", "产品部");
-        taskService.complete("60003", objectMap);
+        taskService.complete("b5397623-87ab-11e9-9682-0a0027000003", objectMap);
     }
 
     @Test
     public void initUser() {
         UserEntityImpl userEntityImpl = createUser("cc", "cc");
         identityService.saveUser(userEntityImpl);
-//        UserEntityImpl userEntityImpl2 = createUser("tt", "tt");
-//        identityService.saveUser(userEntityImpl2);
+        UserEntityImpl userEntityImpl2 = createUser("tt", "tt");
+        identityService.saveUser(userEntityImpl2);
     }
 
     @Test
     public void createMembership() {
         identityService.createMembership("dd", "数据部");//建立组和用户关系
-        // identityService.createMembership("tt", "供应中心");//建立组和用户关系
+        identityService.createMembership("tt", "供应中心");//建立组和用户关系
     }
 
-//        @Test
-//        public void generateDiagram() throws IOException {
-//
-//            System.out.println("processDiagramGenerator::::" + processDiagramGenerator);
-//
-//            String processDefinitionId = "purchaseOrder:2:27504";
-//            List<String> highLightedActivities = new ArrayList<String>();
-//            highLightedActivities.add("submitPurchaseOrder");
-//
-//            List<String> highLightedFlows = new ArrayList<String>();
-//            highLightedFlows.add("flow1");
-//            BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
-//            InputStream inputStream = processDiagramGenerator.generateDiagram(bpmnModel, "PNG", highLightedActivities,
-//                    highLightedFlows);
-//            FileUtils.copyToFile(inputStream, new File("E:/" + "1.png"));
-//        }
+    @Test
+    public  void generateHighLightedActivitiesDiagram() throws IOException {
+        String processDefinitionId="purchaseOrder:2:e35aeb00-87a9-11e9-8768-0a0027000003";
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
+        String imageType="PNG";
+        List<String> highLightedActivities=new ArrayList<String>();
+        //highLightedActivities.add("sid-03FFE656-10E2-4E8A-A92B-1EA78ED614B4");
+        highLightedActivities.add("usertask2");
+       // highLightedActivities.add("sid-30100D78-929C-45A7-9C06-1589C50E7E19");
+        List<String> highLightedFlows=new ArrayList<String>();
+        //highLightedFlows.add("sid-4152E673-0E8F-437B-8DCB-D35A664F6201");
+        String activityFontName="宋体";
+        String labelFontName="宋体";
+        String annotationFontName="宋体";
+        ClassLoader customClassLoader=null;
+        double scaleFactor=1.0D;
+        boolean drawSequenceFlowNameWithNoLabelDI=true;
+        ProcessDiagramGenerator processDiagramGenerator=new DefaultProcessDiagramGenerator();
+        InputStream inputStream = processDiagramGenerator.generateDiagram(bpmnModel, imageType, highLightedActivities, highLightedFlows
+                , activityFontName, labelFontName, annotationFontName, null, scaleFactor, true);
+
+        FileUtils.copyInputStreamToFile(inputStream,new File("E:/"+"1.png"));
+    }
+
 
     private UserEntityImpl createUser(String id, String name) {
         UserEntityImpl userEntityImpl = new UserEntityImpl();

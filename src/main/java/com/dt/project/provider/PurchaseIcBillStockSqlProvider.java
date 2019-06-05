@@ -47,9 +47,9 @@ public class PurchaseIcBillStockSqlProvider {
             VALUES("sb_id", "#{sbId,jdbcType=BIGINT}");
         }
 
-        if (record.getDate() != null) {
-            VALUES("date", "#{date,jdbcType=BIGINT}");
-        }
+//        if (record.getDate() != null) {
+//            VALUES("date", "#{date,jdbcType=BIGINT}");
+//        }
 
         if (record.getNo() != null) {
             VALUES("no", "#{no,jdbcType=VARCHAR}");

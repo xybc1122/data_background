@@ -1,7 +1,6 @@
 package com.dt.project.model.salesAmazon;
 
 import com.dt.project.model.parent.ParentConfTable;
-import com.dt.project.model.parent.ParentUploadInfo;
 
 
 import java.math.BigDecimal;
@@ -58,6 +57,7 @@ public class SalesShipNotice extends ParentConfTable {
     private String shopName;
 
     private Integer shopId;
+
     private Integer siteId;
 
     /**

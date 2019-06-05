@@ -3,12 +3,11 @@ package com.dt.project.model.parent;
 
 import com.dt.project.model.JavaSqlName;
 import com.dt.project.model.SystemLogStatus;
-import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
 
 import java.util.List;
 
 /**
- * 其余一些有statusId类的父类
+ * 有statusId类的父类
  */
 public class ParentSysTemLog {
     /**

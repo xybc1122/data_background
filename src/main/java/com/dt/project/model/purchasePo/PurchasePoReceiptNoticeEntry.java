@@ -1,142 +1,20 @@
 package com.dt.project.model.purchasePo;
 
-import com.dt.project.model.JavaSqlName;
-
-import java.math.BigDecimal;
-import java.util.List;
-
+import com.dt.project.model.parent.ParentDocumentChild;
 /**
  * 收货通知单表体
  */
-public class PurchasePoReceiptNoticeEntry {
+public class PurchasePoReceiptNoticeEntry extends ParentDocumentChild {
     private Long rneId;
-
-    private Integer entryId;
-
     private Long rnId;
-
-    private Integer productId;
-
-    private Long sourceTypeId;
-
-    private Long sourceId;
-
     private Long poeId;
-
     private Long deliveryDate;
-
-    private Integer reciveWarehouseId;
-
-    private Long recivePositionId;
-
-    private BigDecimal quantity;
-
     private Long transportCompanyId;
-
     private String trackingNumber;
-
-    private String eRemark;
-
-    private Integer rowClosed;
-
-    /**
-     * 是否删除标志
-     */
-    private Integer delOrNot;
-    /**
-     * 版本标识
-     */
-    private Integer version;
-
-    /**
-     * 前端查询参数封装对象
-     */
-    private List<JavaSqlName> javaSqlName;
-
-    /**
-     * 产品名称
-     */
-    private String productName;
-    /**
-     * 仓库名
-     */
-    private String warehouseName;
-    /**
-     * 仓位
-     */
-    private String positionName;
     /**
      * 货运公司
      */
     private String transportCompanyName;
-    /**
-     * in查询存储id
-     */
-    private List<Long> inList;
-
-    public String getTransportCompanyName() {
-        return transportCompanyName;
-    }
-
-    public void setTransportCompanyName(String transportCompanyName) {
-        this.transportCompanyName = transportCompanyName;
-    }
-
-    public String getPositionName() {
-        return positionName;
-    }
-
-    public void setPositionName(String positionName) {
-        this.positionName = positionName;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getWarehouseName() {
-        return warehouseName;
-    }
-
-    public void setWarehouseName(String warehouseName) {
-        this.warehouseName = warehouseName;
-    }
-
-    public Integer getDelOrNot() {
-        return delOrNot;
-    }
-
-    public void setDelOrNot(Integer delOrNot) {
-        this.delOrNot = delOrNot;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public List<JavaSqlName> getJavaSqlName() {
-        return javaSqlName;
-    }
-
-    public void setJavaSqlName(List<JavaSqlName> javaSqlName) {
-        this.javaSqlName = javaSqlName;
-    }
-
-    public List<Long> getInList() {
-        return inList;
-    }
-
-    public void setInList(List<Long> inList) {
-        this.inList = inList;
-    }
 
     public Long getRneId() {
         return rneId;
@@ -146,44 +24,12 @@ public class PurchasePoReceiptNoticeEntry {
         this.rneId = rneId;
     }
 
-    public Integer getEntryId() {
-        return entryId;
-    }
-
-    public void setEntryId(Integer entryId) {
-        this.entryId = entryId;
-    }
-
     public Long getRnId() {
         return rnId;
     }
 
     public void setRnId(Long rnId) {
         this.rnId = rnId;
-    }
-
-    public Integer getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public Long getSourceTypeId() {
-        return sourceTypeId;
-    }
-
-    public void setSourceTypeId(Long sourceTypeId) {
-        this.sourceTypeId = sourceTypeId;
-    }
-
-    public Long getSourceId() {
-        return sourceId;
-    }
-
-    public void setSourceId(Long sourceId) {
-        this.sourceId = sourceId;
     }
 
     public Long getPoeId() {
@@ -202,30 +48,6 @@ public class PurchasePoReceiptNoticeEntry {
         this.deliveryDate = deliveryDate;
     }
 
-    public Integer getReciveWarehouseId() {
-        return reciveWarehouseId;
-    }
-
-    public void setReciveWarehouseId(Integer reciveWarehouseId) {
-        this.reciveWarehouseId = reciveWarehouseId;
-    }
-
-    public Long getRecivePositionId() {
-        return recivePositionId;
-    }
-
-    public void setRecivePositionId(Long recivePositionId) {
-        this.recivePositionId = recivePositionId;
-    }
-
-    public BigDecimal getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(BigDecimal quantity) {
-        this.quantity = quantity;
-    }
-
     public Long getTransportCompanyId() {
         return transportCompanyId;
     }
@@ -242,20 +64,11 @@ public class PurchasePoReceiptNoticeEntry {
         this.trackingNumber = trackingNumber;
     }
 
-    public String geteRemark() {
-        return eRemark;
+    public String getTransportCompanyName() {
+        return transportCompanyName;
     }
 
-    public void seteRemark(String eRemark) {
-        this.eRemark = eRemark;
+    public void setTransportCompanyName(String transportCompanyName) {
+        this.transportCompanyName = transportCompanyName;
     }
-
-    public Integer getRowClosed() {
-        return rowClosed;
-    }
-
-    public void setRowClosed(Integer rowClosed) {
-        this.rowClosed = rowClosed;
-    }
-
 }

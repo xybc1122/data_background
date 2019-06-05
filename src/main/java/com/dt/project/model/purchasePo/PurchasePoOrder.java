@@ -1,5 +1,6 @@
 package com.dt.project.model.purchasePo;
 
+import com.dt.project.model.parent.ParentDocument;
 import com.dt.project.model.parent.ParentSysTemLog;
 
 import java.math.BigDecimal;
@@ -8,10 +9,9 @@ import java.util.List;
 /**
  * 采购订单表
  */
-public class PurchasePoOrder extends ParentSysTemLog {
+public class PurchasePoOrder extends ParentDocument {
     private Long poId;
 
-    private Long date;
 
     private Integer poStyleId;
 
@@ -21,19 +21,9 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     private Integer currencyId;
 
-    private Integer deptId;
-
-    private Integer empId;
-
-    private Integer mangerId;
-
     private BigDecimal exchangeRate;
 
-    private Boolean children;
-
     private Integer closed;
-
-    private Integer supplierId;
 
     private String contactPerson;
 
@@ -59,7 +49,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     private Integer invoiceTypeId;
 
-    private String no;
 
     private BigDecimal payAmt;
 
@@ -71,31 +60,12 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     private Integer orderConfirm;
 
-//    private Long sourceTypeId;
-//
-//    private Long sourceId;
 
-    private Integer printCount;
     /**
      * 币别名称
      */
     private String currencyName;
-    /**
-     * 部门名称
-     */
-    private String deptName;
-    /**
-     * 业务员名称
-     */
-    private String empName;
-    /**
-     * 主管名称
-     */
-    private String mangerName;
-    /**
-     * 供应商名称
-     */
-    private String supplierFullName;
+
     /**
      * 预付单号
      */
@@ -114,95 +84,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
      */
     private String typeName;
 
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getPerPayNo() {
-        return perPayNo;
-    }
-
-    public void setPerPayNo(String perPayNo) {
-        this.perPayNo = perPayNo;
-    }
-
-    public String getSupplierFullName() {
-        return supplierFullName;
-    }
-
-    public void setSupplierFullName(String supplierFullName) {
-        this.supplierFullName = supplierFullName;
-    }
-
-    public Long getPrePayId() {
-        return prePayId;
-    }
-
-    public void setPrePayId(Long prePayId) {
-        this.prePayId = prePayId;
-    }
-
-    public Long getPayId() {
-        return payId;
-    }
-
-    public void setPayId(Long payId) {
-        this.payId = payId;
-    }
-
-    public String getCurrencyName() {
-        return currencyName;
-    }
-
-    public void setCurrencyName(String currencyName) {
-        this.currencyName = currencyName;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
-
-    public String getEmpName() {
-        return empName;
-    }
-
-    public void setEmpName(String empName) {
-        this.empName = empName;
-    }
-
-    public String getMangerName() {
-        return mangerName;
-    }
-
-    public void setMangerName(String mangerName) {
-        this.mangerName = mangerName;
-    }
-
     public Long getPoId() {
         return poId;
     }
@@ -210,15 +91,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
     public void setPoId(Long poId) {
         this.poId = poId;
     }
-
-    public Long getDate() {
-        return date;
-    }
-
-    public void setDate(Long date) {
-        this.date = date;
-    }
-
 
     public Integer getPoStyleId() {
         return poStyleId;
@@ -233,7 +105,7 @@ public class PurchasePoOrder extends ParentSysTemLog {
     }
 
     public void setExplanation(String explanation) {
-        this.explanation = explanation == null ? null : explanation.trim();
+        this.explanation = explanation;
     }
 
     public String getFetchAdd() {
@@ -241,7 +113,7 @@ public class PurchasePoOrder extends ParentSysTemLog {
     }
 
     public void setFetchAdd(String fetchAdd) {
-        this.fetchAdd = fetchAdd == null ? null : fetchAdd.trim();
+        this.fetchAdd = fetchAdd;
     }
 
     public Integer getCurrencyId() {
@@ -252,44 +124,12 @@ public class PurchasePoOrder extends ParentSysTemLog {
         this.currencyId = currencyId;
     }
 
-    public Integer getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
-    }
-
-    public Integer getEmpId() {
-        return empId;
-    }
-
-    public void setEmpId(Integer empId) {
-        this.empId = empId;
-    }
-
-    public Integer getMangerId() {
-        return mangerId;
-    }
-
-    public void setMangerId(Integer mangerId) {
-        this.mangerId = mangerId;
-    }
-
     public BigDecimal getExchangeRate() {
         return exchangeRate;
     }
 
     public void setExchangeRate(BigDecimal exchangeRate) {
         this.exchangeRate = exchangeRate;
-    }
-
-    public Boolean getChildren() {
-        return children;
-    }
-
-    public void setChildren(Boolean children) {
-        this.children = children;
     }
 
     public Integer getClosed() {
@@ -300,20 +140,12 @@ public class PurchasePoOrder extends ParentSysTemLog {
         this.closed = closed;
     }
 
-    public Integer getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Integer supplierId) {
-        this.supplierId = supplierId;
-    }
-
     public String getContactPerson() {
         return contactPerson;
     }
 
     public void setContactPerson(String contactPerson) {
-        this.contactPerson = contactPerson == null ? null : contactPerson.trim();
+        this.contactPerson = contactPerson;
     }
 
     public String getTelPhone() {
@@ -321,9 +153,16 @@ public class PurchasePoOrder extends ParentSysTemLog {
     }
 
     public void setTelPhone(String telPhone) {
-        this.telPhone = telPhone == null ? null : telPhone.trim();
+        this.telPhone = telPhone;
     }
 
+    public Long getPrePayId() {
+        return prePayId;
+    }
+
+    public void setPrePayId(Long prePayId) {
+        this.prePayId = prePayId;
+    }
 
     public BigDecimal getPrePayAmt() {
         return prePayAmt;
@@ -357,6 +196,14 @@ public class PurchasePoOrder extends ParentSysTemLog {
         this.settlementMethodId = settlementMethodId;
     }
 
+    public Long getPayId() {
+        return payId;
+    }
+
+    public void setPayId(Long payId) {
+        this.payId = payId;
+    }
+
     public BigDecimal getPoAmt() {
         return poAmt;
     }
@@ -387,14 +234,6 @@ public class PurchasePoOrder extends ParentSysTemLog {
 
     public void setInvoiceTypeId(Integer invoiceTypeId) {
         this.invoiceTypeId = invoiceTypeId;
-    }
-
-    public String getNo() {
-        return no;
-    }
-
-    public void setNo(String no) {
-        this.no = no;
     }
 
     public BigDecimal getPayAmt() {
@@ -436,29 +275,44 @@ public class PurchasePoOrder extends ParentSysTemLog {
     public void setOrderConfirm(Integer orderConfirm) {
         this.orderConfirm = orderConfirm;
     }
-//
-//    public Long getSourceTypeId() {
-//        return sourceTypeId;
-//    }
-//
-//    public void setSourceTypeId(Long sourceTypeId) {
-//        this.sourceTypeId = sourceTypeId;
-//    }
-//
-//    public Long getSourceId() {
-//        return sourceId;
-//    }
-//
-//    public void setSourceId(Long sourceId) {
-//        this.sourceId = sourceId;
-//    }
 
-    public Integer getPrintCount() {
-        return printCount;
+    public String getCurrencyName() {
+        return currencyName;
     }
 
-    public void setPrintCount(Integer printCount) {
-        this.printCount = printCount;
+    public void setCurrencyName(String currencyName) {
+        this.currencyName = currencyName;
     }
 
+    public String getPerPayNo() {
+        return perPayNo;
+    }
+
+    public void setPerPayNo(String perPayNo) {
+        this.perPayNo = perPayNo;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 }

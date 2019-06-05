@@ -56,15 +56,7 @@ public class SalesShipNoticeEntry {
     private Integer version;
 
     private String sku;
-    /**
-     * 当前页
-     */
-    private Integer currentPage;
 
-    /**
-     * 显示的页数
-     */
-    private Integer pageSize;
 
     /**
      * 前端查询参数封装对象
@@ -93,22 +85,6 @@ public class SalesShipNoticeEntry {
 
     public void setNameList(List<JavaSqlName> nameList) {
         this.nameList = nameList;
-    }
-
-    public Integer getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
     }
 
     public Long getEid() {

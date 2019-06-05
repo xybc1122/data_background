@@ -59,9 +59,8 @@ public class PurchasePoOrderEntrySqlProvider {
             sb.append(poOrderEntry.getQuantity()).append(",").append(poOrderEntry.getTaxRate()).append(",");
             sb.append(poOrderEntry.getPrice()).append(",").append(poOrderEntry.getPriceTax()).append(",");
             sb.append(poOrderEntry.getTaxAmt()).append(",").append(poOrderEntry.getAmount()).append(",").
-                    append(poOrderEntry.getAmountTax()).append(",").append(poOrderEntry.getPoeSourceTypeId()).append(",");
-            StrUtils.appBuider(sb, poOrderEntry.getPoeSourceId());
-            sb.append(",").append(poOrderEntry.getDeliveryDate()).append(",")
+                    append(poOrderEntry.getAmountTax()).append(",").append(poOrderEntry.getSourceTypeId()).append(",").
+                    append(poOrderEntry.getSourceId()).append(",").append(poOrderEntry.getDeliveryDate()).append(",")
                     .append(poOrderEntry.getInvoiceEntryId()).append(",").append(poOrderEntry.getReciveWarehouseId()).append(",")
                     .append(poOrderEntry.getRecivePositionId()).append(",").append(poOrderEntry.getPoeQuQty()).append(",")
                     .append(poOrderEntry.getPoeFaQty()).append(",").append(poOrderEntry.getInboundQty()).append(",")

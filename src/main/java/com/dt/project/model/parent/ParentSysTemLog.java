@@ -1,7 +1,7 @@
 package com.dt.project.model.parent;
 
 
-import com.dt.project.model.JavaSqlName;
+import com.alibaba.fastjson.JSONArray;
 import com.dt.project.model.SystemLogStatus;
 
 import java.util.List;
@@ -37,9 +37,9 @@ public class ParentSysTemLog {
     private Integer version;
 
     /**
-     * 前端查询参数封装对象
+     * 动态查询
      */
-    private List<JavaSqlName> javaSqlName;
+    private JSONArray jsonArray;
 
     /**
      * in查询存储id
@@ -79,12 +79,12 @@ public class ParentSysTemLog {
         this.inList = inList;
     }
 
-    public List<JavaSqlName> getJavaSqlName() {
-        return javaSqlName;
+    public JSONArray getJsonArray() {
+        return jsonArray;
     }
 
-    public void setJavaSqlName(List<JavaSqlName> javaSqlName) {
-        this.javaSqlName = javaSqlName;
+    public void setJsonArray(JSONArray jsonArray) {
+        this.jsonArray = jsonArray;
     }
 
     public Integer getVersion() {

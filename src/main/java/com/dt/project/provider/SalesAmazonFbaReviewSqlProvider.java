@@ -39,7 +39,7 @@ public class SalesAmazonFbaReviewSqlProvider {
         ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(reviewDto.getStarLevelName()))
             sql.WHERE("POSITION('" + reviewDto.getStarLevelName() + "' IN lev.`star_level_name`)");
-        FieldStore.query(SalesAmazonFbaReview.class, reviewDto.getNameList(), reviewDto, sql);
+        FieldStore.query(SalesAmazonFbaReview.class, reviewDto.getJsonArr(), reviewDto, sql,alias);
         ProviderSqlStore.selectUploadStatus(sql, reviewDto, alias);
         return sql.toString();
     }

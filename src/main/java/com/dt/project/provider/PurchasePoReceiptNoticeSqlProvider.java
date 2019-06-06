@@ -38,81 +38,6 @@ public class PurchasePoReceiptNoticeSqlProvider {
         return SQL();
     }
 
-    public String insertSelective(PurchasePoReceiptNotice record) {
-        BEGIN();
-        INSERT_INTO("purchase_po_receipt_notice");
-
-        if (record.getRnId() != null) {
-            VALUES("rn_id", "#{rnId,jdbcType=BIGINT}");
-        }
-
-        if (record.getDate() != null) {
-            VALUES("date", "#{date,jdbcType=BIGINT}");
-        }
-
-        if (record.getNo() != null) {
-            VALUES("no", "#{no,jdbcType=VARCHAR}");
-        }
-
-        if (record.getExplanation() != null) {
-            VALUES("explanation", "#{explanation,jdbcType=VARCHAR}");
-        }
-
-        if (record.getFetchAdd() != null) {
-            VALUES("fetch_add", "#{fetchAdd,jdbcType=VARCHAR}");
-        }
-
-        if (record.getDeptId() != null) {
-            VALUES("dept_id", "#{deptId,jdbcType=INTEGER}");
-        }
-
-        if (record.getEmpId() != null) {
-            VALUES("emp_id", "#{empId,jdbcType=INTEGER}");
-        }
-
-        if (record.getMangerId() != null) {
-            VALUES("manger_id", "#{mangerId,jdbcType=INTEGER}");
-        }
-
-        if (record.getChildren() != null) {
-            VALUES("children", "#{children,jdbcType=BIT}");
-        }
-
-        if (record.getClosed() != null) {
-            VALUES("closed", "#{closed,jdbcType=INTEGER}");
-        }
-
-        if (record.getOrderConfirm() != null) {
-            VALUES("order_confirm", "#{orderConfirm,jdbcType=INTEGER}");
-        }
-
-//        if (record.getSourceTypeId() != null) {
-//            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
-//        }
-//
-//        if (record.getSourceId() != null) {
-//            VALUES("source_id", "#{sourceId,jdbcType=BIGINT}");
-//        }
-
-        if (record.getPrintCount() != null) {
-            VALUES("print_count", "#{printCount,jdbcType=INTEGER}");
-        }
-
-        if (record.getStatusId() != null) {
-            VALUES("status_id", "#{statusId,jdbcType=BIGINT}");
-        }
-
-        if (record.getVersion() != null) {
-            VALUES("version", "#{version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            VALUES("del_or_not", "#{delOrNot,jdbcType=BIT}");
-        }
-
-        return SQL();
-    }
-
     public String selectByPoReceiptNotice(PurchasePoReceiptNotice record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "prn";
@@ -127,15 +52,15 @@ public class PurchasePoReceiptNoticeSqlProvider {
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se ON se.`s_id` = " + alias + ".`emp_id`");
         sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se1 ON se1.`s_id` = " + alias + ".`manger_id`");
         //查询供应商名称
-        AppendSqlStore.sqlWhere(record.getSupplierFullName(), "bps.`supplier_full_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(record.getSupplierFullName(), "bps.`supplier_full_name`", sql, Constants.SELECT,alias);
         //查询部门名称
-        AppendSqlStore.sqlWhere(record.getDeptName(), "dep.`dept_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(record.getDeptName(), "dep.`dept_name`", sql, Constants.SELECT,alias);
         //查询业务员
-        AppendSqlStore.sqlWhere(record.getEmpName(), "se.`employee_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(record.getEmpName(), "se.`employee_name`", sql, Constants.SELECT,alias);
         //查询主管
-        AppendSqlStore.sqlWhere(record.getMangerName(), "se1.`employee_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(record.getMangerName(), "se1.`employee_name`", sql, Constants.SELECT,alias);
         //sql动态查询
-        FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
+        FieldStore.query(record.getClass(), record.getJsonArray(), record, sql,alias);
         ProviderSqlStore.selectStatus(record.getSystemLogStatus(), alias, sql);
         return sql.toString();
     }
@@ -149,8 +74,8 @@ public class PurchasePoReceiptNoticeSqlProvider {
         if (record.getDate() != null) {
             sql.SET("date = #{date,jdbcType=BIGINT}");
         }
-        if (StringUtils.isNotBlank(record.getNo())) {
-            sql.SET("no = #{no,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getPrNo())) {
+            sql.SET("no = #{prNo,jdbcType=VARCHAR}");
         }
 
         if (StringUtils.isNotBlank(record.getExplanation())) {

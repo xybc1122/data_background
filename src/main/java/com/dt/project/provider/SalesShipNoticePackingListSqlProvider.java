@@ -120,7 +120,7 @@ public class SalesShipNoticePackingListSqlProvider {
                 "FROM `sales_ship_notice_packing_list` AS " + alias + "");
 
 
-        FieldStore.query(packingList.getClass(), packingList.getNameList(), packingList, sql);
+        FieldStore.query(packingList.getClass(), packingList.getJsonArr(), packingList, sql,alias);
         ProviderSqlStore.selectDocumentStatus(sql, packingList, alias);
         return sql.toString();
 

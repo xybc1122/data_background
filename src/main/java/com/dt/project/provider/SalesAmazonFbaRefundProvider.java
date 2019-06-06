@@ -71,37 +71,37 @@ public class SalesAmazonFbaRefundProvider {
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
         // sku
-        AppendSqlStore.sqlWhere(refund.getSku(), "ps.`sku`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getSku(), "ps.`sku`", sql, Constants.SELECT,alias);
         //下单日期
         if (refund.getPurchaseDates() != null && (refund.getPurchaseDates().size() > 0)) {
             sql.WHERE("purchase_date  BETWEEN " + refund.getPurchaseDates().get(0) + " AND " + refund.getPurchaseDates().get(1) + "");
         }
         //订单号
-        AppendSqlStore.sqlWhere(refund.getOrderId(), "order_id", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getOrderId(), "order_id", sql, Constants.SELECT,alias);
         //SKU
-        AppendSqlStore.sqlWhere(refund.getRefSku(), "ref_sku", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getRefSku(), "ref_sku", sql, Constants.SELECT,alias);
         //子ASIN
-        AppendSqlStore.sqlWhere(refund.getsAsin(), "re.`s_asin`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getsAsin(), "re.`s_asin`", sql, Constants.SELECT,alias);
         //fnsku
-        AppendSqlStore.sqlWhere(refund.getFnSku(), "`fn_sku`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getFnSku(), "`fn_sku`", sql, Constants.SELECT,alias);
         //产品名称
-        AppendSqlStore.sqlWhere(refund.getpName(), "`p_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getpName(), "`p_name`", sql, Constants.SELECT,alias);
         //退货数量
-        AppendSqlStore.sqlWhere(refund.getQuantity(), "`quantity`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getQuantity(), "`quantity`", sql, Constants.SELECT,alias);
         //亚马逊仓库代码
-        AppendSqlStore.sqlWhere(refund.getFc(), "`fc`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getFc(), "`fc`", sql, Constants.SELECT,alias);
         //亚马逊仓库ID
-        AppendSqlStore.sqlWhere(refund.getAwId(), "`aw_id`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getAwId(), "`aw_id`", sql, Constants.SELECT,alias);
         //处理细节
-        AppendSqlStore.sqlWhere(refund.getDetailedDisposition(), "`detailed_disposition`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getDetailedDisposition(), "`detailed_disposition`", sql, Constants.SELECT,alias);
         //原因
-        AppendSqlStore.sqlWhere(refund.getReason(), "`reason`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getReason(), "`reason`", sql, Constants.SELECT,alias);
         //退货状态
-        AppendSqlStore.sqlWhere(refund.getRefundStatus(), "`refund_status`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getRefundStatus(), "`refund_status`", sql, Constants.SELECT,alias);
         //平台号
-        AppendSqlStore.sqlWhere(refund.getLicensePlateNumber(), "`license_plate_number`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getLicensePlateNumber(), "`license_plate_number`", sql, Constants.SELECT,alias);
         //客户备注
-        AppendSqlStore.sqlWhere(refund.getCustomerRemarks(), "`customer_remarks`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(refund.getCustomerRemarks(), "`customer_remarks`", sql, Constants.SELECT,alias);
         ProviderSqlStore.selectUploadStatus(sql, refund, alias);
         return sql.toString();
     }

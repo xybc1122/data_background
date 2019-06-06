@@ -5,7 +5,6 @@ import com.dt.project.model.purchasePo.PurchaseIcBillStock;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.purchasePo.PurchasePoReceiptNotice;
 import com.dt.project.service.GeneralPurposeService;
-import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.service.purchaseService.PurchaseIcBillStockService;
 import com.dt.project.service.purchaseService.PurchasePoOrderService;
 import com.dt.project.service.purchaseService.PurchasePoReceiptNoticeService;
@@ -33,8 +32,6 @@ public class PurchasePoController {
     @Autowired
     private PurchasePoReceiptNoticeService receiptNoticeService;
 
-    @Autowired
-    private JavaSqlNameService nameService;
 
     @Autowired
     private PurchaseIcBillStockService icBillStockService;
@@ -49,7 +46,7 @@ public class PurchasePoController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 查询采购订单信息
      * @apiParamExample {json} 请求样例：
@@ -69,8 +66,6 @@ public class PurchasePoController {
      */
     @PostMapping("/getPoOrder")
     public ResponseBase getPoOrder(@RequestBody PurchasePoOrder poOrder) {
-        //这里放入缓存
-        poOrder.setJavaSqlName(nameService.get("poOrder"));
         return poOrderService.serviceSelectByPoOrder(poOrder);
     }
 
@@ -81,7 +76,7 @@ public class PurchasePoController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 新增采购订单
      * @apiParamExample {json} 请求样例：
@@ -145,7 +140,7 @@ public class PurchasePoController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 查询收货通知单
      * @apiParamExample {json} 请求样例：
@@ -164,8 +159,6 @@ public class PurchasePoController {
      */
     @PostMapping("/getReceiptNotice")
     public ResponseBase getReceiptNotice(@RequestBody PurchasePoReceiptNotice receiptNotice) {
-        //这里放入缓存
-        receiptNotice.setJavaSqlName(nameService.get("pPRNotice"));
         return receiptNoticeService.serviceSelectByPoReceiptNotice(receiptNotice);
     }
 
@@ -175,7 +168,7 @@ public class PurchasePoController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 新增收货通知单
      * @apiParamExample {json} 请求样例：
@@ -219,7 +212,7 @@ public class PurchasePoController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 修改收货通知单
      * @apiParamExample {json} 请求样例：
@@ -262,7 +255,7 @@ public class PurchasePoController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 查询外购入库
      * @apiParamExample {json} 请求样例：
@@ -281,8 +274,6 @@ public class PurchasePoController {
      */
     @PostMapping("/getIcBillStock")
     public ResponseBase getIcBillStock(@RequestBody PurchaseIcBillStock icBillStock) {
-        //这里放入缓存
-        icBillStock.setJavaSqlName(nameService.get("icBillStock"));
         return icBillStockService.serviceSelectByIcBillStock(icBillStock);
     }
 
@@ -293,7 +284,7 @@ public class PurchasePoController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 新增外购入库
      * @apiParamExample {json} 请求样例：

@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.mapper.purchaseMapper.PurchasePoReceiptNoticeEntryMapper;
 import com.dt.project.model.purchasePo.PurchasePoReceiptNoticeEntry;
-import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.purchaseService.PurchasePoReceiptNoticeEntryService;
 import com.dt.project.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +21,11 @@ public class PurchasePoReceiptNoticeEntryServiceImpl implements PurchasePoReceip
     @Autowired
     private PurchasePoReceiptNoticeEntryMapper receiptNoticeEntryMapper;
     @Autowired
-    private JavaSqlNameService nameService;
+    private RedisService redisService;
 
     @Override
     public List<PurchasePoReceiptNoticeEntry> serviceSelectByPRNoticeEntry(PurchasePoReceiptNoticeEntry record) {
-        record.setJavaSqlName(nameService.get("pNoticeEntry"));
+        record.setJsonArray(redisService.getRedisJson("",PurchasePoReceiptNoticeEntry.class));
         return receiptNoticeEntryMapper.selectByPRNoticeEntry(record);
     }
 

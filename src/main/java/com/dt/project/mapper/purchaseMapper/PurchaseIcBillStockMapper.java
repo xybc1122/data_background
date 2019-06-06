@@ -30,15 +30,12 @@ public interface PurchaseIcBillStockMapper {
             "children, closed, order_confirm, ",
             "print_count,`status_id`)",
             "values (#{supplierId},#{years},#{period},#{date,jdbcType=BIGINT}, ",
-            "#{no,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR}, ",
+            "#{icNo,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR}, ",
             "#{deptId,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER}, ",
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{orderConfirm,jdbcType=INTEGER}, ",
             "#{printCount,jdbcType=INTEGER},#{statusId})"
     })
     int insertIcBillStock(PurchaseIcBillStock record);
-
-    @InsertProvider(type = PurchaseIcBillStockSqlProvider.class, method = "insertSelective")
-    int insertSelective(PurchaseIcBillStock record);
 
     /**
      * 查询外购入库接口
@@ -49,6 +46,7 @@ public interface PurchaseIcBillStockMapper {
     @SelectProvider(type = PurchaseIcBillStockSqlProvider.class, method = "selectByIcBillStock")
     @Results({
             //数据库字段映射 //数据库字段映射 column数据库字段 property Java 字段
+            @Result(id = true, column = "no", property = "icNo"),
             @Result(column = "status_id", property = "systemLogStatus",
                     one = @One(
                             select = "com.dt.project.mapper.systemMapper.SystemLogStatusMapper.findSysStatusInfo",
@@ -68,6 +66,4 @@ public interface PurchaseIcBillStockMapper {
     @UpdateProvider(type = PurchaseIcBillStockSqlProvider.class, method = "updateByIcBillStock")
     int updateByIcBillStock(PurchaseIcBillStock record);
 
-    @UpdateProvider(type = PurchaseIcBillStockSqlProvider.class, method = "updateByExample")
-    int updateByExample(@Param("record") PurchaseIcBillStock record, @Param("example") PurchaseIcBillStock example);
 }

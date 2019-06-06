@@ -38,7 +38,7 @@ public interface PurchasePoOrderMapper {
             "tran_type, tran_status, ",
             "order_confirm,print_count)",
             "values (#{poId,jdbcType=BIGINT}, #{date,jdbcType=BIGINT}, ",
-            "#{no,jdbcType=VARCHAR}, #{poStyleId,jdbcType=INTEGER}, #{explanation,jdbcType=VARCHAR}, ",
+            "#{poNo,jdbcType=VARCHAR}, #{poStyleId,jdbcType=INTEGER}, #{explanation,jdbcType=VARCHAR}, ",
             "#{fetchAdd,jdbcType=VARCHAR}, #{currencyId,jdbcType=INTEGER}, ",
             "#{deptId,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER}, ",
             "#{exchangeRate,jdbcType=DECIMAL}, #{children,jdbcType=BIT}, ",
@@ -57,9 +57,6 @@ public interface PurchasePoOrderMapper {
     int insertPoOrder(PurchasePoOrder record);
 
 
-    @InsertProvider(type = PurchasePoOrderSqlProvider.class, method = "insertSelective")
-    int insertSelective(PurchasePoOrder record);
-
     /**
      * 查询采购订单表
      *
@@ -68,6 +65,7 @@ public interface PurchasePoOrderMapper {
     @SelectProvider(type = PurchasePoOrderSqlProvider.class, method = "selectByPoOrder")
     @Results({
             //数据库字段映射 //数据库字段映射 column数据库字段 property Java 字段
+            @Result(id = true, column = "no", property = "poNo"),
             @Result(column = "status_id", property = "systemLogStatus",
                     one = @One(
                             select = "com.dt.project.mapper.systemMapper.SystemLogStatusMapper.findSysStatusInfo",
@@ -85,7 +83,4 @@ public interface PurchasePoOrderMapper {
      */
     @UpdateProvider(type = PurchasePoOrderSqlProvider.class, method = "updateByPoOrder")
     int updateByPoOrder(PurchasePoOrder record);
-
-    @UpdateProvider(type = PurchasePoOrderSqlProvider.class, method = "updateByExample")
-    int updateByExample(@Param("record") PurchasePoOrder record);
 }

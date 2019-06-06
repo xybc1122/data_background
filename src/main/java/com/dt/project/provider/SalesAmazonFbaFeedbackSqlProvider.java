@@ -66,7 +66,7 @@ public class SalesAmazonFbaFeedbackSqlProvider {
         sql.SELECT("s.`shop_name`, cs.`site_name`,`date`,`add`,`move`," + ProviderSqlStore.statusV(alias) + "");
         sql.FROM("sales_amazon_fba_feedback AS " + alias);
         ProviderSqlStore.joinTable(sql, alias);
-        FieldStore.query(record.getClass(), record.getNameList(), record, sql);
+        FieldStore.query(record.getClass(), record.getJsonArr(), record, sql,alias);
         ProviderSqlStore.selectUploadStatus(sql, record, alias);
         return sql.toString();
     }

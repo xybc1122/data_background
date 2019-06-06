@@ -63,4 +63,10 @@ public interface FlowableService {
      * 取消签收
      */
     ResponseBase unclaim(String taskId);
+
+    /**
+     * 查看当前流程进度
+     */
+    ResponseBase selImageSchedule(String taskId);
+
 }

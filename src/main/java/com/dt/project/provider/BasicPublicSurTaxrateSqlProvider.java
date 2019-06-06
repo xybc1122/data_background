@@ -81,13 +81,13 @@ public class BasicPublicSurTaxrateSqlProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(record.getSystemLogStatus(), alias, sql);
         //国家名
-        AppendSqlStore.sqlWhere(record.getCountryName(), "cou.country_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(record.getCountryName(), "cou.country_name", sql, Constants.SELECT,alias);
         //产品类目名称
-        AppendSqlStore.sqlWhere(record.getProductsName(), "p.products_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(record.getProductsName(), "p.products_name", sql, Constants.SELECT,alias);
         //是否全品类(0非全品类;1全品类;2部分品类;)
-        AppendSqlStore.sqlWhere(record.getAllCateIs(), alias + ".all_cate_is", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(record.getAllCateIs(), alias + ".all_cate_is", sql, Constants.SELECT,alias);
         //税率
-        AppendSqlStore.sqlWhere(record.getTaxRate(), alias + ".tax_rate", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(record.getTaxRate(), alias + ".tax_rate", sql, Constants.SELECT,alias);
         return sql.toString();
 
     }

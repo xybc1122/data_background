@@ -6,7 +6,10 @@ import com.dt.project.model.parent.ParentDocument;
  */
 public class WarehouseIncArriveConfirm extends ParentDocument {
     private Long acId;
-
+    /**
+     * 到货确认no
+     */
+    private String acNo;
 
     private String explanation;
 
@@ -19,9 +22,19 @@ public class WarehouseIncArriveConfirm extends ParentDocument {
 
     private Integer orderConfirm;
 
+
+    public String getAcNo() {
+        return acNo;
+    }
+
+    public void setAcNo(String acNo) {
+        this.acNo = acNo;
+    }
+
     public Long getAcId() {
         return acId;
     }
+
 
     public void setAcId(Long acId) {
         this.acId = acId;

@@ -3,10 +3,10 @@ package com.dt.project.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
-import com.dt.project.exception.LsException;
 import com.dt.project.mapper.purchaseMapper.PurchasePoOrderMapper;
 import com.dt.project.model.purchasePo.PurchasePoOrder;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.SystemLogStatusService;
 import com.dt.project.service.purchaseService.PurchasePoOrderEntryService;
 import com.dt.project.service.purchaseService.PurchasePoOrderService;
@@ -45,6 +45,7 @@ public class PurchasePoOrderServiceImpl implements PurchasePoOrderService {
     public ResponseBase serviceSelectByPoOrder(PurchasePoOrder record) {
         PageInfoUtils.setPage(record.getPageSize(), record.getCurrentPage());
         //查询 采购订单表体
+        record.setJsonArray(redisService.getRedisJson("pPO",PurchasePoOrder.class));
         List<PurchasePoOrder> purchasePoOrders = poOrderMapper.selectByPoOrder(record);
 
         if (!ListUtils.isList(purchasePoOrders)) {

@@ -27,11 +27,11 @@ public class BasicPublicVatSurTaxrateProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(vat.getSystemLogStatus(), alias, sql);
         //公司名
-        AppendSqlStore.sqlWhere(vat.getCompanyName(), "com.`company_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(vat.getCompanyName(), "com.`company_name`", sql, Constants.SELECT,alias);
         //国家名
-        AppendSqlStore.sqlWhere(vat.getCountryName(), "cou.country_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(vat.getCountryName(), "cou.country_name", sql, Constants.SELECT,alias);
         //税率
-        AppendSqlStore.sqlWhere(vat.getTaxRate(), alias + ".tax_rate", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(vat.getTaxRate(), alias + ".tax_rate", sql, Constants.SELECT,alias);
         return sql.toString();
 
     }

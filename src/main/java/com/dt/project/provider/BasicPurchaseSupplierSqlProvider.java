@@ -116,7 +116,7 @@ public class BasicPurchaseSupplierSqlProvider {
                 "`address_eng`,`tel_phone`,\n" +
                 "" + alias + ".`status_id`," + alias + ".`version`\n" +
                 "FROM `basic_purchase_supplier` AS " + alias + "\n");
-        FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
+        FieldStore.query(record.getClass(), record.getJsonArray(), record, sql,alias);
         ProviderSqlStore.selectStatus(record.getSystemLogStatus(), alias, sql);
         return sql.toString();
     }

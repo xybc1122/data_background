@@ -24,9 +24,9 @@ public class BasicExportMonitoringConditionProvider {
         ProviderSqlStore.selectStatus(condition.getSystemLogStatus(), alias, sql);
 
         //监管条件名称
-        AppendSqlStore.sqlWhere(condition.getMonitoringConditionName(), alias + ".monitoring_condition_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(condition.getMonitoringConditionName(), alias + ".monitoring_condition_name", sql, Constants.SELECT,alias);
         //编号
-        AppendSqlStore.sqlWhere(condition.getcNumber(), alias + ".c_number", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(condition.getcNumber(), alias + ".c_number", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 

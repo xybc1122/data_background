@@ -7,7 +7,7 @@ package com.dt.project.model.parent;
  * @Date 2019/4/24 16:07
  **/
 
-import com.dt.project.model.JavaSqlName;
+import com.alibaba.fastjson.JSONArray;
 
 import java.util.List;
 
@@ -35,11 +35,8 @@ public class ParentConfTable {
      */
     private List<Long> closeDates;
 
-    /**
-     * 前端查询参数封装对象
-     */
-    private List<JavaSqlName> nameList;
 
+    private JSONArray jsonArr;
 
     /**
      * 当前页
@@ -70,6 +67,14 @@ public class ParentConfTable {
      * 版本标识
      */
     private Integer version;
+
+    public JSONArray getJsonArr() {
+        return jsonArr;
+    }
+
+    public void setJsonArr(JSONArray jsonArr) {
+        this.jsonArr = jsonArr;
+    }
 
     public Integer getDelOrNot() {
         return delOrNot;
@@ -225,11 +230,4 @@ public class ParentConfTable {
         this.auditUser = auditUser;
     }
 
-    public List<JavaSqlName> getNameList() {
-        return nameList;
-    }
-
-    public void setNameList(List<JavaSqlName> nameList) {
-        this.nameList = nameList;
-    }
 }

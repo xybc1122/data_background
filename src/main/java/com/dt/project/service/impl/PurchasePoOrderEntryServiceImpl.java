@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.mapper.purchaseMapper.PurchasePoOrderEntryMapper;
 import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
-import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.purchaseService.PurchasePoOrderEntryService;
 import com.dt.project.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +21,11 @@ public class PurchasePoOrderEntryServiceImpl implements PurchasePoOrderEntryServ
     @Autowired
     private PurchasePoOrderEntryMapper poOrderEntryMapper;
     @Autowired
-    private JavaSqlNameService nameService;
+    private RedisService redisService;
 
     @Override
     public List<PurchasePoOrderEntry> serviceSelectByPoOrderEntry(PurchasePoOrderEntry record) {
-        record.setJavaSqlName(nameService.get("pOEntry"));
+        record.setJsonArray(redisService.getRedisJson("pPOE",PurchasePoOrderEntry.class));
         return poOrderEntryMapper.selectByPoOrderEntry(record);
     }
 

@@ -18,9 +18,6 @@ public interface SalesShipNoticeMapper {
             "AND platform_type_id=#{platformTypeId} AND shop_id=#{shopId} AND site_id=#{siteId} LIMIT 1")
     Long isItRedundant(SalesShipNotice shipNotice);
 
-    @SelectProvider(type = SalesShipNoticeSqlProvider.class, method = "countByExample")
-    long countByExample(SalesShipNotice example);
-
 
     /**
      * 新增出货通知单表
@@ -42,7 +39,7 @@ public interface SalesShipNoticeMapper {
             "modify_date, modify_user, ",
             "audit_date, audit_user, ",
             "close_date, close_user)",
-            "values(#{no,jdbcType=VARCHAR},",
+            "values(#{spNo,jdbcType=VARCHAR},",
             "#{date,jdbcType=BIGINT}, #{platformTypeId,jdbcType=INTEGER}, ",
             "#{deliveryDate,jdbcType=BIGINT}, #{arriveDate,jdbcType=BIGINT}, ",
             "#{transportTypeId,jdbcType=INTEGER}, #{shopId,jdbcType=INTEGER}, ",
@@ -59,10 +56,6 @@ public interface SalesShipNoticeMapper {
     @Options(useGeneratedKeys = true, keyProperty = "shipNoticeId", keyColumn = "ship_notice_id")
     int insertShipNotice(SalesShipNotice record);
 
-    @InsertProvider(type = SalesShipNoticeSqlProvider.class, method = "insertSelective")
-    int insertSelective(SalesShipNotice record);
-
-
     /**
      * 查询发货通知单
      *
@@ -70,6 +63,9 @@ public interface SalesShipNoticeMapper {
      * @return
      */
     @SelectProvider(type = SalesShipNoticeSqlProvider.class, method = "selectByNotice")
+    @Results({
+            @Result(id = true, column = "no", property = "spNo"),
+    })
     List<SalesShipNotice> selectByNotice(SalesShipNotice record);
 
 
@@ -82,7 +78,4 @@ public interface SalesShipNoticeMapper {
     @UpdateProvider(type = SalesShipNoticeSqlProvider.class, method = "updateBySalesShipNotice")
     int updateBySalesShipNotice(SalesShipNotice record);
 
-
-    @UpdateProvider(type = SalesShipNoticeSqlProvider.class, method = "updateByExample")
-    int updateByExample(@Param("record") SalesShipNotice record);
 }

@@ -9,7 +9,10 @@ import java.util.List;
  * 收货通知单表
  */
 public class PurchasePoReceiptNotice extends ParentDocument {
-
+    /**
+     * 收货No
+     */
+    private String prNo;
 
     private Long rnId;
 
@@ -20,6 +23,15 @@ public class PurchasePoReceiptNotice extends ParentDocument {
     private Integer closed;
 
     private Integer orderConfirm;
+
+
+    public String getPrNo() {
+        return prNo;
+    }
+
+    public void setPrNo(String prNo) {
+        this.prNo = prNo;
+    }
 
     public Long getRnId() {
         return rnId;

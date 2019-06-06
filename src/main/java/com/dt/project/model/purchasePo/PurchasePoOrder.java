@@ -1,5 +1,6 @@
 package com.dt.project.model.purchasePo;
 
+import com.dt.project.customize.SelValue;
 import com.dt.project.model.parent.ParentDocument;
 import com.dt.project.model.parent.ParentSysTemLog;
 
@@ -10,54 +11,64 @@ import java.util.List;
  * 采购订单表
  */
 public class PurchasePoOrder extends ParentDocument {
+
+    /**
+     * 订单号
+     */
+    @SelValue(column = "no",property = "poNo")
+    private String poNo;
+
+    @SelValue(column = "po_id",property = "poId")
     private Long poId;
 
 
+    @SelValue(column = "po_style_id",property = "poStyleId")
     private Integer poStyleId;
 
+    @SelValue(column = "explanation",property = "explanation")
     private String explanation;
-
+    @SelValue(column = "fetch_add",property = "fetchAdd")
     private String fetchAdd;
-
+    @SelValue(column = "currency_id",property = "currencyId")
     private Integer currencyId;
-
+    @SelValue(column = "exchange_rate",property = "exchangeRate")
     private BigDecimal exchangeRate;
-
+    @SelValue(column = "closed",property = "closed")
     private Integer closed;
-
+    @SelValue(column = "contact_person",property = "contactPerson")
     private String contactPerson;
-
+    @SelValue(column = "tel_phone",property = "telPhone")
     private String telPhone;
-
+    @SelValue(column = "pre_pay_id",property = "prePayId")
     private Long prePayId;
-
+    @SelValue(column = "pre_pay_amt",property = "prePayAmt")
     private BigDecimal prePayAmt;
-
+    @SelValue(column = "class_type_id",property = "classTypeId")
     private Integer classTypeId;
-
+    @SelValue(column = "settlement_date",property = "settlementDate")
     private Long settlementDate;
-
+    @SelValue(column = "settlement_method_id",property = "settlementMethodId")
     private Integer settlementMethodId;
-
+    @SelValue(column = "pay_id",property = "payId")
     private Long payId;
-
+    @SelValue(column = "po_amt",property = "poAmt")
     private BigDecimal poAmt;
-
+    @SelValue(column = "inbound_amt",property = "inboundAmt")
     private BigDecimal inboundAmt;
-
+    @SelValue(column = "company_id",property = "companyId")
     private Integer companyId;
-
+    @SelValue(column = "invoice_type_id",property = "invoiceTypeId")
     private Integer invoiceTypeId;
 
-
+    @SelValue(column = "pay_amt",property = "payAmt")
     private BigDecimal payAmt;
-
+    @SelValue(column = "erase_amt",property = "eraseAmt")
     private BigDecimal eraseAmt;
-
+    @SelValue(column = "tran_type",property = "tranType")
     private Integer tranType;
-
+    @SelValue(column = "tran_status",property = "tranStatus")
     private Integer tranStatus;
-
+    @SelValue(column = "order_confirm",property = "orderConfirm")
     private Integer orderConfirm;
 
 
@@ -83,6 +94,14 @@ public class PurchasePoOrder extends ParentDocument {
      * 发票类型
      */
     private String typeName;
+
+    public String getPoNo() {
+        return poNo;
+    }
+
+    public void setPoNo(String poNo) {
+        this.poNo = poNo;
+    }
 
     public Long getPoId() {
         return poId;

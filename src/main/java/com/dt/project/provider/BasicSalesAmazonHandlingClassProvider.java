@@ -25,13 +25,13 @@ public class BasicSalesAmazonHandlingClassProvider {
         ProviderSqlStore.selectStatus(handlingClass.getSystemLogStatus(), alias, sql);
 
         //处理类名称
-        AppendSqlStore.sqlWhere(handlingClass.getClassName(), alias + ".class_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(handlingClass.getClassName(), alias + ".class_name", sql, Constants.SELECT,alias);
         //处理尺寸
-        AppendSqlStore.sqlWhere(handlingClass.getSize(), alias + ".size", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(handlingClass.getSize(), alias + ".size", sql, Constants.SELECT,alias);
         //区域
-        AppendSqlStore.sqlWhere(handlingClass.getRegion(), alias + ".region", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(handlingClass.getRegion(), alias + ".region", sql, Constants.SELECT,alias);
         //规则
-        AppendSqlStore.sqlWhere(handlingClass.getCodex(), alias + ".codex", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(handlingClass.getCodex(), alias + ".codex", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 }

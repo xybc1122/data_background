@@ -43,6 +43,15 @@ public class JsonUtils {
     }
 
     /**
+     * String 转换Array;
+     *
+     * @return
+     */
+    public static JSONArray getJsonArr(String str) {
+        return JSONArray.parseArray(str);
+    }
+
+    /**
      * Object 转换Array;
      *
      * @return

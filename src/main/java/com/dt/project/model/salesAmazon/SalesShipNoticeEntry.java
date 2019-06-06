@@ -1,6 +1,6 @@
 package com.dt.project.model.salesAmazon;
 
-import com.dt.project.model.JavaSqlName;
+import com.alibaba.fastjson.JSONArray;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -59,9 +59,17 @@ public class SalesShipNoticeEntry {
 
 
     /**
-     * 前端查询参数封装对象
+     * 动态查询对象
      */
-    private List<JavaSqlName> nameList;
+    private JSONArray jsonArray;
+
+    public JSONArray getJsonArray() {
+        return jsonArray;
+    }
+
+    public void setJsonArray(JSONArray jsonArray) {
+        this.jsonArray = jsonArray;
+    }
 
     public String getSku() {
         return sku;
@@ -69,10 +77,6 @@ public class SalesShipNoticeEntry {
 
     public void setSku(String sku) {
         this.sku = sku;
-    }
-
-    public List<JavaSqlName> getNameList() {
-        return nameList;
     }
 
     public List<Long> getInShipNoticeList() {
@@ -83,9 +87,6 @@ public class SalesShipNoticeEntry {
         this.inShipNoticeList = inShipNoticeList;
     }
 
-    public void setNameList(List<JavaSqlName> nameList) {
-        this.nameList = nameList;
-    }
 
     public Long getEid() {
         return eid;

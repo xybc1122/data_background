@@ -142,6 +142,18 @@ public class FlowableServiceImpl implements FlowableService {
     }
 
     /**
+     * 查询当前流程进度高亮
+     *
+     * @param taskId
+     * @return
+     */
+    @Override
+    public ResponseBase selImageSchedule(String taskId) {
+//        repositoryService.getBpmnModel();
+        return null;
+    }
+
+    /**
      * 通过 账号 查询 对应的角色组
      *
      * @param uName

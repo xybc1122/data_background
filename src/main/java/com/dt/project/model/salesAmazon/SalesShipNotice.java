@@ -13,8 +13,10 @@ public class SalesShipNotice extends ParentConfTable {
 
 
     private Long shipNoticeId;
-
-    private String no;
+    /**
+     * 发货通知单No
+     */
+    private String spNo;
 
     private Long date;
 
@@ -244,12 +246,12 @@ public class SalesShipNotice extends ParentConfTable {
         this.shipNoticeId = shipNoticeId;
     }
 
-    public String getNo() {
-        return no;
+    public String getSpNo() {
+        return spNo;
     }
 
-    public void setNo(String no) {
-        this.no = no;
+    public void setSpNo(String spNo) {
+        this.spNo = spNo;
     }
 
     public Integer getPlatformTypeId() {

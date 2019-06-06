@@ -75,21 +75,14 @@ public class PurchasePoOrderEntrySqlProvider {
     public String selectByPoOrderEntry(PurchasePoOrderEntry poOrderEntry) throws IllegalAccessException {
         String alias = "poe";
         SQL sql = new SQL();
-        sql.SELECT("bpw.`warehouse_name`,bpp.`product_name`,`poe_id`,`entry_id`," + alias + ".`po_id`," + alias + ".`product_id`,`tax_rate`,`price`,`price_tax`,\n" +
+        sql.SELECT("" + ProviderSqlStore.docChildV() + ",`poe_id`,`entry_id`," + alias + ".`po_id`," + alias + ".`product_id`,`tax_rate`,`price`,`price_tax`,\n" +
                 "`tax_amt`,`amount`,`amount_tax`,`poe_source_type_id`,`poe_source_id`,`delivery_date`,`invoice_entry_id`,\n" +
                 "" + alias + ".`warehouse_id`," + alias + ".`position_id`,`poe_qu_qty`, `poe_fa_qty`,`inbound_qty`, `poe_return_qty`," +
                 "" + alias + ".`e_remark`,`row_closed`," + alias + ".`version` FROM `purchase_po_order_entry` AS " + alias + "");
-        sql.LEFT_OUTER_JOIN("basic_public_product AS bpp on bpp.product_id = " + alias + ".`product_id`");
-        sql.LEFT_OUTER_JOIN("basic_public_warehouse AS bpw on bpw.warehouse_id = " + alias + ".`warehouse_id`");
-        sql.LEFT_OUTER_JOIN("basic_public_warehouse_position AS bpwP on bpwP.position_id = " + alias + ".`position_id`");
-        //查询产品名
-        AppendSqlStore.sqlWhere(poOrderEntry.getProductName(), "bpp.`product_name`", sql, Constants.SELECT);
-        //查询仓库名
-        AppendSqlStore.sqlWhere(poOrderEntry.getWarehouseName(), "bpw.`warehouse_name`", sql, Constants.SELECT);
-        //查询仓位
-        AppendSqlStore.sqlWhere(poOrderEntry.getPositionName(), "bpwP.`position_name`", sql, Constants.SELECT);
+        //字表通用查询
+        ProviderSqlStore.setDocumentChild(sql, alias, poOrderEntry);
         //sql动态查询
-        FieldStore.query(poOrderEntry.getClass(), poOrderEntry.getJavaSqlName(), poOrderEntry, sql);
+        FieldStore.query(poOrderEntry.getClass(), poOrderEntry.getJsonArray(), poOrderEntry, sql,alias);
         sql.WHERE(alias + ".`del_or_not`=0");
         if (poOrderEntry.getInList() != null && poOrderEntry.getInList().size() > 0) {
             return sql.toString() + " AND " + StrUtils.in(poOrderEntry.getInList(), "po_id");

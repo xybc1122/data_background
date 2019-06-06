@@ -15,10 +15,6 @@ public class ParentDocument extends ParentSysTemLog {
     private Integer supplierId;
 
     /**
-     * 订单号
-     */
-    private String no;
-    /**
      * 部门ID
      */
     private Integer deptId;
@@ -136,13 +132,6 @@ public class ParentDocument extends ParentSysTemLog {
         this.sourceId = sourceId;
     }
 
-    public String getNo() {
-        return no;
-    }
-
-    public void setNo(String no) {
-        this.no = no;
-    }
 
     public Long getDate() {
         return date;

@@ -24,23 +24,23 @@ public class BasicSalesAmazonWarehouseProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(amazonWarehouse.getSystemLogStatus(), alias, sql);
         //站点名称
-        AppendSqlStore.sqlWhere(amazonWarehouse.getSiteName(), "si.site_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonWarehouse.getSiteName(), "si.site_name", sql, Constants.SELECT,alias);
         //FBA仓库编号
-        AppendSqlStore.sqlWhere(amazonWarehouse.getNumber(), alias + ".`number`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonWarehouse.getNumber(), alias + ".`number`", sql, Constants.SELECT,alias);
         //FBA仓库代码
-        AppendSqlStore.sqlWhere(amazonWarehouse.getWarehouseCode(), "w.warehouse_code", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonWarehouse.getWarehouseCode(), "w.warehouse_code", sql, Constants.SELECT,alias);
         //国家
-        AppendSqlStore.sqlWhere(amazonWarehouse.getCountry(), "w.country", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonWarehouse.getCountry(), "w.country", sql, Constants.SELECT,alias);
         //地址
-        AppendSqlStore.sqlWhere(amazonWarehouse.getAddress(), "w.address", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonWarehouse.getAddress(), "w.address", sql, Constants.SELECT,alias);
 
         //城市
-        AppendSqlStore.sqlWhere(amazonWarehouse.getCity(), "w.city", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonWarehouse.getCity(), "w.city", sql, Constants.SELECT,alias);
 
         //州省
-        AppendSqlStore.sqlWhere(amazonWarehouse.getState(), "w.state", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonWarehouse.getState(), "w.state", sql, Constants.SELECT,alias);
         //邮编
-        AppendSqlStore.sqlWhere(amazonWarehouse.getZip(), "w.zip", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonWarehouse.getZip(), "w.zip", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 

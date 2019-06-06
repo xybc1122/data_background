@@ -25,11 +25,11 @@ public class BasicPublicProvinceRelationProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(relation.getSystemLogStatus(), alias, sql);
         //省州名称
-        AppendSqlStore.sqlWhere(relation.getProvinceName(), "p.`province_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(relation.getProvinceName(), "p.`province_name`", sql, Constants.SELECT,alias);
         //编号
-        AppendSqlStore.sqlWhere(relation.getNumber(), alias + ".`number`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(relation.getNumber(), alias + ".`number`", sql, Constants.SELECT,alias);
         //省州关联名称
-        AppendSqlStore.sqlWhere(relation.getProvinceRelationName(), alias + ".`province_relation_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(relation.getProvinceRelationName(), alias + ".`province_relation_name`", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 }

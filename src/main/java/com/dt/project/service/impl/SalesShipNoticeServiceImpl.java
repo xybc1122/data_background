@@ -8,6 +8,7 @@ import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeMapper;
 import com.dt.project.model.basePublic.BasicSalesAmazonPaymentType;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.salesAmazon.SalesShipNoticeEntry;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.basePublicService.BasicSalesAmazonPaymentTypeService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeEntryService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeService;

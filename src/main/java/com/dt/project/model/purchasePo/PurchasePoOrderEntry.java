@@ -1,5 +1,6 @@
 package com.dt.project.model.purchasePo;
 
+import com.dt.project.customize.SelValue;
 import com.dt.project.model.parent.ParentDocumentChild;
 
 
@@ -8,33 +9,36 @@ import java.math.BigDecimal;
 /**
  * 采购订单表体
  */
-public class PurchasePoOrderEntry extends ParentDocumentChild {
+public class PurchasePoOrderEntry extends ParentDocumentChild{
+
+
+    @SelValue(column = "poe_id",property = "poeId")
     private Long poeId;
-
+    @SelValue(column = "po_id",property = "poId")
     private Long poId;
-
+    @SelValue(column = "tax_rate",property = "taxRate")
     private BigDecimal taxRate;
-
+    @SelValue(column = "price",property = "price")
     private BigDecimal price;
-
+    @SelValue(column = "price_tax",property = "priceTax")
     private BigDecimal priceTax;
-
+    @SelValue(column = "tax_amt",property = "taxAmt")
     private BigDecimal taxAmt;
-
+    @SelValue(column = "amount",property = "amount")
     private BigDecimal amount;
-
+    @SelValue(column = "amount_tax",property = "amountTax")
     private BigDecimal amountTax;
-
+    @SelValue(column = "delivery_date",property = "deliveryDate")
     private Long deliveryDate;
-
+    @SelValue(column = "invoice_entry_id",property = "invoiceEntryId")
     private Long invoiceEntryId;
-
+    @SelValue(column = "poe_qu_qty",property = "poeQuQty")
     private BigDecimal poeQuQty;
-
+    @SelValue(column = "poe_fa_qty",property = "poeFaQty")
     private BigDecimal poeFaQty;
-
+    @SelValue(column = "inbound_qty",property = "inboundQty")
     private BigDecimal inboundQty;
-
+    @SelValue(column = "poe_return_qty",property = "poeReturnQty")
     private BigDecimal poeReturnQty;
 
     public Long getPoeId() {

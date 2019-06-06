@@ -1,8 +1,11 @@
 package com.dt.project.store;
 
 import com.dt.project.model.parent.ParentConfTable;
+import com.dt.project.model.parent.ParentDocument;
+import com.dt.project.model.parent.ParentDocumentChild;
 import com.dt.project.model.parent.ParentUploadInfo;
 import com.dt.project.model.SystemLogStatus;
+import com.dt.project.toos.Constants;
 import com.dt.project.utils.ReqUtils;
 import com.dt.project.utils.StrUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -27,6 +30,27 @@ public class ProviderSqlStore {
     }
 
     /**
+     * 单据主表通用sql拼接字段
+     *
+     * @return
+     */
+
+    public static String docV() {
+        return "bps.`supplier_full_name`, dep.`dept_name`,se.`employee_name` AS empName," +
+                "se1.`employee_name` AS mangerName";
+    }
+
+    /**
+     * 单据子表通用sql拼接字段
+     *
+     * @return
+     */
+    public static String docChildV() {
+        return "bqiM.`inspection_quarantine_name`,bpp.`inspection_method_id`," +
+                "bpp.`unit_id`,bpu.`unit_name`,bpp.`model`,bpp.`product_code`,bpw.`warehouse_name`,bpp.`product_name`";
+    }
+
+    /**
      * 通用存入sql部分状态
      */
     public static String setV() {
@@ -42,6 +66,54 @@ public class ProviderSqlStore {
         sql.WHERE(alias + ".`del_or_not`=0");
     }
 
+    /**
+     * 单据父表通用查询数据
+     *
+     * @param sql
+     * @param alias
+     * @param p
+     */
+    public static void setDocument(SQL sql, String alias, ParentDocument p) {
+        sql.LEFT_OUTER_JOIN("hr_archives_department AS dep ON dep.`dept_id`=" + alias + ".`dept_id`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se ON se.`s_id` = " + alias + ".`emp_id`");
+        sql.LEFT_OUTER_JOIN("`hr_archives_employee` AS se1 ON se1.`s_id` = " + alias + ".`manger_id`");
+        sql.LEFT_OUTER_JOIN("`basic_purchase_supplier` AS bps ON bps.`supplier_id` = " + alias + ".`supplier_id`");
+        //查询部门名称
+        AppendSqlStore.sqlWhere(p.getDeptName(), "dep.`dept_name`", sql, Constants.SELECT,alias);
+        //查询业务员
+        AppendSqlStore.sqlWhere(p.getEmpName(), "se.`employee_name`", sql, Constants.SELECT,alias);
+        //查询主管
+        AppendSqlStore.sqlWhere(p.getMangerName(), "se1.`employee_name`", sql, Constants.SELECT,alias);
+        //查询供应商
+        AppendSqlStore.sqlWhere(p.getSupplierFullName(), "bps.`supplier_full_name`", sql, Constants.SELECT,alias);
+    }
+
+    /**
+     * 单据子表通用查询数据
+     *
+     * @param sql
+     * @param alias
+     * @param p
+     */
+    public static void setDocumentChild(SQL sql, String alias, ParentDocumentChild p) {
+        sql.LEFT_OUTER_JOIN("basic_public_product AS bpp on bpp.product_id = " + alias + ".`product_id`");
+        sql.LEFT_OUTER_JOIN("basic_public_unit AS bpu on bpu.unit_id = bpp.`unit_id`");
+        sql.LEFT_OUTER_JOIN("basic_quality_inspection_method AS bqiM on bqiM.inspection_method_id = bpp.`inspection_method_id`");
+        sql.LEFT_OUTER_JOIN("basic_public_warehouse AS bpw on bpw.warehouse_id = " + alias + ".`warehouse_id`");
+        sql.LEFT_OUTER_JOIN("basic_public_warehouse_position AS bpwP on bpwP.position_id = " + alias + ".`position_id`");
+        //查询计量单位
+        AppendSqlStore.sqlWhere(p.getUnitName(), "bpu.`unit_name`", sql, Constants.SELECT,alias);
+        //查询产品名
+        AppendSqlStore.sqlWhere(p.getProductName(), "bpp.`product_name`", sql, Constants.SELECT,alias);
+        //查询产品代码
+        AppendSqlStore.sqlWhere(p.getProductCode(), "bpp.`product_code`", sql, Constants.SELECT,alias);
+        //查询规格型号
+        AppendSqlStore.sqlWhere(p.getModel(), "bpp.`model`", sql, Constants.SELECT,alias);
+        //查询仓库名
+        AppendSqlStore.sqlWhere(p.getWarehouseName(), "bpw.`warehouse_name`", sql, Constants.SELECT,alias);
+        //查询仓位
+        AppendSqlStore.sqlWhere(p.getPositionName(), "bpwP.`position_name`", sql, Constants.SELECT,alias);
+    }
 
     /**
      * 通用 查询 系统类状态

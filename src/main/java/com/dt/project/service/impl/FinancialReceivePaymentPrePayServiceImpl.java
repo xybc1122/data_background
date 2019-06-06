@@ -4,8 +4,8 @@ import com.dt.project.config.JsonData;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.financialImportMapper.FinancialReceivePaymentPrePayMapper;
 import com.dt.project.model.financial.FinancialReceivePaymentPrePay;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.FinancialReceivePaymentPrePayService;
-import com.dt.project.service.JavaSqlNameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +21,10 @@ public class FinancialReceivePaymentPrePayServiceImpl implements FinancialReceiv
     private FinancialReceivePaymentPrePayMapper frppPayMapper;
 
     @Autowired
-    private JavaSqlNameService nameService;
+    private RedisService redisService;
 
     @Override
     public ResponseBase serviceSelectByFRPaymentPrePay(FinancialReceivePaymentPrePay record) {
-        record.setJavaSqlName(nameService.get("fRPPPay"));
         return JsonData.setResultSuccess(frppPayMapper.selectByFRPaymentPrePay(record));
     }
 }

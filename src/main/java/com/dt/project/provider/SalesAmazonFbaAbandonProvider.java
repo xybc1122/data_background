@@ -61,7 +61,7 @@ public class SalesAmazonFbaAbandonProvider {
         String alias = "don";
         sql.SELECT("ps.sku,s.`shop_name`, cs.`site_name`,\n" +
                 "`fba_id`,`date`,`order_id`,`order_type`,`order_status`,\n" +
-                "`last_updated_date`, `abandon_sku`,`fn_sku`,\n" +
+                "`last_updated_date`, `abandon_sku`," + alias + ".`fn_sku`,\n" +
                 "`disposition`,`requested_quantity`, `cancelled_quantity`,`disposed_quantity`,\n" +
                 "`shipped_quantity`,`in_process_quantity`,`removal_fee`," + alias + ".`currency`,\n " +
                 "" + ProviderSqlStore.statusV(alias) + "" +
@@ -69,12 +69,12 @@ public class SalesAmazonFbaAbandonProvider {
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
         // sku
-        AppendSqlStore.sqlWhere(abandon.getSku(), "ps.`sku`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(abandon.getSku(), "ps.`sku`", sql, Constants.SELECT,alias);
         //更新日期
         if (abandon.getLastUpdatedDates() != null && (abandon.getLastUpdatedDates().size() > 0)) {
             sql.WHERE("date  " + abandon.getLastUpdatedDates().get(0) + " AND " + abandon.getLastUpdatedDates().get(1) + "");
         }
-        FieldStore.query(abandon.getClass(), abandon.getNameList(), abandon, sql);
+        FieldStore.query(abandon.getClass(), abandon.getJsonArr(), abandon, sql,alias);
         ProviderSqlStore.selectUploadStatus(sql, abandon, alias);
         return sql.toString();
     }

@@ -14,15 +14,15 @@ public class ParentTreeStore {
 
     public static void setTree(ParentTree t, SQL sql) {
         //父ID
-        AppendSqlStore.sqlWhere(t.getParentId(), "parent_id", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(t.getParentId(), "parent_id", sql, Constants.UP,null);
         //编号
-        AppendSqlStore.sqlWhere(t.getNumber(), "number", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(t.getNumber(), "number", sql, Constants.UP,null);
         //路径
-        AppendSqlStore.sqlWhere(t.getPath(), "path", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(t.getPath(), "path", sql, Constants.UP,null);
         //是否是父节点
-        AppendSqlStore.sqlWhere(t.getParentNodeIs(), "parent_node_is", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(t.getParentNodeIs(), "parent_node_is", sql, Constants.UP,null);
         //状态ID
-        AppendSqlStore.sqlWhere(t.getStatusId(), "status_id", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(t.getStatusId(), "status_id", sql, Constants.UP,null);
         Integer version = t.getVersion();
         sql.SET("version=" + version + "+1");
         sql.WHERE("version=" + version);

@@ -25,13 +25,13 @@ public interface PurchasePoReceiptNoticeMapper {
      */
     @Insert({
             "insert into purchase_po_receipt_notice (`supplier_id`,`date`, ",
-            "no, explanation,",
+            "no,explanation,",
             "fetch_add, dept_id,",
             "emp_id, manger_id,",
             "children, closed, order_confirm,",
             "print_count, status_id)",
             "values (#{supplierId,jdbcType=INTEGER},#{date,jdbcType=BIGINT},",
-            "#{no,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR},",
+            "#{prNo,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR},",
             "#{fetchAdd,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER},",
             "#{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER},",
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{orderConfirm,jdbcType=INTEGER}, ",
@@ -39,10 +39,6 @@ public interface PurchasePoReceiptNoticeMapper {
     })
     @Options(useGeneratedKeys = true, keyProperty = "rnId", keyColumn = "rn_id")
     int insertPoReceiptNotice(PurchasePoReceiptNotice record);
-
-
-    @InsertProvider(type = PurchasePoReceiptNoticeSqlProvider.class, method = "insertSelective")
-    int insertSelective(PurchasePoReceiptNotice record);
 
 
     /**
@@ -54,6 +50,7 @@ public interface PurchasePoReceiptNoticeMapper {
     @SelectProvider(type = PurchasePoReceiptNoticeSqlProvider.class, method = "selectByPoReceiptNotice")
     @Results({
             //数据库字段映射 //数据库字段映射 column数据库字段 property Java 字段
+            @Result(id = true, column = "no", property = "prNo"),
             @Result(column = "status_id", property = "systemLogStatus",
                     one = @One(
                             select = "com.dt.project.mapper.systemMapper.SystemLogStatusMapper.findSysStatusInfo",

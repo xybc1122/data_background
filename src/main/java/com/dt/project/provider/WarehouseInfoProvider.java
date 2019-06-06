@@ -22,9 +22,9 @@ public class WarehouseInfoProvider {
         SQL sql = new SQL();
         sql.UPDATE("`basic_public_warehouse`");
         //仓库地址
-        AppendSqlStore.sqlWhere(warehouse.getWarehouseAddress(), "warehouse_address", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(warehouse.getWarehouseAddress(), "warehouse_address", sql, Constants.UP,null);
         //名称
-        AppendSqlStore.sqlWhere(warehouse.getTreeName(), "warehouse_name", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(warehouse.getTreeName(), "warehouse_name", sql, Constants.UP,null);
 
         ParentTreeStore.setTree(warehouse, sql);
         sql.WHERE("warehouse_id=#{treeId}");

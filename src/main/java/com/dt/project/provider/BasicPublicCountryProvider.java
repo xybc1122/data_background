@@ -22,21 +22,21 @@ public class BasicPublicCountryProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(countryDto.getSystemLogStatus(), alias, sql);
         //国家名称
-        AppendSqlStore.sqlWhere(countryDto.getCountryName(), alias + ".country_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(countryDto.getCountryName(), alias + ".country_name", sql, Constants.SELECT,alias);
         //国家编号
-        AppendSqlStore.sqlWhere(countryDto.getNumber(), alias + ".number", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(countryDto.getNumber(), alias + ".number", sql, Constants.SELECT,alias);
         //国家英文
-        AppendSqlStore.sqlWhere(countryDto.getCountryNameEng(), alias + ".country_name_eng", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(countryDto.getCountryNameEng(), alias + ".country_name_eng", sql, Constants.SELECT,alias);
         //国家英文简写
-        AppendSqlStore.sqlWhere(countryDto.getCountryShortNameEng(), alias + ".country_short_name_eng", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(countryDto.getCountryShortNameEng(), alias + ".country_short_name_eng", sql, Constants.SELECT,alias);
         //洲名字
-        AppendSqlStore.sqlWhere(countryDto.getProvinceName(), "p.province_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(countryDto.getProvinceName(), "p.province_name", sql, Constants.SELECT,alias);
         //市名字
-        AppendSqlStore.sqlWhere(countryDto.getCityName(), "pc.city_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(countryDto.getCityName(), "pc.city_name", sql, Constants.SELECT,alias);
         //县名字
-        AppendSqlStore.sqlWhere(countryDto.getCountyName(), "pcc.`county_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(countryDto.getCountyName(), "pcc.`county_name`", sql, Constants.SELECT,alias);
         //语言
-        AppendSqlStore.sqlWhere(countryDto.getLanguageName(), "l.`language_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(countryDto.getLanguageName(), "l.`language_name`", sql, Constants.SELECT,alias);
         ProviderSqlStore.del(alias, sql);
         return sql.toString();
     }

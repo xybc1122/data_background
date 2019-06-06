@@ -28,7 +28,7 @@ public interface WarehouseIncArriveConfirmMapper {
             "status_id, version, ",
             "del_or_not)",
             "values (#{acId,jdbcType=BIGINT}, #{date,jdbcType=BIGINT}, ",
-            "#{no,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR}, ",
+            "#{acNo,jdbcType=VARCHAR}, #{explanation,jdbcType=VARCHAR}, ",
             "#{deptId,jdbcType=INTEGER}, #{empId,jdbcType=INTEGER}, #{mangerId,jdbcType=INTEGER}, ",
             "#{children,jdbcType=BIT}, #{closed,jdbcType=INTEGER}, #{closeUser,jdbcType=VARCHAR}, ",
             "#{closeDate,jdbcType=BIGINT}, #{orderConfirm,jdbcType=INTEGER}, ",
@@ -36,9 +36,6 @@ public interface WarehouseIncArriveConfirmMapper {
             "#{delOrNot,jdbcType=BIT})"
     })
     int insert(WarehouseIncArriveConfirm record);
-
-    @InsertProvider(type = WarehouseIncArriveConfirmSqlProvider.class, method = "insertSelective")
-    int insertSelective(WarehouseIncArriveConfirm record);
 
     /**
      * 查询到货确认
@@ -52,6 +49,4 @@ public interface WarehouseIncArriveConfirmMapper {
     @UpdateProvider(type = WarehouseIncArriveConfirmSqlProvider.class, method = "updateByExampleSelective")
     int updateByExampleSelective(@Param("record") WarehouseIncArriveConfirm record);
 
-    @UpdateProvider(type = WarehouseIncArriveConfirmSqlProvider.class, method = "updateByExample")
-    int updateByExample(@Param("record") WarehouseIncArriveConfirm record);
 }

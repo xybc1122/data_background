@@ -126,7 +126,7 @@ public class FinancialReceivePaymentPrePaySqlProvider {
                 "`explanation`,`annex`,`pay_user_id`,`status_id`\n" +
                 "FROM `financial_receive_payment_pre_pay` AS " + alias + "\n");
         //sql动态查询
-        FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
+        FieldStore.query(record.getClass(), record.getJsonArray(), record, sql,alias);
         ProviderSqlStore.selectStatus(record.getSystemLogStatus(), alias, sql);
         return sql.toString();
     }

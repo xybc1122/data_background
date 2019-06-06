@@ -25,11 +25,11 @@ public class BasicPublicTaxrateProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(taxrateDto.getSystemLogStatus(), alias, sql);
         //国家名称
-        AppendSqlStore.sqlWhere(taxrateDto.getCountryName(), "c.country_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(taxrateDto.getCountryName(), "c.country_name", sql, Constants.SELECT,alias);
         //税率
-        AppendSqlStore.sqlWhere(taxrateDto.getTaxRate(), alias+".tax_rate", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(taxrateDto.getTaxRate(), alias+".tax_rate", sql, Constants.SELECT,alias);
         //产品类目
-        AppendSqlStore.sqlWhere(taxrateDto.getProductsName(), "p.products_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(taxrateDto.getProductsName(), "p.products_name", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 

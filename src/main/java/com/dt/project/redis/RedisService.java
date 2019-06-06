@@ -1,14 +1,24 @@
-package com.dt.project.service.impl;
+package com.dt.project.redis;
 
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.dt.project.customize.SelValue;
 import com.dt.project.exception.LsException;
+import com.dt.project.model.purchasePo.PurchaseIcBillStockEntry;
+import com.dt.project.toos.Constants;
+import com.dt.project.utils.JsonUtils;
 import com.dt.project.utils.UuIDUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.shiro.dao.DataAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -538,5 +548,46 @@ public class RedisService {
             return false;
         }
         return false;
+    }
+
+
+    /**
+     * 拿到jSON Arr
+     *
+     * @param str
+     * @return
+     */
+    public JSONArray getRedisJson(String str, Class<?> tClass) {
+        String strKey = getStringKey(Constants.MODEL + str);
+        //如果是null就设置 然后返回数据
+        if (StringUtils.isBlank(strKey)) {
+            setSelValue(str, tClass);
+            return JsonUtils.getJsonArr(getStringKey(Constants.MODEL + str));
+        }
+        return JsonUtils.getJsonArr(strKey);
+
+    }
+
+    public void setSelValue(String str, Class<?> tableClass) {
+        List<String> c = new ArrayList<>();
+        try {
+            //DbTable dbTable = tableClass.getAnnotation(DbTable.class);//===获得类的DBTable注解
+            //String tableName = dbTable.tableName();  //===获得注解的表名
+            for (Field field : tableClass.getDeclaredFields()) { //=========便利声明为Field的注解
+                Annotation[] annotations = field.getDeclaredAnnotations();
+                for (Annotation ann : annotations) {
+                    if (ann instanceof SelValue) {
+                        SelValue ann1 = (SelValue) ann;
+                        JSONObject f = new JSONObject();
+                        f.put("sName", ann1.column());
+                        f.put("jName", ann1.property());
+                        c.add(f.toJSONString());
+                    }
+                }
+            }
+            setString(Constants.MODEL + str, c.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

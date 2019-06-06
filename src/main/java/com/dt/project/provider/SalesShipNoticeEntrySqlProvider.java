@@ -62,7 +62,7 @@ public class SalesShipNoticeEntrySqlProvider {
                 "`close_date`,`close_user`," + alias + ".`version`\n" +
                 "FROM `sales_ship_notice_entry` AS  " + alias + "");
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS sku on sku.sku_id= " + alias + ".sku_id");
-        FieldStore.query(nEntry.getClass(), nEntry.getNameList(), nEntry, sql);
+        FieldStore.query(nEntry.getClass(), nEntry.getJsonArray(), nEntry, sql,alias);
         sql.WHERE(alias + ".del_or_not=0");
         if (nEntry.getInShipNoticeList() != null && nEntry.getInShipNoticeList().size() > 0) {
             return sql.toString() + " AND " + StrUtils.in(nEntry.getInShipNoticeList(), alias + ".ship_notice_id");

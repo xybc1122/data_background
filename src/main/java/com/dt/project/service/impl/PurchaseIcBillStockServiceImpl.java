@@ -6,12 +6,10 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.mapper.purchaseMapper.PurchaseIcBillStockMapper;
 import com.dt.project.model.purchasePo.PurchaseIcBillStock;
 import com.dt.project.model.purchasePo.PurchaseIcBillStockEntry;
-import com.dt.project.model.purchasePo.PurchasePoReceiptNotice;
-import com.dt.project.model.purchasePo.PurchasePoReceiptNoticeEntry;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.SystemLogStatusService;
 import com.dt.project.service.purchaseService.PurchaseIcBillStockEntryService;
 import com.dt.project.service.purchaseService.PurchaseIcBillStockService;
-import com.dt.project.service.systemService.SystemFinalProcessingService;
 import com.dt.project.toos.Constants;
 import com.dt.project.utils.*;
 import org.apache.commons.lang3.StringUtils;
@@ -48,6 +46,7 @@ public class PurchaseIcBillStockServiceImpl implements PurchaseIcBillStockServic
     @Override
     public ResponseBase serviceSelectByIcBillStock(PurchaseIcBillStock record) {
         PageInfoUtils.setPage(record.getPageSize(), record.getCurrentPage());
+        record.setJsonArray(redisService.getRedisJson("pIBS",PurchaseIcBillStock.class));
         List<PurchaseIcBillStock> purchaseIcBillStocks = icBillStockMapper.selectByIcBillStock(record);
         if (!ListUtils.isList(purchaseIcBillStocks)) {
             return PageInfoUtils.returnPage(purchaseIcBillStocks);

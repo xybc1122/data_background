@@ -25,27 +25,27 @@ public class BasicPublicSiteProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(siteDto.getSystemLogStatus(), alias, sql);
         //站点编号
-        AppendSqlStore.sqlWhere(siteDto.getNumber(), alias + ".number", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getNumber(), alias + ".number", sql, Constants.SELECT,alias);
         //站点名称
-        AppendSqlStore.sqlWhere(siteDto.getSiteName(), alias + ".site_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getSiteName(), alias + ".site_name", sql, Constants.SELECT,alias);
         //站点英文名称
-        AppendSqlStore.sqlWhere(siteDto.getSiteNameEng(), alias + ".site_name_eng", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getSiteNameEng(), alias + ".site_name_eng", sql, Constants.SELECT,alias);
         //站点英文简称
-        AppendSqlStore.sqlWhere(siteDto.getSiteShortNameEng(), alias + ".site_short_name_eng", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getSiteShortNameEng(), alias + ".site_short_name_eng", sql, Constants.SELECT,alias);
         //URL
-        AppendSqlStore.sqlWhere(siteDto.getUrl(), alias + ".url", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getUrl(), alias + ".url", sql, Constants.SELECT,alias);
         //VAT税率
-        AppendSqlStore.sqlWhere(siteDto.getVat(), alias + ".vat", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getVat(), alias + ".vat", sql, Constants.SELECT,alias);
         //币别英文名称
-        AppendSqlStore.sqlWhere(siteDto.getCurrencyShortNameEng(), "cu.currency_short_name_eng", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getCurrencyShortNameEng(), "cu.currency_short_name_eng", sql, Constants.SELECT,alias);
         //币别名称
-        AppendSqlStore.sqlWhere(siteDto.getCurrencyName(), "cu.currency_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getCurrencyName(), "cu.currency_name", sql, Constants.SELECT,alias);
         //区域名称
-        AppendSqlStore.sqlWhere(siteDto.getAreaName(), "a.`area_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getAreaName(), "a.`area_name`", sql, Constants.SELECT,alias);
         //国家名称
-        AppendSqlStore.sqlWhere(siteDto.getCountryName(), "c.`country_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getCountryName(), "c.`country_name`", sql, Constants.SELECT,alias);
         //负责人
-        AppendSqlStore.sqlWhere(siteDto.getEmployeeName(), "e.`employee_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(siteDto.getEmployeeName(), "e.`employee_name`", sql, Constants.SELECT,alias);
         sql.GROUP_BY("s.`site_id`");
         return sql.toString();
     }

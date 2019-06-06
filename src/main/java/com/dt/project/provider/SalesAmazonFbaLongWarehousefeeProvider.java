@@ -74,7 +74,7 @@ public class SalesAmazonFbaLongWarehousefeeProvider {
         ProviderSqlStore.joinTable(sql, alias);
         if (StringUtils.isNotBlank(wFee.getSku()))
             sql.WHERE("POSITION('" + wFee.getSku() + "' IN ps.`sku`)");
-        FieldStore.query(wFee.getClass(), wFee.getNameList(), wFee, sql);
+        FieldStore.query(wFee.getClass(), wFee.getJsonArr(), wFee, sql,alias);
         ProviderSqlStore.selectUploadStatus(sql, wFee, alias);
         return sql.toString();
     }

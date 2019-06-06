@@ -3,7 +3,7 @@ package com.dt.project.controller.salesAmazonController;
 import com.dt.project.config.ResponseBase;
 import com.dt.project.model.dto.ReviewDto;
 import com.dt.project.model.salesAmazon.*;
-import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.salesAmazonService.*;
 import com.dt.project.utils.PageInfoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/fba")
 public class SalesAmazonFbaController {
-    @Autowired
-    private JavaSqlNameService nameService;
-
     @Autowired
     private SalesAmazonFbaBusinessreportService busService;
     @Autowired
@@ -46,6 +43,9 @@ public class SalesAmazonFbaController {
 
     @Autowired
     private SalesAmazonFbaReviewService reviewService;
+
+    @Autowired
+    private RedisService redisService;
 
     /**
      * 查询业务报告信息
@@ -113,8 +113,6 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getAbandonInfo")
     public ResponseBase getAbandonInfo(@RequestBody SalesAmazonFbaAbandon abandon) {
-        //这里放入缓存
-        abandon.setNameList(nameService.get("abandon"));
         PageInfoUtils.setPage(abandon.getPageSize(), abandon.getCurrentPage());
         return PageInfoUtils.returnPage(abandonService.serviceFindByListAbandon(abandon));
     }
@@ -127,8 +125,6 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getMWarInfo")
     public ResponseBase getMWarInfo(@RequestBody SalesAmazonFbaMonthWarehouseFee mFee) {
-        //这里放入缓存
-        mFee.setNameList(nameService.get("monthWarehouseFee"));
         PageInfoUtils.setPage(mFee.getPageSize(), mFee.getCurrentPage());
         return PageInfoUtils.returnPage(mWarService.serviceFindByListMWar(mFee));
     }
@@ -140,8 +136,6 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getLWarInfo")
     public ResponseBase getLWarInfo(@RequestBody SalesAmazonFbaLongWarehouseFee lFee) {
-        //这里放入缓存
-        lFee.setNameList(nameService.get("longWarehouseFee"));
         PageInfoUtils.setPage(lFee.getPageSize(), lFee.getCurrentPage());
         return PageInfoUtils.returnPage(lWarService.serviceSelectByLongWarehouse(lFee));
 
@@ -154,8 +148,6 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getHlFee")
     public ResponseBase getHlFee(@RequestBody SalesAmazonFbaHandlingFee hlFee) {
-        hlFee.setNameList(nameService.get("handlingFee"));
-        PageInfoUtils.setPage(hlFee.getPageSize(), hlFee.getCurrentPage());
         return PageInfoUtils.returnPage(hlingFeeService.serviceSelectByHandLFee(hlFee));
     }
 
@@ -166,7 +158,6 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getFeedback")
     public ResponseBase getFeedback(@RequestBody SalesAmazonFbaFeedback feedback) {
-        feedback.setNameList(nameService.get("feedback"));
         PageInfoUtils.setPage(feedback.getPageSize(), feedback.getCurrentPage());
         return PageInfoUtils.returnPage(feedbackService.serviceSelectByFeedback(feedback));
     }
@@ -188,7 +179,6 @@ public class SalesAmazonFbaController {
      */
     @PostMapping("/getReview")
     public ResponseBase getReview(@RequestBody ReviewDto reviewDto) {
-        reviewDto.setNameList(nameService.get("review"));
         PageInfoUtils.setPage(reviewDto.getPageSize(), reviewDto.getCurrentPage());
         return PageInfoUtils.returnPage(reviewService.serviceSelectByReview(reviewDto));
     }

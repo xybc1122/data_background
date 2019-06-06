@@ -31,51 +31,51 @@ public class BasicPublicProductProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(productDto.getSystemLogStatus(), alias, sql);
         //产品代码
-        AppendSqlStore.sqlWhere(productDto.getProductCode(), alias + ".product_code", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getProductCode(), alias + ".product_code", sql, Constants.SELECT,alias);
 
         //产品名称
-        AppendSqlStore.sqlWhere(productDto.getProductName(), alias + ".product_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getProductName(), alias + ".product_name", sql, Constants.SELECT,alias);
         //规格型号
-        AppendSqlStore.sqlWhere(productDto.getModel(), alias + ".model", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getModel(), alias + ".model", sql, Constants.SELECT,alias);
         //每箱数量
-        AppendSqlStore.sqlWhere(productDto.getQtyPerBox(), alias + ".qty_per_box", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getQtyPerBox(), alias + ".qty_per_box", sql, Constants.SELECT,alias);
         //产品SKU
-        AppendSqlStore.sqlWhere(productDto.getProductSku(), "product_sku", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getProductSku(), "product_sku", sql, Constants.SELECT,alias);
 
         //长度CM
-        AppendSqlStore.sqlWhere(productDto.getLengthCm(), alias + ".length_cm", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getLengthCm(), alias + ".length_cm", sql, Constants.SELECT,alias);
         //宽度CM
-        AppendSqlStore.sqlWhere(productDto.getWidthCm(), alias + ".width_cm", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getWidthCm(), alias + ".width_cm", sql, Constants.SELECT,alias);
         //高度CM
-        AppendSqlStore.sqlWhere(productDto.getHeightCm(), alias + ".height_cm", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getHeightCm(), alias + ".height_cm", sql, Constants.SELECT,alias);
         //毛重KG
-        AppendSqlStore.sqlWhere(productDto.getGwKg(), alias + ".gw_kg", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getGwKg(), alias + ".gw_kg", sql, Constants.SELECT,alias);
         //净重
-        AppendSqlStore.sqlWhere(productDto.getNwKg(), alias + ".nw_kg", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getNwKg(), alias + ".nw_kg", sql, Constants.SELECT,alias);
         //体积m
-        AppendSqlStore.sqlWhere(productDto.getVolumeM3(), alias + ".volume_m3", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getVolumeM3(), alias + ".volume_m3", sql, Constants.SELECT,alias);
         //长度英寸
-        AppendSqlStore.sqlWhere(productDto.getLengthIn(), alias + ".length_in", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getLengthIn(), alias + ".length_in", sql, Constants.SELECT,alias);
         //宽度英寸
-        AppendSqlStore.sqlWhere(productDto.getQtyPerBox(), alias + ".width_in", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getQtyPerBox(), alias + ".width_in", sql, Constants.SELECT,alias);
         //高度英寸
-        AppendSqlStore.sqlWhere(productDto.getHeightIn(), alias + ".height_in", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getHeightIn(), alias + ".height_in", sql, Constants.SELECT,alias);
         //体积立方英尺
-        AppendSqlStore.sqlWhere(productDto.getVolumeCuft(), alias + ".volume_cuft", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getVolumeCuft(), alias + ".volume_cuft", sql, Constants.SELECT,alias);
         //产地
-        AppendSqlStore.sqlWhere(productDto.getMadeIn(), "p.made_in", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getMadeIn(), "p.made_in", sql, Constants.SELECT,alias);
 
         //计量 单位名称
-        AppendSqlStore.sqlWhere(productDto.getUnitName(), "u.unit_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getUnitName(), "u.unit_name", sql, Constants.SELECT,alias);
 
         //物料类型 名称
-        AppendSqlStore.sqlWhere(productDto.getItemTypName(), "it.item_typ_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getItemTypName(), "it.item_typ_name", sql, Constants.SELECT,alias);
         // 物料属性名称
-        AppendSqlStore.sqlWhere(productDto.getItemAttributeName(), "ia.item_attribute_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getItemAttributeName(), "ia.item_attribute_name", sql, Constants.SELECT,alias);
         // 类目名称
-        AppendSqlStore.sqlWhere(productDto.getProductsName(), "ps.products_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getProductsName(), "ps.products_name", sql, Constants.SELECT,alias);
         //  HS Code
-        AppendSqlStore.sqlWhere(productDto.getHsCode(), "hc.hs_code", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(productDto.getHsCode(), "hc.hs_code", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 
@@ -84,45 +84,45 @@ public class BasicPublicProductProvider {
         SQL sql = new SQL();
         sql.UPDATE("`basic_public_product`");
         //产品代码
-        AppendSqlStore.sqlWhere(product.getProductCode(), "product_code", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getProductCode(), "product_code", sql, Constants.UP,null);
         //产品名称
-        AppendSqlStore.sqlWhere(product.getProductName(), "product_name", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getProductName(), "product_name", sql, Constants.UP,null);
         //规格型号
-        AppendSqlStore.sqlWhere(product.getModel(), "model", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getModel(), "model", sql, Constants.UP,null);
         //每箱数量
-        AppendSqlStore.sqlWhere(product.getQtyPerBox(), "qty_per_box", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getQtyPerBox(), "qty_per_box", sql, Constants.UP,null);
         //物料类型ID
-        AppendSqlStore.sqlWhere(product.getItemTypId(), "item_typ_id", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getItemTypId(), "item_typ_id", sql, Constants.UP,null);
         //物料属性ID
-        AppendSqlStore.sqlWhere(product.getItemAttributeId(), "item_attribute_id", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getItemAttributeId(), "item_attribute_id", sql, Constants.UP,null);
         //产品SKU
-        AppendSqlStore.sqlWhere(product.getProductSku(), "product_sku", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getProductSku(), "product_sku", sql, Constants.UP,null);
         //类目ID
-        AppendSqlStore.sqlWhere(product.getProductsId(), "products_id", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getProductsId(), "products_id", sql, Constants.UP,null);
         //长度CM
-        AppendSqlStore.sqlWhere(product.getLengthCm(), "length_cm", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getLengthCm(), "length_cm", sql, Constants.UP,null);
         //宽度CM
-        AppendSqlStore.sqlWhere(product.getWidthCm(), "width_cm", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getWidthCm(), "width_cm", sql, Constants.UP,null);
         //高度CM
-        AppendSqlStore.sqlWhere(product.getHeightCm(), "height_cm", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getHeightCm(), "height_cm", sql, Constants.UP,null);
         //毛重KG
-        AppendSqlStore.sqlWhere(product.getGwKg(), "gw_kg", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getGwKg(), "gw_kg", sql, Constants.UP,null);
         //净重
-        AppendSqlStore.sqlWhere(product.getNwKg(), "nw_kg", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getNwKg(), "nw_kg", sql, Constants.UP,null);
         //体积m
-        AppendSqlStore.sqlWhere(product.getVolumeM3(), "volume_m3", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getVolumeM3(), "volume_m3", sql, Constants.UP,null);
         //长度英寸
-        AppendSqlStore.sqlWhere(product.getLengthIn(), "length_in", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getLengthIn(), "length_in", sql, Constants.UP,null);
         //宽度英寸
-        AppendSqlStore.sqlWhere(product.getQtyPerBox(), "width_in", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getQtyPerBox(), "width_in", sql, Constants.UP,null);
         //高度英寸
-        AppendSqlStore.sqlWhere(product.getHeightIn(), "height_in", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getHeightIn(), "height_in", sql, Constants.UP,null);
         //体积立方英尺
-        AppendSqlStore.sqlWhere(product.getVolumeCuft(), "volume_cuft", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getVolumeCuft(), "volume_cuft", sql, Constants.UP,null);
         //产地
-        AppendSqlStore.sqlWhere(product.getMadeIn(), "made_in", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getMadeIn(), "made_in", sql, Constants.UP,null);
         //  HS Code
-        AppendSqlStore.sqlWhere(product.getHsCodeId(), "hs_code_id", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(product.getHsCodeId(), "hs_code_id", sql, Constants.UP,null);
         Integer version = product.getVersion();
         sql.SET("`version`=" + version + "+1");
         sql.WHERE("`version`=" + version);

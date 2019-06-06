@@ -35,14 +35,14 @@ public class AppendSqlStore {
      * @param v   数据库的字段
      * @param sql
      */
-    public static void sqlWhere(Object k, String v, SQL sql, String status) {
+    public static void sqlWhere(Object k, String v, SQL sql, String status, String alias) {
         String c = vJudge(v);
         if (k != null && k != "") {
             if (status.equals(Constants.SELECT)) {
                 if (k instanceof String) {
-                    sql.WHERE("POSITION('" + k + "' IN " + c + ")");
+                    sql.WHERE("POSITION('" + k + "' IN " + alias + "." + c + ")");
                 } else {
-                    sql.WHERE(c + "=" + k);
+                    sql.WHERE(alias + "." + c + "=" + k);
                 }
             } else if (status.equals(Constants.UP)) {
                 if (k instanceof String) {

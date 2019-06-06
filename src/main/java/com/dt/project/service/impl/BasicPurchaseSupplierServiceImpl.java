@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.mapper.basePublicMapper.BasicPurchaseSupplierMapper;
 import com.dt.project.model.basePublic.BasicPurchaseSupplier;
-import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.basePublicService.BasicPurchaseSupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +22,11 @@ public class BasicPurchaseSupplierServiceImpl implements BasicPurchaseSupplierSe
 
 
     @Autowired
-    private JavaSqlNameService nameService;
+    private RedisService redisService;
 
     @Override
     public List<BasicPurchaseSupplier> selectByPurchaseSupplier(BasicPurchaseSupplier pSupplier) {
-        pSupplier.setJavaSqlName(nameService.get("pSupp"));
+        pSupplier.setJsonArray(redisService.getRedisJson("pSupp", BasicPurchaseSupplier.class));
         return pSuppMapper.selectByPurchaseSupplier(pSupplier);
     }
 }

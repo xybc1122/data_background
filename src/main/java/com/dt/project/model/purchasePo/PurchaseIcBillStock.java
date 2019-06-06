@@ -1,5 +1,6 @@
 package com.dt.project.model.purchasePo;
 
+import com.dt.project.customize.SelValue;
 import com.dt.project.model.parent.ParentDocument;
 import com.dt.project.model.parent.ParentSysTemLog;
 
@@ -9,19 +10,35 @@ import java.util.List;
  * 入库接口
  */
 public class PurchaseIcBillStock extends ParentDocument {
+
+
+    @SelValue(column = "sb_id",property = "sbId")
     private Long sbId;
-
+    /**
+     * 入库No
+     */
+    @SelValue(column = "no",property = "icNo")
+    private String icNo;
+    @SelValue(column = "years",property = "years")
     private Integer years;
-
+    @SelValue(column = "period",property = "period")
     private Integer period;
-
+    @SelValue(column = "explanation",property = "explanation")
     private String explanation;
-
+    @SelValue(column = "closed",property = "closed")
     private Integer closed;
-
+    @SelValue(column = "order_confirm",property = "orderConfirm")
     private Integer orderConfirm;
 
-    private Integer printCount;
+
+
+    public String getIcNo() {
+        return icNo;
+    }
+
+    public void setIcNo(String icNo) {
+        this.icNo = icNo;
+    }
 
     public Long getSbId() {
         return sbId;
@@ -70,13 +87,5 @@ public class PurchaseIcBillStock extends ParentDocument {
 
     public void setOrderConfirm(Integer orderConfirm) {
         this.orderConfirm = orderConfirm;
-    }
-
-    public Integer getPrintCount() {
-        return printCount;
-    }
-
-    public void setPrintCount(Integer printCount) {
-        this.printCount = printCount;
     }
 }

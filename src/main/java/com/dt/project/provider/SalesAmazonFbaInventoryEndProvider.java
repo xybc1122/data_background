@@ -49,27 +49,27 @@ public class SalesAmazonFbaInventoryEndProvider {
         sql.LEFT_OUTER_JOIN("`basic_public_sku` AS ps ON ps.`sku_id` = " + alias + ".`sku_id`");
         ProviderSqlStore.joinTable(sql, alias);
         // sku
-        AppendSqlStore.sqlWhere(inv.getSku(), "ps.`sku`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(inv.getSku(), "ps.`sku`", sql, Constants.SELECT,alias);
         // inv_sku
-        AppendSqlStore.sqlWhere(inv.getInvSku(), "`inv_sku`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(inv.getInvSku(), "`inv_sku`", sql, Constants.SELECT,alias);
         //fn_sku
-        AppendSqlStore.sqlWhere(inv.getFnSku(), "`fn_sku`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(inv.getFnSku(), "`fn_sku`", sql, Constants.SELECT,alias);
         //产品名称
-        AppendSqlStore.sqlWhere(inv.getProductName(), "`product_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(inv.getProductName(), "`product_name`", sql, Constants.SELECT,alias);
         //接收数量
         if (inv.getQuantity() != null) {
             sql.WHERE("quantity=#{quantity}");
         }
         //亚马逊仓库代码
-        AppendSqlStore.sqlWhere(inv.getFc(), "`fc`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(inv.getFc(), "`fc`", sql, Constants.SELECT,alias);
         //亚马逊仓库ID
         if (inv.getAwId() != null) {
             sql.WHERE("aw_id=#{awId}");
         }
         //未知
-        AppendSqlStore.sqlWhere(inv.getDisposition(), "`disposition`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(inv.getDisposition(), "`disposition`", sql, Constants.SELECT,alias);
         //未知
-        AppendSqlStore.sqlWhere(inv.getCountry(), "`country`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(inv.getCountry(), "`country`", sql, Constants.SELECT,alias);
         ProviderSqlStore.selectUploadStatus(sql, inv, alias);
         return sql.toString();
     }

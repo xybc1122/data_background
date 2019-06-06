@@ -43,7 +43,7 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
         sb.append("insert into purchase_po_receipt_notice_entry" +
                 "(entry_id,rn_id, product_id, poe_id, delivery_date," +
                 "warehouse_id, position_id,quantity, transport_company_id," +
-                "tracking_number, e_remark, row_closed) value");
+                "tracking_number, e_remark, row_closed,source_type_id,source_id) value");
         for (PurchasePoReceiptNoticeEntry receiptNoticeEntry : receiptNoticeEntryList) {
             sb.append("(").append(receiptNoticeEntry.getEntryId()).append(",").append(receiptNoticeEntry.getRnId()).append(",")
                     .append(receiptNoticeEntry.getProductId())
@@ -53,7 +53,8 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
             StrUtils.appBuider(sb, receiptNoticeEntry.getTrackingNumber());
             sb.append(",");
             StrUtils.appBuider(sb, receiptNoticeEntry.geteRemark());
-            sb.append(",").append(receiptNoticeEntry.getRowClosed());
+            sb.append(",").append(receiptNoticeEntry.getRowClosed()).append(",").
+                    append(receiptNoticeEntry.getSourceTypeId()).append(",").append(receiptNoticeEntry.getSourceId());
             sb.append("),");
         }
         return sb.toString().substring(0, sb.length() - 1);
@@ -62,8 +63,7 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
     public String selectByPRNoticeEntry(PurchasePoReceiptNoticeEntry record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "rne";
-        sql.SELECT("bltC.`transport_company_name`,bpwP.`position_name`,bpw.`warehouse_name`," +
-                "bpp.`product_name`,`rne_id`,`entry_id`,`rn_id`,\n" +
+        sql.SELECT("" + ProviderSqlStore.docChildV() + ",bltC.`transport_company_name`,`rne_id`,`entry_id`,`rn_id`,\n" +
                 "" + alias + ".`product_id`,`source_type_id`,\n" +
                 "`source_id`,`poe_id`,`delivery_date`," + alias + ".`warehouse_id`,\n" +
                 "" + alias + ".`position_id`,`quantity`,\n" +
@@ -71,20 +71,12 @@ public class PurchasePoReceiptNoticeEntrySqlProvider {
                 "" + alias + ".`e_remark`,`row_closed`," + alias + ".`version`\n" +
                 "FROM `purchase_po_receipt_notice_entry` AS " + alias + "");
         //sql动态查询
-        FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
-        sql.LEFT_OUTER_JOIN("basic_public_product AS bpp on bpp.product_id = " + alias + ".`product_id`");
-        sql.LEFT_OUTER_JOIN("basic_public_warehouse AS bpw on bpw.warehouse_id = " + alias + ".`warehouse_id`");
-        sql.LEFT_OUTER_JOIN("basic_public_warehouse_position AS bpwP on bpwP.position_id = " + alias + ".`position_id`");
+        FieldStore.query(record.getClass(), record.getJsonArray(), record, sql,alias);
         sql.LEFT_OUTER_JOIN("basic_logisticsmgt_transport_company AS bltC on bltC.transport_company_id = " + alias + ".`transport_company_id`");
-        //查询产品名
-        AppendSqlStore.sqlWhere(record.getProductName(), "bpp.`product_name`", sql, Constants.SELECT);
-        //查询仓库名
-        AppendSqlStore.sqlWhere(record.getWarehouseName(), "bpw.`warehouse_name`", sql, Constants.SELECT);
-        //查询仓位
-        AppendSqlStore.sqlWhere(record.getPositionName(), "bpwP.`position_name`", sql, Constants.SELECT);
+        //字表通用查询
+        ProviderSqlStore.setDocumentChild(sql, alias, record);
         //查询货运公司
-        AppendSqlStore.sqlWhere(record.getTransportCompanyName(), "bltC.`transport_company_name`", sql, Constants.SELECT);
-
+        AppendSqlStore.sqlWhere(record.getTransportCompanyName(), "bltC.`transport_company_name`", sql, Constants.SELECT,alias);
         sql.WHERE(alias + ".`del_or_not`=0");
         if (record.getInList() != null && record.getInList().size() > 0) {
             return sql.toString() + " AND " + StrUtils.in(record.getInList(), "rn_id");

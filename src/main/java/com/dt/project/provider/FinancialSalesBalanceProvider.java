@@ -125,101 +125,101 @@ public class FinancialSalesBalanceProvider {
 
         ProviderSqlStore.joinTable(sql, alias);
         //结算号
-        AppendSqlStore.sqlWhere(fbs.getSettlementId(), "settlement_id", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getSettlementId(), "settlement_id", sql, Constants.SELECT,alias);
         //付款类型
-        AppendSqlStore.sqlWhere(fbs.getPaymentTypeId(), "payment_type_id", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getPaymentTypeId(), "payment_type_id", sql, Constants.SELECT,alias);
         //类型
-        AppendSqlStore.sqlWhere(fbs.getType(), "type", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getType(), "type", sql, Constants.SELECT,alias);
         //订单号
-        AppendSqlStore.sqlWhere(fbs.getOrderId(), "order_id", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getOrderId(), "order_id", sql, Constants.SELECT,alias);
         // 链表sku
-        AppendSqlStore.sqlWhere(fbs.getSkuId(), "`sku_id`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getSkuId(), "`sku_id`", sql, Constants.SELECT,alias);
         //自表sku
-        AppendSqlStore.sqlWhere(fbs.getFinancialSku(), "financial_sku", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getFinancialSku(), "financial_sku", sql, Constants.SELECT,alias);
         //产品描述
-        AppendSqlStore.sqlWhere(fbs.getDescription(), "description", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getDescription(), "description", sql, Constants.SELECT,alias);
         //原始数量
-        AppendSqlStore.sqlWhere(fbs.getoQuantity(), "o_quantity", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getoQuantity(), "o_quantity", sql, Constants.SELECT,alias);
         //发货数量
-        AppendSqlStore.sqlWhere(fbs.getQuantity(), "quantity", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getQuantity(), "quantity", sql, Constants.SELECT,alias);
         //退货数量
-        AppendSqlStore.sqlWhere(fbs.getRefundQuantity(), "refund_quantity", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getRefundQuantity(), "refund_quantity", sql, Constants.SELECT,alias);
         //订单数量
-        AppendSqlStore.sqlWhere(fbs.getOrderQty(), "order_qty", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getOrderQty(), "order_qty", sql, Constants.SELECT,alias);
         //调整数量
-        AppendSqlStore.sqlWhere(fbs.getAdjustmentQty(), "adjustment_qty", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getAdjustmentQty(), "adjustment_qty", sql, Constants.SELECT,alias);
         //市场
-        AppendSqlStore.sqlWhere(fbs.getMarketplace(), "marketplace", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getMarketplace(), "marketplace", sql, Constants.SELECT,alias);
         //运输
-        AppendSqlStore.sqlWhere(fbs.getFulfillment(), "fulfillment", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getFulfillment(), "fulfillment", sql, Constants.SELECT,alias);
         //城市
-        AppendSqlStore.sqlWhere(fbs.getCity(), "city", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getCity(), "city", sql, Constants.SELECT,alias);
         //州
-        AppendSqlStore.sqlWhere(fbs.getState(), "state", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getState(), "state", sql, Constants.SELECT,alias);
         //邮编
-        AppendSqlStore.sqlWhere(fbs.getPostal(), "postal", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getPostal(), "postal", sql, Constants.SELECT,alias);
         //金额
-        AppendSqlStore.sqlWhere(fbs.getSales(), "sales", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getSales(), "sales", sql, Constants.SELECT,alias);
         //销售单价
-        AppendSqlStore.sqlWhere(fbs.getSalePrice(), "sale_price", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getSalePrice(), "sale_price", sql, Constants.SELECT,alias);
         //上期销售价
-        AppendSqlStore.sqlWhere(fbs.getPreSalePrice(), "pre_sale_price", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getPreSalePrice(), "pre_sale_price", sql, Constants.SELECT,alias);
         //标准售价
-        AppendSqlStore.sqlWhere(fbs.getStdSalePrice(), "std_sale_price", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getStdSalePrice(), "std_sale_price", sql, Constants.SELECT,alias);
         //新运费
-        AppendSqlStore.sqlWhere(fbs.getNewShippingCredits(), "new_shipping_credits", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getNewShippingCredits(), "new_shipping_credits", sql, Constants.SELECT,alias);
         //运费
-        AppendSqlStore.sqlWhere(fbs.getShippingCredits(), "shipping_credits", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getShippingCredits(), "shipping_credits", sql, Constants.SELECT,alias);
         //礼物卡
-        AppendSqlStore.sqlWhere(fbs.getGiftwrapCredits(), "giftwrap_credits", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getGiftwrapCredits(), "giftwrap_credits", sql, Constants.SELECT,alias);
         //促销折扣
-        AppendSqlStore.sqlWhere(fbs.getPromotionalRebates(), "promotional_rebates", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getPromotionalRebates(), "promotional_rebates", sql, Constants.SELECT,alias);
         //销售税
-        AppendSqlStore.sqlWhere(fbs.getSalesTax(), "sales_tax", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getSalesTax(), "sales_tax", sql, Constants.SELECT,alias);
         //市场服务税
-        AppendSqlStore.sqlWhere(fbs.getMarketplaceFacilitatorTax(), "marketplace_facilitator_tax", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getMarketplaceFacilitatorTax(), "marketplace_facilitator_tax", sql, Constants.SELECT,alias);
         //低价值商品(澳洲)
-        AppendSqlStore.sqlWhere(fbs.getLowValueGoods(), "low_value_goods", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getLowValueGoods(), "low_value_goods", sql, Constants.SELECT,alias);
         //积分费用(日本ポイントの費用)
-        AppendSqlStore.sqlWhere(fbs.getPointFee(), "point_fee", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getPointFee(), "point_fee", sql, Constants.SELECT,alias);
         //销售费用
-        AppendSqlStore.sqlWhere(fbs.getSellingFees(), "selling_fees", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getSellingFees(), "selling_fees", sql, Constants.SELECT,alias);
         //FBA费用
-        AppendSqlStore.sqlWhere(fbs.getFbaFee(), "fba_fee", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getFbaFee(), "fba_fee", sql, Constants.SELECT,alias);
         //其他交易费
-        AppendSqlStore.sqlWhere(fbs.getOtherTransactionFees(), "other_transaction_fees", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getOtherTransactionFees(), "other_transaction_fees", sql, Constants.SELECT,alias);
         //其他
-        AppendSqlStore.sqlWhere(fbs.getOther(), "other", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getOther(), "other", sql, Constants.SELECT,alias);
         //总计
-        AppendSqlStore.sqlWhere(fbs.getTotal(), "total", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getTotal(), "total", sql, Constants.SELECT,alias);
         //广告费
-        AppendSqlStore.sqlWhere(fbs.getOther(), "service_fee", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getOther(), "service_fee", sql, Constants.SELECT,alias);
         //转账
-        AppendSqlStore.sqlWhere(fbs.getTransfer(), "transfer", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getTransfer(), "transfer", sql, Constants.SELECT,alias);
         //调整
-        AppendSqlStore.sqlWhere(fbs.getAdjustment(), "adjustment", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getAdjustment(), "adjustment", sql, Constants.SELECT,alias);
         //新促销折扣
-        AppendSqlStore.sqlWhere(fbs.getNewPromotionalRebates(), "new_promotional_rebates", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getNewPromotionalRebates(), "new_promotional_rebates", sql, Constants.SELECT,alias);
         //运费_FBA
-        AppendSqlStore.sqlWhere(fbs.getNewShippingFba(), "new_shipping_fba", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getNewShippingFba(), "new_shipping_fba", sql, Constants.SELECT,alias);
         //标准产品售价
-        AppendSqlStore.sqlWhere(fbs.getStdProductSales(), "std_product_sales", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getStdProductSales(), "std_product_sales", sql, Constants.SELECT,alias);
         //原始标准售价
-        AppendSqlStore.sqlWhere(fbs.getStdSalesOriginal(), "std_sales_original", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getStdSalesOriginal(), "std_sales_original", sql, Constants.SELECT,alias);
         //标准售价增加
-        AppendSqlStore.sqlWhere(fbs.getStdSalesAdd(), "std_sales_add", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getStdSalesAdd(), "std_sales_add", sql, Constants.SELECT,alias);
         //标准售价降低
-        AppendSqlStore.sqlWhere(fbs.getStdSalesAdd(), "std_sales_minus", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getStdSalesAdd(), "std_sales_minus", sql, Constants.SELECT,alias);
         //标准FBA
-        AppendSqlStore.sqlWhere(fbs.getStdFba(), "std_fba", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getStdFba(), "std_fba", sql, Constants.SELECT,alias);
         //标准FBA费
-        AppendSqlStore.sqlWhere(fbs.getStdFbas(), "std_fbas", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getStdFbas(), "std_fbas", sql, Constants.SELECT,alias);
         //原始标准FBA费
-        AppendSqlStore.sqlWhere(fbs.getStdFbaOriginal(), "std_fba_original", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getStdFbaOriginal(), "std_fba_original", sql, Constants.SELECT,alias);
         //秒杀费
-        AppendSqlStore.sqlWhere(fbs.getLightningDealFee(), "lightning_deal_fee", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getLightningDealFee(), "lightning_deal_fee", sql, Constants.SELECT,alias);
         //FBA仓储费
-        AppendSqlStore.sqlWhere(fbs.getFbaInventoryFee(), "fba_inventory_fee", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(fbs.getFbaInventoryFee(), "fba_inventory_fee", sql, Constants.SELECT,alias);
         //这里这样写是性能优化后的sql
 //        //店铺名称
 //        if (fbs.getShopId() != null) {

@@ -1,9 +1,11 @@
 package com.dt.project.provider;
 
+import com.alibaba.fastjson.JSONArray;
 import com.dt.project.model.salesAmazon.SalesAmazonFbaHandlingFee;
 import com.dt.project.store.AppendSqlStore;
 import com.dt.project.store.FieldStore;
 import com.dt.project.store.ProviderSqlStore;
+import com.dt.project.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -48,7 +50,10 @@ public class SalesAmazonFbaHandlingFeeProvider {
         if (lFee.getEffectiveDates() != null && (lFee.getEffectiveDates().size() > 0)) {
             sql.WHERE("date  " + lFee.getEffectiveDates().get(0) + " AND " + lFee.getEffectiveDates().get(1) + "");
         }
-        FieldStore.query(lFee.getClass(), lFee.getNameList(), lFee, sql);
+        FieldStore.query(lFee.getClass(), lFee.getJsonArr(), lFee, sql,alias);
+//        FieldStore.query(lFee.getClass(), null, lFee, sql);
+
+
         ProviderSqlStore.selectUploadStatus(sql, lFee, alias);
         return sql.toString();
     }

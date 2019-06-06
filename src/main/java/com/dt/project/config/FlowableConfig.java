@@ -15,6 +15,8 @@ import javax.sql.DataSource;
  * Description TODO
  * @Author 陈恩惠
  * @Date 2019/6/5 12:42
+ *
+ * 配置flowable
  **/
 @Configuration
 public class FlowableConfig {

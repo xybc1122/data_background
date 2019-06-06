@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticePackingListEntryMapper;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingListEntry;
-import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticePackingListEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,12 @@ public class SalesShipNoticePackingListEntryServiceImpl implements SalesShipNoti
     @Autowired
     private SalesShipNoticePackingListEntryMapper pLEMapper;
     @Autowired
-    private JavaSqlNameService nameService;
+    private RedisService redisService;
 
     @Override
     public List<SalesShipNoticePackingListEntry> serviceSelectPackingListEntry(SalesShipNoticePackingListEntry pLEntry) {
         //这里放入缓存
-        pLEntry.setNameList(nameService.get("pLEntry"));
+        pLEntry.setJsonArray(redisService.getRedisJson("",SalesShipNoticePackingListEntry.class));
         return pLEMapper.selectPackingListEntry(pLEntry);
     }
 }

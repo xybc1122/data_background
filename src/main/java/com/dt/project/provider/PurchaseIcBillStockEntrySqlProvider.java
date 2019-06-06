@@ -56,13 +56,15 @@ public class PurchaseIcBillStockEntrySqlProvider {
     public String selectByIcBillStockEntry(PurchaseIcBillStockEntry record) throws IllegalAccessException {
         SQL sql = new SQL();
         String alias = "bse";
-        sql.SELECT("`sbe_id`,`entry_id`,`sb_id`,`product_id`,\n" +
+        sql.SELECT("" + ProviderSqlStore.docChildV() + ",`sbe_id`,`entry_id`,`sb_id`," + alias + ".`product_id`,\n" +
                 "`source_type_id`,`source_id`,`rne_id`,\n" +
-                "`warehouse_id`,`position_id`,\n" +
+                "" + alias + ".`warehouse_id`," + alias + ".`position_id`,\n" +
                 "`quantity`," + alias + ".`e_remark`,`row_closed`," + alias + ".`version`\n" +
                 "FROM `purchase_ic_bill_stock_entry` AS " + alias + "");
         //sql动态查询
-        FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
+        FieldStore.query(record.getClass(), record.getJsonArray(), record, sql,alias);
+        //字表通用查询
+        ProviderSqlStore.setDocumentChild(sql, alias, record);
         sql.WHERE(alias + ".`del_or_not`=0");
         if (record.getInList() != null && record.getInList().size() > 0) {
             return sql.toString() + " AND " + StrUtils.in(record.getInList(), "sb_id");

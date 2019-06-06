@@ -28,13 +28,13 @@ public class BasicSalesAmazonDescriptionProvider {
         ProviderSqlStore.selectStatus(description.getSystemLogStatus(), alias, sql);
 
         //站点名称
-        AppendSqlStore.sqlWhere(description.getSiteName(), "s.site_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(description.getSiteName(), "s.site_name", sql, Constants.SELECT,alias);
         //订单描述名称
-        AppendSqlStore.sqlWhere(description.getOrderDescriptionName(), alias + ".order_description_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(description.getOrderDescriptionName(), alias + ".order_description_name", sql, Constants.SELECT,alias);
         //原订单描述
-        AppendSqlStore.sqlWhere(description.getOldOrderDescription(), alias + ".old_order_description", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(description.getOldOrderDescription(), alias + ".old_order_description", sql, Constants.SELECT,alias);
         //新订单描述
-        AppendSqlStore.sqlWhere(description.getNewOrderDescription(), alias + ".new_order_description", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(description.getNewOrderDescription(), alias + ".new_order_description", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 }

@@ -64,7 +64,7 @@ public class AdminController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 获取用户管理信息
      * @apiParam {Integer} currentPage 当前页 :必填
@@ -126,7 +126,7 @@ public class AdminController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 用于更新用户信息
      * @apiParam {String} userName 账号

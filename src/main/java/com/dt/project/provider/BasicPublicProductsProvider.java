@@ -23,7 +23,7 @@ public class BasicPublicProductsProvider {
         SQL sql = new SQL();
         sql.UPDATE("`basic_public_products`");
         //类目名称
-        AppendSqlStore.sqlWhere(products.getTreeName(), "products_name", sql, Constants.UP);
+        AppendSqlStore.sqlWhere(products.getTreeName(), "products_name", sql, Constants.UP,null);
         ParentTreeStore.setTree(products, sql);
         sql.WHERE("products_id=#{treeId}");
         return sql.toString();

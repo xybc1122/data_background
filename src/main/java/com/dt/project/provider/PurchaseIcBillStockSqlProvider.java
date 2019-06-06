@@ -39,76 +39,6 @@ public class PurchaseIcBillStockSqlProvider {
         return SQL();
     }
 
-    public String insertSelective(PurchaseIcBillStock record) {
-        BEGIN();
-        INSERT_INTO("purchase_ic_bill_stock");
-
-        if (record.getSbId() != null) {
-            VALUES("sb_id", "#{sbId,jdbcType=BIGINT}");
-        }
-
-//        if (record.getDate() != null) {
-//            VALUES("date", "#{date,jdbcType=BIGINT}");
-//        }
-
-        if (record.getNo() != null) {
-            VALUES("no", "#{no,jdbcType=VARCHAR}");
-        }
-
-        if (record.getExplanation() != null) {
-            VALUES("explanation", "#{explanation,jdbcType=VARCHAR}");
-        }
-
-        if (record.getDeptId() != null) {
-            VALUES("dept_id", "#{deptId,jdbcType=INTEGER}");
-        }
-
-        if (record.getEmpId() != null) {
-            VALUES("emp_id", "#{empId,jdbcType=INTEGER}");
-        }
-
-        if (record.getMangerId() != null) {
-            VALUES("manger_id", "#{mangerId,jdbcType=INTEGER}");
-        }
-
-        if (record.getChildren() != null) {
-            VALUES("children", "#{children,jdbcType=BIT}");
-        }
-
-        if (record.getClosed() != null) {
-            VALUES("closed", "#{closed,jdbcType=INTEGER}");
-        }
-
-        if (record.getOrderConfirm() != null) {
-            VALUES("order_confirm", "#{orderConfirm,jdbcType=INTEGER}");
-        }
-
-        if (record.getSourceTypeId() != null) {
-            VALUES("source_type_id", "#{sourceTypeId,jdbcType=BIGINT}");
-        }
-
-        if (record.getSourceId() != null) {
-            VALUES("source_id", "#{sourceId,jdbcType=BIGINT}");
-        }
-
-        if (record.getPrintCount() != null) {
-            VALUES("print_count", "#{printCount,jdbcType=INTEGER}");
-        }
-
-        if (record.getStatusId() != null) {
-            VALUES("status_id", "#{statusId,jdbcType=BIGINT}");
-        }
-
-        if (record.getVersion() != null) {
-            VALUES("version", "#{version,jdbcType=INTEGER}");
-        }
-
-        if (record.getDelOrNot() != null) {
-            VALUES("del_or_not", "#{delOrNot,jdbcType=BIT}");
-        }
-
-        return SQL();
-    }
 
     public String selectByIcBillStock(PurchaseIcBillStock record) throws IllegalAccessException {
         SQL sql = new SQL();
@@ -119,7 +49,7 @@ public class PurchaseIcBillStockSqlProvider {
                 "`closed`,`order_confirm`,`print_count`," + alias + ".`status_id`," + alias + ".`version`\n" +
                 "FROM `purchase_ic_bill_stock` AS " + alias + "");
         //sql动态查询
-        FieldStore.query(record.getClass(), record.getJavaSqlName(), record, sql);
+        FieldStore.query(record.getClass(), record.getJsonArray(), record, sql,alias);
         ProviderSqlStore.selectStatus(record.getSystemLogStatus(), alias, sql);
         return sql.toString();
     }
@@ -141,8 +71,8 @@ public class PurchaseIcBillStockSqlProvider {
             sql.SET("date = #{date,jdbcType=BIGINT}");
         }
 
-        if (StringUtils.isNotBlank(record.getNo())) {
-            sql.SET("no = #{no,jdbcType=VARCHAR}");
+        if (StringUtils.isNotBlank(record.getIcNo())) {
+            sql.SET("no = #{icNo,jdbcType=VARCHAR}");
         }
 
         if (StringUtils.isNotBlank(record.getExplanation())) {
@@ -189,30 +119,5 @@ public class PurchaseIcBillStockSqlProvider {
         return sql.toString();
     }
 
-
-    public String updateByExample(Map<String, Object> parameter) {
-        BEGIN();
-        UPDATE("purchase_ic_bill_stock");
-
-        SET("sb_id = #{record.sbId,jdbcType=BIGINT}");
-        SET("date = #{record.date,jdbcType=BIGINT}");
-        SET("no = #{record.no,jdbcType=VARCHAR}");
-        SET("explanation = #{record.explanation,jdbcType=VARCHAR}");
-        SET("dept_id = #{record.deptId,jdbcType=INTEGER}");
-        SET("emp_id = #{record.empId,jdbcType=INTEGER}");
-        SET("manger_id = #{record.mangerId,jdbcType=INTEGER}");
-        SET("children = #{record.children,jdbcType=BIT}");
-        SET("closed = #{record.closed,jdbcType=INTEGER}");
-        SET("order_confirm = #{record.orderConfirm,jdbcType=INTEGER}");
-        SET("source_type_id = #{record.sourceTypeId,jdbcType=BIGINT}");
-        SET("source_id = #{record.sourceId,jdbcType=BIGINT}");
-        SET("print_count = #{record.printCount,jdbcType=INTEGER}");
-        SET("status_id = #{record.statusId,jdbcType=BIGINT}");
-        SET("version = #{record.version,jdbcType=INTEGER}");
-        SET("del_or_not = #{record.delOrNot,jdbcType=BIT}");
-
-
-        return SQL();
-    }
 
 }

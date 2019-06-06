@@ -1,6 +1,6 @@
 package com.dt.project.model.parent;
 
-import com.dt.project.model.JavaSqlName;
+import com.alibaba.fastjson.JSONArray;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,13 +26,20 @@ public class ParentDocumentChild {
     private String eRemark;
 
 
-
     private Integer rowClosed;
 
 
     private Integer reciveWarehouseId;
 
     private Long recivePositionId;
+    /**
+     * 产品代码
+     */
+    private String productCode;
+    /**
+     * 规格型号
+     */
+    private String model;
 
     /**
      * 产品名称
@@ -49,14 +56,88 @@ public class ParentDocumentChild {
     private String positionName;
 
     /**
-     * 前端查询参数封装对象
+     * 检验方式ID
      */
-    private List<JavaSqlName> javaSqlName;
+    private Integer inspectionMethodId;
+    /**
+     * 检验方式名称
+     */
+    private String inspectionQuarantineName;
+    /**
+     * 计量单位ID
+     */
+    private Integer unitId;
+    /**
+     * 计量单位
+     */
+    private String unitName;
+
+    /**
+     * 动态查询对象
+     */
+    private JSONArray jsonArray;
 
     /**
      * in查询存储id
      */
     private List<Long> inList;
+
+
+    public JSONArray getJsonArray() {
+        return jsonArray;
+    }
+
+    public void setJsonArray(JSONArray jsonArray) {
+        this.jsonArray = jsonArray;
+    }
+
+    public Integer getInspectionMethodId() {
+        return inspectionMethodId;
+    }
+
+    public void setInspectionMethodId(Integer inspectionMethodId) {
+        this.inspectionMethodId = inspectionMethodId;
+    }
+
+    public String getInspectionQuarantineName() {
+        return inspectionQuarantineName;
+    }
+
+    public void setInspectionQuarantineName(String inspectionQuarantineName) {
+        this.inspectionQuarantineName = inspectionQuarantineName;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
+    }
+
+    public String getUnitName() {
+        return unitName;
+    }
+
+    public void setUnitName(String unitName) {
+        this.unitName = unitName;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
 
     public String getProductName() {
         return productName;
@@ -136,14 +217,6 @@ public class ParentDocumentChild {
 
     public void setRecivePositionId(Long recivePositionId) {
         this.recivePositionId = recivePositionId;
-    }
-
-    public List<JavaSqlName> getJavaSqlName() {
-        return javaSqlName;
-    }
-
-    public void setJavaSqlName(List<JavaSqlName> javaSqlName) {
-        this.javaSqlName = javaSqlName;
     }
 
     public List<Long> getInList() {

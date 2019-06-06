@@ -2,7 +2,7 @@ package com.dt.project.service.impl;
 
 import com.dt.project.mapper.purchaseMapper.PurchaseIcBillStockEntryMapper;
 import com.dt.project.model.purchasePo.PurchaseIcBillStockEntry;
-import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.redis.RedisService;
 import com.dt.project.service.purchaseService.PurchaseIcBillStockEntryService;
 import com.dt.project.utils.JsonUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +21,11 @@ public class PurchaseIcBillStockEntryServiceImpl implements PurchaseIcBillStockE
     @Autowired
     private PurchaseIcBillStockEntryMapper icBillStockEntryMapper;
     @Autowired
-    private JavaSqlNameService nameService;
+    private RedisService redisService;
 
     @Override
     public List<PurchaseIcBillStockEntry> serviceSelectByIcBillStockEntry(PurchaseIcBillStockEntry record) {
-        record.setJavaSqlName(nameService.get("icBillEntry"));
+        record.setJsonArray(redisService.getRedisJson("pIBSe", PurchaseIcBillStockEntry.class));
         return icBillStockEntryMapper.selectByIcBillStockEntry(record);
     }
 

@@ -1,38 +1,69 @@
 package com.dt.project.model.salesAmazon;
 
 
+import com.dt.project.customize.SelValue;
 import com.dt.project.model.parent.ParentUploadInfo;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 
 /**
  * FBA 遗弃
  */
 public class SalesAmazonFbaAbandon extends ParentUploadInfo {
 
+    @SelValue(column = "fba_id", property = "fbaId")
     private Long fbaId;
+    @SelValue(column = "area_id", property = "areaId")
     private Integer areaId;
+    @SelValue(column = "order_id", property = "orderId")
     private String orderId;
+    @SelValue(column = "order_type", property = "orderType")
     private String orderType;
+    @SelValue(column = "order_status", property = "orderStatus")
     private String orderStatus;
-    private Long lastUpdatedDate;
-    private List<Long> lastUpdatedDates;
+
+    @SelValue(column = "abandon_sku", property = "abandonSku")
     private String abandonSku;
+
+    @SelValue(column = "fn_sku", property = "fnSku")
     private String fnSku;
+
+    @SelValue(column = "disposition", property = "disposition")
     private String disposition;
+
+    @SelValue(column = "requested_quantity", property = "requestedQuantity")
     private Long requestedQuantity;
+
+    @SelValue(column = "cancelled_quantity", property = "cancelledQuantity")
     private Integer cancelledQuantity;
+
+    @SelValue(column = "disposed_quantity", property = "disposedQuantity")
     private Integer disposedQuantity;
+
+    @SelValue(column = "shipped_quantity", property = "shippedQuantity")
     private Integer shippedQuantity;
+
+    @SelValue(column = "in_process_quantity", property = "inProcessQuantity")
     private Integer inProcessQuantity;
+
+    @SelValue(column = "removal_fee", property = "removalFee")
     private BigDecimal removalFee;
+
+    @SelValue(column = "currency", property = "currency")
     private String currency;
+
+
+    private Long lastUpdatedDate;
+
+    private List<Long> lastUpdatedDates;
 
     public SalesAmazonFbaAbandon() {
 
 
     }
+
     public SalesAmazonFbaAbandon(Integer sId, Long createDate, String createUser, Long recordingId, Integer aId) {
         super(sId, null, createDate, createUser, recordingId);
         this.areaId = aId;

@@ -31,31 +31,31 @@ public class BasicPublicSkuProvider {
         ProviderSqlStore.selectStatus(skuDto.getSystemLogStatus(), alias, sql);
         //站点名称
         if (StringUtils.isNotBlank(skuDto.getSiteName())) {
-            AppendSqlStore.sqlWhere(skuDto.getSiteName(), "si.`site_name`", sql, Constants.SELECT);
+            AppendSqlStore.sqlWhere(skuDto.getSiteName(), "si.`site_name`", sql, Constants.SELECT,alias);
         }
         //国家名称
         if (StringUtils.isNotBlank(skuDto.getShopName())) {
-            AppendSqlStore.sqlWhere(skuDto.getShopName(), "sp.`shop_name`", sql, Constants.SELECT);
+            AppendSqlStore.sqlWhere(skuDto.getShopName(), "sp.`shop_name`", sql, Constants.SELECT,alias);
         }
         //订单处理名称
         if (StringUtils.isNotBlank(skuDto.getClassName())) {
-            AppendSqlStore.sqlWhere(skuDto.getClassName(), "cl.`class_name`", sql, Constants.SELECT);
+            AppendSqlStore.sqlWhere(skuDto.getClassName(), "cl.`class_name`", sql, Constants.SELECT,alias);
         }
         //产品名称
         if (StringUtils.isNotBlank(skuDto.getProductName())) {
-            AppendSqlStore.sqlWhere(skuDto.getProductName(), "pr.`product_name`", sql, Constants.SELECT);
+            AppendSqlStore.sqlWhere(skuDto.getProductName(), "pr.`product_name`", sql, Constants.SELECT,alias);
         }
         //sku
         if (StringUtils.isNotBlank(skuDto.getSku())) {
-            AppendSqlStore.sqlWhere(skuDto.getSku(), alias + ".`sku` ", sql, Constants.SELECT);
+            AppendSqlStore.sqlWhere(skuDto.getSku(), alias + ".`sku` ", sql, Constants.SELECT,alias);
         }
         //fnSku
         if (StringUtils.isNotBlank(skuDto.getFnSku())) {
-            AppendSqlStore.sqlWhere(skuDto.getFnSku(), alias + ".`fn_sku`", sql, Constants.SELECT);
+            AppendSqlStore.sqlWhere(skuDto.getFnSku(), alias + ".`fn_sku`", sql, Constants.SELECT,alias);
         }
         //s_asin 子ASIN
         if (StringUtils.isNotBlank(skuDto.getsAsin())) {
-            AppendSqlStore.sqlWhere(skuDto.getsAsin(), alias + ".`s_asin`", sql, Constants.SELECT);
+            AppendSqlStore.sqlWhere(skuDto.getsAsin(), alias + ".`s_asin`", sql, Constants.SELECT,alias);
         }
         ProviderSqlStore.del(alias, sql);
         return sql.toString();

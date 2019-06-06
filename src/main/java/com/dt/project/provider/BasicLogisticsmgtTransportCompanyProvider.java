@@ -24,21 +24,21 @@ public class BasicLogisticsmgtTransportCompanyProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(company.getSystemLogStatus(), alias, sql);
         //货运公司编号
-        AppendSqlStore.sqlWhere(company.getNumber(), alias + ".number", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(company.getNumber(), alias + ".number", sql, Constants.SELECT,alias);
         //货运公司简称
-        AppendSqlStore.sqlWhere(company.getTransportCompanyName(), alias + ".`transport_company_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(company.getTransportCompanyName(), alias + ".`transport_company_name`", sql, Constants.SELECT,alias);
         //货运公司全称
-        AppendSqlStore.sqlWhere(company.getTransportCompanyFullName(), alias + ".`transport_company_full_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(company.getTransportCompanyFullName(), alias + ".`transport_company_full_name`", sql, Constants.SELECT,alias);
         //联系人
-        AppendSqlStore.sqlWhere(company.getContactPerson(), alias + ".`contact_person`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(company.getContactPerson(), alias + ".`contact_person`", sql, Constants.SELECT,alias);
         //tel_phone 联系电话
-        AppendSqlStore.sqlWhere(company.getTelPhone(), alias + ".`tel_phone`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(company.getTelPhone(), alias + ".`tel_phone`", sql, Constants.SELECT,alias);
         //mobile 移动号码
-        AppendSqlStore.sqlWhere(company.getMobile(), alias + ".`mobile`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(company.getMobile(), alias + ".`mobile`", sql, Constants.SELECT,alias);
         //邮箱
-        AppendSqlStore.sqlWhere(company.geteMail(), alias + ".`e_mail`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(company.geteMail(), alias + ".`e_mail`", sql, Constants.SELECT,alias);
         //address 地址
-        AppendSqlStore.sqlWhere(company.getAddress(), alias + ".`address`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(company.getAddress(), alias + ".`address`", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 

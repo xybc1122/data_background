@@ -64,13 +64,14 @@ public class SalesShipNoticePackingListEntrySqlProvider {
 
     public String selectPackingListEntry(SalesShipNoticePackingListEntry pLEntry) throws IllegalAccessException {
         SQL sql = new SQL();
+        String alias = "snpLE";
         sql.SELECT("`pe_id`,`packing_list_id`,\n" +
                 "`e_id`,`entry_id`,`quantity`,\n" +
                 "`packages_beg`,`packages_end`,`length_cm`,`width_cm`,\n" +
                 "`height_cm`,`gw_kg`,\n" +
                 "`nw_kg`,`volume_m3`,`remark`,`version`" +
                 " FROM `sales_ship_notice_packing_list_entry`");
-        FieldStore.query(pLEntry.getClass(), pLEntry.getNameList(), pLEntry, sql);
+        FieldStore.query(pLEntry.getClass(), pLEntry.getJsonArray(), pLEntry, sql, alias);
         sql.WHERE("del_or_not=0");
         if (pLEntry.getInShipNoticeList() != null && pLEntry.getInShipNoticeList().size() > 0) {
             return sql.toString() + " AND " + StrUtils.in(pLEntry.getInShipNoticeList(), "packing_list_id");

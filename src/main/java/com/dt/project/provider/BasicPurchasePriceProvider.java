@@ -26,11 +26,11 @@ public class BasicPurchasePriceProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(price.getSystemLogStatus(), alias, sql);
         //不含税价格
-        AppendSqlStore.sqlWhere(price.getNotTaxPrice(), alias + ".not_tax_price", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(price.getNotTaxPrice(), alias + ".not_tax_price", sql, Constants.SELECT,alias);
         //含税价格
-        AppendSqlStore.sqlWhere(price.getTaxPrice(), alias + ".tax_price", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(price.getTaxPrice(), alias + ".tax_price", sql, Constants.SELECT,alias);
         //产品名称
-        AppendSqlStore.sqlWhere(price.getProductName(), "p.`product_name`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(price.getProductName(), "p.`product_name`", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 }

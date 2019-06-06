@@ -1,15 +1,21 @@
 package com.dt.project;
 
+import com.alibaba.fastjson.JSONObject;
+import com.dt.project.customize.SelValue;
 import com.dt.project.mapper.basePublicMapper.BasicPublicShopMapper;
 import com.dt.project.mapper.financialImportMapper.FinancialSalesBalanceMapper;
 import com.dt.project.mapper.salesAmazonMapper.SalesShipNoticeMapper;
 import com.dt.project.mapper.systemMapper.SystemFinalProcessingMapper;
-import com.dt.project.model.JavaSqlName;
+import com.dt.project.model.purchasePo.PurchaseIcBillStock;
+import com.dt.project.model.purchasePo.PurchaseIcBillStockEntry;
+import com.dt.project.model.purchasePo.PurchasePoOrder;
+import com.dt.project.model.purchasePo.PurchasePoOrderEntry;
+import com.dt.project.model.salesAmazon.SalesAmazonFbaAbandon;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.warehouse.WarehouseIncArriveConfirm;
-import com.dt.project.service.JavaSqlNameService;
+import com.dt.project.redis.RedisService;
+import com.dt.project.toos.Constants;
 import com.dt.project.utils.DatabaseUtil;
-import com.dt.project.utils.ReqUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
@@ -20,6 +26,7 @@ import org.flowable.engine.RepositoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
 import org.flowable.engine.repository.Deployment;
+import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.idm.api.Group;
 import org.flowable.idm.engine.impl.persistence.entity.GroupEntityImpl;
@@ -37,6 +44,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,8 +60,6 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class FlowableTest {
-    @Autowired
-    private JavaSqlNameService service;
     @Autowired
     private SystemFinalProcessingMapper pMapper;
     @Autowired
@@ -73,6 +79,9 @@ public class FlowableTest {
     private TaskService taskService;
 
     @Autowired
+    private RedisService redisService;
+
+    @Autowired
     private RuntimeService runtimeService;
     private final static String PURCHASE_ORDER_KEY = "purchaseOrder";
 
@@ -81,11 +90,20 @@ public class FlowableTest {
      */
     @Test
     public void deploy() {
-        String resource = "processes/proInspectionWareProcess.bpmn20.xml";
-        String category = "测试分类2";
-        Deployment deploy = repositoryService.createDeployment().name("采购检验入库流程").addClasspathResource(resource).category(category)
+        String resource = "processes/bugFeedback.bpmn20.xml";
+
+        //String resource = "processes/proInspectionWareProcess.bpmn20.xml";
+        String category = "测试分类3";
+        Deployment deploy = repositoryService.createDeployment().name("反馈流程").addClasspathResource(resource).category(category)
                 .deploy();
         System.out.println(deploy);
+    }
+
+    @Test
+    public void processDefinition() {
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().
+                processDefinitionKey(PURCHASE_ORDER_KEY).latestVersion().singleResult();
+        System.out.println(processDefinition);
     }
 
     /**
@@ -189,27 +207,28 @@ public class FlowableTest {
     }
 
     @Test
-    public  void generateHighLightedActivitiesDiagram() throws IOException {
-        String processDefinitionId="purchaseOrder:2:e35aeb00-87a9-11e9-8768-0a0027000003";
-        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinitionId);
-        String imageType="PNG";
-        List<String> highLightedActivities=new ArrayList<String>();
-        //highLightedActivities.add("sid-03FFE656-10E2-4E8A-A92B-1EA78ED614B4");
-        highLightedActivities.add("usertask2");
-       // highLightedActivities.add("sid-30100D78-929C-45A7-9C06-1589C50E7E19");
-        List<String> highLightedFlows=new ArrayList<String>();
+    public void generateHighLightedActivitiesDiagram() throws IOException {
+        ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().
+                processDefinitionKey(PURCHASE_ORDER_KEY).latestVersion().singleResult();
+        BpmnModel bpmnModel = repositoryService.getBpmnModel(processDefinition.getId());
+        String imageType = "jpg";
+        List<String> highLightedActivities = new ArrayList<String>();
+        highLightedActivities.add("sid-03FFE656-10E2-4E8A-A92B-1EA78ED614B4");
+        // highLightedActivities.add("sid-09089FC3-F01A-4F83-BCAE-0554D9149859");
+        // highLightedActivities.add("sid-30100D78-929C-45A7-9C06-1589C50E7E19");
+        List<String> highLightedFlows = new ArrayList<String>();
         //highLightedFlows.add("sid-4152E673-0E8F-437B-8DCB-D35A664F6201");
-        String activityFontName="宋体";
-        String labelFontName="宋体";
-        String annotationFontName="宋体";
-        ClassLoader customClassLoader=null;
-        double scaleFactor=1.0D;
-        boolean drawSequenceFlowNameWithNoLabelDI=true;
-        ProcessDiagramGenerator processDiagramGenerator=new DefaultProcessDiagramGenerator();
+        String activityFontName = "宋体";
+        String labelFontName = "宋体";
+        String annotationFontName = "宋体";
+        ClassLoader customClassLoader = null;
+        double scaleFactor = 1.0D;
+        boolean drawSequenceFlowNameWithNoLabelDI = true;
+        ProcessDiagramGenerator processDiagramGenerator = new DefaultProcessDiagramGenerator();
         InputStream inputStream = processDiagramGenerator.generateDiagram(bpmnModel, imageType, highLightedActivities, highLightedFlows
                 , activityFontName, labelFontName, annotationFontName, null, scaleFactor, true);
 
-        FileUtils.copyInputStreamToFile(inputStream,new File("E:/"+"1.png"));
+        FileUtils.copyInputStreamToFile(inputStream, new File("E:/" + "1.jpg"));
     }
 
 
@@ -230,32 +249,60 @@ public class FlowableTest {
     }
 
 
+//    @Test
+//    public void add() {
+//        List<String> tableNames = DatabaseUtil.getTableNames();
+//        List<String> c = null;
+//        System.out.println("tableNames:" + tableNames);
+//        for (String tableName : tableNames) {
+//            if (tableName.equals("warehouse_inc_arrive_confirm")) {
+//                c = DatabaseUtil.getColumnNames(tableName);
+//            }
+//        }
+//        //设置动态查询
+//        WarehouseIncArriveConfirm f = new WarehouseIncArriveConfirm();
+//        Field[] field = f.getClass().getDeclaredFields();
+//        for (int i = 0; i < field.length; i++) {
+//            Field s = field[i];
+//            s.setAccessible(true);
+//            System.out.println(s.getName());
+//            JavaSqlName b = new JavaSqlName();
+//            b.setjName(s.getName());
+//            b.setModel("warIAConfirm");
+//            b.setSqlName(c.get(i));
+//            service.serviceSet(b);
+//        }
+
+    //}
+
     @Test
-    public void add() {
-        List<String> tableNames = DatabaseUtil.getTableNames();
-        List<String> c = null;
-        System.out.println("tableNames:" + tableNames);
-        for (String tableName : tableNames) {
-            if (tableName.equals("warehouse_inc_arrive_confirm")) {
-                c = DatabaseUtil.getColumnNames(tableName);
+    public void s() {
+        //================获得需要转换成SQL见表语句的实体类的路径=====================
+        Class<?> tableClass = null;
+        List<String> c = new ArrayList<>();
+        try {
+            tableClass = (PurchaseIcBillStockEntry.class);
+            //DbTable dbTable = tableClass.getAnnotation(DbTable.class);//===获得类的DBTable注解
+            //String tableName = dbTable.tableName();  //===获得注解的表名
+            List<String> columns = new ArrayList<String>(); //=====定义存储表中字段的集合
+            for (Field field : tableClass.getDeclaredFields()) { //=========便利声明为Field的注解
+                Annotation[] anns = field.getDeclaredAnnotations();
+                for (Annotation ann : anns) {
+                    if (ann instanceof SelValue) {
+                        SelValue ann1 = (SelValue) ann;
+                        JSONObject f = new JSONObject();
+                        f.put("sName", ann1.column());
+                        f.put("jName", ann1.property());
+                        c.add(f.toJSONString());
+                    }
+                }
             }
-        }
-        //设置动态查询
-        WarehouseIncArriveConfirm f = new WarehouseIncArriveConfirm();
-        Field[] field = f.getClass().getDeclaredFields();
-        for (int i = 0; i < field.length; i++) {
-            Field s = field[i];
-            s.setAccessible(true);
-            System.out.println(s.getName());
-            JavaSqlName b = new JavaSqlName();
-            b.setjName(s.getName());
-            b.setModel("warIAConfirm");
-            b.setSqlName(c.get(i));
-            service.serviceSet(b);
-        }
 
+            redisService.setString(Constants.MODEL + "pIBSe", c.toString());
+        } catch (Exception e) {
+
+        }
     }
-
 
     @Test
     public void fsbService() throws IOException {

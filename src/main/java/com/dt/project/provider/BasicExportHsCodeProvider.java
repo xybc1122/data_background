@@ -26,15 +26,15 @@ public class BasicExportHsCodeProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(hsCode.getSystemLogStatus(), alias, sql);
         //hs_code
-        AppendSqlStore.sqlWhere(hsCode.getHsCode(), alias + ".hs_code", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(hsCode.getHsCode(), alias + ".hs_code", sql, Constants.SELECT,alias);
         //品名
-        AppendSqlStore.sqlWhere(hsCode.getProductName(), alias + ".product_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(hsCode.getProductName(), alias + ".product_name", sql, Constants.SELECT,alias);
         //品名英文
-        AppendSqlStore.sqlWhere(hsCode.getProductNameEng(), alias + ".product_name_eng", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(hsCode.getProductNameEng(), alias + ".product_name_eng", sql, Constants.SELECT,alias);
         //商品分类
-        AppendSqlStore.sqlWhere(hsCode.getCategories(), alias + ".categories", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(hsCode.getCategories(), alias + ".categories", sql, Constants.SELECT,alias);
         //商品章节
-        AppendSqlStore.sqlWhere(hsCode.getChapter(), alias + ".chapter", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(hsCode.getChapter(), alias + ".chapter", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 }

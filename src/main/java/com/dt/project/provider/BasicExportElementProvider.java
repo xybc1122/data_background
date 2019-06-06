@@ -22,9 +22,9 @@ public class BasicExportElementProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(element.getSystemLogStatus(), alias, sql);
         //要素名称
-        AppendSqlStore.sqlWhere(element.getElementName(), alias + ".element_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(element.getElementName(), alias + ".element_name", sql, Constants.SELECT,alias);
         //要素名称英文
-        AppendSqlStore.sqlWhere(element.getElementNameEng(), alias + ".element_name_eng", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(element.getElementNameEng(), alias + ".element_name_eng", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 }

@@ -22,13 +22,13 @@ public class BasicPublicExchangeRateProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(rateDto.getSystemLogStatus(), alias, sql);
         //币别名称
-        AppendSqlStore.sqlWhere(rateDto.getCurrencyName(), "c.currency_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(rateDto.getCurrencyName(), "c.currency_name", sql, Constants.SELECT,alias);
         //币别符号
-        AppendSqlStore.sqlWhere(rateDto.getCurrencySymbol(), "c.currency_symbol", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(rateDto.getCurrencySymbol(), "c.currency_symbol", sql, Constants.SELECT,alias);
         //兑人民币汇率
-        AppendSqlStore.sqlWhere(rateDto.getToRmb(), alias + ".to_rmb", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(rateDto.getToRmb(), alias + ".to_rmb", sql, Constants.SELECT,alias);
         //兑美元汇率
-        AppendSqlStore.sqlWhere(rateDto.getToUsd(), alias + ".to_usd", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(rateDto.getToUsd(), alias + ".to_usd", sql, Constants.SELECT,alias);
         //有效日期
         if (rateDto.geteDates() != null && (rateDto.geteDates().size() > 0)) {
             sql.WHERE(alias + ".e_date BETWEEN  " + rateDto.geteDates().get(0) + " AND " + rateDto.geteDates().get(1) + "");

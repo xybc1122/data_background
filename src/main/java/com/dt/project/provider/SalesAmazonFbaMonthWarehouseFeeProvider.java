@@ -82,12 +82,12 @@ public class SalesAmazonFbaMonthWarehouseFeeProvider {
         sql.LEFT_OUTER_JOIN("`basic_sales_amazon_warehouse` AS aw ON aw.`amazon_warehouse_id` = " + alias + ".`aw_id`");
         //链表
         ProviderSqlStore.joinTable(sql, alias);
-        AppendSqlStore.sqlWhere(mWar.getWarehouseCode(), "aw.`warehouse_code`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(mWar.getWarehouseCode(), "aw.`warehouse_code`", sql, Constants.SELECT,alias);
 
-        AppendSqlStore.sqlWhere(mWar.getSku(), "ps.`sku`", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(mWar.getSku(), "ps.`sku`", sql, Constants.SELECT,alias);
 
         //查询
-        FieldStore.query(mWar.getClass(), mWar.getNameList(), mWar, sql);
+        FieldStore.query(mWar.getClass(), mWar.getJsonArr(), mWar, sql,alias);
         ProviderSqlStore.selectUploadStatus(sql, mWar, alias);
         return sql.toString();
     }

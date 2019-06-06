@@ -26,11 +26,11 @@ public class BasicExportExitCustomsProvider {
         ProviderSqlStore.selectStatus(customs.getSystemLogStatus(), alias, sql);
 
         //出境口岸代码
-        AppendSqlStore.sqlWhere(customs.getcNumber(), alias + ".c_number", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(customs.getcNumber(), alias + ".c_number", sql, Constants.SELECT,alias);
         //出境口岸名称
-        AppendSqlStore.sqlWhere(customs.getExitCustomsName(), alias + ".exit_customs_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(customs.getExitCustomsName(), alias + ".exit_customs_name", sql, Constants.SELECT,alias);
         //出境口岸名称拼音
-        AppendSqlStore.sqlWhere(customs.getExitCustomsNamePinyin(), alias + ".exit_customs_name_pinyin", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(customs.getExitCustomsNamePinyin(), alias + ".exit_customs_name_pinyin", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 

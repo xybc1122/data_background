@@ -4,7 +4,6 @@ import com.dt.project.config.ResponseBase;
 import com.dt.project.model.salesAmazon.SalesShipNotice;
 import com.dt.project.model.salesAmazon.SalesShipNoticePackingList;
 import com.dt.project.service.GeneralPurposeService;
-import com.dt.project.service.JavaSqlNameService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticePackingListService;
 import com.dt.project.service.salesAmazonService.SalesShipNoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +26,6 @@ public class SalesShipController {
     @Autowired
     private SalesShipNoticeService noticeService;
     @Autowired
-    private JavaSqlNameService nameService;
-    @Autowired
     private SalesShipNoticePackingListService packingListService;
     @Autowired
     private GeneralPurposeService gPService;
@@ -41,8 +38,6 @@ public class SalesShipController {
      */
     @PostMapping("/getNotice")
     public ResponseBase getNotice(@RequestBody SalesShipNotice notice) {
-        //这里放入缓存
-        notice.setNameList(nameService.get("shipNotice"));
         return noticeService.selectSelectByNotice(notice);
     }
 
@@ -53,7 +48,7 @@ public class SalesShipController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 新增发货通知单
      * @apiParamExample {json} 请求样例：
@@ -101,7 +96,7 @@ public class SalesShipController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 删除出货通知单据 跟下面的子单
      * @apiParamExample {json} 请求样例：
@@ -134,7 +129,7 @@ public class SalesShipController {
      * {
      * "token":"用户令牌"
      * }
-     * @apiGroup Admin
+     * @apiGroup admin
      * @apiVersion 0.0.1
      * @apiDescription 查询出货装箱单
      * @apiParamExample {json} 请求样例：
@@ -152,8 +147,6 @@ public class SalesShipController {
      */
     @PostMapping("/getSNPList")
     public ResponseBase getSNPList(@RequestBody SalesShipNoticePackingList packingList) {
-        //这里放入缓存
-        packingList.setNameList(nameService.get("nPList"));
         return packingListService.serviceSelectNoticePackingList(packingList);
 
     }

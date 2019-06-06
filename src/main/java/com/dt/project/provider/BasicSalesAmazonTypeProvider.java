@@ -25,11 +25,11 @@ public class BasicSalesAmazonTypeProvider {
         //状态数据查询
         ProviderSqlStore.selectStatus(amazonType.getSystemLogStatus(), alias, sql);
         //站点名称
-        AppendSqlStore.sqlWhere(amazonType.getSiteName(), "si.site_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonType.getSiteName(), "si.site_name", sql, Constants.SELECT,alias);
         //订单类型名称
-        AppendSqlStore.sqlWhere(amazonType.getOrderTypeName(), alias + ".order_type_name", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonType.getOrderTypeName(), alias + ".order_type_name", sql, Constants.SELECT,alias);
         //order_type
-        AppendSqlStore.sqlWhere(amazonType.getOrderType(), alias + ".order_type", sql, Constants.SELECT);
+        AppendSqlStore.sqlWhere(amazonType.getOrderType(), alias + ".order_type", sql, Constants.SELECT,alias);
         return sql.toString();
     }
 
